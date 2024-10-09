@@ -42,7 +42,7 @@ class MangaDAO(metaclass=Singleton):
                 return res_manga
             else:
                 return None
-            
+        
     @log
     def creer_manga(self, manga) -> bool:
         """Creation d'un manga dans la base de données
@@ -84,7 +84,7 @@ class MangaDAO(metaclass=Singleton):
             created = True
 
         return created
-    
+  
     @log
     def supprimer_manga(self, manga) -> bool:
         """Suppression d'un manga dans la base de données
@@ -114,6 +114,47 @@ class MangaDAO(metaclass=Singleton):
             raise
 
         return res > 0
+  
+    @log
+    def modifier(self, manga) -> bool:
+        """Modification d'un manga dans la base de données
+
+        Parameters
+        ----------
+        manga : Manga
+
+        Returns
+        -------
+        created : bool
+            True si la modification est un succès
+            False sinon
+        """
+
+        res = None
+
+        try:
+            with DBConnection().connection as connection:
+                with connection.cursor() as cursor:
+                    cursor.execute(
+                        "UPDATE manga                                "
+                        "   SET id_manga      = %(id_manga)s,        "
+                        "       titre         = %(titre)s,           "
+                        "        auteur       = %(auteur)s           "
+                        "       synopsis      = %(synopsis)s,        "
+                        " WHERE id_manga = %(id_manga)s;             ",
+                        {
+                            "id_manga": manga.id_manga,
+                            "titre": manga.titre,
+                            "auteur": manga.auteur,
+                            "synopsis": manga.synopsis
+                        },
+                    )
+                    res = cursor.rowcount
+        except Exception as e:
+            logging.info(e)
+
+        return res == 1
+
 
 
 # def trouver_par_id(self, id: str) -> Manga:
@@ -140,5 +181,4 @@ class MangaDAO(metaclass=Singleton):
 #              return res_id_manga
 #            else:
 #               return None
-
 
