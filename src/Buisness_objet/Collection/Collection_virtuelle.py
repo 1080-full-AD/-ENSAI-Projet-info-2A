@@ -1,5 +1,5 @@
 from Buisness_objet.Collection.Abstract_Collection import AbstractCollection 
-from manga import manga 
+from Buisness_objet.manga import manga 
 
 
 class CollectionVirtuelle(AbstractCollection):
