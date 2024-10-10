@@ -5,7 +5,9 @@ from Buisness_objet.manga import manga
 class CollectionVirtuelle(AbstractCollection):
 
     def __init__(self, titre, id_utilisateur, list_manga):
-        super().__init__(titre, id_utilisateur, list_manga)
+        for i in list_manga:
+            if isinstance(i, manga) and not isinstance(i, mangaPhysique):
+                super().__init__(titre, id_utilisateur, list_manga)
 
     def Ajouter_manga(self, new_manga):
         if isinstance(new_manga, manga):
