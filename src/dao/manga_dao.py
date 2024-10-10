@@ -84,7 +84,7 @@ class MangaDAO(metaclass=Singleton):
             manga.id_manga = res["id_manga"]
             created = True
 
-        return
+        return created
 
     @log
     def supprimer_manga(self, manga) -> bool:
