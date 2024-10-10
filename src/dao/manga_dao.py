@@ -1,11 +1,11 @@
 import logging
 
-from utils.singleton import Singleton
-from utils.log_decorator import log
+from src.utils.singleton import Singleton
+from src.utils.log_decorator import log
 
-from dao.db_connection import DBConnection
+from src.dao.db_connection import DBConnection
 
-from business_object.manga import Manga
+from src.Business_objet.manga import Manga
 
 
 class MangaDAO(metaclass=Singleton):
@@ -19,7 +19,8 @@ class MangaDAO(metaclass=Singleton):
 
         Returns
         -------
-        res_manga : les informationqs à propos du manga trouvé ou None s'il n'est pas trouvé
+        res_manga : les informationqs à propos du manga trouvé ou None s'il
+        n'est pas trouvé
         """
         with DBConnection().connection as connection:
             with connection.cursor() as cursor:
@@ -42,7 +43,7 @@ class MangaDAO(metaclass=Singleton):
                 return res_manga
             else:
                 return None
-        
+
     @log
     def creer_manga(self, manga) -> bool:
         """Creation d'un manga dans la base de données
@@ -64,9 +65,10 @@ class MangaDAO(metaclass=Singleton):
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        "INSERT INTO manga(id_manga, titre, auteur, synopsis, )VALUES"
-                        "(%(id_manga)s, %(titre)s, %(auteur)s, %(synopsis)s)         "
-                        "  RETURNING id_manga;                                       ",
+                        "INSERT INTO manga(id_manga, titre, auteur, synopsis)"
+                        "VALUES                                              "
+                        "(%(id_manga)s, %(titre)s, %(auteur)s, %(synopsis)s) "
+                        "  RETURNING id_manga;                               ",
                         {
                             "id_manga": manga.id_manga,
                             "titre": manga.titre,
@@ -84,7 +86,7 @@ class MangaDAO(metaclass=Singleton):
             created = True
 
         return created
-  
+
     @log
     def supprimer_manga(self, manga) -> bool:
         """Suppression d'un manga dans la base de données
@@ -114,7 +116,7 @@ class MangaDAO(metaclass=Singleton):
             raise
 
         return res > 0
-  
+
     @log
     def modifier(self, manga) -> bool:
         """Modification d'un manga dans la base de données
@@ -156,7 +158,6 @@ class MangaDAO(metaclass=Singleton):
         return res == 1
 
 
-
 # def trouver_par_id(self, id: str) -> Manga:
 #        """Trouver un manga par son identifiant s'il est connu (id)"""
 #       with DBConnection().connection as connection:
@@ -181,4 +182,3 @@ class MangaDAO(metaclass=Singleton):
 #              return res_id_manga
 #            else:
 #               return None
-

@@ -6,16 +6,14 @@ class CollectionPhysique(AbstractCollection):
 
     def __init__(self, titre, id_utilisateur, list_manga):
         for i in list_manga:
-            if  not isintance(i,mangaPhysique):
+            if not isinstance(i, mangaPhysique):
                 super().__init__(titre, id_utilisateur, list_manga)
 
-
-    def ajouter_manga(self,new_manga,liste_tome):
-        if isintance(new_manga,mangaPhysique):
+    def ajouter_manga(self, new_manga, liste_tome):
+        if isinstance(new_manga, mangaPhysique):
             for i in liste_tome:
                 if isinstance(i,int):
-                    self.list_manga.append({"manga":new_manga,"tomes":liste_tome})
-
+                    self.list_manga.append({"manga": new_manga, "tomes": liste_tome})
 
     def supprimer_manga(self,manga):
         for i in self.list_manga:
