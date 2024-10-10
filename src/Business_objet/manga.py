@@ -1,6 +1,6 @@
 class Manga:
     """Classe représentant un Manga
-    
+
      Attributs
     ----------
     id_manga : str
@@ -24,5 +24,5 @@ class Manga:
         """Permet d'afficher les informations du joueur"""
         if titre == Manga:
             return f"Manga({self.titre}, {self.auteur}, {self.synospsis})"
-        else: 
+        else:
             return None
