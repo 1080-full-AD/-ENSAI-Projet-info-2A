@@ -65,7 +65,8 @@ class MangaDAO(metaclass=Singleton):
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        "INSERT INTO manga(id_manga, titre, auteur, synopsis, )VALUES"
+                        "INSERT INTO manga(id_manga, titre, auteur, synopsis)"
+                        "VALUES                                              "
                         "(%(id_manga)s, %(titre)s, %(auteur)s, %(synopsis)s) "
                         "  RETURNING id_manga;                               ",
                         {
