@@ -1,14 +1,14 @@
 import logging
 from typing import List, Optional
 from utils.singleton import Singleton
-from Buisness_objet.Collection.Abstract_Collection import AbstractCollection 
-from Buisness_objet.manga import manga 
+from src.business_objet.Collection.Abstract_Collection import AbstractCollection 
+from src.business_objetuisness_objet.manga import manga
+from src.dao.db_connection import DBConnection
 
 
 class CollectionDao(metaclass=Singleton):
     """Classe contenant les méthodes pour accéder aux utilisateurs
        de la base de données"""
-
 
     def Creer_Collection(self, Collection: AbstractCollection) -> bool:
 
