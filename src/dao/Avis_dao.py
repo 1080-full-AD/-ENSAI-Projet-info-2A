@@ -6,7 +6,7 @@ from utils.log_decorator import log
 
 from dao.db_connection import DBConnection
 
-from src.Business_object.avis import Avis
+from Business_object.avis import Avis
 
 
 class AvisDAO(metaclass=Singleton):
@@ -30,13 +30,13 @@ class AvisDAO(metaclass=Singleton):
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        "INSERT INTO manga(id_manga, id_utilisateur, texte)VALUES"
+                        "INSERT INTO avis(id_manga, id_utilisateur, texte)VALUES"
                         "(%(id_manga)s, %(id_utilisateur)s, %(texte)s)         "
                         "  RETURNING id_manga, id_utilisateur, texte;                    ",
                         {
                             "id_manga": avis.id_manga,
                             "id_utilisateur": avis.id_utilisateur,
-                            "avis": avis.texte
+                            "texte": avis.texte
                         },
                     )
                     res = cursor.fetchone()

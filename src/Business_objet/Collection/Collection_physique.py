@@ -1,4 +1,4 @@
-from Buisness_objet.Collection.Abstract_Collection import AbstractCollection 
+from src.buisness_objet.collection.abstract_collection import AbstractCollection 
 from Buisness_objet.manga import manga 
 from Buisness_objet.manga_Physique import mangaPhysique 
 
