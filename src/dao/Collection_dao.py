@@ -6,9 +6,22 @@ from Buisness_objet.manga import manga
 
 
 class CollectionDao(metaclass=Singleton):
+    """Classe contenant les méthodes pour accéder aux utilisateurs
+       de la base de données"""
+
+
     def Creer_Collection(self, Collection: AbstractCollection) -> bool:
-        """
-        Ajouter une collection à la base de données 
+
+        """Creation d'une collection dans la base de données
+
+        Parameters
+        ----------
+        coLLection : collection
+        Returns
+        -------
+        created : bool
+            True si la création est un succès
+            False sinon
         """
         created = False
 
@@ -36,6 +49,18 @@ class CollectionDao(metaclass=Singleton):
 
     def trouver_par_titre(titre: str) -> Optional[AbsractCollection]:
 
+        """Recherche d'une collection dans la base de données à partir de son titre
+
+        Parameters
+        ----------
+        titre:titre de la collection à rechercher
+        Returns
+        -------
+        collection
+            la collection si elle a été crée 
+            
+        """
+
         with DBConnection().connection as connection:
             with connection.cursor() as cursor:
 
@@ -44,4 +69,46 @@ class CollectionDao(metaclass=Singleton):
                 )
                 res = cursor.fetchone()
 
-    #si cles elements de liste_manga sont des dictionnaires alors :........ 
+    
+    if res:
+            if res["type"] == "virtuelle":
+                collection = COllectionVirtuelle(
+                    titre=res["titre"],
+                    id_utilisateur=res["id_utilisateur"],
+                    liste_manga=res["liste_manga"],
+                    
+                )
+            
+            else:
+                collection = CollectionPhysique(
+                    titre=res["titre"],
+                    id_utilisateur=res["id_utilisateur"],
+                    liste_manga=res["liste_manga"],
+                )
+
+            return collection
+    else:
+            return None
+
+
+def supprimer_collection(self,manga) -> None:
+
+    """Suppression  d'une collection existante dans la base de données
+
+        Parameters
+        ----------
+        coLLection : collection à supprimer
+        Returns
+        -------
+        None
+        """
+    with DBConnection().connection as connection:
+        with connection.cursor() as cursor:
+
+            cursor.execute("delete from collection"
+            
+                            "where titre=%(titre)s",
+                            {"titre":manga.titre}
+            )
+        
+
