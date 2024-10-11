@@ -1,6 +1,6 @@
-from buisness_objet.collection.abstract_collection import AbstractCollection 
-from buisness_objet.manga_Physique import mangaPhysique 
-from buisness_objet.manga import manga     
+from src.buisness_objet.collection.abstract_collection import AbstractCollection 
+from src.buisness_objet.manga_Physique import mangaPhysique 
+from src.buisness_objet.manga import manga     
 
 
 class CollectionPhysique(AbstractCollection):
