@@ -157,28 +157,27 @@ class MangaDAO(metaclass=Singleton):
 
         return res == 1
 
-
-# def trouver_par_id(self, id: str) -> Manga:
-#        """Trouver un manga par son identifiant s'il est connu (id)"""
-#       with DBConnection().connection as connection:
-#          with connection.cursor() as cursor:
-#               cursor.execute(
-#                   "SELECT titre,"
-#                   "       id_manga,"
-#                   "       auteur,"
-#                   "       synopsis,"
-#                   "FROM manga"
-#                   "WHERE id = %(id_manga)s",
-#                   {'id' : id}
-#                   )
-#               res_id_manga = cursor.fetchone()
-#           if res_id_manga:
-#               res_id_manga = Manga(
-#                   titre=res_id_manga["titre"],
-#                   id_manga=res_id_manga["id_manga"],
-#                   auteur=res_id_manga["auteur"],
-#                  synopsis=res_id_manga["synopsis"]
-#                   )
-#              return res_id_manga
-#            else:
-#               return None
+    def trouver_par_id(self, id: str) -> Manga:
+        """Trouver un manga par son identifiant s'il est connu (id)"""
+        with DBConnection().connection as connection: 
+            with connection.cursor() as cursor:
+                cursor.execute(
+                  "SELECT titre,"
+                  "       id_manga,"
+                  "       auteur,"
+                  "       synopsis,"
+                  "FROM manga"
+                  "WHERE id = %(id_manga)s",
+                  {'id': id}
+                   )
+                res_id_manga = cursor.fetchone()
+                if res_id_manga:
+                    res_id_manga = Manga(
+                        titre=res_id_manga["titre"],
+                        id_manga=res_id_manga["id_manga"],
+                        auteur=res_id_manga["auteur"],
+                        synopsis=res_id_manga["synopsis"]
+                    )
+                    return res_id_manga
+                else:
+                    return None

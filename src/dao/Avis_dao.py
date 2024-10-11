@@ -6,7 +6,7 @@ from utils.log_decorator import log
 
 from dao.db_connection import DBConnection
 
-from business_object.avis import Avis
+from Business_object.avis import Avis
 
 
 class AvisDAO(metaclass=Singleton):
@@ -30,13 +30,13 @@ class AvisDAO(metaclass=Singleton):
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        "INSERT INTO manga(id_manga, id_utilisateur, avis)VALUES"
-                        "(%(id_manga)s, %(id_utilisateur)s, %(avis)s)         "
-                        "  RETURNING id_manga, id_utilisateur, avis;                    ",
+                        "INSERT INTO avis(id_manga, id_utilisateur, texte)VALUES"
+                        "(%(id_manga)s, %(id_utilisateur)s, %(texte)s)         "
+                        "  RETURNING id_manga, id_utilisateur, texte;                    ",
                         {
                             "id_manga": avis.id_manga,
                             "id_utilisateur": avis.id_utilisateur,
-                            "avis": avis.avis
+                            "texte": avis.texte
                         },
                     )
                     res = cursor.fetchone()
@@ -47,7 +47,7 @@ class AvisDAO(metaclass=Singleton):
         if res:
             avis.id_manga = res["id_manga"]
             avis.id_utilisateur = res["id_utilisateur"]
-            avis.avis = res["avis"]
+            avis.texte = res["texte"]
             created = True
 
         return created
@@ -79,7 +79,7 @@ class AvisDAO(metaclass=Singleton):
                     avis = Avis(
                         id_manga=row["id_manga"],
                         id_utilisateur=row["id_utilisateur"],
-                        avis=row["avis"]
+                        texte=row["texte"]
                         )
                     res_avis.append(avis)
                 
@@ -88,7 +88,7 @@ class AvisDAO(metaclass=Singleton):
             raise
 
     @log        
-    def supprimer_avis(self, avis) -> bool:
+    def supprimer_avis(self, avis: Avis) -> bool:
         """Suppression d'un avis dans la base de données
 
         Parameters
@@ -120,7 +120,7 @@ class AvisDAO(metaclass=Singleton):
         return res > 0
     
     @log
-    def modifier(self, avis) -> bool:
+    def modifier(self, avis: Avis, newtexte: str) -> bool:
         """Modification d'un avis dans la base de données
 
         Parameters
@@ -141,13 +141,13 @@ class AvisDAO(metaclass=Singleton):
                 with connection.cursor() as cursor:
                     cursor.execute(
                         "UPDATE avis                                "
-                        "   SET avis      = %(avis)s,        "
+                        "   SET texte      = %(texte)s,        "
                         " WHERE id_manga = %(id_manga)s,             ",
                         " AND id_utilisateur = %(id_utilisateur)s;             ",
                         {
                             "id_manga": avis.id_manga,
                             "id_utilisateur": avis.id_utilisateur,
-                            "avis": avis.avis
+                            "texte": newtexte
                         }
                     )
                     res = cursor.rowcount
