@@ -6,7 +6,7 @@ from utils.log_decorator import log
 
 from dao.db_connection import DBConnection
 
-from business_object.avis import Avis
+from src.Business_object.avis import Avis
 
 
 class AvisDAO(metaclass=Singleton):
@@ -88,7 +88,7 @@ class AvisDAO(metaclass=Singleton):
             raise
 
     @log        
-    def supprimer_avis(self, avis) -> bool:
+    def supprimer_avis(self, avis: Avis) -> bool:
         """Suppression d'un avis dans la base de données
 
         Parameters
@@ -120,7 +120,7 @@ class AvisDAO(metaclass=Singleton):
         return res > 0
     
     @log
-    def modifier(self, avis, texte: str) -> bool:
+    def modifier(self, avis: Avis, newtexte: str) -> bool:
         """Modification d'un avis dans la base de données
 
         Parameters
@@ -147,7 +147,7 @@ class AvisDAO(metaclass=Singleton):
                         {
                             "id_manga": avis.id_manga,
                             "id_utilisateur": avis.id_utilisateur,
-                            "texte": texte
+                            "texte": newtexte
                         }
                     )
                     res = cursor.rowcount
