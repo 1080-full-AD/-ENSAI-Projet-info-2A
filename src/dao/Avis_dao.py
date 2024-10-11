@@ -30,7 +30,7 @@ class AvisDAO(metaclass=Singleton):
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        "INSERT INTO manga(id_manga, id_utilisateur, avis)VALUES"
+                        "INSERT INTO avis(id_manga, id_utilisateur, avis)VALUES"
                         "(%(id_manga)s, %(id_utilisateur)s, %(avis)s)         "
                         "  RETURNING id_manga, id_utilisateur, avis;                    ",
                         {
