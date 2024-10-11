@@ -57,7 +57,7 @@ class UtilisateurDao(metaclass=Singleton):
         return created
 
     @log
-    def trouver_par_pseudo(self, pseudo:str) -> Utilisateur:
+    def trouver_par_pseudo(self, pseudo: str) -> Utilisateur:
         """trouver un utilisateur grace à son pseudo
 
         Parameters
