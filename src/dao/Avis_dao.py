@@ -1,12 +1,12 @@
 import logging
 
-from utils.singleton import Singleton
+from src.utils.singleton import Singleton
 
 from utils.log_decorator import log
 
 from dao.db_connection import DBConnection
 
-from Business_object.avis import Avis
+from business_objet.avis import Avis
 
 
 class AvisDAO(metaclass=Singleton):
