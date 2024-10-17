@@ -8,7 +8,7 @@ class CollectionVirtuelle(AbstractCollection):
         for i in list_manga:
             if isinstance(i, manga) and not isinstance(i, mangaPhysique):
                 super().__init__(titre, id_utilisateur, list_manga)
-                self.type="virtuelle"
+                self.type = "virtuelle"
 
     def Ajouter_manga(self, new_manga):
         if isinstance(new_manga, manga):
