@@ -1,9 +1,5 @@
 from InquirerPy import inquirer
-
-from src.utils.reset_database import ResetDatabase
-
 from src.views.vue_abstraite import AbstractView
-from src.views.session import Session
 
 
 class MainView(AbstractView):
