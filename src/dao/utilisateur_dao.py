@@ -207,3 +207,47 @@ class UtilisateurDao(metaclass=Singleton):
             raise
 
         return res > 0
+    
+    @log
+    def se_connecter(self, pseudo, mdp) -> Utilisateur:
+        """se connecter grâce à son pseudo et son mot de passe
+
+        Parameters
+        ----------
+        pseudo : str
+            pseudo de l'utilisateur que l'on souhaite trouver
+        mdp : str
+            mot de passe de l'utilisateur
+
+        Returns
+        -------
+        utilisateur : Utilisateur
+            renvoie l'utilisateur que l'on cherche
+        """
+        res = None
+        try:
+            with DBConnection().connection as connection:
+                with connection.cursor() as cursor:
+                    cursor.execute(
+                        "SELECT *                           "
+                        "  FROM utilisateur                      "
+                        " WHERE pseudo = %(pseudo)s         "
+                        "   AND mdp = %(mdp)s;              ",
+                        {"pseudo": pseudo, "mdp": mdp},
+                    )
+                    res = cursor.fetchone()
+        except Exception as e:
+            logging.info(e)
+
+        utilisateur = None
+
+        if res:
+            utilisateur = Utilisateur(
+                pseudo=res["pseudo"],
+                mdp=res["mdp"],
+                age=res["age"],
+                id_utilisateur=res["id_utilisateur"],
+                collections=res["collections"]
+            )
+
+        return utilisateur

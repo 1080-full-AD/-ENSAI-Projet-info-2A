@@ -1,6 +1,6 @@
 from utils.singleton import Singleton
 from src.business_objet.utilisateur import Utilisateur
-from src.business_objet.dao import UtilisateurDao
+from src.dao import UtilisateurDao
 from utils.log_decorator import log
 from utils.securite import hash_password
 
@@ -25,7 +25,6 @@ class UtilisateurService(metaclass=Singleton):
         else:
             return None
 
-    
     @log
     def modifier_utilisateur(self, utilisateur) -> Utilisateur:
         """Modification d'un utilisateur"""
@@ -37,8 +36,7 @@ class UtilisateurService(metaclass=Singleton):
     def supprimer_utilisateur(self, utlisateur) -> bool:
         """Supprimer le compte d'un utilisateur"""
         return UtilisateurDao().supprimer(utlisateur)
-    
-    
+     
     @log
     def lister_tous(self, inclure_mdp=False) -> list[Utilisateur]:
         """Lister tous les utilisateurs
@@ -52,14 +50,24 @@ class UtilisateurService(metaclass=Singleton):
         return utilisateur
 
     @log
-    def trouver_par_pseudo(self, pseudo)-> Utilisateur:
+    def trouver_par_pseudo(self, pseudo) -> Utilisateur:
         """Trouver un utilisateur à partir de son pseudo"""
         return UtilisateurDao().trouver_par_pseudo(pseudo)
     
+    @log
+    def pseudo_deja_utilise(self, pseudo) -> bool:
+        """Vérifie si le pseudo est déjà utilisé
+        Retourne True si le pseudo existe déjà en BDD"""
+        utilisateur = UtilisateurDao().lister_tous()
+        return pseudo in [j.pseudo for j in utilisateur]
+
+    @log
+    def se_connecter(self, pseudo, mdp) -> Utilisateur:
+        """Se connecter à partir de pseudo et mdp"""
+        return UtilisateurDao().se_connecter(pseudo,
+                                             hash_password(mdp, pseudo))
     
-
-    
-
-    
-
-
+    @log
+    def se_deconnecter(self, pseudo, mdp) -> Utilisateur:
+        """Se connecter à partir de pseudo et mdp"""
+        return UtilisateurDao().se_connecter(pseudo, hash_password(mdp, pseudo))
