@@ -2,7 +2,7 @@ import json
 import requests
 import time
 
-for i in range(1, 50):
+for i in range(1, 6):
     with open("data/data.json", "w") as f:
         r = requests.get('https://api.jikan.moe/v4/manga', {"page": i})
         r.status_code

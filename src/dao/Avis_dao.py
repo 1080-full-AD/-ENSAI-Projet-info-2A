@@ -6,11 +6,7 @@ from src.utils.log_decorator import log
 
 from src.dao.db_connection import DBConnection
 
-<<<<<<< HEAD
-from business_objet.avis import Avis
-=======
 from src.business_objet.avis import Avis
->>>>>>> d75a0fe3a1d8e8670bc3f0ec23071fee7958902a
 
 
 class AvisDAO(metaclass=Singleton):
