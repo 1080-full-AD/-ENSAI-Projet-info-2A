@@ -98,7 +98,7 @@ class CollectionDao(metaclass=Singleton):
 
 
 def supprimer_collection(self, collection) -> None:
-
+        
     """Suppression  d'une collection existante dans la base de données
 
         Parameters
@@ -115,8 +115,8 @@ def supprimer_collection(self, collection) -> None:
             
                             "where titre=%(titre)s",
                             {"titre": collection.titre}
-                          )
-        
+                            )
+
 
 
     @log
@@ -156,37 +156,4 @@ def supprimer_collection(self, collection) -> None:
 
 
 
-    @log
-    def modifier_liste_manga(self, collection, manga) -> bool:
-        """Modification du titre d'une collection dans la base de données
-
-        Parameter
-        ----------
-        collection : collection à modifier
-        new_titre:nouveau titre de la collection
-        Returns
-        -------
-        created : bool
-            True si la modification est un succès
-            False sinon
-        """
-
-        res = None
-
-        try:
-            with DBConnection().connection as connection:
-                with connection.cursor() as cursor:
-                    cursor.execute(
-                        "UPDATE collection "
-                        "   SET titre= %(new_titre)s, " 
-                        " WHERE titre = %(titre)s;  ",
-                        {
-                            "titre": collection.titre,
-                            "new_titre": new_titre,
-                        },
-                    )
-                    res = cursor.rowcount
-        except Exception as e:
-            logging.info(e)
-
-        return res == 1
+  
