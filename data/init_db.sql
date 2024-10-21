@@ -47,7 +47,7 @@ CREATE TABLE projet.manga (
 
 -- Comme on va creer des pokemon en forcant les id_pokemon
 -- il faut maj a la main la valeur de la sequence de la PK
-ALTER SEQUENCE tp.pokemon_id_pokemon_seq RESTART WITH 899;
+ALTER SEQUENCE projet.manga_id_manga_seq RESTART WITH 899;
 
 
 --------------------------------------------------------------
