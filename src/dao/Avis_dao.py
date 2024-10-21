@@ -2,11 +2,15 @@ import logging
 
 from src.utils.singleton import Singleton
 
-from utils.log_decorator import log
+from src.utils.log_decorator import log
 
-from dao.db_connection import DBConnection
+from src.dao.db_connection import DBConnection
 
+<<<<<<< HEAD
 from business_objet.avis import Avis
+=======
+from src.business_objet.avis import Avis
+>>>>>>> d75a0fe3a1d8e8670bc3f0ec23071fee7958902a
 
 
 class AvisDAO(metaclass=Singleton):
@@ -30,9 +34,19 @@ class AvisDAO(metaclass=Singleton):
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
+<<<<<<< HEAD
+                        "INSERT INTO avis(id_manga, id_utilisateur, avis)VALUES"
+                        "(%(id_manga)s, %(id_utilisateur)s, %(avis)s)         "
+                        "  RETURNING id_manga, id_utilisateur, avis;                    ",
+=======
+<<<<<<< HEAD
+                        "INSERT INTO manga(id_manga, id_utilisateur, texte)VALUES"
+=======
                         "INSERT INTO avis(id_manga, id_utilisateur, texte)VALUES"
+>>>>>>> 081ce5006b8f7ea04c6b3c88fbe4d1dfb3fda88b
                         "(%(id_manga)s, %(id_utilisateur)s, %(texte)s)         "
                         "  RETURNING id_manga, id_utilisateur, texte;                    ",
+>>>>>>> 63da3185e7ffc1beefc5b207393ded95754245f7
                         {
                             "id_manga": avis.id_manga,
                             "id_utilisateur": avis.id_utilisateur,
@@ -155,3 +169,4 @@ class AvisDAO(metaclass=Singleton):
             logging.info(e)
 
         return res == 1
+
