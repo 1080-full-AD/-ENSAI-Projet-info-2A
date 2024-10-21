@@ -16,12 +16,12 @@ class DBConnection(metaclass=Singleton):
         dotenv.load_dotenv()
 
         self.__connection = psycopg2.connect(
-            host=os.environ["POSTGRES_HOST"],
-            port=os.environ["POSTGRES_PORT"],
+            host=os.environ["sgbd-eleves.domensai.ecole"],
+            port=os.environ["5432"],
             database=os.environ["POSTGRES_DATABASE"],
-            user=os.environ["POSTGRES_USER"],
-            password=os.environ["POSTGRES_PASSWORD"],
-            options=f"-c search_path={os.environ['POSTGRES_SCHEMA']}",
+            user=os.environ["id2503"],
+            password=os.environ["id2503"],
+            options=f"-c search_path={os.environ['projet']}",
             cursor_factory=RealDictCursor,
         )
 
