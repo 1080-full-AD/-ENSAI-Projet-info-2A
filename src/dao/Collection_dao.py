@@ -1,8 +1,14 @@
 import logging
 from typing import List, Optional
+
 from utils.singleton import Singleton
+from src.utils.log_decorator import log
+
 from src.business_objet.collection.abstract_Collection import AbstractCollection 
-from src.business_objetuisness_objet.manga import manga
+from src.business_objet.collection.collection_physique import CollectionPhysique
+from src.business_objet.collection.collection_virtuelle import CollectionVirtuelle
+
+
 from src.dao.db_connection import DBConnection
 
 
@@ -30,7 +36,7 @@ class CollectionDao(metaclass=Singleton):
                 cursor.execute(
                     "INSERT INTO Collection (titre, id_utilisateur,        "
                     " liste_manga)             "
-                    "VALUES                                                     "
+                    "VALUES                                                "
                     "(%(titre)s, %(id_utilisateur)s, %(liste_manga)s    "
                    
                     "RETURNING titre;",
@@ -42,14 +48,15 @@ class CollectionDao(metaclass=Singleton):
                 )
                 res = cursor.fetchone()
         if res:
-            attack.titre= res["titre"]
+            collection.titre = res["titre"]
             created = True
 
         return created
 
-    def trouver_par_titre(titre: str) -> Optional[AbsractCollection]:
+    def trouver_par_titre(titre: str) -> Optional[AbstractCollection]:
 
-        """Recherche d'une collection dans la base de données à partir de son titre
+        """Recherche d'une collection dans la base de données à partir de son
+         titre
 
         Parameters
         ----------
@@ -69,29 +76,28 @@ class CollectionDao(metaclass=Singleton):
                 )
                 res = cursor.fetchone()
 
-    
-    if res:
-            if res["type"] == "virtuelle":
-                collection = COllectionVirtuelle(
-                    titre=res["titre"],
-                    id_utilisateur=res["id_utilisateur"],
-                    liste_manga=res["liste_manga"],
+                if res:
+                    if res["type"] == "virtuelle":
+                        collection = CollectionVirtuelle(
+                                    titre=res["titre"],
+                                    id_utilisateur=res["id_utilisateur"],
+                                    liste_manga=res["liste_manga"],
                     
-                )
+                        )
             
-            else:
-                collection = CollectionPhysique(
-                    titre=res["titre"],
-                    id_utilisateur=res["id_utilisateur"],
-                    liste_manga=res["liste_manga"],
-                )
+                    else:
+                        collection = CollectionPhysique(
+                                    titre=res["titre"],
+                                    id_utilisateur=res["id_utilisateur"],
+                                    liste_manga=res["liste_manga"],
+                        )
 
-            return collection
-    else:
-            return None
+                    return collection
+                else:
+                    return None
 
 
-def supprimer_collection(self,manga) -> None:
+def supprimer_collection(self, collection) -> None:
 
     """Suppression  d'une collection existante dans la base de données
 
@@ -108,7 +114,79 @@ def supprimer_collection(self,manga) -> None:
             cursor.execute("delete from collection"
             
                             "where titre=%(titre)s",
-                            {"titre":manga.titre}
-            )
+                            {"titre": collection.titre}
+                          )
         
 
+
+    @log
+    def modifier_titre(self, collection, new_titre) -> bool:
+        """Modification du titre d'une collection dans la base de données
+
+        Parameter
+        ----------
+        collection : collection à modifier
+        new_titre:nouveau titre de la collection
+        Returns
+        -------
+        created : bool
+            True si la modification est un succès
+            False sinon
+        """
+
+        res = None
+
+        try:
+            with DBConnection().connection as connection:
+                with connection.cursor() as cursor:
+                    cursor.execute(
+                        "UPDATE collection "
+                        "   SET titre= %(new_titre)s, " 
+                        " WHERE titre = %(titre)s;  ",
+                        {
+                            "titre": collection.titre,
+                            "new_titre": new_titre,
+                        },
+                    )
+                    res = cursor.rowcount
+        except Exception as e:
+            logging.info(e)
+
+        return res == 1
+
+
+
+    @log
+    def modifier_liste_manga(self, collection, manga) -> bool:
+        """Modification du titre d'une collection dans la base de données
+
+        Parameter
+        ----------
+        collection : collection à modifier
+        new_titre:nouveau titre de la collection
+        Returns
+        -------
+        created : bool
+            True si la modification est un succès
+            False sinon
+        """
+
+        res = None
+
+        try:
+            with DBConnection().connection as connection:
+                with connection.cursor() as cursor:
+                    cursor.execute(
+                        "UPDATE collection "
+                        "   SET titre= %(new_titre)s, " 
+                        " WHERE titre = %(titre)s;  ",
+                        {
+                            "titre": collection.titre,
+                            "new_titre": new_titre,
+                        },
+                    )
+                    res = cursor.rowcount
+        except Exception as e:
+            logging.info(e)
+
+        return res == 1

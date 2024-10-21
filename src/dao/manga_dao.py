@@ -1,6 +1,6 @@
 import logging
 
-from src.utils.singleton import Singleton
+from utils.singleton import Singleton
 from src.utils.log_decorator import log
 
 from src.dao.db_connection import DBConnection
