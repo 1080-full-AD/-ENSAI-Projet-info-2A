@@ -15,7 +15,7 @@ class AbstractCollection(ABC):
     def get_titre(self):
         return self.titre 
 
-    def modifier_tire(self, nouveau_titre):
+    def modifier_tire(self,nouveau_titre):
         self.titre=nouveau_titre
 
     @abstractmethod
