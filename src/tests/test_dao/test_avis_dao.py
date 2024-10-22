@@ -4,7 +4,7 @@ from unittest.mock import patch
 
 from src.utils.reset_database import ResetDatabase
 
-from src.dao.avis_dao import AvisDAO
+from src.dao.avis_dao import AvisDao
 
 from src.business_objet.avis import Avis
 
@@ -23,7 +23,7 @@ def test_creer_ok():
     avis = Avis(id_manga=22, id_utilisateur=44, texte="Masterpiece")
 
     # WHEN
-    creation_ok = AvisDAO().creer(avis)
+    creation_ok = AvisDao().creer(avis)
 
     # THEN
     assert creation_ok
@@ -38,7 +38,7 @@ def test_creer_ko():
     avis = Avis(id_manga=None, id_utilisateur=None, texte=None)
 
     # WHEN
-    creation_ok = AvisDAO().creer(avis)
+    creation_ok = AvisDao().creer(avis)
 
     # THEN
     assert not creation_ok
@@ -52,7 +52,7 @@ def test_trouver_tous_par_id_existant():
     id_utilisateur = 44
 
     # WHEN
-    avis = AvisDAO().trouver_tous_par_id(id_utilisateur)
+    avis = AvisDao().trouver_tous_par_id(id_utilisateur)
 
     # THEN
     assert isinstance(avis, list)
@@ -66,7 +66,7 @@ def test_trouver_par_id_non_existant():
     id_utilisateur = 999999999
 
     # WHEN
-    avis = AvisDAO().trouver_tous_par_id(id_utilisateur)
+    avis = AvisDao().trouver_tous_par_id(id_utilisateur)
 
     # THEN
     assert isinstance(avis, list)
@@ -80,7 +80,7 @@ def test_supprimer_avis_ok():
     avis = Avis(id_manga=1, id_utilisateur=1, texte="test")
 
     # WHEN
-    suppression_ok = AvisDAO().supprimer_avis(avis)
+    suppression_ok = AvisDao().supprimer_avis(avis)
 
     # THEN
     assert suppression_ok
@@ -93,7 +93,7 @@ def test_supprimer_avis_ko():
     avis = Avis(id_manga=9999, id_utilisateur=9999, texte="non existant")
 
     # WHEN
-    suppression_ok = AvisDAO().supprimer_avis(avis)
+    suppression_ok = AvisDao().supprimer_avis(avis)
 
     # THEN
     assert not suppression_ok
@@ -108,7 +108,7 @@ def test_modifier_ok():
     avis = Avis(id_jmanga=1, id_utilisateur=1, texte="test")
 
     # WHEN
-    modification_ok = AvisDAO().modifier(avis, new_texte)
+    modification_ok = AvisDao().modifier(avis, new_texte)
 
     # THEN
     assert modification_ok
@@ -122,7 +122,7 @@ def test_modifier_ko():
     avis = Avis(id_jmanga=99999, id_utilisateur=999999, texte="test")
 
     # WHEN
-    modification_ok = AvisDAO().modifier(avis, new_texte)
+    modification_ok = AvisDao().modifier(avis, new_texte)
 
     # THEN
     assert not modification_ok

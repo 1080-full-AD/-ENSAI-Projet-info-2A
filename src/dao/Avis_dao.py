@@ -9,7 +9,7 @@ from src.dao.db_connection import DBConnection
 from src.business_objet.avis import Avis
 
 
-class AvisDAO(metaclass=Singleton):
+class AvisDao(metaclass=Singleton):
     def creer(self, avis) -> bool:
         """Creation d'un avis dans la base de données
 

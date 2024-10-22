@@ -1,7 +1,11 @@
 from unittest.mock import MagicMock
 
 from src.service.avis_service import AvisService
+<<<<<<< HEAD
 from src.dao.avis_dao import AvisDAO
+=======
+from src.dao.avis_dao import AvisDao
+>>>>>>> d78aa06094120d379585b8be3f64c1a1f34fe58c
 from src.business_objet.avis import Avis
 
 # Liste d'exemple d'avis
@@ -17,11 +21,11 @@ def test_creer_ok():
 
     # GIVEN
     id_manga, id_utilisateur, texte = 1, 2, "C'est un super manga !"
-    mock_dao = MagicMock(spec=AvisDAO)
+    mock_dao = MagicMock(spec=AvisDao)
     mock_dao.creer.return_value = True
 
     avis_service = AvisService()
-    avis_service.AvisDAO = mock_dao  # Injecting the mock DAO
+    avis_service.AvisDao = mock_dao 
 
     # WHEN
     avis = avis_service.creer_avis(id_manga, id_utilisateur, texte)
@@ -35,11 +39,11 @@ def test_creer_echec():
 
     # GIVEN
     id_manga, id_utilisateur, texte = 1, 1, "C'est un super manga !"
-    mock_dao = MagicMock(spec=AvisDAO)
+    mock_dao = MagicMock(spec=AvisDao)
     mock_dao.creer.return_value = False
 
     avis_service = AvisService()
-    avis_service.AvisDAO = mock_dao  # Injecting the mock DAO
+    avis_service.AvisDao = mock_dao  
 
     # WHEN
     avis = avis_service.creer_avis(id_manga, id_utilisateur, texte)
@@ -53,11 +57,11 @@ def test_trouver_tous_par_id_ok():
 
     # GIVEN
     id_utilisateur = 1
-    mock_dao = MagicMock(spec=AvisDAO)
+    mock_dao = MagicMock(spec=AvisDao)
     mock_dao.trouver_tous_par_id.return_value = [avis for avis in liste_avis if avis.id_utilisateur == id_utilisateur]
 
     avis_service = AvisService()
-    avis_service.AvisDAO = mock_dao  # Injecting the mock DAO
+    avis_service.AvisDao = mock_dao 
 
     # WHEN
     res = avis_service.trouver_avis_par_utilisateur(id_utilisateur)
@@ -73,11 +77,11 @@ def test_trouver_tous_par_id_echec():
 
     # GIVEN
     id_utilisateur = 1
-    mock_dao = MagicMock(spec=AvisDAO)
+    mock_dao = MagicMock(spec=AvisDao)
     mock_dao.trouver_tous_par_id.side_effect = Exception("Erreur de base de données")
 
     avis_service = AvisService()
-    avis_service.AvisDAO = mock_dao  # Injecting the mock DAO
+    avis_service.AvisDao = mock_dao 
 
     # WHEN
     res = avis_service.trouver_avis_par_utilisateur(id_utilisateur)
@@ -91,11 +95,11 @@ def test_supprimer_avis_ok():
 
     # GIVEN
     id_manga, id_utilisateur = 1, 1
-    mock_dao = MagicMock(spec=AvisDAO)
+    mock_dao = MagicMock(spec=AvisDao)
     mock_dao.supprimer_avis.return_value = True
 
     avis_service = AvisService()
-    avis_service.AvisDAO = mock_dao  # Injecting the mock DAO
+    avis_service.AvisDao = mock_dao
 
     # WHEN
     result = avis_service.supprimer_avis(id_manga, id_utilisateur)
@@ -109,11 +113,11 @@ def test_supprimer_avis_echec():
 
     # GIVEN
     id_manga, id_utilisateur = 1, 1
-    mock_dao = MagicMock(spec=AvisDAO)
+    mock_dao = MagicMock(spec=AvisDao)
     mock_dao.supprimer_avis.return_value = False
 
     avis_service = AvisService()
-    avis_service.AvisDAO = mock_dao  # Injecting the mock DAO
+    avis_service.AvisDao = mock_dao 
 
     # WHEN
     result = avis_service.supprimer_avis(id_manga, id_utilisateur)
@@ -127,11 +131,11 @@ def test_modifier_avis_ok():
 
     # GIVEN
     id_manga, id_utilisateur, newtexte = 1, 1, "Manga très intéressant"
-    mock_dao = MagicMock(spec=AvisDAO)
+    mock_dao = MagicMock(spec=AvisDao)
     mock_dao.modifier.return_value = True
 
     avis_service = AvisService()
-    avis_service.AvisDAO = mock_dao  # Injecting the mock DAO
+    avis_service.AvisDao = mock_dao 
 
     # WHEN
     result = avis_service.modifier(id_manga, id_utilisateur, newtexte)
@@ -146,11 +150,11 @@ def test_modifier_avis_echec():
 
     # GIVEN
     id_manga, id_utilisateur, newtexte = 1, 1, "Manga très intéressant"
-    mock_dao = MagicMock(spec=AvisDAO)
+    mock_dao = MagicMock(spec=AvisDao)
     mock_dao.modifier.return_value = False
 
     avis_service = AvisService()
-    avis_service.AvisDAO = mock_dao  # Injecting the mock DAO
+    avis_service.AvisDao = mock_dao 
 
     # WHEN
     result = avis_service.modifier(id_manga, id_utilisateur, newtexte)
