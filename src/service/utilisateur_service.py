@@ -10,9 +10,35 @@ class UtilisateurService(metaclass=Singleton):
     """"Classe exposant les méthodes liées à l'utilisateur"""
 
     @log
+    def pseudo_deja_utilise(self, pseudo) -> bool:
+        """Vérifie si le pseudo est déjà utilisé
+        Retourne True si le pseudo existe déjà en BDD"""
+        utilisateur = UtilisateurDao().lister_tous()
+        return pseudo in [j.pseudo for j in utilisateur]
+
+    @log
     def creer_utilisateur(self, pseudo, age, mdp=None, collection=[],
                           id_utilisateur=None) -> Utilisateur:
         """Création d'un utilisateur à partir de ses attributs"""
+        try:
+            pseudo = input("Entrer un nom d'Utilisateur : ")
+            if len(pseudo) == 0:
+                raise ValueError("Le nom d'utilisateur ne peut pas être vide.")
+            if not isinstance(pseudo, (str, int)):
+                raise TypeError("Le nom d'utilisateur doit être une chaîne de" 
+                                "caractères et/ou d'entiers")
+            pseudo = str(pseudo)  # Convertir le pseudo en chaîne de caractère si c'est un entier
+            if UtilisateurService.pseudo_deja_utilise(pseudo):
+                raise ValueError("Ce nom d'utilisateur est dèjà pris.")
+            
+            mdp = input("Entrer un mot de passe :")
+            UtilisateurService.is_valid_mdp(mdp)
+
+            data[pseudo] = mdp
+            print(f"Compte créé avec succès pour l'utilisateur : {pseudo}")
+            
+        except (ValueError, TypeError) as e:
+            print(f"Erreur : {e}")
 
         nouvel_utilisateur = Utilisateur(
             pseudo=pseudo,
@@ -54,13 +80,6 @@ class UtilisateurService(metaclass=Singleton):
     def trouver_par_pseudo_utilisateur(self, pseudo) -> Utilisateur:
         """Trouver un utilisateur à partir de son pseudo"""
         return UtilisateurDao().trouver_par_pseudo(pseudo)
-    
-    @log
-    def pseudo_deja_utilise(self, pseudo) -> bool:
-        """Vérifie si le pseudo est déjà utilisé
-        Retourne True si le pseudo existe déjà en BDD"""
-        utilisateur = UtilisateurDao().lister_tous()
-        return pseudo in [j.pseudo for j in utilisateur]
 
     @log
     def se_connecter(self, pseudo, mdp) -> Utilisateur:
@@ -94,7 +113,23 @@ class UtilisateurService(metaclass=Singleton):
  
     def is_valid_mdp(self, mdp):
         """Méthode permettant de vérifier si le mot de passe créé est valide"""
-        if (len(mdp)) < 8 or not re.search(r"[A-Z]", mdp) or not re.search(r"[a-z]", mdp) or
-            not re.search(r"[0-9]", mdp) or not re.search(r"[%#/]", mdp)
-            return False
-        return True
+        try:
+            if (len(mdp)) < 8:
+                raise ValueError("Le mot de passe doit contenir au moins 8"
+                                 "caractères.")
+            if re.search(r"[A-Z]", mdp):
+                raise ValueError("Le mot de passe doit contenir au moihns une"
+                                 "majuscule.")
+            if re.search(r"[a-z]", mdp):
+                raise ValueError("Le mot de passe doit contenir au moins une"
+                                 "minuscule.")
+            if re.search(r"[0-9]", mdp):
+                raise ValueError("Le mot de passe doit contenir au moins un"
+                                 "chiffre.")
+            if re.search(r"[%#/]", mdp):
+                raise ValueError("Le mot de passe doit contenir au moins un"
+                                 "caractère spécial parmi ceux-là")
+        except (ValueError, TypeError) as e:
+            print(f"Erreur : {e}")
+
+
