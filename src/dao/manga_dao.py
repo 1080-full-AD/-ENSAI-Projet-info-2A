@@ -181,7 +181,7 @@ class MangaDao(metaclass=Singleton):
                     return res_id_manga
                 else:
                     return None
-    
+  
     def trouver_par_auteur(self, auteur) -> Manga:
         """Trouver un manga grâce au nom de son auteur
 
@@ -192,7 +192,8 @@ class MangaDao(metaclass=Singleton):
         Returns
         -------
         liste_manga_auteur : list
-            affiche la liste de tous les mangas écrits par cet auteur si le résultat est trouvé
+            affiche la liste de tous les mangas écrits par cet auteur si le
+            résultat est trouvé
             sinon cela affiche None
         """
         with DBConnection().connection as connection:
@@ -214,7 +215,7 @@ class MangaDao(metaclass=Singleton):
                             id_manga=raw_auteur["id_manga"],
                             auteur=raw_auteur["auteur"],
                             synopsis=raw_auteur["synopsis"]
-                    )
+                        )
                     liste_manga_auteur.append(manga_par_auteur)
                     return liste_manga_auteur
                 else:
@@ -231,7 +232,8 @@ class MangaDao(metaclass=Singleton):
         Returns
         -------
         liste_serie: list
-            affiche la liste de tous les tomes des mangas se trouvant dans la saga
+            affiche la liste de tous les tomes des mangas se trouvant 
+            dans la saga
             sinon cela affiche None
         """
         with DBConnection().connection as connection:
@@ -253,7 +255,7 @@ class MangaDao(metaclass=Singleton):
                             id_manga=raw_serie["id_manga"],
                             auteur=raw_serie["auteur"],
                             synopsis=raw_serie["synopsis"]
-                    )
+                        )
                     liste_serie.append(serie_manga)
                     return liste_serie
                 else:
