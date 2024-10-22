@@ -24,7 +24,7 @@ class ConnexionView(AbstractView):
 
             return MenuJoueurVue(message)
 
-        message = "Erreur de connexion :/ (pseudo ou mot de passe invalide)"
+        message = "Erreur de connexion :/\n(pseudo ou mot de passe invalide)"
         from src.views.accueil.main_menu_view import MainView
 
         return MainView(message)
