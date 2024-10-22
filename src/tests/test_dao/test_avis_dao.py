@@ -2,11 +2,11 @@ import pytest
 
 from unittest.mock import patch
 
-from utils.reset_database import ResetDatabase
+from src.utils.reset_database import ResetDatabase
 
-from dao.avis_dao import AvisDAO
+from src.dao.avis_dao import AvisDAO
 
-from business_objet.avis import Avis
+from src.business_objet.avis import Avis
 
 
 @pytest.fixture(scope="session", autouse=True)

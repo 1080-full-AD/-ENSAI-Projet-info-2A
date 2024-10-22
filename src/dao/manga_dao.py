@@ -25,11 +25,8 @@ class MangaDao(metaclass=Singleton):
         with DBConnection().connection as connection:
             with connection.cursor() as cursor:
                 cursor.execute(
-                    "SELECT titre,"
-                    "       id_manga,"
-                    "       auteur,"
-                    "       synopsis,"
-                    "FROM manga"
+                    "SELECT * "
+                    "FROM manga "
                     "WHERE nom = %(titre)s",
                     )
                 res_manga = cursor.fetchone()
