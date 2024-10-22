@@ -2,11 +2,7 @@ from unittest.mock import MagicMock
 
 from src.service.avis_service import AvisService
 from src.dao.avis_dao import AvisDAO
-<<<<<<< HEAD
-from src.business_object.avis import Avis
-=======
 from src.business_objet.avis import Avis
->>>>>>> e6c39e08368ff8de055799c00a39143d9a0fd422
 
 # Liste d'exemple d'avis
 liste_avis = [
