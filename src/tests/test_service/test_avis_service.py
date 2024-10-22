@@ -2,7 +2,11 @@ from unittest.mock import MagicMock
 
 from src.service.avis_service import AvisService
 from src.dao.avis_dao import AvisDAO
+<<<<<<< HEAD
 from src.business_objet.avis import Avis
+=======
+from src.business_object.avis import Avis
+>>>>>>> 919541847c994b97be849ffccedc7d62b5452fbb
 
 # Liste d'exemple d'avis
 liste_avis = [
@@ -21,7 +25,7 @@ def test_creer_ok():
     mock_dao.creer.return_value = True
 
     avis_service = AvisService()
-    avis_service.AvisDAO = mock_dao  # Injecting the mock DAO
+    avis_service.AvisDAO = mock_dao 
 
     # WHEN
     avis = avis_service.creer_avis(id_manga, id_utilisateur, texte)
@@ -39,7 +43,7 @@ def test_creer_echec():
     mock_dao.creer.return_value = False
 
     avis_service = AvisService()
-    avis_service.AvisDAO = mock_dao  # Injecting the mock DAO
+    avis_service.AvisDAO = mock_dao  
 
     # WHEN
     avis = avis_service.creer_avis(id_manga, id_utilisateur, texte)
@@ -57,7 +61,7 @@ def test_trouver_tous_par_id_ok():
     mock_dao.trouver_tous_par_id.return_value = [avis for avis in liste_avis if avis.id_utilisateur == id_utilisateur]
 
     avis_service = AvisService()
-    avis_service.AvisDAO = mock_dao  # Injecting the mock DAO
+    avis_service.AvisDAO = mock_dao 
 
     # WHEN
     res = avis_service.trouver_avis_par_utilisateur(id_utilisateur)
@@ -77,7 +81,7 @@ def test_trouver_tous_par_id_echec():
     mock_dao.trouver_tous_par_id.side_effect = Exception("Erreur de base de données")
 
     avis_service = AvisService()
-    avis_service.AvisDAO = mock_dao  # Injecting the mock DAO
+    avis_service.AvisDAO = mock_dao 
 
     # WHEN
     res = avis_service.trouver_avis_par_utilisateur(id_utilisateur)
@@ -95,7 +99,7 @@ def test_supprimer_avis_ok():
     mock_dao.supprimer_avis.return_value = True
 
     avis_service = AvisService()
-    avis_service.AvisDAO = mock_dao  # Injecting the mock DAO
+    avis_service.AvisDAO = mock_dao
 
     # WHEN
     result = avis_service.supprimer_avis(id_manga, id_utilisateur)
@@ -113,7 +117,7 @@ def test_supprimer_avis_echec():
     mock_dao.supprimer_avis.return_value = False
 
     avis_service = AvisService()
-    avis_service.AvisDAO = mock_dao  # Injecting the mock DAO
+    avis_service.AvisDAO = mock_dao 
 
     # WHEN
     result = avis_service.supprimer_avis(id_manga, id_utilisateur)
@@ -131,7 +135,7 @@ def test_modifier_avis_ok():
     mock_dao.modifier.return_value = True
 
     avis_service = AvisService()
-    avis_service.AvisDAO = mock_dao  # Injecting the mock DAO
+    avis_service.AvisDAO = mock_dao 
 
     # WHEN
     result = avis_service.modifier(id_manga, id_utilisateur, newtexte)
@@ -150,7 +154,7 @@ def test_modifier_avis_echec():
     mock_dao.modifier.return_value = False
 
     avis_service = AvisService()
-    avis_service.AvisDAO = mock_dao  # Injecting the mock DAO
+    avis_service.AvisDAO = mock_dao 
 
     # WHEN
     result = avis_service.modifier(id_manga, id_utilisateur, newtexte)
