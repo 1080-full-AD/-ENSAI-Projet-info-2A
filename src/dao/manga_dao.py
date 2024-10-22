@@ -10,11 +10,10 @@ from src.Business_objet.manga import Manga
 
 
 class MangaDao(metaclass=Singleton):
-class MangaDao(metaclass=Singleton):
 
     def trouver_par_titre(self, titre: str) -> Manga:
         """Trouver un manga par le nom exact du tome recherché
-        """Trouver un manga par le nom exact du tome recherché
+        Trouver un manga par le nom exact du tome recherché
 
         Parameters
         ----------
@@ -22,7 +21,7 @@ class MangaDao(metaclass=Singleton):
 
         Returns
         -------
-        res_manga : les informationqs à propos du manga trouvé ou None s'il
+        res_manga : les informations à propos du manga trouvé ou None s'il
         n'est pas trouvé
         """
         with DBConnection().connection as connection:
@@ -162,7 +161,6 @@ class MangaDao(metaclass=Singleton):
 
     def trouver_par_id(self, id: str) -> Manga:
         """Trouver un manga par son identifiant s'il est connu (id)"""
-        with DBConnection().connection as connection:
         with DBConnection().connection as connection:
             with connection.cursor() as cursor:
                 cursor.execute(

@@ -5,7 +5,7 @@ from src.Business_objet.manga import *
 with open('data/data.json', 'r') as f:
     data = json.load(f)
 
-for i in range(2903, 2904):
+for i in range(1, 2):
     k = 25
     if (i >= 2903):
         k = 13
