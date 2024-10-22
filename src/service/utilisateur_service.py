@@ -55,7 +55,6 @@ class UtilisateurService(metaclass=Singleton):
     @log
     def modifier_utilisateur(self, utilisateur) -> Utilisateur:
         """Modification d'un utilisateur"""
-
         utilisateur.mdp = hash_password(utilisateur.mdp, utilisateur.pseudo)
         return utilisateur if UtilisateurDao().modifier(utilisateur) else None
 
