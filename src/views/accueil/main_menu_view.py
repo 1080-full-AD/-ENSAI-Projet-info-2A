@@ -14,7 +14,7 @@ class MainView(AbstractView):
             Retourne la vue choisie par l'utilisateur dans le terminal
         """
 
-        print("\n" + "-" * 50 + "\Bienvenue :)\n" + "-" * 50 + "\n")
+        print("\n" + "=" * 50 + " Bienvenue :) " + "=" * 50 + "\n")
 
         choix = inquirer.select(
             message="Faites votre choix : ",
@@ -28,17 +28,20 @@ class MainView(AbstractView):
 
         match choix:
             case "Quitter":
+                print("\n" + "=" * 50 + " A bientôt :) " + "=" * 50 + "\n")
                 pass
 
             case "Se connecter":
-                from src.views.accueil.connexion_vue import ConnexionVue
+                from src.views.accueil.connexion_view import ConnexionView
 
-                return ConnexionVue("Connexion à l'application")
+                return ConnexionView("Connexion à l'application")
 
             case "Créer un compte":
-                from src.views.accueil.inscription_vue import InscriptionVue
+                from src.views.accueil.create_account import RegistrationWiew
 
-                return InscriptionVue("Création de compte joueur")
+                return RegistrationWiew("Création de compte joueur")
 
             case "Rechercher des mangas":
                 from src.views.manga_search import MangaSearch
+
+                return MangaSearch("Création de compte joueur")

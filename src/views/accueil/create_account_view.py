@@ -11,9 +11,9 @@ class RegistrationWiew(AbstractView):
         pseudo = inquirer.text(message="Entrez votre pseudo : ").execute()
 
         if UtilisateurService().pseudo_deja_utilise(pseudo):
-            from view.accueil.accueil_vue import AccueilVue
+            from views.accueil.main_menu import MainView
 
-            return AccueilVue(f"Le pseudo {pseudo} est déjà utilisé.")
+            return MainView(f"Le pseudo {pseudo} est déjà utilisé.")
 
         mdp = inquirer.secret(
             message="Entrez votre mot de passe : ",
@@ -44,10 +44,6 @@ class RegistrationWiew(AbstractView):
             message = "Erreur de connexion :/"
             "(pseudo ou mot de passe invalide)"
 
-        from view.accueil.accueil_vue import AccueilVue
+        from views.accueil.main_menu import MainView
 
-        return AccueilVue(message)
-
-
-menu = RegistrationWiew()
-menu.choisir_menu()
+        return MainView(message)
