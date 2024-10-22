@@ -1,11 +1,11 @@
 import logging
 
-from src.dao.avis_dao import AvisDAO
+from src.dao.avis_dao import AvisDao
 from src.business_objet.avis import Avis
 
 class AvisService:
 
-    def creer_avis(self, id_manga: int, id_utilisateur: int, texte: str) -> bool:
+    def creer(self, id_manga: int, id_utilisateur: int, texte: str) -> bool:
         """Création d'un avis
 
         Parameters
@@ -26,7 +26,7 @@ class AvisService:
             logging.error(f"Erreur lors de la création de l'avis: {e}")
             return False
 
-    def trouver_avis_par_utilisateur(self, id_utilisateur: int) -> list[Avis]:
+    def trouver_tous_par_id(self, id_utilisateur: int) -> list[Avis]:
         """Trouver les avis d'un utilisateur
 
         Parameters
