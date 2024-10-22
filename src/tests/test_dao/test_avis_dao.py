@@ -6,9 +6,9 @@ from unittest.mock import patch
 from utils.reset_database import ResetDatabase
 from utils.securite import hash_password
 
-from dao.joueur_dao import JoueurDao
+from dao.avis_dao import AvisDAO
 
-from business_object.joueur import Joueur
+from business_objet.avis import Avis
 
 
 @pytest.fixture(scope="session", autouse=True)
