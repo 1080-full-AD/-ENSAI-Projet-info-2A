@@ -28,6 +28,3 @@ class ConnexionView(AbstractView):
         from src.views.accueil.main_menu_view import MainView
 
         return MainView(message)
-
-
-ConnexionView().choisir_menu()

@@ -87,9 +87,8 @@ class UtilisateurService(metaclass=Singleton):
         else:
             print("Aucun utilisateur n'est connecté.")
     
-    def create_password(self):
+    def create_password(self, mdp):
         """Demande à l'utilsateur de créer un mot de passe"""
-        mdp = input("Veuillez créer un mot de passe :")
         if self.is_valid_mdp(mdp):
             self.mdp = mdp
             print("Mot de passe créer avec succès !")
