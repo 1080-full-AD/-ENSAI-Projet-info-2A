@@ -115,7 +115,7 @@ def test_modifier_ok():
 
 
 def test_modifier_ko():
-    """Modification de Joueur échouée (id inconnu)"""
+    """Modification d'avis échouée """
 
     # GIVEN
     new_texte = "test_lol"
