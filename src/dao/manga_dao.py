@@ -11,7 +11,7 @@ from src.business_objet.manga import Manga
 class MangaDao(metaclass=Singleton):
 
     def trouver_par_titre(self, titre: str) -> Manga:
-        """Trouver un manga par son nom
+        """Trouver un manga par le nom exact du tome recherché
 
         Parameters
         ----------
@@ -181,3 +181,81 @@ class MangaDao(metaclass=Singleton):
                     return res_id_manga
                 else:
                     return None
+    
+    def trouver_par_auteur(self, auteur) -> Manga:
+        """Trouver un manga grâce au nom de son auteur
+
+        Parameters
+        ----------
+        manga : Manga
+
+        Returns
+        -------
+        liste_manga_auteur : list
+            affiche la liste de tous les mangas écrits par cet auteur si le résultat est trouvé
+            sinon cela affiche None
+        """
+        with DBConnection().connection as connection:
+            with connection.cursor() as cursor:
+                cursor.execute(
+                  "SELECT titre,"
+                  "       id_manga,"
+                  "       auteur,"
+                  "       synopsis,"
+                  "FROM manga"
+                  "WHERE auteur = %(auteur)s"
+                   )
+                res_auteur = cursor.fetchall()
+                liste_manga_auteur = []
+                if res_auteur:
+                    for raw_auteur in res_auteur:
+                        manga_par_auteur = Manga(
+                            titre=raw_auteur["titre"],
+                            id_manga=raw_auteur["id_manga"],
+                            auteur=raw_auteur["auteur"],
+                            synopsis=raw_auteur["synopsis"]
+                    )
+                    liste_manga_auteur.append(manga_par_auteur)
+                    return liste_manga_auteur
+                else:
+                    return None
+        
+    def trouver_serie_par_titre(self, manga) -> Manga:
+        """Trouver la série de manga : par exemple en recherchant "One Piece", 
+        cela va afficher laliste de tous les tomes de cette sage
+
+        Parameters
+        ----------
+        manga : Manga
+
+        Returns
+        -------
+        liste_serie: list
+            affiche la liste de tous les tomes des mangas se trouvant dans la saga
+            sinon cela affiche None
+        """
+        with DBConnection().connection as connection:
+            with connection.cursor() as cursor:
+                cursor.execute(
+                  "SELECT titre,"
+                  "       id_manga,"
+                  "       auteur,"
+                  "       synopsis,"
+                  "FROM manga"
+                  "WHERE auteur = %(auteur)s"
+                   )
+                res_serie = cursor.fetchall()
+                liste_serie = []
+                if res_serie:
+                    for raw_serie in res_serie:
+                        serie_manga = Manga(
+                            titre=raw_serie["titre"],
+                            id_manga=raw_serie["id_manga"],
+                            auteur=raw_serie["auteur"],
+                            synopsis=raw_serie["synopsis"]
+                    )
+                    liste_serie.append(serie_manga)
+                    return liste_serie
+                else:
+                    return None
+
