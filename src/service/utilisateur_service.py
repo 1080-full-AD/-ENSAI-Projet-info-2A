@@ -3,6 +3,7 @@ from src.business_objet.utilisateur import Utilisateur
 from src.dao import UtilisateurDao
 from src.utils.log_decorator import log
 from src.utils.securite import hash_password
+import re
 
 
 class UtilisateurService(metaclass=Singleton):
@@ -36,7 +37,7 @@ class UtilisateurService(metaclass=Singleton):
     def supprimer_utilisateur(self, utlisateur) -> bool:
         """Supprimer le compte d'un utilisateur"""
         return UtilisateurDao().supprimer(utlisateur)
-      
+    
     @log
     def lister_tous_utilisateur(self, inclure_mdp=False) -> list[Utilisateur]:
         """Lister tous les utilisateurs
@@ -68,7 +69,30 @@ class UtilisateurService(metaclass=Singleton):
                                              hash_password(mdp, pseudo))
     
     @log
-    def se_deconnecter(self, pseudo, mdp) -> Utilisateur:
-        """Se connecter à partir de pseudo et mdp"""
-        return UtilisateurDao().se_connecter(pseudo,
-                                             hash_password(mdp, pseudo))
+    def se_deconnecter(self) -> Utilisateur:
+        """Se déconnecter de l'application"""
+        if self.pseudo:
+            print(f"{self.pseudo} se déconnecte.")
+            self.pseudo = None
+        else:
+            print("Aucun utilisateur n'est connecté.")
+    
+    def create_password(self):
+        mdp = input("Veuillez créer un mot de passe :")
+        if self.is_valid_mdp(mdp):
+            self.mdp = mdp
+            print("Mot de passe créer avec succès !")
+        else:
+            print("Le mot de passe ne respecte pas les critères suivants:")
+            print("-Au moins 8 caractères")
+            print("-Au moins une lettrre minuscule")
+            print("-Au moins une lettre majuscule")
+            print("-Au moins un chiffre")
+            print("-Au moins un caractère spécial parmi les suivants: %, #, /")
+            self.create_password()
+ 
+    def is_valid_mdp(self, mdp):
+        if (len(mdp)) < 8 or not re.search(r"[A-Z]", mdp) or not re.search(r"[a-z]", mdp) or
+            not re.search(r"[0-9]", mdp) or not re.search(r"[%#/]", mdp)
+            return False
+        return True
