@@ -1,10 +1,8 @@
-import os
 import pytest
 
 from unittest.mock import patch
 
 from utils.reset_database import ResetDatabase
-from utils.securite import hash_password
 
 from dao.avis_dao import AvisDAO
 
@@ -29,20 +27,21 @@ def test_creer_ok():
 
     # THEN
     assert creation_ok
-    assert avis.id_utilisateur
+    assert avis.id_utilisateur == 1
+    assert avis.id_manga == 1
 
 
-#def test_creer_ko():
-#    """Création d'avis échouée """
+def test_creer_ko():
+    """Création d'avis échouée """
 
     # GIVEN
-#    avis = Avis(id_manga=22, id_utilisateur=44, texte="Masterpiece")
+    avis = Avis(id_manga=None, id_utilisateur=None, texte=None)
 
     # WHEN
-#    creation_ok = AvisDao().creer(avis)
+    creation_ok = AvisDAO().creer(avis)
 
     # THEN
-#    assert not creation_ok
+    assert not creation_ok
 
 
 
@@ -102,14 +101,14 @@ def test_supprimer_avis_ko():
 
 
 def test_modifier_ok():
-    """Modification de Joueur réussie"""
+    """Modification d'avis réussie"""
 
     # GIVEN
-    new_mail = "maurice@mail.com"
-    joueur = Joueur(id_joueur=997, pseudo="maurice", age=20, mail=new_mail)
+    new_texte = "test_lol"
+    avis = Avis(id_jmanga=1, id_utilisateur=1, texte="test")
 
     # WHEN
-    modification_ok = JoueurDao().modifier(joueur)
+    modification_ok = AvisDAO().modifier(avis, new_texte)
 
     # THEN
     assert modification_ok
@@ -119,67 +118,14 @@ def test_modifier_ko():
     """Modification de Joueur échouée (id inconnu)"""
 
     # GIVEN
-    joueur = Joueur(id_joueur=8888, pseudo="id inconnu", age=1, mail="no@mail.com")
+    new_texte = "test_lol"
+    avis = Avis(id_jmanga=99999, id_utilisateur=999999, texte="test")
 
     # WHEN
-    modification_ok = JoueurDao().modifier(joueur)
+    modification_ok = AvisDAO().modifier(avis, new_texte)
 
     # THEN
     assert not modification_ok
-
-
-def test_supprimer_ok():
-    """Suppression de Joueur réussie"""
-
-    # GIVEN
-    joueur = Joueur(id_joueur=995, pseudo="miguel", age=1, mail="miguel@projet.fr")
-
-    # WHEN
-    suppression_ok = JoueurDao().supprimer(joueur)
-
-    # THEN
-    assert suppression_ok
-
-
-def test_supprimer_ko():
-    """Suppression de Joueur échouée (id inconnu)"""
-
-    # GIVEN
-    joueur = Joueur(id_joueur=8888, pseudo="id inconnu", age=1, mail="no@z.fr")
-
-    # WHEN
-    suppression_ok = JoueurDao().supprimer(joueur)
-
-    # THEN
-    assert not suppression_ok
-
-
-def test_se_connecter_ok():
-    """Connexion de Joueur réussie"""
-
-    # GIVEN
-    pseudo = "batricia"
-    mdp = "9876"
-
-    # WHEN
-    joueur = JoueurDao().se_connecter(pseudo, hash_password(mdp, pseudo))
-
-    # THEN
-    assert isinstance(joueur, Joueur)
-
-
-def test_se_connecter_ko():
-    """Connexion de Joueur échouée (pseudo ou mdp incorrect)"""
-
-    # GIVEN
-    pseudo = "toto"
-    mdp = "poiuytreza"
-
-    # WHEN
-    joueur = JoueurDao().se_connecter(pseudo, hash_password(mdp, pseudo))
-
-    # THEN
-    assert not joueur
 
 
 if __name__ == "__main__":

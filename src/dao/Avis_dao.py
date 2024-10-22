@@ -41,14 +41,14 @@ class AvisDAO(metaclass=Singleton):
                     )
                     res = cursor.fetchone()
         except Exception as e:
-            logging.info(e)
+            logging.error(f"Erreur lors de la création de l'avis: {e}")
+            raise
 
-        created = False
-        if res:
+        created = res is not None
+        if created:
             avis.id_manga = res["id_manga"]
             avis.id_utilisateur = res["id_utilisateur"]
             avis.texte = res["texte"]
-            created = True
 
         return created
 
@@ -86,6 +86,8 @@ class AvisDAO(metaclass=Singleton):
         except Exception as e:
             logging.error(f"Erreur lors de la récupération des avis: {e}")
             raise
+
+        return res_avis
 
     @log        
     def supprimer_avis(self, avis: Avis) -> bool:
