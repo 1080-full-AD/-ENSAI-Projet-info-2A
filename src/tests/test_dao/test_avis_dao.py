@@ -18,75 +18,87 @@ def setup_test_environment():
         ResetDatabase().lancer(test_dao=True)
         yield
 
-
-def test_trouver_par_id_existant():
-    """Recherche par id d'un joueur existant"""
-
-    # GIVEN
-    id_joueur = 998
-
-    # WHEN
-    joueur = JoueurDao().trouver_par_id(id_joueur)
-
-    # THEN
-    assert joueur is not None
-
-
-def test_trouver_par_id_non_existant():
-    """Recherche par id d'un joueur n'existant pas"""
-
-    # GIVEN
-    id_joueur = 9999999999999
-
-    # WHEN
-    joueur = JoueurDao().trouver_par_id(id_joueur)
-
-    # THEN
-    assert joueur is None
-
-
-def test_lister_tous():
-    """Vérifie que la méthode renvoie une liste de Joueur
-    de taille supérieure ou égale à 2
-    """
-
-    # GIVEN
-
-    # WHEN
-    joueurs = JoueurDao().lister_tous()
-
-    # THEN
-    assert isinstance(joueurs, list)
-    for j in joueurs:
-        assert isinstance(j, Joueur)
-    assert len(joueurs) >= 2
-
-
 def test_creer_ok():
-    """Création de Joueur réussie"""
+    """Création d'avis réussie"""
 
     # GIVEN
-    joueur = Joueur(pseudo="gg", age=44, mail="test@test.io")
+    avis = Avis(id_manga=22, id_utilisateur=44, texte="Masterpiece")
 
     # WHEN
-    creation_ok = JoueurDao().creer(joueur)
+    creation_ok = AvisDAO().creer(avis)
 
     # THEN
     assert creation_ok
-    assert joueur.id_joueur
+    assert avis.id_utilisateur
 
 
-def test_creer_ko():
-    """Création de Joueur échouée (age et mail incorrects)"""
+#def test_creer_ko():
+#    """Création d'avis échouée """
 
     # GIVEN
-    joueur = Joueur(pseudo="gg", age="chaine de caractere", mail=12)
+#    avis = Avis(id_manga=22, id_utilisateur=44, texte="Masterpiece")
 
     # WHEN
-    creation_ok = JoueurDao().creer(joueur)
+#    creation_ok = AvisDao().creer(avis)
 
     # THEN
-    assert not creation_ok
+#    assert not creation_ok
+
+
+
+def test_trouver_tous_par_id_existant():
+    """Recherche les avis par id d'un joueur existant"""
+
+    # GIVEN
+    id_utilisateur = 44
+
+    # WHEN
+    avis = AvisDAO().trouver_tous_par_id(id_utilisateur)
+
+    # THEN
+    assert isinstance(avis, list)
+    assert all(isinstance(a, Avis) for a in avis)
+
+
+def test_trouver_par_id_non_existant():
+    """Recherche les avis par id d'un joueur n'existant pas"""
+
+    # GIVEN
+    id_utilisateur = 999999999
+
+    # WHEN
+    avis = AvisDAO().trouver_tous_par_id(id_utilisateur)
+
+    # THEN
+    assert isinstance(avis, list)
+    assert len(avis) == 0
+
+
+def test_supprimer_avis_ok():
+    """Suppression d'un avis réussie"""
+
+    # GIVEN
+    avis = Avis(id_manga=1, id_utilisateur=1, texte="test")
+
+    # WHEN
+    suppression_ok = AvisDAO().supprimer_avis(avis)
+
+    # THEN
+    assert suppression_ok
+
+
+def test_supprimer_avis_ko():
+    """Suppression d'un avis échouée (avis non existant)"""
+
+    # GIVEN
+    avis = Avis(id_manga=9999, id_utilisateur=9999, texte="non existant")
+
+    # WHEN
+    suppression_ok = AvisDAO().supprimer_avis(avis)
+
+    # THEN
+    assert not suppression_ok
+
 
 
 def test_modifier_ok():

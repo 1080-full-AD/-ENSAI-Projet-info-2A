@@ -104,7 +104,7 @@ class AvisDAO(metaclass=Singleton):
         try:
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
-                    # Supprimer un manga de la base de données
+                    # Supprimer un avis de la base de données
                     cursor.execute(
                         "DELETE FROM avis                  "
                         " WHERE id_manga=%(id_manga)s      ",

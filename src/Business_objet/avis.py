@@ -10,13 +10,13 @@ class Avis:
     avis: str
         l'avis de l'utilisateur
     """
-    def __init__(self, id_manga, id_utilisateur, avis):
+    def __init__(self, id_manga, id_utilisateur, texte):
         """Constructeur"""
         self.id_manga = id_manga
         self.id_utilisateur = id_utilisateur
-        self.avis = avis
+        self.texte = texte
 
-    def ajoute_avis(self, id_manga, id_utilisateur, avis):
+    def ajoute_avis(self, id_manga, id_utilisateur, texte):
         """Ajouter un nouvel avis à l'objet.
 
         Parameters
@@ -30,17 +30,17 @@ class Avis:
         """
         self.id_manga = id_manga
         self.id_utilisateur = id_utilisateur
-        self.avis = avis
+        self.texte = texte
         print(f"Avis ajouté: {self}")
 
     def supprimer_avis(self):
         """Supprimer un avis."""
         self.id_manga = None
         self.id_utilisateur = None
-        self.avis = None
+        self.texte = None
         print("Avis supprimé.")
 
-    def modifier_avis(self, avis):
+    def modifier_avis(self, texte):
         """Modifier l'avis.
 
         Parameters
@@ -48,8 +48,8 @@ class Avis:
         avis : str
             Le nouveau contenu de l'avis
         """
-        if self.avis is not None:
-            self.avis = avis
+        if self.texte is not None:
+            self.texte = texte
             print(f"Avis modifié: {self}")
         else:
             print("Aucun avis à modifier.")       
