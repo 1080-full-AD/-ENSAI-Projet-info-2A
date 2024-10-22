@@ -20,7 +20,7 @@ class ConnexionView(AbstractView):
             message = f"Vous êtes connecté sous le pseudo {joueur.pseudo}"
             Session().connexion(joueur)
 
-            from view.menu_joueur_vue import MenuJoueurVue
+            from views.menu_joueur_vue import MenuJoueurVue
 
             return MenuJoueurVue(message)
 
