@@ -1,14 +1,18 @@
-from Buisness_objet.Collection.Abstract_Collection import AbstractCollection 
-from Buisness_objet.manga import manga 
+from src.buisness_objet.Collection.Abstract_Collection import AbstractCollection 
+from src.buisness_objet.manga import manga 
 
 
 class CollectionVirtuelle(AbstractCollection):
 
-    def __init__(self, titre, id_utilisateur, list_manga):
-        for i in list_manga:
-            if isinstance(i, manga) and not isinstance(i, mangaPhysique):
-                super().__init__(titre, id_utilisateur, list_manga)
+    def __init__(self, id_collection, titre, id_utilisateur, list_manga):
+        if all(isinstance(i, Manga) and not isinstance(i, MangaPhysique) for i in list_manga):
+                super().__init__(id_collection, titre, id_utilisateur, list_manga)
                 self.type = "virtuelle"
+
+        else:
+            raise ValueError("les collections virtuelles ne peuvent contenir des mangas physiques")
+
+              
 
     def Ajouter_manga(self, new_manga):
         if isinstance(new_manga, manga):

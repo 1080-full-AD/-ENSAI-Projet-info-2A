@@ -9,7 +9,7 @@ from src.dao.db_connection import DBConnection
 from src.business_objet.avis import Avis
 
 
-class AvisDAO(metaclass=Singleton):
+class AvisDao(metaclass=Singleton):
     def creer(self, avis) -> bool:
         """Creation d'un avis dans la base de données
 
@@ -30,19 +30,9 @@ class AvisDAO(metaclass=Singleton):
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-<<<<<<< HEAD
-                        "INSERT INTO avis(id_manga, id_utilisateur, avis)VALUES"
-                        "(%(id_manga)s, %(id_utilisateur)s, %(avis)s)         "
-                        "  RETURNING id_manga, id_utilisateur, avis;                    ",
-=======
-<<<<<<< HEAD
-                        "INSERT INTO manga(id_manga, id_utilisateur, texte)VALUES"
-=======
                         "INSERT INTO avis(id_manga, id_utilisateur, texte)VALUES"
->>>>>>> 081ce5006b8f7ea04c6b3c88fbe4d1dfb3fda88b
                         "(%(id_manga)s, %(id_utilisateur)s, %(texte)s)         "
                         "  RETURNING id_manga, id_utilisateur, texte;                    ",
->>>>>>> 63da3185e7ffc1beefc5b207393ded95754245f7
                         {
                             "id_manga": avis.id_manga,
                             "id_utilisateur": avis.id_utilisateur,
@@ -51,14 +41,14 @@ class AvisDAO(metaclass=Singleton):
                     )
                     res = cursor.fetchone()
         except Exception as e:
-            logging.info(e)
+            logging.error(f"Erreur lors de la création de l'avis: {e}")
+            raise
 
-        created = False
-        if res:
+        created = res is not None
+        if created:
             avis.id_manga = res["id_manga"]
             avis.id_utilisateur = res["id_utilisateur"]
             avis.texte = res["texte"]
-            created = True
 
         return created
 
@@ -97,6 +87,8 @@ class AvisDAO(metaclass=Singleton):
             logging.error(f"Erreur lors de la récupération des avis: {e}")
             raise
 
+        return res_avis
+
     @log        
     def supprimer_avis(self, avis: Avis) -> bool:
         """Suppression d'un avis dans la base de données
@@ -114,7 +106,7 @@ class AvisDAO(metaclass=Singleton):
         try:
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
-                    # Supprimer un manga de la base de données
+                    # Supprimer un avis de la base de données
                     cursor.execute(
                         "DELETE FROM avis                  "
                         " WHERE id_manga=%(id_manga)s      ",
