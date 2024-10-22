@@ -4,7 +4,7 @@ import time
 
 data = []
 erreurs = 0
-for i in range(1, 2905):
+for i in range(1, 6):
     r = requests.get('https://api.jikan.moe/v4/manga', {"page": i})
     r.status_code
     r = r.json()

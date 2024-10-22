@@ -1,6 +1,7 @@
 import logging
 
 from src.utils.singleton import Singleton
+from src.utils.singleton import Singleton
 from src.utils.log_decorator import log
 
 from src.dao.db_connection import DBConnection
@@ -9,8 +10,10 @@ from src.Business_objet.manga import Manga
 
 
 class MangaDao(metaclass=Singleton):
+class MangaDao(metaclass=Singleton):
 
     def trouver_par_titre(self, titre: str) -> Manga:
+        """Trouver un manga par le nom exact du tome recherché
         """Trouver un manga par le nom exact du tome recherché
 
         Parameters
@@ -38,8 +41,10 @@ class MangaDao(metaclass=Singleton):
                     synopsis=res_manga["synopsis"]
                     )
                 print("OK")
+                print("OK")
                 return res_manga
             else:
+                print("fail")
                 print("fail")
 
     @log
@@ -157,6 +162,7 @@ class MangaDao(metaclass=Singleton):
 
     def trouver_par_id(self, id: str) -> Manga:
         """Trouver un manga par son identifiant s'il est connu (id)"""
+        with DBConnection().connection as connection:
         with DBConnection().connection as connection:
             with connection.cursor() as cursor:
                 cursor.execute(
