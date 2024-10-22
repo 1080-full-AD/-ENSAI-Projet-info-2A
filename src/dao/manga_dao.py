@@ -8,7 +8,7 @@ from src.dao.db_connection import DBConnection
 from src.business_objet.manga import Manga
 
 
-class MangaDAO(metaclass=Singleton):
+class MangaDao(metaclass=Singleton):
 
     def trouver_par_titre(self, titre: str) -> Manga:
         """Trouver un manga par son nom
@@ -159,7 +159,7 @@ class MangaDAO(metaclass=Singleton):
 
     def trouver_par_id(self, id: str) -> Manga:
         """Trouver un manga par son identifiant s'il est connu (id)"""
-        with DBConnection().connection as connection: 
+        with DBConnection().connection as connection:
             with connection.cursor() as cursor:
                 cursor.execute(
                   "SELECT titre,"
