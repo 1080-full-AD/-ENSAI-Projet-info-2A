@@ -55,7 +55,7 @@ def recherche_manga_ok():
     """Tester la recherche d'un manga à partir de son titre"""
 
     # GIVEN
-    titre = "One Piece"
+    titre = "À l'Aube d'une grande aventure"
     mock_dao = MagicMock(spec=MangaDao)
     mock_dao.rechercher_un_manga.return_value = True
 
@@ -73,7 +73,7 @@ def recherche_manga_echec():
     """Tester si la recherche de manga à partir de son titre renvoie bien un échec"""
 
     # GIVEN
-    titre = ["titre"]
+    titre = "À l'Aube d'une grande aventure"
     mock_dao = MagicMock(spec=MangaDao)
     mock_dao.rechercher_un_manga.return_value = False
 
@@ -109,7 +109,7 @@ def recherche_id_manga_echec():
     """Tester si la recherche de manga à partir de son id renvoie bien un échec"""
 
     # GIVEN
-    id = "One Piece"
+    id = 13
     mock_dao = MagicMock(spec=MangaDao)
     mock_dao.rechercher_un_id_manga.return_value = False
 
@@ -123,8 +123,147 @@ def recherche_id_manga_echec():
     assert manga is False
 
 
+def supprimer_manga_ok():
+    """Tester si la suppression d'un manga de la base fonctionne"""
+
+    # GIVEN
+    id_manga, titre, auteur, synopsis = 9999, "Le12", "Eiichirō Oda", "Manga génial qui raconte la vie de 12 personnes" 
+    mock_dao = MagicMock(spec=MangaDao)
+    mock_dao.supprimer_un_manga.return_value = True
+
+    manga_service = MangaService()
+    manga_service.MangaDao = mock_dao 
+
+    # WHEN
+    manga = manga_service.supprimer_un_manga(id_manga, titre, auteur, synopsis)
+
+    # THEN
+    assert manga is True
 
 
+def supprimer_manga_echec():
+    """Tester la méthode pour voir si elle renvoie bien un échec"""
+    # GIVEN
+    id_manga, titre, auteur, synopsis = 9999, "Le12", "Eiichirō Oda", "Manga génial qui raconte la vie de 12 personnes" 
+    mock_dao = MagicMock(spec=MangaDao)
+    mock_dao.supprimer_un_manga.return_value = False
+
+    manga_service = MangaService()
+    manga_service.MangaDao = mock_dao 
+
+    # WHEN
+    manga = manga_service.supprimer_un_manga(id_manga, titre, auteur, synopsis)
+
+    # THEN
+    assert manga is False
+
+
+def modifier_manga_ok():
+    """Tester si la modification d'un manga est réussie"""
+
+    # GIVEN
+    id_manga, id_utilisateur, titre, newsynospsis = 13, 1, "One Piece", "Résumé rapide de ONE PIECE"
+    mock_dao = MagicMock(spec=MangaDao)
+    mock_dao.modifier_un_manga.return_value = True
+
+    manga_service = MangaService()
+    manga_service.MangaDao = mock_dao 
+
+    # WHEN
+    result = manga_service.modifier_un_manga(id_manga, id_utilisateur, titre, newsynospsis)
+
+    # THEN
+    assert result is True
+
+
+def modifier_manga_echec():
+    """Tester si la modification d'un manga est un échec"""
+
+    # GIVEN
+    id_manga, id_utilisateur, titre, newsynospsis = 13, 1, "One Piece", "Résumé rapide de ONE PIECE"
+    mock_dao = MagicMock(spec=MangaDao)
+    mock_dao.modifier_un_manga.return_value = False
+
+    manga_service = MangaService()
+    manga_service.MangaDao = mock_dao 
+
+    # WHEN
+    result = manga_service.modifier_un_manga(id_manga, id_utilisateur, titre, newsynospsis)
+
+    # THEN
+    assert result is False
+
+
+def rechercher_un_auteur_ok():
+    """Tester si la recherche d'un manga par le nom de son auteur fonctionne"""
+
+    # GIVEN
+    auteur = "Eiichirō Oda"
+    mock_dao = MagicMock(spec=MangaDao)
+    mock_dao.recherhcer_un_auteur.return_value = True
+
+    manga_service = MangaService()
+    manga_service.MangaDao = mock_dao 
+
+    # WHEN
+    result = manga_service.rechercher_un_auteur(auteur)
+
+    # THEN
+    assert result is True
+
+
+def rechercher_un_auteur_echec():
+    """Tester si la recherches d'un manga grâce au nom de son auteur est un échec"""
+
+    # GIVEN
+    auteur = "Eiichirō Oda"
+    mock_dao = MagicMock(spec=MangaDao)
+    mock_dao.recherhcer_un_auteur.return_value = False
+
+    manga_service = MangaService()
+    manga_service.MangaDao = mock_dao 
+
+    # WHEN
+    result = manga_service.rechercher_un_auteur(auteur)
+
+    # THEN
+    assert result is False
+
+
+def rechercher_une_serie_ok():
+    """Tester si la recherche de la saga d'un manga fonctionne"""
+
+    # GIVEN
+    titre = "One Piece"
+    mock_dao = MagicMock(spec=MangaDao)
+    mock_dao.recherhcer_un_auteur.return_value = True
+
+    manga_service = MangaService()
+    manga_service.MangaDao = mock_dao 
+
+    # WHEN
+    result = manga_service.rechercher_un_auteur(titre)
+
+    # THEN
+    assert result is True
+
+
+def rechercher_une_serie_echec():
+    """Tester si la recherche de la saga d'un manga ne fonctionne pas"""
+
+    # GIVEN
+    titre = "One Piece"
+    mock_dao = MagicMock(spec=MangaDao)
+    mock_dao.recherhcer_un_auteur.return_value = False
+
+    manga_service = MangaService()
+    manga_service.MangaDao = mock_dao 
+
+    # WHEN
+    result = manga_service.rechercher_un_auteur(titre)
+
+    # THEN
+    assert result is False
 
 
 if __name__ == "__main__":
