@@ -20,7 +20,6 @@ class UtilisateurService(metaclass=Singleton):
     def creer_utilisateur(self, pseudo, age, mdp=None, collections=[],
                           id_utilisateur=None) -> Utilisateur:
         """Création d'un utilisateur à partir de ses attributs"""
-        print(len(pseudo))
         if len(pseudo) == 0:
             raise ValueError("Le nom d'utilisateur ne peut pas être vide.")
         if not isinstance(pseudo, (str, int)):

@@ -7,13 +7,8 @@ from src.service.utilisateur_service import UtilisateurService
 
 class RegistrationView(AbstractView):
     def choisir_menu(self):
-
+        
         pseudo = inquirer.text(message="Entrez votre pseudo : ").execute()
-
-        if UtilisateurService().pseudo_deja_utilise(pseudo):
-            from views.accueil.main_menu import MainView
-
-            return MainView(f"Le pseudo {pseudo} est déjà utilisé.")
 
         mdp = inquirer.secret(
             message="Entrez votre mot de passe : ",
@@ -33,18 +28,18 @@ class RegistrationView(AbstractView):
             validate=EmptyInputValidator(),
         ).execute()
 
-        joueur = UtilisateurService().creer(pseudo, mdp, age)
-
-        if joueur:
+        try:
+            joueur = UtilisateurService().creer_utilisateur(pseudo, mdp, age)
             message = (
                 f"Votre compte {joueur.pseudo} a été créé."
-                f"Vous pouvez maintenant vous connecter :)"
-            )
-        else:
+                f"Vous pouvez maintenant vous connecter :)")
+            print("cestbon")
+        except Exception:
+            print("Le nom d'utilisateur ne peut pas être vide :/")
             message = "Erreur de connexion :/"
             "(pseudo ou mot de passe invalide)"
 
-        from views.accueil.main_menu import MainView
+        from src.views.accueil.main_menu_view import MainView
 
         return MainView(message)
 
