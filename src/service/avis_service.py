@@ -21,7 +21,7 @@ class AvisService:
         """
         avis = Avis(id_manga=id_manga, id_utilisateur=id_utilisateur, texte=texte)
         try:
-            return self.AvisDAO.creer(avis)
+            return self.AvisDao.creer(avis)
         except Exception as e:
             logging.error(f"Erreur lors de la création de l'avis: {e}")
             return False
@@ -39,7 +39,7 @@ class AvisService:
             Liste des avis de l'utilisateur
         """
         try:
-            return self.AvisDAO.trouver_tous_par_id(id_utilisateur)
+            return self.AvisDao.trouver_tous_par_id(id_utilisateur)
         except Exception as e:
             logging.error(f"Erreur lors de la récupération des avis pour l'utilisateur {id_utilisateur}: {e}")
             return []
@@ -59,7 +59,7 @@ class AvisService:
         """
         avis = Avis(id_manga=id_manga, id_utilisateur=id_utilisateur, texte="")
         try:
-            return self.AvisDAO.supprimer_avis(avis)
+            return self.AvisDao.supprimer_avis(avis)
         except Exception as e:
             logging.error(f"Erreur lors de la suppression de l'avis: {e}")
             return False
@@ -80,7 +80,7 @@ class AvisService:
         """
         avis = Avis(id_manga=id_manga, id_utilisateur=id_utilisateur, texte="")
         try:
-            return self.AvisDAO.modifier(avis, newtexte)
+            return self.AvisDao.modifier(avis, newtexte)
         except Exception as e:
             logging.error(f"Erreur lors de la modification de l'avis: {e}")
             return False
