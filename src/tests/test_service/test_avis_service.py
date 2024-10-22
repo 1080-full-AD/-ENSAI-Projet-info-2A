@@ -1,7 +1,7 @@
 from unittest.mock import MagicMock
 
 from src.service.avis_service import AvisService
-from src.dao.avis_dao import AvisDAO
+from src.dao.avis_dao import AvisDao
 from src.business_objet.avis import Avis
 
 # Liste d'exemple d'avis

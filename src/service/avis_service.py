@@ -1,4 +1,5 @@
 import logging
+import dotenv
 
 from src.dao.avis_dao import AvisDao
 from src.business_objet.avis import Avis
