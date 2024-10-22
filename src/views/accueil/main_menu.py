@@ -1,5 +1,5 @@
 from InquirerPy import inquirer
-from src.views.vue_abstraite import AbstractView
+from src.views.abstract_view import AbstractView
 
 
 class MainView(AbstractView):

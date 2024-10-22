@@ -1,6 +1,6 @@
-from utils.singleton import Singleton
+from src.utils.singleton import Singleton
 from src.business_objet.utilisateur import Utilisateur
-from src.dao import UtilisateurDao
+from src.dao.utilisateur_dao import UtilisateurDao
 from src.utils.log_decorator import log
 from src.utils.securite import hash_password
 
