@@ -10,6 +10,7 @@ class MangaService(metaclass=Singleton):
     @log
     def rechercher_un_manga(self, titre) -> Manga:
         """Trouver un manga à partir de son titre"""
+        print("service")
         return MangaDao().trouver_par_titre(titre)
     
     @log

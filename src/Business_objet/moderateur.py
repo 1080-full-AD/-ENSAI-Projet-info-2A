@@ -31,3 +31,9 @@ class Moderateur:
     
     def get_pseudo(self, id_utilisateur: int) -> str:
 
+
+
+
+try:
+    recherche_id([1,23])
+    

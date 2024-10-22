@@ -40,9 +40,10 @@ class MangaDao(metaclass=Singleton):
                     auteur=res_manga["auteur"],
                     synopsis=res_manga["synopsis"]
                     )
+                print("OK")
                 return res_manga
             else:
-                return None
+                print("fail")
 
     @log
     def creer_manga(self, manga) -> bool:
@@ -261,3 +262,5 @@ class MangaDao(metaclass=Singleton):
                 else:
                     return None
 
+
+MangaDao().trouver_par_titre("fzefze")
