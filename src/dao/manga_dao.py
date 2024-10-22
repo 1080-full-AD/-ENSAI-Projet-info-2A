@@ -258,6 +258,3 @@ class MangaDao(metaclass=Singleton):
                     return liste_serie
                 else:
                     return None
-
-
-MangaDao().trouver_par_titre("fzefze")

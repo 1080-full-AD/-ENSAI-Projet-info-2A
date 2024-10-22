@@ -17,35 +17,28 @@ class UtilisateurService(metaclass=Singleton):
         return pseudo in [j.pseudo for j in utilisateur]
 
     @log
-    def creer_utilisateur(self, pseudo, age, mdp=None, collection=[],
+    def creer_utilisateur(self, pseudo, age, mdp=None, collections=[],
                           id_utilisateur=None) -> Utilisateur:
         """Création d'un utilisateur à partir de ses attributs"""
-        try:
-            pseudo = input("Entrer un nom d'Utilisateur : ")
-            if len(pseudo) == 0:
-                raise ValueError("Le nom d'utilisateur ne peut pas être vide.")
-            if not isinstance(pseudo, (str, int)):
-                raise TypeError("Le nom d'utilisateur doit être une chaîne de" 
-                                "caractères et/ou d'entiers")
-            pseudo = str(pseudo)  # Convertir le pseudo en chaîne de caractère si c'est un entier
-            if UtilisateurService.pseudo_deja_utilise(pseudo):
-                raise ValueError("Ce nom d'utilisateur est dèjà pris.")
-            
-            mdp = input("Entrer un mot de passe :")
-            UtilisateurService.is_valid_mdp(mdp)
-
-            data[pseudo] = mdp
-            print(f"Compte créé avec succès pour l'utilisateur : {pseudo}")
-            
-        except (ValueError, TypeError) as e:
-            print(f"Erreur : {e}")
+        print(len(pseudo))
+        if len(pseudo) == 0:
+            raise ValueError("Le nom d'utilisateur ne peut pas être vide.")
+        if not isinstance(pseudo, (str, int)):
+            raise TypeError("Le nom d'utilisateur doit être une chaîne de" 
+                            "caractères et/ou d'entiers")
+        pseudo = str(pseudo)
+        if UtilisateurService().pseudo_deja_utilise(pseudo):
+            raise ValueError("Ce nom d'utilisateur est dèjà pris.")
+        UtilisateurService.is_valid_mdp(mdp)
+        UtilisateurDao(pseudo, age, mdp, collections, id_utilisateur).creer()
+        print(f"Compte créé avec succès pour l'utilisateur : {pseudo}")
 
         nouvel_utilisateur = Utilisateur(
             pseudo=pseudo,
             age=age,
             mdp=hash_password(mdp, pseudo),
-            collection=collection,
-            id_utilsiateur=id_utilisateur,
+            collections=collections,
+            id_utilisateur=id_utilisateur,
         )
         if UtilisateurDao().creer(nouvel_utilisateur):
             return nouvel_utilisateur
@@ -130,5 +123,3 @@ class UtilisateurService(metaclass=Singleton):
                                  "caractère spécial parmi ceux-là")
         except (ValueError, TypeError) as e:
             print(f"Erreur : {e}")
-
-

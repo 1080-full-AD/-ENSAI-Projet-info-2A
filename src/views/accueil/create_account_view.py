@@ -5,7 +5,7 @@ from src.views.abstract_view import AbstractView
 from src.service.utilisateur_service import UtilisateurService
 
 
-class RegistrationWiew(AbstractView):
+class RegistrationView(AbstractView):
     def choisir_menu(self):
 
         pseudo = inquirer.text(message="Entrez votre pseudo : ").execute()
@@ -47,3 +47,6 @@ class RegistrationWiew(AbstractView):
         from views.accueil.main_menu import MainView
 
         return MainView(message)
+
+
+RegistrationView().choisir_menu()
