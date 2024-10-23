@@ -227,24 +227,27 @@ class UtilisateurDao(metaclass=Singleton):
                 with connection.cursor() as cursor:
                     cursor.execute(
                         "SELECT *                           "
-                        "  FROM utilisateur                      "
+                        "  FROM projet.utilisateur                      "
                         f" WHERE pseudo = '{pseudo}'         "
-                        f"   AND mdp = '{mdp}';              ",
-                        {"pseudo": pseudo, "mdp": mdp},
+                        f"   AND mod_de_passe = '{mdp}';              ",
+                        {"pseudo": pseudo, "mot_de_passe": mdp},
                     )
                     res = cursor.fetchone()
+
         except Exception as e:
             logging.info(e)
 
         utilisateur = None
-
+        print(res)
         if res:
             utilisateur = Utilisateur(
                 pseudo=res["pseudo"],
                 mdp=res["mdp"],
                 age=res["age"],
-                id_utilisateur=res["id_utilisateur"],
-                collections=res["collections"]
+                id_utilisateur=res["id_utilisateur"]
             )
 
         return utilisateur
+
+
+print(UtilisateurDao().se_connecter('drop table', 'Adrien44'))
