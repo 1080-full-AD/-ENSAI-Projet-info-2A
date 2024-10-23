@@ -5,15 +5,11 @@ from src.views.abstract_view import AbstractView
 from src.service.utilisateur_service import UtilisateurService
 
 
-class RegistrationWiew(AbstractView):
+class RegistrationView(AbstractView):
     def choisir_menu(self):
 
-        pseudo = inquirer.text(message="Entrez votre pseudo : ").execute()
-
-        if UtilisateurService().pseudo_deja_utilise(pseudo):
-            from views.accueil.main_menu import MainView
-
-            return MainView(f"Le pseudo {pseudo} est déjà utilisé.")
+        pseudo = inquirer.text(message="Entrez votre pseudo : ",
+                               validate=EmptyInputValidator(),).execute()
 
         mdp = inquirer.secret(
             message="Entrez votre mot de passe : ",
@@ -33,17 +29,15 @@ class RegistrationWiew(AbstractView):
             validate=EmptyInputValidator(),
         ).execute()
 
-        joueur = UtilisateurService().creer(pseudo, mdp, age)
-
+        joueur = UtilisateurService().creer_utilisateur(pseudo, mdp, age)
         if joueur:
             message = (
                 f"Votre compte {joueur.pseudo} a été créé."
-                f"Vous pouvez maintenant vous connecter :)"
-            )
-        else:
-            message = "Erreur de connexion :/"
-            "(pseudo ou mot de passe invalide)"
+                f"Vous pouvez maintenant vous connecter :)")
 
-        from views.accueil.main_menu import MainView
+        message = "Erreur de connexion :/"
+        "(pseudo ou mot de passe invalide)"
+
+        from src.views.accueil.main_menu_view import MainView
 
         return MainView(message)

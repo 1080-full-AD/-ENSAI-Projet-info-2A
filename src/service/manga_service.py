@@ -2,33 +2,21 @@ from src.utils.singleton import Singleton
 from src.business_objet.manga import Manga
 from src.dao.manga_dao import MangaDao
 from src.utils.log_decorator import log
-import re
 
 
 class MangaService(metaclass=Singleton):
     """Classe permettant d'avoir des informations à propos des Mangas"""
 
-    def recherche(recherche):
-        texte = r'^[a-zA-Z0-9\s\-]*$' # autoriser : minuscules, majuscules, chiffres, espaces et trait d'union
-        if not re.match(texte, recherche):
-            raise ValueError("La recherche ne peut contenir que des : minuscules, majuscules, chiffres, espaces et trait d'union")
-
     @log
     def rechercher_un_manga(self, titre) -> Manga:
         """Trouver un manga à partir de son titre"""
-<<<<<<< HEAD
-        try :
-            titre == 
-=======
-        print("service")
->>>>>>> e6c39e08368ff8de055799c00a39143d9a0fd422
-        return MangaDao().trouver_par_titre(titre)
-    
+        return MangaDao().trouver_par_id(titre)
+
     @log
     def rechercher_un_id_manga(self, id_manga) -> Manga:
         """Trouver un manga à partir de son id"""
         return MangaDao().trouver_par_id(id_manga)
-    
+
     @log
     def creer_un_manga(self, manga) -> bool:
         """Créer un manga dans la base de données"""
@@ -47,13 +35,9 @@ class MangaService(metaclass=Singleton):
     @log
     def rechercher_un_auteur(self, auteur) -> Manga:
         """Trouver un manga à partir de son auteur"""
-        return MangaDao().trouver_par_auteur(auteur)
-      
+        return MangaDao().trouver_par_id(auteur)
+
     @log
     def rechercher_une_serie(self, manga) -> Manga:
         """Trouver une série de mangas à partir du nom de la saga"""
         return MangaDao().trouver_serie_par_titre(manga)
-    
-
-
-

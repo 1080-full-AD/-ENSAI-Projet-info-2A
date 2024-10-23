@@ -1,20 +1,19 @@
 import os
+
 import dotenv
 import psycopg2
-from src.utils.singleton import Singleton
 from psycopg2.extras import RealDictCursor
+from src.utils.singleton import Singleton
 
 
 class DBConnection(metaclass=Singleton):
     """
-    Classe de connexion à la base de données
-    Elle permet de n'ouvrir qu'une seule et unique connexion
+    Technical class to open only one connection to the DB.
     """
 
     def __init__(self):
-        """Ouverture de la connexion"""
-        dotenv.load_dotenv()
-
+        dotenv.load_dotenv(override=True)
+        # Open the connection.
         self.__connection = psycopg2.connect(
             host=os.environ["POSTGRES_HOST"],
             port=os.environ["POSTGRES_PORT"],
@@ -26,4 +25,9 @@ class DBConnection(metaclass=Singleton):
 
     @property
     def connection(self):
+        """
+        return the opened connection.
+
+        :return: the opened connection.
+        """
         return self.__connection

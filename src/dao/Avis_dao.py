@@ -9,7 +9,7 @@ from src.dao.db_connection import DBConnection
 from src.business_objet.avis import Avis
 
 
-class AvisDAO(metaclass=Singleton):
+class AvisDao(metaclass=Singleton):
     def creer(self, avis) -> bool:
         """Creation d'un avis dans la base de données
 
@@ -31,7 +31,7 @@ class AvisDAO(metaclass=Singleton):
                 with connection.cursor() as cursor:
                     cursor.execute(
                         "INSERT INTO avis(id_manga, id_utilisateur, texte)VALUES"
-                        "(%(id_manga)s, %(id_utilisateur)s, %(texte)s)         "
+                        f"('{id_manga}', '{id_utilisateur}', '{texte}')         "
                         "  RETURNING id_manga, id_utilisateur, texte;                    ",
                         {
                             "id_manga": avis.id_manga,
@@ -71,7 +71,7 @@ class AvisDAO(metaclass=Singleton):
                     cursor.execute(
                         "SELECT *,"
                         "FROM avis"
-                        "WHERE id_utilisateur = %(id)s",
+                        f"WHERE id_utilisateur = '{id}'",
                         {"id":id}
                         )
                     avis_rows = cursor.fetchall()
@@ -109,8 +109,8 @@ class AvisDAO(metaclass=Singleton):
                     # Supprimer un avis de la base de données
                     cursor.execute(
                         "DELETE FROM avis                  "
-                        " WHERE id_manga=%(id_manga)s      ",
-                        " AND id_utilisateur=%(id_utilisateur)s      ",
+                        f" WHERE id_manga='{id_manga}'      ",
+                        f" AND id_utilisateur='{id_utilisateur}'      ",
                         {"id_manga": avis.id_manga,
                          "id_utilisateur": avis.id_utilisateur},
                     )
@@ -143,9 +143,9 @@ class AvisDAO(metaclass=Singleton):
                 with connection.cursor() as cursor:
                     cursor.execute(
                         "UPDATE avis                                "
-                        "   SET texte      = %(texte)s,        "
-                        " WHERE id_manga = %(id_manga)s,             ",
-                        " AND id_utilisateur = %(id_utilisateur)s;             ",
+                        f"   SET texte      = '{texte}',        "
+                        f" WHERE id_manga = '{id_manga}',             ",
+                        f" AND id_utilisateur = '{id_utilisateur}';             ",
                         {
                             "id_manga": avis.id_manga,
                             "id_utilisateur": avis.id_utilisateur,
