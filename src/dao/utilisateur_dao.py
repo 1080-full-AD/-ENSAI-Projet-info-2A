@@ -128,9 +128,8 @@ class UtilisateurDao(metaclass=Singleton):
                 utilisateur = Utilisateur(
                     id_utilisateur=row["id_utilisateur"],
                     pseudo=row["pseudo"],
-                    mdp=row["mdp"],
+                    mdp=row["mot_de_passe"],
                     age=row["age"],
-                    collections=row["collections"]
                 )
 
                 liste_utilisateurs.append(utilisateur)
@@ -251,6 +250,3 @@ class UtilisateurDao(metaclass=Singleton):
             )
 
         return utilisateur
-
-
-print(UtilisateurDao().creer(Utilisateur("AD", 18, "azerty")))
