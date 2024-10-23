@@ -13,7 +13,7 @@ class UtilisateurService(metaclass=Singleton):
     def pseudo_deja_utilise(self, pseudo) -> bool:
         """Vérifie si le pseudo est déjà utilisé
         Retourne True si le pseudo existe déjà en BDD"""
-        utilisateur = self.UtilisateurDao.lister_tous()
+        utilisateur = UtilisateurDao().lister_tous()
         return pseudo in [j.pseudo for j in utilisateur]
 
     @log
@@ -29,7 +29,7 @@ class UtilisateurService(metaclass=Singleton):
         if self.pseudo_deja_utilise(pseudo):
             raise ValueError("Ce nom d'utilisateur est dèjà pris.")
         self.is_valid_mdp(mdp)
-        self.UtilisateurDao.creer()
+        UtilisateurDao().creer()
         print(f"Compte créé avec succès pour l'utilisateur : {pseudo}")
 
         nouvel_utilisateur = Utilisateur(

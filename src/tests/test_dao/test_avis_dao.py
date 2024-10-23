@@ -107,7 +107,7 @@ def test_modifier_ok():
 
     # GIVEN
     new_texte = "test_lol"
-    avis = Avis(id_jmanga=1, id_utilisateur=1, texte="test")
+    avis = Avis(id_manga=1, id_utilisateur=1, texte="test")
 
     # WHEN
     modification_ok = AvisDao().modifier(avis, new_texte)
@@ -121,7 +121,7 @@ def test_modifier_ko():
 
     # GIVEN
     new_texte = "test_lol"
-    avis = Avis(id_jmanga=99999, id_utilisateur=999999, texte="test")
+    avis = Avis(id_manga=99999, id_utilisateur=999999, texte="test")
 
     # WHEN
     modification_ok = AvisDao().modifier(avis, new_texte)
