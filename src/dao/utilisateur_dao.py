@@ -252,8 +252,5 @@ class UtilisateurDao(metaclass=Singleton):
 
         return utilisateur
 
-<<<<<<< HEAD
-=======
 
 print(UtilisateurDao().creer(Utilisateur("AD", 18, "azerty")))
->>>>>>> 509124d617bbd585e3226d2834882b6ac7cb2b69
