@@ -27,18 +27,16 @@ class MangaDao(metaclass=Singleton):
         with DBConnection().connection as connection:
             with connection.cursor() as cursor:
                 cursor.execute(
-                    "SELECT * "
-                    "FROM projet.manga "
-                    f"WHERE titre_manga = '{titre}'"
-                    )
+                    "SELECT * " "FROM projet.manga " f"WHERE titre_manga = '{titre}'"
+                )
                 res_manga = cursor.fetchone()
             if res_manga:
                 res_manga = Manga(
                     titre=res_manga["titre_manga"],
                     id_manga=res_manga["id_manga"],
                     auteur=res_manga["auteurs"],
-                    synopsis=res_manga["synopsis"]
-                    )
+                    synopsis=res_manga["synopsis"],
+                )
                 return res_manga
 
     @log
@@ -64,13 +62,13 @@ class MangaDao(metaclass=Singleton):
                     cursor.execute(
                         "INSERT INTO manga(id_manga, titre, auteur, synopsis)"
                         "VALUES                                              "
-                        f"('{id_manga}', '{titre}', '{auteur}', '{synopsis}') "
+                        f"('{manga.id_manga}', '{manga.titre}', '{manga.auteur}', '{manga.synopsis}') "
                         "  RETURNING id_manga;                               ",
                         {
                             "id_manga": manga.id_manga,
                             "titre": manga.titre,
                             "auteur": manga.auteur,
-                            "synopsis": manga.synopsis
+                            "synopsis": manga.synopsis,
                         },
                     )
                     res = cursor.fetchone()
@@ -145,7 +143,7 @@ class MangaDao(metaclass=Singleton):
                             "id_manga": manga.id_manga,
                             "titre": manga.titre,
                             "auteur": manga.auteur,
-                            "synopsis": manga.synopsis
+                            "synopsis": manga.synopsis,
                         },
                     )
                     res = cursor.rowcount
@@ -159,21 +157,21 @@ class MangaDao(metaclass=Singleton):
         with DBConnection().connection as connection:
             with connection.cursor() as cursor:
                 cursor.execute(
-                  "SELECT titre,"
-                  "       id_manga,"
-                  "       auteur,"
-                  "       synopsis,"
-                  "FROM manga"
-                  f"WHERE id = '{id_manga}'",
-                  {'id': id}
-                   )
+                    "SELECT titre,"
+                    "       id_manga,"
+                    "       auteur,"
+                    "       synopsis,"
+                    "FROM manga"
+                    f"WHERE id = '{id_manga}'",
+                    {"id": id},
+                )
                 res_id_manga = cursor.fetchone()
                 if res_id_manga:
                     res_id_manga = Manga(
                         titre=res_id_manga["titre"],
                         id_manga=res_id_manga["id_manga"],
                         auteur=res_id_manga["auteur"],
-                        synopsis=res_id_manga["synopsis"]
+                        synopsis=res_id_manga["synopsis"],
                     )
                     return res_id_manga
                 else:
@@ -196,13 +194,13 @@ class MangaDao(metaclass=Singleton):
         with DBConnection().connection as connection:
             with connection.cursor() as cursor:
                 cursor.execute(
-                  "SELECT titre,"
-                  "       id_manga,"
-                  "       auteur,"
-                  "       synopsis,"
-                  "FROM manga"
-                  f"WHERE auteur = '{auteur}'"
-                   )
+                    "SELECT titre,"
+                    "       id_manga,"
+                    "       auteur,"
+                    "       synopsis,"
+                    "FROM manga"
+                    f"WHERE auteur = '{auteur}'"
+                )
                 res_auteur = cursor.fetchall()
                 liste_manga_auteur = []
                 if res_auteur:
@@ -211,7 +209,7 @@ class MangaDao(metaclass=Singleton):
                             titre=raw_auteur["titre"],
                             id_manga=raw_auteur["id_manga"],
                             auteur=raw_auteur["auteur"],
-                            synopsis=raw_auteur["synopsis"]
+                            synopsis=raw_auteur["synopsis"],
                         )
                     liste_manga_auteur.append(manga_par_auteur)
                     return liste_manga_auteur
@@ -219,7 +217,7 @@ class MangaDao(metaclass=Singleton):
                     return None
 
     def trouver_serie_par_titre(self, manga) -> Manga:
-        """Trouver la série de manga : par exemple en recherchant "One Piece", 
+        """Trouver la série de manga : par exemple en recherchant "One Piece",
         cela va afficher laliste de tous les tomes de cette sage
 
         Parameters
@@ -229,20 +227,20 @@ class MangaDao(metaclass=Singleton):
         Returns
         -------
         liste_serie: list
-            affiche la liste de tous les tomes des mangas se trouvant 
+            affiche la liste de tous les tomes des mangas se trouvant
             dans la saga
             sinon cela affiche None
         """
         with DBConnection().connection as connection:
             with connection.cursor() as cursor:
                 cursor.execute(
-                  "SELECT titre,"
-                  "       id_manga,"
-                  "       auteur,"
-                  "       synopsis,"
-                  "FROM manga"
-                  f"WHERE auteur = '{auteur}'"
-                   )
+                    "SELECT titre,"
+                    "       id_manga,"
+                    "       auteur,"
+                    "       synopsis,"
+                    "FROM manga"
+                    f"WHERE auteur = '{auteur}'"
+                )
                 res_serie = cursor.fetchall()
                 liste_serie = []
                 if res_serie:
@@ -251,7 +249,7 @@ class MangaDao(metaclass=Singleton):
                             titre=raw_serie["titre"],
                             id_manga=raw_serie["id_manga"],
                             auteur=raw_serie["auteur"],
-                            synopsis=raw_serie["synopsis"]
+                            synopsis=raw_serie["synopsis"],
                         )
                     liste_serie.append(serie_manga)
                     return liste_serie
