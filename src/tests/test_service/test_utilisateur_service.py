@@ -91,5 +91,9 @@ def modifier_utilisateur_ok():
     # GIVEN
     
 
+if __name__ == "__main__":
+    import pytest
+
+    pytest.main([__file__])
 
 
