@@ -76,7 +76,7 @@ class MangaDao(metaclass=Singleton):
                             "titre": manga.titre,
                             "auteur": manga.auteur,
                             "synopsis": manga.synopsis
-                        },
+                        }
                     )
                     res = cursor.fetchone()
         except Exception as e:
