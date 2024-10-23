@@ -1,14 +1,9 @@
 from src.business_objet.collection.abstract_collection import AbstractCollection 
 from src.business_objet.manga import Manga 
 from src.business_objet.manga_physique import MangaPhysique
-=======
-<<<<<<< HEAD
+
 from src.buisness_objet.collection.abstract_collection import AbstractCollection 
-=======
-from src.buisness_objet.Collection.Abstract_Collection import AbstractCollection 
->>>>>>> ef78e09bda6c655c008d633f47ecede1ec99e587
 from src.buisness_objet.manga import manga 
->>>>>>> 02ece90774e1be434f64af209eca5da38241a176
 
 
 class CollectionVirtuelle(AbstractCollection):
