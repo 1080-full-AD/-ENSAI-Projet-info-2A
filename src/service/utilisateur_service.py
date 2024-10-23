@@ -23,7 +23,7 @@ class UtilisateurService(metaclass=Singleton):
         if len(pseudo) == 0:
             raise ValueError("Le nom d'utilisateur ne peut pas être vide.")
         if not isinstance(pseudo, (str, int)):
-            raise TypeError("Le nom d'utilisateur doit être une chaîne de" 
+            raise TypeError("Le nom d'utilisateur doit être une chaîne de"
                             "caractères et/ou d'entiers")
         pseudo = str(pseudo)
         if self.pseudo_deja_utilise(pseudo):
@@ -36,8 +36,6 @@ class UtilisateurService(metaclass=Singleton):
             mdp=hash_password(mdp, pseudo),
             id_utilisateur=id_utilisateur,
         )
-        print(nouvel_utilisateur)
-        print("erazr")
         if UtilisateurDao().creer(nouvel_utilisateur):
             return nouvel_utilisateur
         else:

@@ -28,19 +28,22 @@ class RegistrationView(AbstractView):
             max_allowed=120,
             validate=EmptyInputValidator(),
         ).execute()
+        age = int(age)
 
-        joueur = UtilisateurService().creer_utilisateur(pseudo, mdp, age)
-        if joueur:
+        joueur = UtilisateurService().creer_utilisateur(pseudo=pseudo,
+                                                        mdp=mdp, age=age)
+        print(joueur)
+        if joueur is not None:
+            print("fzervzer")
             message = (
-                f"Votre compte {joueur.pseudo} a été créé."
-                f"Vous pouvez maintenant vous connecter :)")
+                f"Votre compte a été créé {joueur.pseudo} !"
+                f" Vous pouvez maintenant vous connecter :)")
+            print(message)
 
-        message = "Erreur de connexion :/"
-        "(pseudo ou mot de passe invalide)"
+        else:
+            message = ("Erreur de connexion :/\n"
+                       "(pseudo ou mot de passe invalide)")
 
         from src.views.accueil.main_menu_view import MainView
 
         return MainView(message)
-
-
-RegistrationView().choisir_menu()
