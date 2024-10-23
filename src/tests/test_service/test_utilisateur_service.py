@@ -232,7 +232,83 @@ def test_lister_tous_utilisateur_echec():
 
 
 def test_se_connecter_ok():
+    """Vérifier que la méthode se_connecter fonctionne correctement"""
+
+    # GIVEN
+    pseudo, age, mdp, collections, id_utilisateur = "Naruto54", 16, "mdpManga7#", ["Monster", "One Piece", "Naruto"], 678
+    mock_dao = MagicMock(spec=UtilisateurDao)
+    mock_dao.se_connecter.return_value = True
+
+    utilisateur_service = UtilisateurService()
+    utilisateur_service.UtilisateurDao = mock_dao 
+
+    # WHEN
+    utilisateur = utilisateur_service.se_connecter(pseudo, age, mdp, collections, id_utilisateur )
+
+    # THEN
+    assert utilisateur is True 
+
+
+def test_se_connecter_echec():
+    """Vérifier que la méthod se connecter renvoie bien une erreur"""
+
+    # GIVEN
+    pseudo, age, mdp, collections, id_utilisateur = "Naruto54", 16, "mdpManga7#", ["Monster", "One Piece", "Naruto"], 678
+    mock_dao = MagicMock(spec=UtilisateurDao)
+    mock_dao.se_connecter.return_value = False
+
+    utilisateur_service = UtilisateurService()
+    utilisateur_service.UtilisateurDao = mock_dao 
+
+    # WHEN
+    utilisateur = utilisateur_service.se_connecter(pseudo, age, mdp, collections, id_utilisateur )
+
+    # THEN
+    assert utilisateur is False
+
+
+def test_se_deconecter_ok():
+    """Vérifier que la méthode se déconnecter fonctionne comme il le faut"""
+
+    # GIVEN
+    pseudo, age, mdp, collections, id_utilisateur = "Naruto54", 16, "mdpManga7#", ["Monster", "One Piece", "Naruto"], 678
+    mock_dao = MagicMock(spec=UtilisateurDao)
+    mock_dao.se_connecter.return_value = True
+
+    utilisateur_service = UtilisateurService()
+    utilisateur_service.UtilisateurDao = mock_dao 
+
+    # WHEN
+    utilisateur = utilisateur_service.se_connecter(pseudo, age, mdp, collections, id_utilisateur )
+
+    # THEN
+    assert utilisateur is True
+
+
+def test_se_deconecter_echec():
+    """Vérifier que la méthode se déconnecter renvoie bien une erreur"""
+
+    # GIVEN
+    pseudo, age, mdp, collections, id_utilisateur = "Naruto54", 16, "mdpManga7#", ["Monster", "One Piece", "Naruto"], 678
+    mock_dao = MagicMock(spec=UtilisateurDao)
+    mock_dao.se_connecter.return_value = False
+
+    utilisateur_service = UtilisateurService()
+    utilisateur_service.UtilisateurDao = mock_dao 
+
+    # WHEN
+    utilisateur = utilisateur_service.se_connecter(pseudo, age, mdp, collections, id_utilisateur )
+
+    # THEN
+    assert utilisateur is False
+
     
+
+
+
+      
+
+
 
 
 
