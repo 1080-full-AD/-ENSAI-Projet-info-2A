@@ -7,7 +7,7 @@ from src.business_objet.manga import Manga
 class CollectionPhysique(AbstractCollection):
 
     def __init__(self, id_collection, titre, id_utilisateur, list_manga):
-        if not all(isinstance(i, mangaPhysique) for i in list_manga):
+        if not all(isinstance(i, MangaPhysique) for i in list_manga):
             raise ValueError("les mangas doivent être des mangas physiques.")
 
         super().__init__(id_collection, titre, id_utilisateur, list_manga) 
@@ -19,18 +19,17 @@ class CollectionPhysique(AbstractCollection):
                 self.list_manga == autre_collection.liste_manga and 
                 self.type == autre_collection.type)
 
-    def ajouter_manga(self, new_manga: Manga, liste_tomes_manquants: list):
-        if isinstance(new_manga, mangaPhysique):
-            if all(isinstance(i, int) for i in liste_tomes_manquants):
-                self.list_manga.append({"manga": new_manga,
-                                        "tomes_manquants": liste_tomes_manquants})
+    def ajouter_manga(self, new_manga: Manga):
+        if not isinstance(new_manga, MangaPhysique):
+            raise TypeError(f"{new_manga} n'est pas un manga physique")
+        self.list_manga.append(new_manga)
 
     def supprimer_manga(self, manga):
-        for i in self.list_manga:
-            if i['manga'] == manga:
-                self.list_manga.remove(i)
-                break 
+        if manga not in self.list_manga:
+            raise TypeError("ce manga n'est pas dans cette collection")
 
+        self.list_manga.remove(manga)
+                
     
 
 

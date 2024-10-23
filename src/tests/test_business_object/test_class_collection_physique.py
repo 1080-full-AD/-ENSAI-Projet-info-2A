@@ -1,58 +1,81 @@
-from unittest import TestCase
 import pytest
+from src.business_objet.manga_physique import MangaPhysique
+from src.business_objet.collection.collection_physique import CollectionPhysique
 
-from business_object.collection.abstract_collection import AbstractCollection
-from business_objet.collection.collection_physique import CollectionPhysique
 
-class TestCollectionPhysique(TestCase):
-    import unittest
+def test_collection_physique_creation_ok():
+    # GIVEN
+    manga1 = MangaPhysique(1, 1, "Titre 1", "Auteur 1", "Synopsis 1", [], 10, "Complet")
+    manga2 = MangaPhysique(2, 1, "Titre 2", "Auteur 2", "Synopsis 2", [], 15, "En cours")
+    list_manga = [manga1, manga2]
 
-class TestCollectionPhysique(unittest.TestCase):
+    # WHEN
+    collection = CollectionPhysique(1, "Ma Collection", 1, list_manga)
 
-    class FakeManga(mangaPhysique):
-        def __init__(self, title):
-            self.title = title
+    # THEN
+    assert collection.id_collection == 1
+    assert collection.titre == "Ma Collection"
+    assert collection.id_utilisateur == 1
+    assert collection.list_manga == list_manga
+    assert collection.type == "physique"
 
-        def __eq__(self, other):
-            return self.title == other.title
 
-    def setUp(self):
-        self.manga1 = self.FakeManga("Manga 1")
-        self.manga2 = self.FakeManga("Manga 2")
-        self.manga3 = self.FakeManga("Manga 3")
-        self.collection = CollectionPhysique("Ma Collection", 1, [self.manga1, self.manga2])
+def test_collection_physique_creation_erreur():
+    # GIVEN
+    manga1 = MangaPhysique(1, 1, "Titre 1", "Auteur 1", "Synopsis 1", [], 10, "Complet")
+    manga_invalide = "Manga Invalide"
+    list_manga = [manga1, manga_invalide]
 
-    def test_initialization(self):
-        self.assertEqual(self.collection.titre, "Ma Collection")
-        self.assertEqual(self.collection.id_utilisateur, 1)
-        self.assertEqual(len(self.collection.list_manga), 2)
+    # WHEN/THEN
+    with pytest.raises(ValueError):
+        CollectionPhysique(1, "Ma Collection", 1, list_manga)
 
-    def test_initialization_invalid_manga(self):
-        with self.assertRaises(ValueError):
-            CollectionPhysique("Collection Invalide", 1, ["not a manga"])
 
-    def test_eq_same_collection(self):
-        collection2 = CollectionPhysique("Ma Collection", 1, [self.manga1, self.manga2])
-        self.assertTrue(self.collection == collection2)
+def test_ajouter_manga_ok():
+    # GIVEN
+    collection = CollectionPhysique(1, "Ma Collection", 1, [])
+    new_manga = MangaPhysique(1, 1, "Nouveau Manga", "Auteur", "Synopsis", [], 5, "Complet")
 
-    def test_eq_different_collection(self):
-        collection2 = CollectionPhysique("Collection Différente", 2, [self.manga1])
-        self.assertFalse(self.collection == collection2)
+    # WHEN
+    collection.ajouter_manga(new_manga)
 
-    def test_ajouter_manga(self):
-        self.collection.ajouter_manga(self.manga3, [1, 2])
-        self.assertEqual(len(self.collection.list_manga), 3)
-        self.assertIn({"manga": self.manga3, "tomes_manquants": [1, 2]}, self.collection.list_manga)
+    # THEN
+    assert len(collection.list_manga) == 1
+    assert collection.list_manga[0] == new_manga
 
-    def test_supprimer_manga(self):
-        self.collection.supprimer_manga(self.manga1)
-        self.assertEqual(len(self.collection.list_manga), 1)
-        self.assertNotIn({"manga": self.manga1, "tomes_manquants": []}, self.collection.list_manga)
 
-    def test_supprimer_manga_not_found(self):
-        self.collection.supprimer_manga(self.manga3)  
-        self.assertEqual(len(self.collection.list_manga), 2)
+def test_ajouter_manga_type_invalide():
+    # GIVEN
+    collection = CollectionPhysique(1, "Ma Collection", 1, [])
+    new_manga = "Manga Invalide"  # Ce n'est pas un MangaPhysique
+
+    # WHEN/THEN
+    with pytest.raises(TypeError, match="Manga Invalide n'est pas un manga physique"):
+        collection.ajouter_manga(new_manga)
+
+
+def test_supprimer_manga_ok():
+    # GIVEN
+    manga1 = MangaPhysique(1, 1, "Titre 1", "Auteur 1", "Synopsis 1", [], 10, "Complet")
+    collection = CollectionPhysique(1, "Ma Collection", 1, [manga1])
+
+    # WHEN
+    collection.supprimer_manga(manga1)
+
+    # THEN
+    assert len(collection.list_manga) == 0
+
+
+def test_supprimer_manga_non_existant():
+    # GIVEN
+    manga1 = MangaPhysique(1, 1, "Titre 1", "Auteur 1", "Synopsis 1", [], 10, "Complet")
+    manga2 = MangaPhysique(2, 1, "Titre 2", "Auteur 2", "Synopsis 2", [], 15, "Complet")
+    collection = CollectionPhysique(1, "Ma Collection", 1, [manga1])
+
+    # WHEN/THEN
+    with pytest.raises(TypeError, match="ce manga n'est pas dans cette collection"):
+        collection.supprimer_manga(manga2)
+
 
 if __name__ == "__main__":
-    unittest.main()
-
+    pytest.main([__file__])
