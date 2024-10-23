@@ -38,9 +38,9 @@ class MainView(AbstractView):
                                      "à l'application" + "=" * 50 + "\n")
 
             case "Créer un compte":
-                from src.views.accueil.create_account import RegistrationWiew
+                from src.views.accueil.create_account_view import RegistrationView
 
-                return RegistrationWiew("\n" + "=" * 50 + " Création"
+                return RegistrationView("\n" + "=" * 50 + " Création"
                                         " de compte " + "=" * 50 + "\n")
 
             case "Rechercher des mangas":
@@ -48,3 +48,6 @@ class MainView(AbstractView):
 
                 return MangaSearch("\n" + "=" * 50 + " Recherche"
                                    " de mangas " + "=" * 50 + "\n")
+
+
+MainView().choisir_menu()

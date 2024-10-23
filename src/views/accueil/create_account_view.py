@@ -8,7 +8,8 @@ from src.service.utilisateur_service import UtilisateurService
 class RegistrationView(AbstractView):
     def choisir_menu(self):
 
-        pseudo = inquirer.text(message="Entrez votre pseudo : ").execute()
+        pseudo = inquirer.text(message="Entrez votre pseudo : ",
+                               validate=EmptyInputValidator(),).execute()
 
         mdp = inquirer.secret(
             message="Entrez votre mot de passe : ",

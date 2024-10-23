@@ -51,6 +51,3 @@ class MangaSearchView(AbstractView):
                 except Exception:
                     return MangaSearchView("Le nom de l'auteur doit être une "
                                            "chaine de caractère :/")
-
-
-MangaSearchView().choisir_menu()
