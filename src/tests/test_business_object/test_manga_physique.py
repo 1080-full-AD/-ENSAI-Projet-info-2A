@@ -119,6 +119,5 @@ def test_elever_tome_type_invalide():
         manga.enlever_tome("deux")
 
        
-
 if __name__ == "__main__":
     pytest.main([__file__])
