@@ -161,3 +161,7 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 settings.json
+=======
+
+data/data.json
+>>>>>>> c062f6a2fe367f4f8be1555a86fee81f5c6c1c26

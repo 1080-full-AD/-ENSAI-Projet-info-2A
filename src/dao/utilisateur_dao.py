@@ -33,16 +33,14 @@ class UtilisateurDao(metaclass=Singleton):
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        "INSERT INTO utilisateur(pseudo, mdp,"
-                        "age, collections) VALUES                            "
-                        "(%(pseudo)s, %(mdp)s, %(age)s,                      "
-                        "%(collections)s)                          "
+                        "INSERT INTO projet.utilisateur(pseudo, mot_de_passe,"
+                        "age) VALUES                            "
+                        f"('{utilisateur.pseudo}', '{utilisateur.mdp}', {utilisateur.age})"
                         "  RETURNING id_utilisateur;                         ",
                         {
                             "pseudo": utilisateur.pseudo,
                             "mdp": utilisateur.mdp,
                             "age": utilisateur.age,
-                            "collections": utilisateur.collections
                         },
                     )
                     res = cursor.fetchone()
@@ -76,7 +74,7 @@ class UtilisateurDao(metaclass=Singleton):
                     cursor.execute(
                         "SELECT *                           "
                         "FROM utilisateur                      "
-                        " WHERE pseudo = %(pseudo)s;  ",
+                        f" WHERE pseudo = '{pseudo}';  ",
                         {"pseudo": pseudo},
                     )
                     res = cursor.fetchone()
@@ -114,7 +112,7 @@ class UtilisateurDao(metaclass=Singleton):
                 with connection.cursor() as cursor:
                     cursor.execute(
                         "SELECT *                              "
-                        "  FROM utilisateur;                        "
+                        "FROM projet.utilisateur                      "
                     )
                     res = cursor.fetchall()
         except Exception as e:
@@ -128,9 +126,8 @@ class UtilisateurDao(metaclass=Singleton):
                 utilisateur = Utilisateur(
                     id_utilisateur=row["id_utilisateur"],
                     pseudo=row["pseudo"],
-                    mdp=row["mdp"],
+                    mdp=row["mot_de_passe"],
                     age=row["age"],
-                    collections=row["collections"]
                 )
 
                 liste_utilisateurs.append(utilisateur)
@@ -159,11 +156,11 @@ class UtilisateurDao(metaclass=Singleton):
                 with connection.cursor() as cursor:
                     cursor.execute(
                         "UPDATE utilisateur                                 "
-                        "   SET pseudo      = %(pseudo)s,                   "
-                        "       mdp         = %(mdp)s,                      "
-                        "       age         = %(age)s,                      "
-                        "       collections = %(collections)s               "
-                        " WHERE id_joueur = %(id_joueur)s;                  ",
+                        f"   SET pseudo      = '{pseudo}',                   "
+                        f"       mdp         = '{mdp}',                      "
+                        f"       age         = '{age}',                      "
+                        f"       collections = '{collections}'               "
+                        f" WHERE id_joueur = '{id_joueur}';                  ",
                         {
                             "pseudo": utilisateur.pseudo,
                             "mdp": utilisateur.mdp,
@@ -198,7 +195,7 @@ class UtilisateurDao(metaclass=Singleton):
                     # Supprimer le compte d'un utilisateur
                     cursor.execute(
                         "DELETE FROM utilisateur                  "
-                        " WHERE id_utilisateur=%(id_utilisateur)s      ",
+                        f" WHERE id_utilisateur='{id_utilisateur}'      ",
                         {"id_utilisateur": utilisateur.id_utilisateur},
                     )
                     res = cursor.rowcount
@@ -231,8 +228,8 @@ class UtilisateurDao(metaclass=Singleton):
                     cursor.execute(
                         "SELECT *                           "
                         "  FROM utilisateur                      "
-                        " WHERE pseudo = %(pseudo)s         "
-                        "   AND mdp = %(mdp)s;              ",
+                        f" WHERE pseudo = '{pseudo}'         "
+                        f"   AND mdp = '{mdp}';              ",
                         {"pseudo": pseudo, "mdp": mdp},
                     )
                     res = cursor.fetchone()

@@ -1,6 +1,6 @@
-from business_objet.collection.collection_virtuelle import CollectionVirtuelle
-from dao.collection_dao import CollectionDao
-from utils.log_decorator import log 
+from src.business_objet.collection.collection_virtuelle import CollectionVirtuelle
+from src.dao.collection_dao import CollectionDao
+from src.utils.log_decorator import log 
 
 
 class CollectionVirtuelleService:

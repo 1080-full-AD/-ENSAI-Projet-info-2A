@@ -37,8 +37,8 @@ class CollectionDao(metaclass=Singleton):
                         "INSERT INTO Collection (id_collection, titre, "
                         " id_utilisateur,liste_manga)             "
                         "VALUES                                   "
-                        "(%(id_collection)s,%(titre)s, %(id_utilisateur)s"
-                        ", %(liste_manga)s )   "
+                        f"('{id_collection}','{titre}', '{id_utilisateur}'"
+                        f", '{liste_manga}' )   "
                    
                         "RETURNING titre;",
                         {
@@ -82,7 +82,7 @@ class CollectionDao(metaclass=Singleton):
                         "Select c.*,u.pseudo"
                         " from collection c"
                         "join utilisateur using(id_utilisateur)"
-                        "where titre=%(titre)s", 
+                        f"where titre='{titre}'", 
                         {"titre": titre}
                     )
                 res = cursor.fetchall()
@@ -133,7 +133,7 @@ def supprimer(self, collection) -> None:
 
             cursor.execute("delete from collection"
             
-                           "where id_collection=%(id_collection)s",
+                           f"where id_collection='{id_collection}'",
                            {"id_collection": collection.id_collection}
 
                            )
@@ -160,10 +160,10 @@ def supprimer(self, collection) -> None:
                 with connection.cursor() as cursor:
                     cursor.execute(
                         "UPDATE collection      "
-                        "   titre = %(titre)s,       "
-                        "   id_utilisateur = %(id_utilisateur)s,    "
-                        "   list_manga = %(list_manga)s,                      "
-                        "where id_collection=%(id_collection)s",
+                        f"   titre = '{titre}',       "
+                        f"   id_utilisateur = '{id_utilisateur}',    "
+                        f"   list_manga = '{list_manga}',                      "
+                        f"where id_collection='{id_collection}'",
                        
                         {
                             "titre": collection.titre,
@@ -199,7 +199,7 @@ def supprimer(self, collection) -> None:
                         "select m.*      "
                         "   from collection c       "
                         "   join manga m using id.manga " 
-                        "where c.id_collection=%(id_collection)s",
+                        f"where c.id_collection='{id_collection}'",
                         {"titre": collection.titre}                                   
                         )
                     res = cursor.fetchall()

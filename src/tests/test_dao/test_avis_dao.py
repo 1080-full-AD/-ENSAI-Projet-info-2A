@@ -1,5 +1,7 @@
 import pytest
 
+import os
+
 from unittest.mock import patch
 
 from src.utils.reset_database import ResetDatabase
@@ -13,7 +15,7 @@ from src.business_objet.avis import Avis
 def setup_test_environment():
     """Initialisation des données de test"""
     with patch.dict(os.environ, {"SCHEMA": "projet_test_dao"}):
-        ResetDatabase().lancer(test_dao=True)
+        ResetDatabase().lancer()
         yield
 
 def test_creer_ok():
@@ -105,7 +107,7 @@ def test_modifier_ok():
 
     # GIVEN
     new_texte = "test_lol"
-    avis = Avis(id_jmanga=1, id_utilisateur=1, texte="test")
+    avis = Avis(id_manga=1, id_utilisateur=1, texte="test")
 
     # WHEN
     modification_ok = AvisDao().modifier(avis, new_texte)
@@ -119,7 +121,7 @@ def test_modifier_ko():
 
     # GIVEN
     new_texte = "test_lol"
-    avis = Avis(id_jmanga=99999, id_utilisateur=999999, texte="test")
+    avis = Avis(id_manga=99999, id_utilisateur=999999, texte="test")
 
     # WHEN
     modification_ok = AvisDao().modifier(avis, new_texte)
