@@ -24,7 +24,7 @@ def test_creer_ok():
     avis_service.AvisDao = mock_dao 
 
     # WHEN
-    avis = avis_service.creer_avis(id_manga, id_utilisateur, texte)
+    avis = avis_service.creer(id_manga, id_utilisateur, texte)
 
     # THEN
     assert avis is True
@@ -42,7 +42,7 @@ def test_creer_echec():
     avis_service.AvisDao = mock_dao  
 
     # WHEN
-    avis = avis_service.creer_avis(id_manga, id_utilisateur, texte)
+    avis = avis_service.creer(id_manga, id_utilisateur, texte)
 
     # THEN
     assert avis is False
@@ -60,7 +60,7 @@ def test_trouver_tous_par_id_ok():
     avis_service.AvisDao = mock_dao 
 
     # WHEN
-    res = avis_service.trouver_avis_par_utilisateur(id_utilisateur)
+    res = avis_service.trouver_tous_par_id(id_utilisateur)
 
     # THEN
     assert len(res) == 2
@@ -80,7 +80,7 @@ def test_trouver_tous_par_id_echec():
     avis_service.AvisDao = mock_dao 
 
     # WHEN
-    res = avis_service.trouver_avis_par_utilisateur(id_utilisateur)
+    res = avis_service.trouver_tous_par_id(id_utilisateur)
 
     # THEN
     assert res == []
