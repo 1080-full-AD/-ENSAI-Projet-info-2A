@@ -28,15 +28,15 @@ class MangaDao(metaclass=Singleton):
             with connection.cursor() as cursor:
                 cursor.execute(
                     "SELECT * "
-                    "FROM manga "
-                    "WHERE nom = %(titre)s"
+                    "FROM projet.manga "
+                    f"WHERE titre_manga = '{titre}'"
                     )
                 res_manga = cursor.fetchone()
             if res_manga:
                 res_manga = Manga(
-                    titre=res_manga["titre"],
+                    titre=res_manga["titre_manga"],
                     id_manga=res_manga["id_manga"],
-                    auteur=res_manga["auteur"],
+                    auteur=res_manga["auteurs"],
                     synopsis=res_manga["synopsis"]
                     )
                 print("OK")
@@ -262,3 +262,6 @@ class MangaDao(metaclass=Singleton):
                     return liste_serie
                 else:
                     return None
+
+
+print(MangaDao().trouver_par_titre("Monster").titre)

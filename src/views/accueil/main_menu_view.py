@@ -38,7 +38,8 @@ class MainView(AbstractView):
                                      "à l'application" + "=" * 50 + "\n")
 
             case "Créer un compte":
-                from src.views.accueil.create_account_view import RegistrationView
+                from src.views.accueil.create_account_view \
+                     import RegistrationView
 
                 return RegistrationView("\n" + "=" * 50 + " Création"
                                         " de compte " + "=" * 50 + "\n")
