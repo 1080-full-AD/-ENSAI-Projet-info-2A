@@ -24,7 +24,7 @@ def test_pseudo_existe_deja_ok():
     utilisateur_service.UtilisateurDao = mock_dao 
 
     # WHEN
-    utilisateur = utilisateur_service.pseudo_existe_deja(pseudo, age, mdp, collections, id_utilisateur )
+    utilisateur = utilisateur_service.pseudo_existe_deja(pseudo)
 
     # THEN
     assert utilisateur is True
@@ -42,7 +42,7 @@ def test_pseudo_existe_déjà_echec():
     utilisateur_service.UtilisateurDao = mock_dao 
 
     # WHEN
-    utilisateur = utilisateur_service.pseudo_existe_deja(pseudo, age, mdp, collections, id_utilisateur )
+    utilisateur = utilisateur_service.pseudo_existe_deja(pseudo )
 
     # THEN
     assert utilisateur is False
@@ -60,7 +60,7 @@ def test_creer_utilisateur_ok():
     utilisateur_service.UtilisateurDao = mock_dao 
 
     # WHEN
-    utilisateur = utilisateur_service.creer_utilisateur(pseudo, age, mdp, collections, id_utilisateur )
+    utilisateur = utilisateur_service.creer_utilisateur(pseudo, age, mdp, id_utilisateur )
 
     # THEN
     assert utilisateur is True
@@ -248,9 +248,7 @@ def test_se_connecter_ok():
     utilisateur_service.UtilisateurDao = mock_dao 
 
     # WHEN
-    utilisateur = utilisateur_service.se_connecter(pseudo, age, mdp,
-                                                   collections,
-                                                   id_utilisateur )
+    utilisateur = utilisateur_service.se_connecter(pseudo, mdp )
 
     # THEN
     assert utilisateur is True 
@@ -268,9 +266,7 @@ def test_se_connecter_echec():
     utilisateur_service.UtilisateurDao = mock_dao 
 
     # WHEN
-    utilisateur = utilisateur_service.se_connecter(pseudo, age, mdp,
-                                                   collections,
-                                                   id_utilisateur )
+    utilisateur = utilisateur_service.se_connecter(pseudo, mdp)
 
     # THEN
     assert utilisateur is False
