@@ -251,3 +251,4 @@ class UtilisateurDao(metaclass=Singleton):
             )
 
         return utilisateur
+
