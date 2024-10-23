@@ -79,7 +79,7 @@ class UtilisateurService(metaclass=Singleton):
                                              hash_password(mdp, pseudo))
     
     @log
-    def se_deconnecter(self) -> Utilisateur:
+    def se_deconnecter(self):
         """Se déconnecter de l'application"""
         if self.pseudo:
             print(f"{self.pseudo} se déconnecte.")
