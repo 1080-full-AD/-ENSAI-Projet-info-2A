@@ -1,6 +1,6 @@
 from InquirerPy import inquirer
 from src.views.abstract_view import AbstractView
-from src.
+
 
 class MainUserView(AbstractView):
     """Vue d'accueil des utilisateurs"""
