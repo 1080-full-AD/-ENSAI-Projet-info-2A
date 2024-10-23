@@ -48,7 +48,6 @@ def pseudo_existe_déjà_echec():
     assert utilisateur is False
 
 
-
 def creer_utilisateur_ok():
     """Vérifier que la méthode creer_utilisateur fonctionne bien"""
 
