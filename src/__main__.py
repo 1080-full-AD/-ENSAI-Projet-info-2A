@@ -18,5 +18,4 @@ if __name__ == "__main__":
             vue_courante = vue_courante.choisir_menu()
         except Exception as e:
             logging.info(e)
-            vue_courante = MainView("Une erreur est survenue,"
-                                    " retour au menu principal")
+            vue_courante = MainView(e)

@@ -75,8 +75,8 @@ class UtilisateurService(metaclass=Singleton):
     @log
     def se_connecter(self, pseudo, mdp) -> Utilisateur:
         """Se connecter à partir de pseudo et mdp"""
-        return self.UtilisateurDao.se_connecter(pseudo,
-                                                hash_password(mdp, pseudo))
+        return UtilisateurDao().se_connecter(pseudo,
+                                             hash_password(mdp, pseudo))
 
     @log
     def se_deconnecter(self):
@@ -117,3 +117,6 @@ class UtilisateurService(metaclass=Singleton):
             raise ValueError("Le mot de passe doit contenir au moins un"
                              "chiffre.")
         return True
+
+
+UtilisateurService().se_connecter("Adrien", "Adrien44")
