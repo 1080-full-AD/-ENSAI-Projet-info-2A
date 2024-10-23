@@ -118,5 +118,6 @@ class UtilisateurService(metaclass=Singleton):
                              "chiffre.")
         return True
 
+#UtilisateurService().creer_utilisateur("pseudo", 22, "Adrien44")
 
-UtilisateurService().se_connecter("Adrien", "Adrien44")
+UtilisateurService().se_connecter("Chahine", "Chahine123")

@@ -229,7 +229,7 @@ class UtilisateurDao(metaclass=Singleton):
                         "SELECT *                           "
                         "  FROM projet.utilisateur                      "
                         f" WHERE pseudo = '{pseudo}'         "
-                        f"   AND mod_de_passe = '{mdp}';              ",
+                        f"   AND mot_de_passe = '{mdp}';              ",
                         {"pseudo": pseudo, "mot_de_passe": mdp},
                     )
                     res = cursor.fetchone()
@@ -242,12 +242,11 @@ class UtilisateurDao(metaclass=Singleton):
         if res:
             utilisateur = Utilisateur(
                 pseudo=res["pseudo"],
-                mdp=res["mdp"],
+                mdp=res["mot_de_passe"],
                 age=res["age"],
                 id_utilisateur=res["id_utilisateur"]
             )
 
         return utilisateur
 
-
-print(UtilisateurDao().se_connecter('drop table', 'Adrien44'))
+UtilisateurDao().se_connecter("pseudo", "010cf7d395133803210c785c342781dbaff11a840dacfe3cbe51abdeaca7e00d")
