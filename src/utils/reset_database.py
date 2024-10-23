@@ -20,7 +20,7 @@ class ResetDatabase(metaclass=Singleton):
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(init_db_as_string)
-                    cursor.execute(pop_db_as_string)
+                    #cursor.execute(pop_db_as_string)
         except Exception as e:
             print(e)
             raise
