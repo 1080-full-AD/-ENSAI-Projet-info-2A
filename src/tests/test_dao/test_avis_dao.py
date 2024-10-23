@@ -1,5 +1,7 @@
 import pytest
 
+import os
+
 from unittest.mock import patch
 
 from src.utils.reset_database import ResetDatabase
@@ -13,7 +15,7 @@ from src.business_objet.avis import Avis
 def setup_test_environment():
     """Initialisation des données de test"""
     with patch.dict(os.environ, {"SCHEMA": "projet_test_dao"}):
-        ResetDatabase().lancer(test_dao=True)
+        ResetDatabase().lancer()
         yield
 
 def test_creer_ok():
