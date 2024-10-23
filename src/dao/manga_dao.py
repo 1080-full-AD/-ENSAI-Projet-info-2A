@@ -28,13 +28,8 @@ class MangaDao(metaclass=Singleton):
             with connection.cursor() as cursor:
                 cursor.execute(
                     "SELECT * "
-<<<<<<< HEAD
-                    "FROM manga "
-                    f"WHERE nom = '{titre}'"
-=======
                     "FROM projet.manga "
                     f"WHERE titre_manga = '{titre}'"
->>>>>>> 79ad0fab76fb97e24949783ae76dd20d01d2d307
                     )
                 res_manga = cursor.fetchone()
             if res_manga:

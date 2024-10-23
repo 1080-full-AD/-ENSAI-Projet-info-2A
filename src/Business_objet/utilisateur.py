@@ -17,14 +17,12 @@ class Utilisateur:
 
     """
 
-    def __init__(self, pseudo, age, mdp=None,
-                 collections=[], id_utilisateur=None):
+    def __init__(self, pseudo, age, mdp=None, id_utilisateur=None):
         """Constructeur"""
         self.id_utilisateur = id_utilisateur
         self.pseudo = pseudo
         self.mdp = mdp
         self.age = age
-        self.collections = collections
 
     def get_pseudo(self) -> str:
         """Permet d'afficher le pseudo de l'utilisateur"""

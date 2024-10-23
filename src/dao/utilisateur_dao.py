@@ -30,19 +30,18 @@ class UtilisateurDao(metaclass=Singleton):
         res = None
 
         try:
+            print('ok')
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        "INSERT INTO utilisateur(pseudo, mdp,"
-                        "age, collections) VALUES                            "
-                        f"('{pseudo}', '{mdp}', '{age}',                      "
-                        f"'{collections}')                          "
+                        "INSERT INTO projet.utilisateur(pseudo, mot_de_passe,"
+                        "age) VALUES                            "
+                        f"('{utilisateur.pseudo}', '{utilisateur.mdp}', {utilisateur.age})"
                         "  RETURNING id_utilisateur;                         ",
                         {
                             "pseudo": utilisateur.pseudo,
                             "mdp": utilisateur.mdp,
                             "age": utilisateur.age,
-                            "collections": utilisateur.collections
                         },
                     )
                     res = cursor.fetchone()
@@ -50,6 +49,7 @@ class UtilisateurDao(metaclass=Singleton):
             logging.info(e)
 
         created = False
+        print(res)
         if res:
             utilisateur.id_utilisateur = res["id_utilisateur"]
             created = True
@@ -114,7 +114,7 @@ class UtilisateurDao(metaclass=Singleton):
                 with connection.cursor() as cursor:
                     cursor.execute(
                         "SELECT *                              "
-                        "  FROM utilisateur;                        "
+                        "FROM projet.utilisateur                      "
                     )
                     res = cursor.fetchall()
         except Exception as e:
@@ -128,9 +128,8 @@ class UtilisateurDao(metaclass=Singleton):
                 utilisateur = Utilisateur(
                     id_utilisateur=row["id_utilisateur"],
                     pseudo=row["pseudo"],
-                    mdp=row["mdp"],
+                    mdp=row["mot_de_passe"],
                     age=row["age"],
-                    collections=row["collections"]
                 )
 
                 liste_utilisateurs.append(utilisateur)

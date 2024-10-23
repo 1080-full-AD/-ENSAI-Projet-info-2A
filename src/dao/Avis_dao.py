@@ -31,7 +31,7 @@ class AvisDao(metaclass=Singleton):
                 with connection.cursor() as cursor:
                     cursor.execute(
                         "INSERT INTO avis(id_manga, id_utilisateur, texte)VALUES"
-                        f"('{id_manga}', '{id_utilisateur}', '{texte}')         "
+                        f"({id_manga}, {id_utilisateur}, '{texte}')         "
                         "  RETURNING id_manga, id_utilisateur, texte;                    ",
                         {
                             "id_manga": avis.id_manga,
@@ -71,7 +71,7 @@ class AvisDao(metaclass=Singleton):
                     cursor.execute(
                         "SELECT *,"
                         "FROM avis"
-                        f"WHERE id_utilisateur = '{id}'",
+                        f"WHERE id_utilisateur = {id}",
                         {"id":id}
                         )
                     avis_rows = cursor.fetchall()
@@ -109,8 +109,8 @@ class AvisDao(metaclass=Singleton):
                     # Supprimer un avis de la base de données
                     cursor.execute(
                         "DELETE FROM avis                  "
-                        f" WHERE id_manga='{id_manga}'      ",
-                        f" AND id_utilisateur='{id_utilisateur}'      ",
+                        f" WHERE id_manga={id_manga}      ",
+                        f" AND id_utilisateur={id_utilisateur}      ",
                         {"id_manga": avis.id_manga,
                          "id_utilisateur": avis.id_utilisateur},
                     )
@@ -144,8 +144,8 @@ class AvisDao(metaclass=Singleton):
                     cursor.execute(
                         "UPDATE avis                                "
                         f"   SET texte      = '{texte}',        "
-                        f" WHERE id_manga = '{id_manga}',             ",
-                        f" AND id_utilisateur = '{id_utilisateur}';             ",
+                        f" WHERE id_manga = {id_manga},             ",
+                        f" AND id_utilisateur = {id_utilisateur};             ",
                         {
                             "id_manga": avis.id_manga,
                             "id_utilisateur": avis.id_utilisateur,
