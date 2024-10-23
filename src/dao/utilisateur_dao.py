@@ -35,8 +35,8 @@ class UtilisateurDao(metaclass=Singleton):
                     cursor.execute(
                         "INSERT INTO utilisateur(pseudo, mdp,"
                         "age, collections) VALUES                            "
-                        "(%(pseudo)s, %(mdp)s, %(age)s,                      "
-                        "%(collections)s)                          "
+                        f"('{pseudo}', '{mdp}', '{age}',                      "
+                        f"'{collections}')                          "
                         "  RETURNING id_utilisateur;                         ",
                         {
                             "pseudo": utilisateur.pseudo,
@@ -76,7 +76,7 @@ class UtilisateurDao(metaclass=Singleton):
                     cursor.execute(
                         "SELECT *                           "
                         "FROM utilisateur                      "
-                        " WHERE pseudo = %(pseudo)s;  ",
+                        f" WHERE pseudo = '{pseudo}';  ",
                         {"pseudo": pseudo},
                     )
                     res = cursor.fetchone()
@@ -159,11 +159,11 @@ class UtilisateurDao(metaclass=Singleton):
                 with connection.cursor() as cursor:
                     cursor.execute(
                         "UPDATE utilisateur                                 "
-                        "   SET pseudo      = %(pseudo)s,                   "
-                        "       mdp         = %(mdp)s,                      "
-                        "       age         = %(age)s,                      "
-                        "       collections = %(collections)s               "
-                        " WHERE id_joueur = %(id_joueur)s;                  ",
+                        f"   SET pseudo      = '{pseudo}',                   "
+                        f"       mdp         = '{mdp}',                      "
+                        f"       age         = '{age}',                      "
+                        f"       collections = '{collections}'               "
+                        f" WHERE id_joueur = '{id_joueur}';                  ",
                         {
                             "pseudo": utilisateur.pseudo,
                             "mdp": utilisateur.mdp,
@@ -198,7 +198,7 @@ class UtilisateurDao(metaclass=Singleton):
                     # Supprimer le compte d'un utilisateur
                     cursor.execute(
                         "DELETE FROM utilisateur                  "
-                        " WHERE id_utilisateur=%(id_utilisateur)s      ",
+                        f" WHERE id_utilisateur='{id_utilisateur}'      ",
                         {"id_utilisateur": utilisateur.id_utilisateur},
                     )
                     res = cursor.rowcount
@@ -231,8 +231,8 @@ class UtilisateurDao(metaclass=Singleton):
                     cursor.execute(
                         "SELECT *                           "
                         "  FROM utilisateur                      "
-                        " WHERE pseudo = %(pseudo)s         "
-                        "   AND mdp = %(mdp)s;              ",
+                        f" WHERE pseudo = '{pseudo}'         "
+                        f"   AND mdp = '{mdp}';              ",
                         {"pseudo": pseudo, "mdp": mdp},
                     )
                     res = cursor.fetchone()
