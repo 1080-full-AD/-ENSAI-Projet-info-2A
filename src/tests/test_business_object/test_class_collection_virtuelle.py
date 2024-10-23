@@ -27,8 +27,20 @@ def test_collection_virtuelle_creation_erreur_manga_physique():
     list_manga = [manga_physique]
 
     # WHEN/THEN
+    with pytest.raises(ValueError, match="les collection virtuelles ne peuvent contenir des collections physique"):
+        CollectionVirtuelle(1, "Ma Collection Virtuelle", 1, list_manga)
+
+
+def test_collection_virtuelle_creation_erreur_pas_manga():
+    # GIVEN 
+    list_manga = ["manga"]
+
+    # WHEN/THEN
     with pytest.raises(ValueError, match="les collections virtuelles ne conteniennent que des mangas virtuelles"):
         CollectionVirtuelle(1, "Ma Collection Virtuelle", 1, list_manga)
+
+
+
 
 
 def test_ajouter_manga_ok():
@@ -44,7 +56,7 @@ def test_ajouter_manga_ok():
     assert collection.list_manga[0] == new_manga
 
 
-def test_ajouter_manga_erreur_type():
+def test_ajouter_manga_erreur_manga_physique():
     # GIVEN
     collection = CollectionVirtuelle(1, "Ma Collection Virtuelle", 1, [])
     new_manga = MangaPhysique(1, 1, "Manga Physique", "Auteur", "Synopsis", [], 5, "Complet")
@@ -52,6 +64,15 @@ def test_ajouter_manga_erreur_type():
     # WHEN/THEN
     with pytest.raises(ValueError, match="les collections virtuelle ne contiennent que des mangas virtuelles"):
         collection.ajouter_manga(new_manga)
+
+
+def test_ajouter_manga_erreur_pas_manga():
+    # GIVEN
+    collection = CollectionVirtuelle(1, "Ma Collection Virtuelle", 1, [])
+    
+    # WHEN/THEN
+    with pytest.raises(ValueError, match="manga n'est pas un manga"):
+        collection.ajouter_manga("manga")
 
 
 def test_supprimer_manga_ok():
