@@ -44,7 +44,7 @@ class MainView(AbstractView):
                                         " de compte " + "=" * 50 + "\n")
 
             case "Rechercher des mangas":
-                from src.views.manga_search import MangaSearch
+                from src.views.accueil.search_manga_view import MangaSearch
 
                 return MangaSearch("\n" + "=" * 50 + " Recherche"
                                    " de mangas " + "=" * 50 + "\n")
