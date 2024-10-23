@@ -262,6 +262,3 @@ class MangaDao(metaclass=Singleton):
                     return liste_serie
                 else:
                     return None
-
-
-print(MangaDao().trouver_par_titre("Monster").titre)

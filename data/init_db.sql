@@ -15,20 +15,6 @@ CREATE TABLE projet.utilisateur (
 
 
 --------------------------------------------------------------
--- Avis
---------------------------------------------------------------
-
-DROP TABLE IF EXISTS projet.avis;
-
-CREATE TABLE projet.avis (
-    id_avis SERIAL PRIMARY KEY,
-    id_utilisateur integer REFERENCES projet.utilisateur(id_utilisateur),
-    texte text,
-    note integer
-);
-
-
---------------------------------------------------------------
 -- Mangas
 --------------------------------------------------------------
 
@@ -38,14 +24,25 @@ CREATE TABLE projet.manga (
     id_manga serial PRIMARY KEY,
     titre_manga text NOT NULL,
     synopsis text,
-    auteurs text
+    auteurs text,
+    nb_volumes integer,
+    nb_chapitres integer
 );
 
 
--- Comme on va creer des pokemon en forcant les id_pokemon
--- il faut maj a la main la valeur de la sequence de la PK
-ALTER SEQUENCE projet.manga_id_manga_seq RESTART WITH 899;
+--------------------------------------------------------------
+-- Avis
+--------------------------------------------------------------
 
+DROP TABLE IF EXISTS projet.avis;
+
+CREATE TABLE projet.avis (
+    id_manga integer REFERENCES projet.manga(id_manga),
+    id_utilisateur integer REFERENCES projet.utilisateur(id_utilisateur),
+    texte text,
+    note integer,
+    PRIMARY KEY (id_manga, id_utilisateur)
+);
 
 --------------------------------------------------------------
 -- Collection
