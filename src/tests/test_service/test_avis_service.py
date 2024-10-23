@@ -142,7 +142,8 @@ def test_modifier_avis_ok():
 
 def test_modifier_avis_echec():
     """Modification d'un avis échouée"""
-    
+
+
     # GIVEN
     id_manga, id_utilisateur, newtexte = 1, 1, "Manga très intéressant"
     mock_dao = MagicMock(spec=AvisDao)

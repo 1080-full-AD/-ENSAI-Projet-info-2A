@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 from src.buisness_objet.collection.abstract_collection import AbstractCollection 
+=======
+from src.buisness_objet.Collection.Abstract_Collection import AbstractCollection 
+>>>>>>> ef78e09bda6c655c008d633f47ecede1ec99e587
 from src.buisness_objet.manga import manga 
 
 
