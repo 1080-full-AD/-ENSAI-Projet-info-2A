@@ -42,11 +42,11 @@ class MainUserView(AbstractView):
                 return MenuCollectionsView("\n" + "=" * 50 + " Menu des "
                                            "collections " + "=" * 50 + "\n")
 
-            case "Accéder au menu des avis":
-                from src.views.accueil.notice_view import RegistrationWiew
+            """case "Accéder au menu des avis":
+                from src.views.accueil.main_notice_view import No
 
                 return RegistrationWiew("\n" + "=" * 50 + " Menu des "
-                                        "avis " + "=" * 50 + "\n")
+                                        "avis " + "=" * 50 + "\n")"""
 
             case "Se déconnecter":
                 from src.views.accueil.main_menu_view import MainView
@@ -59,6 +59,3 @@ class MainUserView(AbstractView):
 
                 UtilisateurService().supprimer_utilisateur()
                 return MainView("Retour au menu principal")
-
-
-MainUserView().choisir_menu()

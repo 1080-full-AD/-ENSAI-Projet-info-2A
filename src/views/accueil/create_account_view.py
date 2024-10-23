@@ -41,3 +41,6 @@ class RegistrationView(AbstractView):
         from src.views.accueil.main_menu_view import MainView
 
         return MainView(message)
+
+
+RegistrationView().choisir_menu()
