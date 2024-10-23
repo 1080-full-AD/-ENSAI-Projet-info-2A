@@ -116,22 +116,22 @@ class CollectionDao(metaclass=Singleton):
             return None
 
 
-@log
-def supprimer(self, collection) -> None:
+    @log
+    def supprimer(self, collection) -> None:
         
-    """Suppression  d'une collection existante dans la base de données
+        """Suppression  d'une collection existante dans la base de données
 
-        Parameters
-        ----------
-        coLLection : collection à supprimer
-        Returns
-        -------
-        None
-        """
-    with DBConnection().connection as connection:
-        with connection.cursor() as cursor:
+            Parameters
+            ----------
+            coLLection : collection à supprimer
+            Returns
+            -------
+            None
+            """
+        with DBConnection().connection as connection:
+            with connection.cursor() as cursor:
 
-            cursor.execute("delete from collection"
+                cursor.execute("delete from collection"
             
                            f"where id_collection='{id_collection}'",
                            {"id_collection": collection.id_collection}
