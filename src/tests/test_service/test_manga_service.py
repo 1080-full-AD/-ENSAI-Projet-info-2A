@@ -24,20 +24,20 @@ def test_creer_manga_ok():
     """Création d'un manga dans la BDD réussie"""
 
     # GIVEN
-    id_manga, titre, auteur, synopsis = (
+    manga = Manga(
         9999,
         "Le12",
         "Eiichirō Oda",
         "Manga génial qui raconte la vie de 12 personnes",
     )
-    mock_dao = MagicMock(spec=MangaService)
-    mock_dao.creer_un_manga.return_value = True
+    mock_dao = MagicMock(spec=MangaDao)
+    mock_dao.creer_manga.return_value = True
 
     manga_service = MangaService()
     manga_service.MangaDao = mock_dao
 
     # WHEN
-    manga = manga_service.creer_un_manga(id_manga, titre, auteur, synopsis)
+    manga = manga_service.creer_manga(manga)
 
     # THEN
     assert manga is True
