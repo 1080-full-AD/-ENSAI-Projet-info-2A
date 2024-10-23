@@ -13,7 +13,7 @@ class UtilisateurService(metaclass=Singleton):
     def pseudo_deja_utilise(self, pseudo) -> bool:
         """Vérifie si le pseudo est déjà utilisé
         Retourne True si le pseudo existe déjà en BDD"""
-        utilisateur = UtilisateurDao().lister_tous()
+        utilisateur = self.UtilisateurDao.lister_tous()
         return pseudo in [j.pseudo for j in utilisateur]
 
     @log
@@ -26,10 +26,10 @@ class UtilisateurService(metaclass=Singleton):
             raise TypeError("Le nom d'utilisateur doit être une chaîne de" 
                             "caractères et/ou d'entiers")
         pseudo = str(pseudo)
-        if UtilisateurService().pseudo_deja_utilise(pseudo):
+        if self.pseudo_deja_utilise(pseudo):
             raise ValueError("Ce nom d'utilisateur est dèjà pris.")
-        UtilisateurService.is_valid_mdp(mdp)
-        UtilisateurDao(pseudo, age, mdp, collections, id_utilisateur).creer()
+        self.is_valid_mdp(mdp)
+        self.UtilisateurDao.creer()
         print(f"Compte créé avec succès pour l'utilisateur : {pseudo}")
 
         nouvel_utilisateur = Utilisateur(
@@ -39,7 +39,7 @@ class UtilisateurService(metaclass=Singleton):
             collections=collections,
             id_utilisateur=id_utilisateur,
         )
-        if UtilisateurDao().creer(nouvel_utilisateur):
+        if self.UtilisateurDao.creer(nouvel_utilisateur):
             return nouvel_utilisateur
         else:
             return None
@@ -48,12 +48,12 @@ class UtilisateurService(metaclass=Singleton):
     def modifier_utilisateur(self, utilisateur) -> Utilisateur:
         """Modification d'un utilisateur"""
         utilisateur.mdp = hash_password(utilisateur.mdp, utilisateur.pseudo)
-        return utilisateur if UtilisateurDao().modifier(utilisateur) else None
+        return utilisateur if self.UtilisateurDao.modifier(utilisateur) else None
 
     @log
     def supprimer_utilisateur(self, utlisateur) -> bool:
         """Supprimer le compte d'un utilisateur"""
-        return UtilisateurDao().supprimer(utlisateur)
+        return self.UtilisateurDao.supprimer(utlisateur)
     
     @log
     def lister_tous_utilisateur(self, inclure_mdp=False) -> list[Utilisateur]:
@@ -61,7 +61,7 @@ class UtilisateurService(metaclass=Singleton):
         Si inclure_mdp=True, les mots de passe seront inclus
         Par défaut, tous les mdp des utilisateurs sont à None
         """
-        utilisateur = UtilisateurDao().lister_tous()
+        utilisateur = self.UtilisateurDao.lister_tous()
         if not inclure_mdp:
             for j in utilisateur:
                 j.mdp = None
@@ -70,12 +70,12 @@ class UtilisateurService(metaclass=Singleton):
     @log
     def trouver_par_pseudo_utilisateur(self, pseudo) -> Utilisateur:
         """Trouver un utilisateur à partir de son pseudo"""
-        return UtilisateurDao().trouver_par_pseudo(pseudo)
+        return self.UtilisateurDao.trouver_par_pseudo(pseudo)
 
     @log
     def se_connecter(self, pseudo, mdp) -> Utilisateur:
         """Se connecter à partir de pseudo et mdp"""
-        return UtilisateurDao().se_connecter(pseudo,
+        return self.UtilisateurDao.se_connecter(pseudo,
                                              hash_password(mdp, pseudo))
     
     @log
