@@ -36,7 +36,7 @@ class UtilisateurDao(metaclass=Singleton):
                         "INSERT INTO utilisateur(pseudo, mdp,"
                         "age, collections) VALUES                            "
                         f"('{pseudo}', '{mdp}', '{age}',                      "
-                        "%(collections)s)                          "
+                        f"'{collections}')                          "
                         "  RETURNING id_utilisateur;                         ",
                         {
                             "pseudo": utilisateur.pseudo,
