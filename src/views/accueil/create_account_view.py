@@ -34,7 +34,6 @@ class RegistrationView(AbstractView):
             message = (
                 f"Votre compte {joueur.pseudo} a été créé."
                 f"Vous pouvez maintenant vous connecter :)")
-            print("cestbon")
 
         message = "Erreur de connexion :/"
         "(pseudo ou mot de passe invalide)"
