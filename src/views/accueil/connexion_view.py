@@ -12,6 +12,7 @@ class ConnexionView(AbstractView):
     def choisir_menu(self):
 
         pseudo = inquirer.text(message="Entrez votre pseudo : ").execute()
+        
         mdp = inquirer.secret(message="Entrez votre mot de passe :").execute()
 
         joueur = UtilisateurService().se_connecter(pseudo, mdp)
