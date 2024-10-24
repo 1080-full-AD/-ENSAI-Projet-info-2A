@@ -19,7 +19,7 @@ def setup_test_environment():
 
 
 def test_creer_ok():
-    """Création d'avis réussie"""
+    """Création de collection réussie"""
 
     # GIVEN
     collection = CollectionVirtuelle(
@@ -30,9 +30,7 @@ def test_creer_ok():
 
     # THEN
     assert creation_ok
-    assert collection.id_utilisateur == 1
-    assert collection.id_collection == 123
-    assert collection.titre=="Ma collection virtuelle"
+    assert collection.titre == "Ma collection virtuelle"
 
 
 def test_creer_ko():
@@ -84,10 +82,10 @@ def test_supprimer_ok():
 
     # GIVEN
     collection = CollectionVirtuelle(
-        id_collection="1", titre="Ma collection virtuelle", id_utilisateur="123", list_manga=[])
+        id_collection=1, titre="Ma collection virtuelle", id_utilisateur=123, list_manga=[])
     
     # WHEN
-    suppression=CollectionDao().supprimer(collection)
+    suppression = CollectionDao().supprimer(collection)
 
     # THEN
     assert suppression

@@ -30,6 +30,9 @@ class CollectionDao(metaclass=Singleton):
             False sinon
         """
         created = False
+
+        res = None
+
         try: 
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
@@ -59,7 +62,7 @@ class CollectionDao(metaclass=Singleton):
         return created
 
     @log
-    def trouver_par_titre(titre: str) -> Optional[AbstractCollection]:
+    def trouver_par_titre(self, titre: str) -> Optional[AbstractCollection]:
 
         """Recherche d'une collection dans la base de données à partir de son
          titre
@@ -74,6 +77,7 @@ class CollectionDao(metaclass=Singleton):
             des utilisateurs qui correspondent au titre recherché
             
         """
+        res = None
         try:
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
@@ -128,15 +132,24 @@ class CollectionDao(metaclass=Singleton):
             -------
             None
             """
-        with DBConnection().connection as connection:
-            with connection.cursor() as cursor:
+        res = None
+        try:
+            with DBConnection().connection as connection:
+                with connection.cursor() as cursor:
 
-                cursor.execute("delete from collection"
+                    cursor.execute("delete from projet.collection              "
             
-                           f"where id_collection='{id_collection}'",
+                           " where id_collection= %(id_collection)s          ",
                            {"id_collection": collection.id_collection}
 
                            )
+                    res = cursor.rowcount
+        except Exception as e:
+            logging.info(e)
+            raise
+
+        return res > 0
+    
 
     @log
     def modifier(self, collection) -> bool:
