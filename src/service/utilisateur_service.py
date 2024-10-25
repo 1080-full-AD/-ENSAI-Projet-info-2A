@@ -120,4 +120,4 @@ class UtilisateurService(metaclass=Singleton):
 
 #UtilisateurService().creer_utilisateur("pseudo", 22, "Adrien44")
 
-UtilisateurService().se_connecter("Chahine", "Chahine123")
+#UtilisateurService().se_connecter("Chahine", "Chahine123")
