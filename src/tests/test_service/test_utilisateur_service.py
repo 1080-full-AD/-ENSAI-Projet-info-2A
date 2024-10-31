@@ -160,12 +160,12 @@ def test_trouver_par_pseudo_utilisateur_ok():
     """Vérifier que la méthode qui liste tous les utilisateurs grâce à leur pseudo fonctionne"""
 
     # GIVEN
-    pseudo = pseudo.utilisateur_service()
-    mock_dao = MagicMock(spec=UtilisateurDao)
-    mock_dao.trouver_tous_utilisateur.return_value = [pseudo for pseudo in liste_utilisateur if pseudo.id_utilisateur == pseudo]
-
     utilisateur_service = UtilisateurService()
+    
+    pseudo = utilisateur_service.pseudo
+    mock_dao = MagicMock(spec=UtilisateurDao)
     utilisateur_service.UtilisateurDao = mock_dao 
+    mock_dao.trouver_tous_utilisateur.return_value = [pseudo for pseudo in liste_utilisateur if pseudo.id_utilisateur == pseudo]
 
     # WHEN
     res = utilisateur_service.trouver_tous_utilisateur(pseudo)
