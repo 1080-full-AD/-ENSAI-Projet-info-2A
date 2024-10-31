@@ -37,26 +37,17 @@ class CollectionDao(metaclass=Singleton):
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        "INSERT INTO Collection (id_collection, titre, "
-                        " id_utilisateur,liste_manga)             "
-                        "VALUES                                   "
-                        f"('{id_collection}','{titre}', '{id_utilisateur}'"
-                        f", '{liste_manga}' )   "
-                   
-                        "RETURNING titre;",
-                        {
-                            "id_collection": collection.id_collection,
-                            "titre": collection.titre,
-                            "id_utilisateur": collection.id_utilisateur,
-                            "liste_manga": collection.liste_manga,
-                        },
-                    )
+                       "INSERT INTO projet.collection (Titre_collec, id_utilisateur, type) "
+                    "VALUES (%s, %s, %s) RETURNING Titre_collec;",
+                    (collection.titre, collection.id_utilisateur, collection.type)
+                          )
+                    
                     res = cursor.fetchone()
         except Exception as e:
             logging.info(e)
 
         if res:
-            collection.titre = res["titre"]
+            collection.titre = res["Titre_collec"]
             created = True
 
         return created
@@ -84,8 +75,8 @@ class CollectionDao(metaclass=Singleton):
 
                     cursor.execute(
                         "Select c.*,u.pseudo"
-                        " from collection c"
-                        "join utilisateur using(id_utilisateur)"
+                        " from projet.collection c"
+                        "join projet.utilisateur using(id_utilisateur)"
                         f"where titre='{titre}'", 
                         {"titre": titre}
                     )
@@ -99,7 +90,6 @@ class CollectionDao(metaclass=Singleton):
             for row in res:
                 if row["type"] == "virtuelle":
                     collection = CollectionVirtuelle(
-                                id_collection=row["id_collection"],
                                 titre=row["titre"],
                                 id_utilisateur=row["id_utilisateur"],
                                 liste_manga=row["liste_manga"],
@@ -108,7 +98,6 @@ class CollectionDao(metaclass=Singleton):
             
                 else:
                     collection = CollectionPhysique(
-                                    id_collection=row["id_collection"],
                                     titre=res["titre"],
                                     id_utilisateur=res["id_utilisateur"],
                                     liste_manga=res["liste_manga"],
@@ -137,12 +126,10 @@ class CollectionDao(metaclass=Singleton):
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
 
-                    cursor.execute("delete from projet.collection              "
-            
-                           " where id_collection= %(id_collection)s          ",
-                           {"id_collection": collection.id_collection}
-
-                           )
+                    cursor.execute(
+                    "DELETE FROM projet.collection WHERE Titre_Collec = %s AND id_utilisateur = %s",
+                        (collection.titre, collection.id_utilisateur)
+                        )
                     res = cursor.rowcount
         except Exception as e:
             logging.info(e)
@@ -172,12 +159,12 @@ class CollectionDao(metaclass=Singleton):
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        "UPDATE collection      "
+                        "UPDATE projet.collection      "
                         f"   titre = '{titre}',       "
                         f"   id_utilisateur = '{id_utilisateur}',    "
                         f"   list_manga = '{list_manga}',                      "
-                        f"where id_collection='{id_collection}'",
-                       
+                        f"where titre='{titre}' and id_utilisateur='{id_utilisateur}", 
+                           
                         {
                             "titre": collection.titre,
                             "list_manga": collection.list_manga,
@@ -210,10 +197,12 @@ class CollectionDao(metaclass=Singleton):
                 with connection.cursor() as cursor:
                     cursor.execute(
                         "select m.*      "
-                        "   from collection c       "
-                        "   join manga m using id.manga " 
-                        f"where c.id_collection='{id_collection}'",
-                        {"titre": collection.titre}                                   
+                        "   from projet.collection c       "
+                        "   join projet.manga m using id.manga " 
+                        f"where titre='{titre}' and id_utilisateur='{id_utilisateur}", 
+                           {"titre": collection.titre,
+                            "id_utilisateur": collection.id_utilisateur,  
+                            }                                
                         )
                     res = cursor.fetchall()
         except Exception as e:

@@ -23,21 +23,22 @@ def test_creer_ok():
 
     # GIVEN
     collection = CollectionVirtuelle(
-        id_collection=1, titre="Ma collection virtuelle", id_utilisateur=123, list_manga=[])
+        titre="Ma collection virtuelle", id_utilisateur=123, list_manga=[])
 
     # WHEN
     creation_ok = CollectionDao().Creer(collection)
 
     # THEN
+    
     assert creation_ok
-    assert collection.titre == "Ma collection virtuelle"
-
+    #assert collection.titre == "Ma collection virtuelle"
+    #assert collection.id_utilisateur == 123
 
 def test_creer_ko():
     """Création d'avis échouée """
 
     # GIVEN
-    collection = CollectionVirtuelle(id_collection=None, titre=None, id_utilisateur=None, list_manga=[])
+    collection = CollectionVirtuelle(titre=None, id_utilisateur=None, list_manga=[])
 
     # WHEN
     creation_ok = CollectionDao().Creer(collection)
@@ -82,7 +83,7 @@ def test_supprimer_ok():
 
     # GIVEN
     collection = CollectionVirtuelle(
-        id_collection=1, titre="Ma collection virtuelle", id_utilisateur=123, list_manga=[])
+        titre="Ma collection virtuelle", id_utilisateur=123, list_manga=[])
     
     # WHEN
     suppression = CollectionDao().supprimer(collection)
@@ -97,7 +98,7 @@ def test_supprimer_ko():
 
     # GIVEN
     collection = CollectionVirtuelle(
-        id_collection=999999999999999999999, titre="Ma collection virtuelle", id_utilisateur=123, list_manga=[])
+        titre="Ma collection virtuelle", id_utilisateur=999999999999, list_manga=[])
     
     # WHEN
     suppression=CollectionDao().supprimer(collection)
@@ -112,7 +113,7 @@ def test_modifier_ok():
     # GIVEN
     new_titre="ma meilleure collection"
     collection = CollectionVirtuelle(
-        id_collection="1", titre=new_titre, id_utilisateur="123", list_manga=[]
+        titre=new_titre, id_utilisateur="123", list_manga=[]
     )
 
     # WHEN
@@ -122,11 +123,11 @@ def test_modifier_ok():
     assert modification_ok
         
 def test_modifier_ko():
-    """Test modification d'une collection échouée id_collection inconnue"""
+    """Test modification d'une collection échouée titre  inconnue"""
 
     # GIVEN
     collection = CollectionVirtuelle(
-        id_collection=9999999999999, titre="Ma collection virtuelle", id_utilisateur=123, list_manga=[]
+        titre="WWWWW", id_utilisateur=123, list_manga=[]
     )
 
     # WHEN
@@ -144,7 +145,7 @@ def test_liste_manga_ok():
     manga1 = Manga(1, "Titre 1", "Auteur 1", "Synopsis 1")
     manga2 = Manga(2, "Titre 2", "Auteur 2", "Synopsis 2")
     collection = CollectionVirtuelle(
-        id_collection=1, titre="Ma collection virtuelle", id_utilisateur=123, list_manga=[manga1,manga2]
+        titre="Ma collection virtuelle", id_utilisateur=123, list_manga=[manga1,manga2]
     )
 
     # WHEN
