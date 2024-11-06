@@ -34,23 +34,26 @@ class MangaSearchView(AbstractView):
 
                 try:
                     MangaService().rechercher_un_id_manga(id)
-                except Exception:
-                    return MangaSearchView("L'id doit être un "
-                                           "entier :/")
+                    return MangaSearchView("\n" + "=" * 50 + " Recherche"
+                                           " de mangas " + "=" * 50 + "\n")
+                except Exception as e:
+                    return MangaSearchView(e)
             case "Nom":
                 name = inquirer.text(message="Entrez le nom "
                                              "du manga :) ").execute()
                 try:
                     MangaService().rechercher_un_manga(name)
-                except Exception:
-                    return MangaSearchView("Le nom doit être une "
-                                           "chaine de caractère :/")
+                    return MangaSearchView("\n" + "=" * 50 + " Recherche"
+                                           " de mangas " + "=" * 50 + "\n")
+                except Exception as e:
+                    return MangaSearchView(e)
 
             case "Mangaka":
                 author = inquirer.text(message="Entrez le nom"
                                                "de l'auteur :) ").execute()
                 try:
                     MangaService().rechercher_un_auteur(author)
+                    return MangaSearchView("\n" + "=" * 50 + " Recherche"
+                                           " de mangas " + "=" * 50 + "\n")
                 except Exception:
-                    return MangaSearchView("Le nom de l doit être une "
-                                           "chaine de caractère :/")
+                    return MangaSearchView(e)

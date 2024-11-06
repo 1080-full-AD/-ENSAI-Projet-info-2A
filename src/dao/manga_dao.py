@@ -1,7 +1,6 @@
 import logging
 
 from src.utils.singleton import Singleton
-from src.utils.singleton import Singleton
 from src.utils.log_decorator import log
 
 from src.dao.db_connection import DBConnection
@@ -27,7 +26,8 @@ class MangaDao(metaclass=Singleton):
         with DBConnection().connection as connection:
             with connection.cursor() as cursor:
                 cursor.execute(
-                    "SELECT * " "FROM projet.manga " f"WHERE titre_manga = '{titre}'"
+                    "SELECT * " "FROM projet.manga "
+                    f"WHERE titre_manga = '{titre}'"
                 )
                 res_manga = cursor.fetchone()
             if res_manga:
@@ -157,20 +157,20 @@ class MangaDao(metaclass=Singleton):
         with DBConnection().connection as connection:
             with connection.cursor() as cursor:
                 cursor.execute(
-                    "SELECT titre,"
+                    "SELECT titre_manga,"
                     "       id_manga,"
-                    "       auteur,"
-                    "       synopsis,"
-                    "FROM manga"
-                    f"WHERE id = '{id_manga}'",
+                    "       auteurs,"
+                    "       synopsis "
+                    "FROM projet.manga"
+                    f" WHERE {id} = id_manga",
                     {"id": id},
                 )
                 res_id_manga = cursor.fetchone()
                 if res_id_manga:
                     res_id_manga = Manga(
-                        titre=res_id_manga["titre"],
+                        titre=res_id_manga["titre_manga"],
                         id_manga=res_id_manga["id_manga"],
-                        auteur=res_id_manga["auteur"],
+                        auteur=res_id_manga["auteurs"],
                         synopsis=res_id_manga["synopsis"],
                     )
                     return res_id_manga

@@ -238,7 +238,6 @@ class UtilisateurDao(metaclass=Singleton):
             logging.info(e)
 
         utilisateur = None
-        print(res)
         if res:
             utilisateur = Utilisateur(
                 pseudo=res["pseudo"],
@@ -248,5 +247,3 @@ class UtilisateurDao(metaclass=Singleton):
             )
 
         return utilisateur
-
-UtilisateurDao().se_connecter("pseudo", "010cf7d395133803210c785c342781dbaff11a840dacfe3cbe51abdeaca7e00d")

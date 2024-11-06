@@ -3,6 +3,7 @@ from src.views.abstract_view import AbstractView
 from src.service.utilisateur_service import UtilisateurService
 from src.business_objet.utilisateur import Utilisateur
 
+
 class MainUserView(AbstractView):
     """Vue d'accueil des utilisateurs"""
 
@@ -42,14 +43,15 @@ class MainUserView(AbstractView):
                 return MenuCollectionsView("\n" + "=" * 50 + " Menu des "
                                            "collections " + "=" * 50 + "\n")
 
-            """case "Accéder au menu des avis":
-                from src.views.accueil.main_notice_view import No
+            case "Accéder au menu des avis":
+                from src.views.users.main_opinion_view import MainOpinionView
 
-                return RegistrationWiew("\n" + "=" * 50 + " Menu des "
-                                        "avis " + "=" * 50 + "\n")"""
+                return MainOpinionView("\n" + "=" * 50 + " Menu des "
+                                       "avis " + "=" * 50 + "\n")
 
             case "Se déconnecter":
                 from src.views.accueil.main_menu_view import MainView
+                from src.views.session import Session
 
                 UtilisateurService().se_deconnecter()
                 return MainView("Retour au menu principal")
