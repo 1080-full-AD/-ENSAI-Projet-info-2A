@@ -27,7 +27,9 @@ class MangaDao(metaclass=Singleton):
         with DBConnection().connection as connection:
             with connection.cursor() as cursor:
                 cursor.execute(
-                    "SELECT * " "FROM projet.manga " f"WHERE titre_manga = '{titre}'"
+                    "SELECT  titre, id_manga, auteur, synopsis"
+                    "FROM projet.manga "
+                    f"WHERE titre_manga = '{titre}'"
                 )
                 res_manga = cursor.fetchone()
             if res_manga:
@@ -101,8 +103,8 @@ class MangaDao(metaclass=Singleton):
                 with connection.cursor() as cursor:
                     # Supprimer un manga de la base de données
                     cursor.execute(
-                        "DELETE FROM manga                  "
-                        f" WHERE id_manga='{id_manga}'      ",
+                        "DELETE FROM Manga                  "
+                        f" WHERE id_manga= (%(id_manga)s)     ",
                         {"id_manga": manga.id_manga},
                     )
                     res = cursor.rowcount
@@ -152,7 +154,7 @@ class MangaDao(metaclass=Singleton):
 
         return res == 1
 
-    def trouver_par_id(self, id: str) -> Manga:
+    def trouver_par_id(self, id_manga: str) -> Manga:
         """Trouver un manga par son identifiant s'il est connu (id)"""
         with DBConnection().connection as connection:
             with connection.cursor() as cursor:
@@ -160,10 +162,10 @@ class MangaDao(metaclass=Singleton):
                     "SELECT titre,"
                     "       id_manga,"
                     "       auteur,"
-                    "       synopsis,"
-                    "FROM manga"
-                    f"WHERE id = '{id_manga}'",
-                    {"id": id},
+                    "       synopsis"
+                    "FROM   Manga"
+                    f"WHERE id = %(id_manga)s",
+                    {"id_manga": id_manga},
                 )
                 res_id_manga = cursor.fetchone()
                 if res_id_manga:
@@ -216,7 +218,7 @@ class MangaDao(metaclass=Singleton):
                 else:
                     return None
 
-    def trouver_serie_par_titre(self, manga) -> Manga:
+    def trouver_serie_par_titre(self, auteur) -> Manga:
         """Trouver la série de manga : par exemple en recherchant "One Piece",
         cela va afficher laliste de tous les tomes de cette sage
 

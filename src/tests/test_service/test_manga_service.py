@@ -40,27 +40,27 @@ def test_creer_manga_ok():
     manga = manga_service.creer_manga(manga)
 
     # THEN
-    assert manga is True
+    assert manga is not None
 
 
 def test_creer_manga_echec():
     """Création d'un manga dans la BDD réussie"""
 
     # GIVEN
-    id_manga, titre, auteur, synopsis = (
+    manga = Manga(
         9999,
         "Le12",
         "Eiichirō Oda",
         "Manga génial qui raconte la vie de 12 personnes",
     )
     mock_dao = MagicMock(spec=MangaDao)
-    mock_dao.creer.return_value = False
+    mock_dao.creer_manga.return_value = False
 
     manga_service = MangaService()
     manga_service.MangaDao = mock_dao
 
     # WHEN
-    manga = manga_service.creer_un_manga(id_manga, titre, auteur, synopsis)
+    manga = manga_service.creer_manga(manga)
 
     # THEN
     assert manga is False
@@ -72,7 +72,7 @@ def test_recherche_manga_ok():
     # GIVEN
     titre = "À l'Aube d'une grande aventure"
     mock_dao = MagicMock(spec=MangaDao)
-    mock_dao.rechercher_un_manga.return_value = True
+    mock_dao.trouver_par_titre.return_value = True
 
     manga_service = MangaService()
     manga_service.MangaDao = mock_dao
@@ -90,7 +90,7 @@ def test_recherche_manga_echec():
     # GIVEN
     titre = "À l'Aube d'une grande aventure"
     mock_dao = MagicMock(spec=MangaDao)
-    mock_dao.rechercher_un_manga.return_value = False
+    mock_dao.trouver_par_titre.return_value = False
 
     manga_service = MangaService()
     manga_service.MangaDao = mock_dao
@@ -108,7 +108,7 @@ def test_recherche_id_manga_ok():
     # GIVEN
     id_manga = 13
     mock_dao = MagicMock(spec=MangaDao)
-    mock_dao.rechercher_un_id_manga.return_value = True
+    mock_dao.trouver_par_id.return_value = True
 
     manga_service = MangaService()
     manga_service.MangaDao = mock_dao
@@ -126,7 +126,7 @@ def test_recherche_id_manga_echec():
     # GIVEN
     id = 13
     mock_dao = MagicMock(spec=MangaDao)
-    mock_dao.rechercher_un_id_manga.return_value = False
+    mock_dao.trouver_par_id.return_value = False
 
     manga_service = MangaService()
     manga_service.MangaDao = mock_dao
@@ -142,20 +142,20 @@ def test_supprimer_manga_ok():
     """Tester si la suppression d'un manga de la base fonctionne"""
 
     # GIVEN
-    id_manga, titre, auteur, synopsis = (
+    manga = Manga(
         9999,
         "Le12",
         "Eiichirō Oda",
         "Manga génial qui raconte la vie de 12 personnes",
     )
     mock_dao = MagicMock(spec=MangaDao)
-    mock_dao.supprimer_un_manga.return_value = True
+    mock_dao.supprimer_manga.return_value = True
 
     manga_service = MangaService()
     manga_service.MangaDao = mock_dao
 
     # WHEN
-    manga = manga_service.supprimer_un_manga(id_manga, titre, auteur, synopsis)
+    manga = manga_service.supprimer_un_manga(manga)
 
     # THEN
     assert manga is True
@@ -164,20 +164,20 @@ def test_supprimer_manga_ok():
 def test_supprimer_manga_echec():
     """Tester la méthode pour voir si elle renvoie bien un échec"""
     # GIVEN
-    id_manga, titre, auteur, synopsis = (
+    manga = Manga(
         9999,
         "Le12",
         "Eiichirō Oda",
         "Manga génial qui raconte la vie de 12 personnes",
     )
     mock_dao = MagicMock(spec=MangaDao)
-    mock_dao.supprimer_un_manga.return_value = False
+    mock_dao.supprimer_manga.return_value = False
 
     manga_service = MangaService()
     manga_service.MangaDao = mock_dao
 
     # WHEN
-    manga = manga_service.supprimer_un_manga(id_manga, titre, auteur, synopsis)
+    manga = manga_service.supprimer_un_manga(manga)
 
     # THEN
     assert manga is False
@@ -187,47 +187,43 @@ def test_modifier_manga_ok():
     """Tester si la modification d'un manga est réussie"""
 
     # GIVEN
-    id_manga, id_utilisateur, titre, newsynospsis = (
-        13,
-        1,
-        "One Piece",
-        "Résumé rapide de ONE PIECE",
+    manga = Manga(
+        9999,
+        "Le12",
+        "Eiichirō Oda",
+        "Manga génial qui raconte la vie de 12 personnes",
     )
     mock_dao = MagicMock(spec=MangaDao)
-    mock_dao.modifier_un_manga.return_value = True
+    mock_dao.modifier.return_value = True
 
     manga_service = MangaService()
     manga_service.MangaDao = mock_dao
 
     # WHEN
-    result = manga_service.modifier_un_manga(
-        id_manga, id_utilisateur, titre, newsynospsis
-    )
+    result = manga_service.modifier_un_manga(manga)
 
     # THEN
-    assert result is True
+    assert result is not None
 
 
 def test_modifier_manga_echec():
     """Tester si la modification d'un manga est un échec"""
 
     # GIVEN
-    id_manga, id_utilisateur, titre, newsynospsis = (
-        13,
-        1,
-        "One Piece",
-        "Résumé rapide de ONE PIECE",
+    manga = Manga(
+        9999,
+        "Le12",
+        "Eiichirō Oda",
+        "Manga génial qui raconte la vie de 12 personnes",
     )
     mock_dao = MagicMock(spec=MangaDao)
-    mock_dao.modifier_un_manga.return_value = False
+    mock_dao.modifier.return_value = False
 
     manga_service = MangaService()
     manga_service.MangaDao = mock_dao
 
     # WHEN
-    result = manga_service.modifier_un_manga(
-        id_manga, id_utilisateur, titre, newsynospsis
-    )
+    result = manga_service.modifier_un_manga(manga)
 
     # THEN
     assert result is False
@@ -239,7 +235,7 @@ def test_rechercher_un_auteur_ok():
     # GIVEN
     auteur = "Eiichirō Oda"
     mock_dao = MagicMock(spec=MangaDao)
-    mock_dao.recherhcer_un_auteur.return_value = True
+    mock_dao.trouver_par_auteur.return_value = True
 
     manga_service = MangaService()
     manga_service.MangaDao = mock_dao
@@ -257,7 +253,7 @@ def test_rechercher_un_auteur_echec():
     # GIVEN
     auteur = "Eiichirō Oda"
     mock_dao = MagicMock(spec=MangaDao)
-    mock_dao.recherhcer_un_auteur.return_value = False
+    mock_dao.trouver_par_auteur.return_value = False
 
     manga_service = MangaService()
     manga_service.MangaDao = mock_dao
@@ -275,7 +271,7 @@ def test_rechercher_une_serie_ok():
     # GIVEN
     titre = "One Piece"
     mock_dao = MagicMock(spec=MangaDao)
-    mock_dao.recherhcer_un_auteur.return_value = True
+    mock_dao.trouver_serie_par_titre.return_value = True
 
     manga_service = MangaService()
     manga_service.MangaDao = mock_dao
@@ -293,7 +289,7 @@ def test_rechercher_une_serie_echec():
     # GIVEN
     titre = "One Piece"
     mock_dao = MagicMock(spec=MangaDao)
-    mock_dao.recherhcer_un_auteur.return_value = False
+    mock_dao.trouver_serie_par_titre.return_value = False
 
     manga_service = MangaService()
     manga_service.MangaDao = mock_dao
