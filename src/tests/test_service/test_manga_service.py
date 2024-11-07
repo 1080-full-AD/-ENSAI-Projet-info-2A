@@ -70,7 +70,7 @@ def test_recherche_manga_ok():
     """Tester la recherche d'un manga à partir de son titre"""
 
     # GIVEN
-    titre = "À l'Aube d'une grande aventure"
+    titre = "One Piece"
     mock_dao = MagicMock(spec=MangaDao)
     mock_dao.trouver_par_titre.return_value = True
 
@@ -81,14 +81,14 @@ def test_recherche_manga_ok():
     manga = manga_service.rechercher_un_manga(titre)
 
     # THEN
-    assert manga is True
+    assert isinstance(manga, Manga)
 
 
 def test_recherche_manga_echec():
     """Tester si la recherche de manga à partir de son titre renvoie bien un échec"""
 
     # GIVEN
-    titre = "À l'Aube d'une grande aventure"
+    titre = "One Piece"
     mock_dao = MagicMock(spec=MangaDao)
     mock_dao.trouver_par_titre.return_value = False
 
@@ -99,7 +99,7 @@ def test_recherche_manga_echec():
     manga = manga_service.rechercher_un_manga(titre)
 
     # THEN
-    assert manga is False
+    assert isinstance(manga, Manga)
 
 
 def test_recherche_id_manga_ok():
@@ -117,7 +117,7 @@ def test_recherche_id_manga_ok():
     manga = manga_service.rechercher_un_id_manga(id_manga)
 
     # THEN
-    assert manga is True
+    assert manga == mock_dao
 
 
 def test_recherche_id_manga_echec():
@@ -135,7 +135,7 @@ def test_recherche_id_manga_echec():
     manga = manga_service.rechercher_un_id_manga(id)
 
     # THEN
-    assert manga is False
+    assert manga is None
 
 
 def test_supprimer_manga_ok():
@@ -277,7 +277,7 @@ def test_rechercher_une_serie_ok():
     manga_service.MangaDao = mock_dao
 
     # WHEN
-    result = manga_service.rechercher_un_auteur(titre)
+    result = manga_service.rechercher_une_serie(titre)
 
     # THEN
     assert result is True
@@ -295,10 +295,10 @@ def test_rechercher_une_serie_echec():
     manga_service.MangaDao = mock_dao
 
     # WHEN
-    result = manga_service.rechercher_un_auteur(titre)
+    result = manga_service.rechercher_une_serie(titre)
 
     # THEN
-    assert result is False
+    assert result is None
 
 
 if __name__ == "__main__":
