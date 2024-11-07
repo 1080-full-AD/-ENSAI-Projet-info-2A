@@ -50,13 +50,13 @@ class MainUserView(AbstractView):
 
             case "Se déconnecter":
                 from src.views.accueil.main_menu_view import MainView
-                from src.views.session import Session
 
                 UtilisateurService().se_deconnecter()
                 return MainView("Retour au menu principal")
 
             case "Supprimer son compte :(":
                 from src.views.accueil.main_menu_view import MainView
-
-                UtilisateurService().supprimer_utilisateur()
+                from src.views.session import Session
+                user = Session.user
+                UtilisateurService().supprimer_utilisateur(user)
                 return MainView("Retour au menu principal")

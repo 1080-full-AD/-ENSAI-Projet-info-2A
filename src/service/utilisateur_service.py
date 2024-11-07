@@ -53,7 +53,7 @@ class UtilisateurService(metaclass=Singleton):
     @log
     def supprimer_utilisateur(self, utilisateur) -> bool:
         """Supprimer le compte d'un utilisateur"""
-        return self.UtilisateurDao.supprimer(utilisateur)
+        return UtilisateurDao().supprimer(utilisateur)
 
     @log
     def lister_tous_utilisateur(self, inclure_mdp=False) -> list[Utilisateur]:
@@ -70,7 +70,7 @@ class UtilisateurService(metaclass=Singleton):
     @log
     def trouver_par_pseudo_utilisateur(self, pseudo) -> Utilisateur:
         """Trouver un utilisateur à partir de son pseudo"""
-        return self.UtilisateurDao.trouver_par_pseudo(pseudo)
+        return UtilisateurDao().trouver_par_pseudo(pseudo)
 
     @log
     def se_connecter(self, pseudo, mdp) -> Utilisateur:

@@ -27,3 +27,6 @@ class Utilisateur:
     def get_pseudo(self) -> str:
         """Permet d'afficher le pseudo de l'utilisateur"""
         return f"Joueur({self.pseudo}.)"
+    
+
+user = Utilisateur(None, None)

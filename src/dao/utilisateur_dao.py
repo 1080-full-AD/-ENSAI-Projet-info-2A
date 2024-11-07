@@ -194,8 +194,8 @@ class UtilisateurDao(metaclass=Singleton):
                 with connection.cursor() as cursor:
                     # Supprimer le compte d'un utilisateur
                     cursor.execute(
-                        "DELETE FROM utilisateur                  "
-                        f" WHERE id_utilisateur='{id_utilisateur}'      ",
+                        "DELETE FROM projet.utilisateur                  "
+                        f" WHERE id_utilisateur = {utilisateur.id_utilisateur}",
                         {"id_utilisateur": utilisateur.id_utilisateur},
                     )
                     res = cursor.rowcount
