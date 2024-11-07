@@ -1,7 +1,6 @@
 from InquirerPy import inquirer
 
 from src.views.abstract_view import AbstractView
-from src.views.session import Session
 
 from src.service.utilisateur_service import UtilisateurService
 
@@ -12,21 +11,19 @@ class ConnexionView(AbstractView):
     def choisir_menu(self):
 
         pseudo = inquirer.text(message="Entrez votre pseudo : ").execute()
-        
+
         mdp = inquirer.secret(message="Entrez votre mot de passe :").execute()
 
-        joueur = UtilisateurService().se_connecter(pseudo, mdp)
+        user = UtilisateurService().se_connecter(pseudo, mdp)
 
-        if joueur:
-            message = f"Vous êtes connecté sous le pseudo {joueur.pseudo}"
-            Session().connexion(joueur)
+        if user:
+            message = f"Vous êtes connecté sous le pseudo {user.pseudo}"
 
-            from views.menu_joueur_vue import MenuJoueurVue
+            from src.views.users.main_user_view import MainUserView
 
-            return MenuJoueurVue(message)
+            return MainUserView(message)
 
         message = "Erreur de connexion :/\n(pseudo ou mot de passe invalide)"
         from src.views.accueil.main_menu_view import MainView
 
         return MainView(message)
-

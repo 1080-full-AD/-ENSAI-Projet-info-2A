@@ -51,9 +51,9 @@ class UtilisateurService(metaclass=Singleton):
             None
 
     @log
-    def supprimer_utilisateur(self, utlisateur) -> bool:
+    def supprimer_utilisateur(self, utilisateur) -> bool:
         """Supprimer le compte d'un utilisateur"""
-        return self.UtilisateurDao.supprimer(utlisateur)
+        return self.UtilisateurDao.supprimer(utilisateur)
 
     @log
     def lister_tous_utilisateur(self, inclure_mdp=False) -> list[Utilisateur]:
@@ -81,11 +81,7 @@ class UtilisateurService(metaclass=Singleton):
     @log
     def se_deconnecter(self):
         """Se déconnecter de l'application"""
-        if self.pseudo:
-            print(f"{self.pseudo} se déconnecte.")
-            self.pseudo = None
-        else:
-            print("Aucun utilisateur n'est connecté.")
+        return None
 
     def create_password(self):
         """Demande à l'utilsateur de créer un mot de passe"""
@@ -117,7 +113,3 @@ class UtilisateurService(metaclass=Singleton):
             raise ValueError("Le mot de passe doit contenir au moins un"
                              "chiffre.")
         return True
-
-#UtilisateurService().creer_utilisateur("pseudo", 22, "Adrien44")
-
-#UtilisateurService().se_connecter("Chahine", "Chahine123")

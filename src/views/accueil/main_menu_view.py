@@ -34,8 +34,8 @@ class MainView(AbstractView):
             case "Se connecter":
                 from src.views.accueil.connexion_view import ConnexionView
 
-                return ConnexionView("\n" + "=" * 50 + "Connexion "
-                                     "à l'application" + "=" * 50 + "\n")
+                return ConnexionView("\n" + "=" * 50 + " Connexion "
+                                     "à l'application " + "=" * 50 + "\n")
 
             case "Créer un compte":
                 from src.views.accueil.create_account_view \
