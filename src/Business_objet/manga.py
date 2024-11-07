@@ -13,16 +13,16 @@ class Manga:
         synopsis du manga
     """
 
-    def __init__(self, id_manga, titre, auteur, synopsis):
+    def __init__(self, id_manga, titre_manga, auteurs, synopsis):
         """Constructeur"""
-        self.titre = titre
+        self.titre_manga = titre_manga
         self.id_manga = id_manga
-        self.auteur = auteur
+        self.auteurs = auteurs
         self.synopsis = synopsis
 
-    def trouve_titre(self, titre: str):
+    def trouve_titre(self, titre_manga: str):
         """Permet d'afficher les informations du joueur"""
-        if titre == Manga:
-            return f"Manga({self.titre}, {self.auteur}, {self.synospsis})"
+        if titre_manga == Manga:
+            return f"Manga({self.titre_manga}, {self.auteur}, {self.synospsis})"
         else:
             return None

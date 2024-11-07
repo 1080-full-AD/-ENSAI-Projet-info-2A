@@ -9,8 +9,8 @@ from src.business_objet.manga import Manga
 Liste_Manga = [
     Manga(
         id_manga=13,
-        titre="One Piece",
-        auteur="Eiichirō Oda",
+        titre_manga="One Piece",
+        auteurs="Eiichirō Oda",
         synopsis="Gol D. Roger, a man referred to as the King of the Pirates, is set to be executed by the World Government. But just before his demise,"
         " he confirms the existence of a great treasure, One Piece, located somewhere within the vast ocean known as the Grand Line. Announcing that One Piece can be claimed by anyone worthy enough to reach it,"
         "the King of the Pirates is executed and the Great Age of Pirates begins.\n\nTwenty-two years later, a young man by the name of Monkey D. Luffy is ready to embark on his own adventure, searching for One "
@@ -70,7 +70,7 @@ def test_recherche_manga_ok():
     """Tester la recherche d'un manga à partir de son titre"""
 
     # GIVEN
-    titre = "One Piece"
+    titre_manga = "Monster"
     mock_dao = MagicMock(spec=MangaDao)
     mock_dao.trouver_par_titre.return_value = True
 
@@ -78,7 +78,7 @@ def test_recherche_manga_ok():
     manga_service.MangaDao = mock_dao
 
     # WHEN
-    manga = manga_service.rechercher_un_manga(titre)
+    manga = manga_service.rechercher_un_manga(titre_manga)
 
     # THEN
     assert isinstance(manga, Manga)
@@ -88,7 +88,7 @@ def test_recherche_manga_echec():
     """Tester si la recherche de manga à partir de son titre renvoie bien un échec"""
 
     # GIVEN
-    titre = "One Piece"
+    titre_manga = "Monster"
     mock_dao = MagicMock(spec=MangaDao)
     mock_dao.trouver_par_titre.return_value = False
 
@@ -96,7 +96,7 @@ def test_recherche_manga_echec():
     manga_service.MangaDao = mock_dao
 
     # WHEN
-    manga = manga_service.rechercher_un_manga(titre)
+    manga = manga_service.rechercher_un_manga(titre_manga)
 
     # THEN
     assert isinstance(manga, Manga)
@@ -106,7 +106,7 @@ def test_recherche_id_manga_ok():
     """Tester si la recherche de manga à partir de son id fonctionne"""
 
     # GIVEN
-    id_manga = 13
+    id_manga = 11
     mock_dao = MagicMock(spec=MangaDao)
     mock_dao.trouver_par_id.return_value = True
 
@@ -117,14 +117,14 @@ def test_recherche_id_manga_ok():
     manga = manga_service.rechercher_un_id_manga(id_manga)
 
     # THEN
-    assert manga == mock_dao
+    assert manga is not None
 
 
 def test_recherche_id_manga_echec():
     """Tester si la recherche de manga à partir de son id renvoie bien un échec"""
 
     # GIVEN
-    id = 13
+    id_manga = 13
     mock_dao = MagicMock(spec=MangaDao)
     mock_dao.trouver_par_id.return_value = False
 
@@ -132,7 +132,7 @@ def test_recherche_id_manga_echec():
     manga_service.MangaDao = mock_dao
 
     # WHEN
-    manga = manga_service.rechercher_un_id_manga(id)
+    manga = manga_service.rechercher_un_id_manga(id_manga)
 
     # THEN
     assert manga is None
@@ -143,10 +143,14 @@ def test_supprimer_manga_ok():
 
     # GIVEN
     manga = Manga(
-        9999,
-        "Le12",
-        "Eiichirō Oda",
-        "Manga génial qui raconte la vie de 12 personnes",
+        id_manga=13,
+        titre_manga="One Piece",
+        auteurs="Eiichirō Oda",
+        synopsis="Gol D. Roger, a man referred to as the King of the Pirates, is set to be executed by the World Government. But just before his demise,"
+        " he confirms the existence of a great treasure, One Piece, located somewhere within the vast ocean known as the Grand Line. Announcing that One Piece can be claimed by anyone worthy enough to reach it,"
+        "the King of the Pirates is executed and the Great Age of Pirates begins.\n\nTwenty-two years later, a young man by the name of Monkey D. Luffy is ready to embark on his own adventure, searching for One "
+        "Piece and striving to become the new King of the Pirates. Armed with just a straw hat, a small boat, and an elastic body, he sets out on a fantastic journey to gather his own crew and a worthy ship that"
+        " will take them across the Grand Line to claim the greatest status on the high seas.\n\n[Written by MAL Rewrite]",
     )
     mock_dao = MagicMock(spec=MangaDao)
     mock_dao.supprimer_manga.return_value = True
@@ -155,10 +159,10 @@ def test_supprimer_manga_ok():
     manga_service.MangaDao = mock_dao
 
     # WHEN
-    manga = manga_service.supprimer_un_manga(manga)
+    res = manga_service.supprimer_un_manga(manga)
 
     # THEN
-    assert manga is True
+    assert res is True
 
 
 def test_supprimer_manga_echec():
@@ -233,7 +237,7 @@ def test_rechercher_un_auteur_ok():
     """Tester si la recherche d'un manga par le nom de son auteur fonctionne"""
 
     # GIVEN
-    auteur = "Eiichirō Oda"
+    auteurs = "Eiichirō Oda"
     mock_dao = MagicMock(spec=MangaDao)
     mock_dao.trouver_par_auteur.return_value = True
 
@@ -241,7 +245,7 @@ def test_rechercher_un_auteur_ok():
     manga_service.MangaDao = mock_dao
 
     # WHEN
-    result = manga_service.rechercher_un_auteur(auteur)
+    result = manga_service.rechercher_un_auteur(auteurs)
 
     # THEN
     assert result is True
@@ -251,7 +255,7 @@ def test_rechercher_un_auteur_echec():
     """Tester si la recherches d'un manga grâce au nom de son auteur est un échec"""
 
     # GIVEN
-    auteur = "Eiichirō Oda"
+    auteurs = "Eiichirō Oda"
     mock_dao = MagicMock(spec=MangaDao)
     mock_dao.trouver_par_auteur.return_value = False
 
@@ -259,7 +263,7 @@ def test_rechercher_un_auteur_echec():
     manga_service.MangaDao = mock_dao
 
     # WHEN
-    result = manga_service.rechercher_un_auteur(auteur)
+    result = manga_service.rechercher_un_auteur(auteurs)
 
     # THEN
     assert result is False

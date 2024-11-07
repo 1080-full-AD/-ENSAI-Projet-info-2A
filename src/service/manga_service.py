@@ -8,9 +8,9 @@ class MangaService(metaclass=Singleton):
     """Classe permettant d'avoir des informations à propos des Mangas"""
 
     @log
-    def rechercher_un_manga(self, titre) -> Manga:
+    def rechercher_un_manga(self, titre_manga) -> Manga:
         """Trouver un manga à partir de son titre"""
-        return MangaDao().trouver_par_titre(titre)
+        return MangaDao().trouver_par_titre(titre_manga)
 
     @log
     def rechercher_un_id_manga(self, id_manga) -> Manga:
@@ -33,9 +33,9 @@ class MangaService(metaclass=Singleton):
         return MangaDao().modifier(manga)
 
     @log
-    def rechercher_un_auteur(self, auteur) -> Manga:
+    def rechercher_un_auteur(self, auteurs) -> Manga:
         """Trouver un manga à partir de son auteur"""
-        return MangaDao().trouver_par_auteur(auteur)
+        return MangaDao().trouver_par_auteur(auteurs)
 
     @log
     def rechercher_une_serie(self, manga) -> Manga:
