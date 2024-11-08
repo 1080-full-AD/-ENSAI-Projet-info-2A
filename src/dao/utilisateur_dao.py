@@ -10,7 +10,7 @@ from src.business_objet.utilisateur import Utilisateur
 
 class UtilisateurDao(metaclass=Singleton):
     """Classe contenant les méthodes pour accéder aux utilisateurs
-       de la base de données"""
+    de la base de données"""
 
     @log
     def creer(self, utilisateur) -> bool:
@@ -35,11 +35,11 @@ class UtilisateurDao(metaclass=Singleton):
                     cursor.execute(
                         "INSERT INTO projet.utilisateur(pseudo, mot_de_passe,"
                         "age) VALUES                            "
-                        f"('{utilisateur.pseudo}', '{utilisateur.mdp}', {utilisateur.age})"
+                        f"(%(utilisateur.pseudo)s, %(utilisateur.mot_de_passe)s, %(utilisateur.age)s)"
                         "  RETURNING id_utilisateur;                         ",
                         {
                             "pseudo": utilisateur.pseudo,
-                            "mdp": utilisateur.mdp,
+                            "mot_de_passe": utilisateur.mot_de_passe,
                             "age": utilisateur.age,
                         },
                     )
@@ -74,7 +74,7 @@ class UtilisateurDao(metaclass=Singleton):
                     cursor.execute(
                         "SELECT *                           "
                         "FROM utilisateur                      "
-                        f" WHERE pseudo = '{pseudo}';  ",
+                        f" WHERE pseudo = %(pseudo)s;  ",
                         {"pseudo": pseudo},
                     )
                     res = cursor.fetchone()
@@ -126,7 +126,7 @@ class UtilisateurDao(metaclass=Singleton):
                 utilisateur = Utilisateur(
                     id_utilisateur=row["id_utilisateur"],
                     pseudo=row["pseudo"],
-                    mdp=row["mot_de_passe"],
+                    mot_de_passe=row["mot_de_passe"],
                     age=row["age"],
                 )
 
@@ -156,14 +156,14 @@ class UtilisateurDao(metaclass=Singleton):
                 with connection.cursor() as cursor:
                     cursor.execute(
                         "UPDATE utilisateur                                 "
-                        f"   SET pseudo      = '{pseudo}',                   "
-                        f"       mdp         = '{mdp}',                      "
-                        f"       age         = '{age}',                      "
-                        f"       collections = '{collections}'               "
-                        f" WHERE id_joueur = '{id_joueur}';                  ",
+                        f"   SET pseudo      = %(pseudo)s,                   "
+                        f"       mot_de_passe = %(mot_de_passe)s,                      "
+                        f"       age         = %(age)s,                      "
+                        f"       collections = %(collections)s               "
+                        f" WHERE id_utilisateur = %(id_utilisateur)s;                  ",
                         {
                             "pseudo": utilisateur.pseudo,
-                            "mdp": utilisateur.mdp,
+                            "mot_de_passe": utilisateur.mot_de_passe,
                             "age": utilisateur.age,
                             "collections": utilisateur.collections,
                             "id_utilisateur": utilisateur.id_utilisateur,
@@ -195,7 +195,7 @@ class UtilisateurDao(metaclass=Singleton):
                     # Supprimer le compte d'un utilisateur
                     cursor.execute(
                         "DELETE FROM projet.utilisateur                  "
-                        f" WHERE id_utilisateur = {utilisateur.id_utilisateur}",
+                        f" WHERE id_utilisateur = %(utilisateur.id_utilisateur)s",
                         {"id_utilisateur": utilisateur.id_utilisateur},
                     )
                     res = cursor.rowcount
@@ -204,9 +204,9 @@ class UtilisateurDao(metaclass=Singleton):
             raise
 
         return res > 0
-    
+
     @log
-    def se_connecter(self, pseudo, mdp) -> Utilisateur:
+    def se_connecter(self, pseudo, mot_de_passe) -> Utilisateur:
         """se connecter grâce à son pseudo et son mot de passe
 
         Parameters
@@ -228,9 +228,9 @@ class UtilisateurDao(metaclass=Singleton):
                     cursor.execute(
                         "SELECT *                           "
                         "  FROM projet.utilisateur                      "
-                        f" WHERE pseudo = '{pseudo}'         "
-                        f"   AND mot_de_passe = '{mdp}';              ",
-                        {"pseudo": pseudo, "mot_de_passe": mdp},
+                        f" WHERE pseudo = %(pseudo)s         "
+                        f"   AND mot_de_passe = %(mot_de_passe)s;              ",
+                        {"pseudo": pseudo, "mot_de_passe": mot_de_passe},
                     )
                     res = cursor.fetchone()
 
@@ -241,9 +241,9 @@ class UtilisateurDao(metaclass=Singleton):
         if res:
             utilisateur = Utilisateur(
                 pseudo=res["pseudo"],
-                mdp=res["mot_de_passe"],
+                mot_de_passe=res["mot_de_passe"],
                 age=res["age"],
-                id_utilisateur=res["id_utilisateur"]
+                id_utilisateur=res["id_utilisateur"],
             )
 
         return utilisateur
