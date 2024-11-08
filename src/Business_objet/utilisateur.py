@@ -17,16 +17,16 @@ class Utilisateur:
 
     """
 
-    def __init__(self, pseudo, age, mdp=None, id_utilisateur=None):
+    def __init__(self, pseudo, age, mot_de_passe=None, id_utilisateur=None):
         """Constructeur"""
         self.id_utilisateur = id_utilisateur
         self.pseudo = pseudo
-        self.mdp = mdp
+        self.mot_de_passe = mot_de_passe
         self.age = age
 
     def get_pseudo(self) -> str:
         """Permet d'afficher le pseudo de l'utilisateur"""
         return f"Joueur({self.pseudo}.)"
-    
+
 
 user = Utilisateur(None, None)
