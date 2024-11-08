@@ -2,7 +2,6 @@ import logging
 
 from src.utils.singleton import Singleton
 from src.utils.log_decorator import log
-
 from src.dao.db_connection import DBConnection
 
 from src.business_objet.utilisateur import Utilisateur
@@ -35,7 +34,7 @@ class UtilisateurDao(metaclass=Singleton):
                     cursor.execute(
                         "INSERT INTO projet.utilisateur(pseudo, mot_de_passe,"
                         "age) VALUES                            "
-                        f"(%(utilisateur.pseudo)s, %(utilisateur.mot_de_passe)s, %(utilisateur.age)s)"
+                        f"('{utilisateur.pseudo}', '{utilisateur.mot_de_passe}', '{utilisateur.age}')"
                         "  RETURNING id_utilisateur;                         ",
                         {
                             "pseudo": utilisateur.pseudo,
@@ -45,7 +44,7 @@ class UtilisateurDao(metaclass=Singleton):
                     )
                     res = cursor.fetchone()
         except Exception as e:
-            logging.info(e)
+            logging.error(e)
 
         created = False
         if res:
@@ -195,7 +194,7 @@ class UtilisateurDao(metaclass=Singleton):
                     # Supprimer le compte d'un utilisateur
                     cursor.execute(
                         "DELETE FROM projet.utilisateur                  "
-                        f" WHERE id_utilisateur = %(utilisateur.id_utilisateur)s",
+                        f" WHERE id_utilisateur = '{utilisateur.id_utilisateur}'",
                         {"id_utilisateur": utilisateur.id_utilisateur},
                     )
                     res = cursor.rowcount

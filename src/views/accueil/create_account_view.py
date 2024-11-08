@@ -30,15 +30,12 @@ class RegistrationView(AbstractView):
         ).execute()
         age = int(age)
 
-        joueur = UtilisateurService().creer_utilisateur(pseudo=pseudo,
-                                                        mdp=mdp, age=age)
-        print(joueur)
-        if joueur is not None:
-            print("fzervzer")
+        user = UtilisateurService().creer_utilisateur(pseudo=pseudo,
+                                                        mot_de_passe=mdp, age=age)
+        if user is not None:
             message = (
-                f"Votre compte a été créé {joueur.pseudo} !"
+                f"Votre compte a été créé {user.pseudo} !"
                 f" Vous pouvez maintenant vous connecter :)")
-            print(message)
 
         else:
             message = ("Erreur de connexion :/\n"

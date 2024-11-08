@@ -13,13 +13,11 @@ class ConnexionView(AbstractView):
         pseudo = inquirer.text(message="Entrez votre pseudo : ").execute()
         mdp = inquirer.secret(message="Entrez votre mot de passe :").execute()
 
-        global user
-        user = UtilisateurService().se_connecter(pseudo, mdp)
+        user = UtilisateurService().se_connecter(pseudo=pseudo, mot_de_passe=mdp)
 
         if user:
             message = f"Vous êtes connecté sous le pseudo {user.pseudo}"
             Session().connexion(user)
-
             from src.views.users.main_user_view import MainUserView
 
             return MainUserView(message)

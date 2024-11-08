@@ -20,7 +20,7 @@ class Manga:
         self.auteurs = auteurs
         self.synopsis = synopsis
 
-    def __repr__(self):
+    def __str__(self):
         return (
             f"\n ---> {self.titre_manga}\n"
             f"      Identifiant: {self.id_manga}\n"

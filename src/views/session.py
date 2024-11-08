@@ -1,5 +1,4 @@
 from datetime import datetime
-
 from src.utils.singleton import Singleton
 
 
@@ -19,6 +18,9 @@ class Session(metaclass=Singleton):
         """Enregistement des données en session"""
         self.user = user
         self.debut_connexion = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+
+    def getuser(self):
+        return self.user
 
     def deconnexion(self):
         """Suppression des données de la session"""
