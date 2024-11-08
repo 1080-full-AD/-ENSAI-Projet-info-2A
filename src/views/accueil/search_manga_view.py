@@ -52,10 +52,11 @@ class MangaSearchView(AbstractView):
 
             case "Mangaka":
                 author = inquirer.text(message="Entrez le nom"
-                                               "de l'auteur :) ").execute()
+                                               " de l'auteur :) ").execute()
                 try:
-                    MangaService().rechercher_un_auteur(author)
+                    manga = MangaService().rechercher_un_auteur(author)
+                    print(manga.__str__())
                     return MangaSearchView("\n" + "=" * 50 + " Recherche"
                                            " de mangas " + "=" * 50 + "\n")
-                except Exception:
+                except Exception as e:
                     return MangaSearchView(e)
