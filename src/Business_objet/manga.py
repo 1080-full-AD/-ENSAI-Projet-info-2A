@@ -20,9 +20,10 @@ class Manga:
         self.auteurs = auteurs
         self.synopsis = synopsis
 
-    def trouve_titre(self, titre_manga: str):
-        """Permet d'afficher les informations du joueur"""
-        if titre_manga == Manga:
-            return f"Manga({self.titre_manga}, {self.auteur}, {self.synospsis})"
-        else:
-            return None
+    def __repr__(self):
+        return (
+            f"\n ---> {self.titre_manga}\n"
+            f"      Identifiant: {self.id_manga}\n"
+            f"      Auteur(s): {self.auteurs}\n"
+            f"      Synopsis: {self.synopsis}"
+        )

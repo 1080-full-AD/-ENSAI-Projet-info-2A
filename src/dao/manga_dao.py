@@ -199,8 +199,8 @@ class MangaDao(metaclass=Singleton):
                     "       id_manga,"
                     "       auteurs,"
                     "       synopsis"
-                    "FROM projet.manga "
-                    f"WHERE auteurs = '{auteurs}'"
+                    "       FROM projet.manga "
+                    f" WHERE auteurs = '{auteurs}'"
                 )
                 res_auteur = cursor.fetchall()
                 liste_manga_auteur = []

@@ -1,7 +1,7 @@
 from InquirerPy import inquirer
 from InquirerPy.validator import EmptyInputValidator
 from src.views.abstract_view import AbstractView
-
+from src.business_objet.manga import Manga
 from src.service.manga_service import MangaService
 
 
@@ -33,7 +33,8 @@ class MangaSearchView(AbstractView):
                                          ).execute())
 
                 try:
-                    MangaService().rechercher_un_id_manga(id)
+                    manga = MangaService().rechercher_un_id_manga(id)
+                    print(manga.__str__())
                     return MangaSearchView("\n" + "=" * 50 + " Recherche"
                                            " de mangas " + "=" * 50 + "\n")
                 except Exception as e:
@@ -42,7 +43,8 @@ class MangaSearchView(AbstractView):
                 name = inquirer.text(message="Entrez le nom "
                                              "du manga :) ").execute()
                 try:
-                    MangaService().rechercher_un_manga(name)
+                    manga = MangaService().rechercher_un_manga(name)
+                    print(manga.__str__())
                     return MangaSearchView("\n" + "=" * 50 + " Recherche"
                                            " de mangas " + "=" * 50 + "\n")
                 except Exception as e:
