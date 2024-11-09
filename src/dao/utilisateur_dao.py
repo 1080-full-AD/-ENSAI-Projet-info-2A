@@ -87,7 +87,7 @@ class UtilisateurDao(metaclass=Singleton):
                 pseudo=res["pseudo"],
                 age=res["age"],
                 collections=res["collections"],
-                id_joueur=res["id_utilisateur"],
+                id_utilisateur=res["id_utilisateur"],
             )
 
         return utilisateur

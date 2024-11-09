@@ -83,7 +83,7 @@ def test_creer_utilisateur_ok():
         678,
     )
     mock_dao = MagicMock(spec=UtilisateurDao)
-    mock_dao.creer.return_value = True
+    mock_dao.creer.return_value = ValueError
 
     utilisateur_service = UtilisateurService()
     utilisateur_service.UtilisateurDao = mock_dao
