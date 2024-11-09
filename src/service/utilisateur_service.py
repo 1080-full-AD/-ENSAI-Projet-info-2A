@@ -114,4 +114,6 @@ class UtilisateurService(metaclass=Singleton):
             raise ValueError("Le mot de passe doit contenir au moins une" "minuscule.")
         if not re.search(r"[0-9]", mot_de_passe):
             raise ValueError("Le mot de passe doit contenir au moins un" "chiffre.")
+        else:
+            return False
         return True

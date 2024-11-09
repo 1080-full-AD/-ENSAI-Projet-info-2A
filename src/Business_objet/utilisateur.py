@@ -7,13 +7,11 @@ class Utilisateur:
     id_utilisateur : int
         identifiant
     pseudo : str
-        pseudo du joueur
-    mdp : str
-        le mot de passe du joueur
+        pseudo de l'utilisateur
+    mot_de_passe : str
+        le mot de passe de l'utilisateur
     age : int
-        age du joueur
-    collections : list[Collection]
-        liste de collections de mangas du joueur
+        age de l'utilisateur
 
     """
 

@@ -1,7 +1,7 @@
 from unittest import TestCase
 import pytest
 
-from business_object.manga import Manga
+from src.business_objet.manga import Manga
 
 
 class TestManga(TestCase):
@@ -32,4 +32,4 @@ class TestManga(TestCase):
 
         # WHEN/THEN
         with pytest.raises(TypeError):
-            Manga().manga(titre_3)       
+            Manga().manga(titre_3)
