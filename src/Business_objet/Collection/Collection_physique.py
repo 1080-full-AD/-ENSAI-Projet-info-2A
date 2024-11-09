@@ -6,18 +6,19 @@ from src.business_objet.manga import Manga
 
 class CollectionPhysique(AbstractCollection):
 
-    def __init__(self, titre, id_utilisateur, list_manga):
+    def __init__(self, titre, id_utilisateur, list_manga , description):
         if not all(isinstance(i, MangaPhysique) for i in list_manga):
             raise ValueError("les mangas doivent être des mangas physiques.")
 
-        super().__init__(titre, id_utilisateur, list_manga) 
+        super().__init__(titre, id_utilisateur, list_manga , description) 
         self.type = "physique"
                 
     def __eq__(self, autre_collection):
         return (self.titre == autre_collection.titre and 
                 self.id_utilisateur == autre_collection.id_utilisateur and 
                 self.list_manga == autre_collection.liste_manga and 
-                self.type == autre_collection.type)
+                self.type == autre_collection.type and 
+                self.description == autre_collection.description)
 
     def ajouter_manga(self, new_manga: Manga):
         if not isinstance(new_manga, MangaPhysique):

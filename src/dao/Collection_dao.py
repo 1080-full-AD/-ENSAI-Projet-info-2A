@@ -1,3 +1,5 @@
+
+
 import logging
 from src.utils.singleton import Singleton
 from src.utils.log_decorator import log
@@ -37,14 +39,15 @@ class CollectionDao(metaclass=Singleton):
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                       "INSERT INTO projet.collection (Titre_collec, id_utilisateur, type) "
-                    "VALUES (%s, %s, %s) RETURNING Titre_collec;",
-                    (collection.titre, collection.id_utilisateur, collection.type)
+                        "INSERT INTO projet.collection (Titre_collec, id_utilisateur,description) "
+                        "VALUES (%s, %s ,%s) RETURNING Titre_collec;",
+                        (collection.titre, collection.id_utilisateur ,collection.description)
                           )
                     
                     res = cursor.fetchone()
+                
         except Exception as e:
-            logging.info(e)
+            logging.error("Error creating collection: %s", e)
 
         if res:
             collection.titre = res["Titre_collec"]
@@ -83,7 +86,7 @@ class CollectionDao(metaclass=Singleton):
                 res = cursor.fetchall()
 
         except Exception as e:
-            logging.info(e)
+            logging.error("Error creating collection: %s", e)
 
         liste_collection = []
         if res:
@@ -162,12 +165,12 @@ class CollectionDao(metaclass=Singleton):
                         "UPDATE projet.collection      "
                         f"   titre = '{titre}',       "
                         f"   id_utilisateur = '{id_utilisateur}',    "
-                        f"   list_manga = '{list_manga}',                      "
+                        f"  description = '{collection}',                      "
                         f"where titre='{titre}' and id_utilisateur='{id_utilisateur}", 
                            
                         {
                             "titre": collection.titre,
-                            "list_manga": collection.list_manga,
+                            "description": collection.description,
                             "id_collection": collection.id_collection
                         },
                     )

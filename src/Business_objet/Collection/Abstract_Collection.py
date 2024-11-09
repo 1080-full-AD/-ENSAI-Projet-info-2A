@@ -3,11 +3,12 @@ from abc import ABC, abstractmethod
 
 class AbstractCollection(ABC):
 
-    def __init__(self, titre, id_utilisateur, list_manga):
+    def __init__(self, titre, id_utilisateur, list_manga , description):
 
         self.titre = titre
         self.id_utilisateur = id_utilisateur
         self.list_manga = list_manga
+        self.description=description
 
     def get_utilisateur(self):
         return self.id_utilisateur

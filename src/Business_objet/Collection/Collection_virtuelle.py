@@ -8,7 +8,7 @@ from src.business_objet.manga import Manga
 
 class CollectionVirtuelle(AbstractCollection):
 
-    def __init__(self, titre, id_utilisateur, list_manga):
+    def __init__(self, titre, id_utilisateur, list_manga,description):
         if not all(isinstance(i, Manga) for i in list_manga) :
             raise ValueError("les collections virtuelles ne conteniennent que des mangas virtuelles")
         for i in list_manga :
@@ -16,7 +16,7 @@ class CollectionVirtuelle(AbstractCollection):
                 raise ValueError("les collection virtuelles ne peuvent contenir des collections physique")
                 break
 
-        super().__init__(titre, id_utilisateur, list_manga)
+        super().__init__(titre, id_utilisateur, list_manga,description)
         self.type = "virtuelle"
     
     def ajouter_manga(self, new_manga):

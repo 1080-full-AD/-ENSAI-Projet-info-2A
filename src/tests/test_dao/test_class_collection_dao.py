@@ -6,7 +6,8 @@ from src.dao.collection_dao import CollectionDao
 from src.business_objet.collection.collection_virtuelle import CollectionVirtuelle
 from src.business_objet.collection.collection_physique import CollectionPhysique
 from src.business_objet.manga import Manga
-
+from src.dao.utilisateur_dao import UtilisateurDao
+from src.business_objet.utilisateur import Utilisateur 
 
 
 @pytest.fixture(scope="session", autouse=True)
@@ -23,9 +24,10 @@ def test_creer_ok():
 
     # GIVEN
     collection = CollectionVirtuelle(
-        titre="Ma collection virtuelle", id_utilisateur=123, list_manga=[])
-
+        titre="Ma collection virtuelle", id_utilisateur=1, list_manga=[],description="ras")
+    
     # WHEN
+    
     creation_ok = CollectionDao().Creer(collection)
 
     # THEN
@@ -36,9 +38,8 @@ def test_creer_ok():
 
 def test_creer_ko():
     """Création d'avis échouée """
-
     # GIVEN
-    collection = CollectionVirtuelle(titre=None, id_utilisateur=None, list_manga=[])
+    collection = CollectionVirtuelle(titre=None, id_utilisateur=None, list_manga=[],description="ras")
 
     # WHEN
     creation_ok = CollectionDao().Creer(collection)
@@ -83,7 +84,7 @@ def test_supprimer_ok():
 
     # GIVEN
     collection = CollectionVirtuelle(
-        titre="Ma collection virtuelle", id_utilisateur=123, list_manga=[])
+        titre="Ma collection virtuelle", id_utilisateur=123, list_manga=[],description="ras")
     
     # WHEN
     suppression = CollectionDao().supprimer(collection)
@@ -98,7 +99,7 @@ def test_supprimer_ko():
 
     # GIVEN
     collection = CollectionVirtuelle(
-        titre="Ma collection virtuelle", id_utilisateur=999999999999, list_manga=[])
+        titre="Ma collection virtuelle", id_utilisateur=999999999999, list_manga=[],description="ras")
     
     # WHEN
     suppression=CollectionDao().supprimer(collection)
@@ -113,7 +114,7 @@ def test_modifier_ok():
     # GIVEN
     new_titre="ma meilleure collection"
     collection = CollectionVirtuelle(
-        titre=new_titre, id_utilisateur="123", list_manga=[]
+        titre=new_titre, id_utilisateur="123", list_manga=[],description="ras"
     )
 
     # WHEN
@@ -127,7 +128,7 @@ def test_modifier_ko():
 
     # GIVEN
     collection = CollectionVirtuelle(
-        titre="WWWWW", id_utilisateur=123, list_manga=[]
+        titre="WWWWW", id_utilisateur=123, list_manga=[],description="ras"
     )
 
     # WHEN
@@ -145,7 +146,7 @@ def test_liste_manga_ok():
     manga1 = Manga(1, "Titre 1", "Auteur 1", "Synopsis 1")
     manga2 = Manga(2, "Titre 2", "Auteur 2", "Synopsis 2")
     collection = CollectionVirtuelle(
-        titre="Ma collection virtuelle", id_utilisateur=123, list_manga=[manga1,manga2]
+        titre="Ma collection virtuelle", id_utilisateur=123, list_manga=[manga1,manga2],description="ras"
     )
 
     # WHEN
