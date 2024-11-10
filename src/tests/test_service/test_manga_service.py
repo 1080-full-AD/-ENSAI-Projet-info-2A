@@ -86,13 +86,15 @@ def test_recherche_manga_ok():
     assert isinstance(manga, Manga)
 
 
-def test_recherche_manga_echec():
+def test_recherche_manga_echec(self):
     """Tester si la recherche de manga à partir de son titre renvoie bien un échec"""
 
     # GIVEN
-    titre_manga = "Monster"
+    titre_manga = "AbsentBDD"
     mock_dao = MagicMock(spec=MangaDao)
-    mock_dao.trouver_par_titre.return_value = False
+    mock_dao.trouver_par_titre.return_value.side_effect = ValueError(
+        "Aucun manga ne possède ce titre :/"
+    )
 
     manga_service = MangaService()
     manga_service.MangaDao = mock_dao
@@ -101,7 +103,7 @@ def test_recherche_manga_echec():
     manga = manga_service.rechercher_un_manga(titre_manga)
 
     # THEN
-    assert isinstance(manga, Manga)
+    self.assertEqual(manga, "Aucun manga ne possède ce titre :/")
 
 
 def test_recherche_id_manga_ok():
