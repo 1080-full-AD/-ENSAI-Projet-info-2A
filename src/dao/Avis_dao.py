@@ -23,21 +23,13 @@ class AvisDao(metaclass=Singleton):
             True si la création est un succès
             False sinon
         """
-
         res = None
-
         try:
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        "INSERT INTO avis(id_manga, id_utilisateur, texte)VALUES"
-                        f"({id_manga}, {id_utilisateur}, '{texte}')         "
-                        "  RETURNING id_manga, id_utilisateur, texte;                    ",
-                        {
-                            "id_manga": avis.id_manga,
-                            "id_utilisateur": avis.id_utilisateur,
-                            "texte": avis.texte
-                        },
+                        "INSERT INTO projet.avis(id_manga, id_utilisateur, texte) VALUES (%s, %s, %s) RETURNING id_manga, id_utilisateur, texte;",
+                        (avis.id_manga, avis.id_utilisateur, avis.texte)
                     )
                     res = cursor.fetchone()
         except Exception as e:
@@ -46,9 +38,9 @@ class AvisDao(metaclass=Singleton):
 
         created = res is not None
         if created:
-            avis.id_manga = res["id_manga"]
-            avis.id_utilisateur = res["id_utilisateur"]
-            avis.texte = res["texte"]
+            projet.avis.id_manga = res[0]
+            projet.avis.id_utilisateur = res[1]
+            projet.avis.texte = res[2]
 
         return created
 
@@ -69,8 +61,8 @@ class AvisDao(metaclass=Singleton):
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        "SELECT *,"
-                        "FROM avis"
+                        "SELECT * "
+                        "FROM projet.avis "
                         f"WHERE id_utilisateur = {id}",
                         {"id":id}
                         )
@@ -108,11 +100,9 @@ class AvisDao(metaclass=Singleton):
                 with connection.cursor() as cursor:
                     # Supprimer un avis de la base de données
                     cursor.execute(
-                        "DELETE FROM avis                  "
-                        f" WHERE id_manga={id_manga}      ",
-                        f" AND id_utilisateur={id_utilisateur}      ",
-                        {"id_manga": avis.id_manga,
-                         "id_utilisateur": avis.id_utilisateur},
+                        "DELETE FROM projet.avis                  "
+                        f" WHERE id_manga={avis.id_manga}      ",
+                        f" AND id_utilisateur={avis.id_utilisateur}      ",
                     )
                     res = cursor.rowcount
         except Exception as e:
@@ -142,13 +132,13 @@ class AvisDao(metaclass=Singleton):
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        "UPDATE avis                                "
+                        "UPDATE projet.avis                                "
                         f"   SET texte      = '{texte}',        "
                         f" WHERE id_manga = {id_manga},             ",
                         f" AND id_utilisateur = {id_utilisateur};             ",
                         {
-                            "id_manga": avis.id_manga,
-                            "id_utilisateur": avis.id_utilisateur,
+                            "id_manga": projet.avis.id_manga,
+                            "id_utilisateur": projet.avis.id_utilisateur,
                             "texte": newtexte
                         }
                     )

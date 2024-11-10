@@ -14,7 +14,7 @@ from src.business_objet.avis import Avis
 @pytest.fixture(scope="session", autouse=True)
 def setup_test_environment():
     """Initialisation des données de test"""
-    with patch.dict(os.environ, {"SCHEMA": "projet_test_dao"}):
+    with patch.dict(os.environ, {"SCHEMA": "projet"}):
         ResetDatabase().lancer()
         yield
 
