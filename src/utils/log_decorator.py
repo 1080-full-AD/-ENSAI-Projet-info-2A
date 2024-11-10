@@ -43,7 +43,10 @@ def log(func):
         class_name = args[0].__class__.__name__ if args else ""
         method_name = func.__name__
         args_list = list(
-            [str(arg) if not isinstance(arg, numbers.Number) else arg for arg in args[1:]]
+            [
+                str(arg) if not isinstance(arg, numbers.Number) else arg
+                for arg in args[1:]
+            ]
             + list(kwargs.values())
         )
 
@@ -51,7 +54,8 @@ def log(func):
         param_names = func.__code__.co_varnames[1 : func.__code__.co_argcount]
         for i, v in enumerate(param_names):
             if v in ["password", "passwd", "pwd", "pass", "mot_de_passe", "mdp"]:
-                args_list[i] = "*****"
+                if i < len(args_list):
+                    args_list[i] = "*****"
 
         # Transforme en tuple pour avoir un affichage avec des parentheses
         args_list = tuple(args_list)
