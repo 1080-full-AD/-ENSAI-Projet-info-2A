@@ -72,8 +72,8 @@ class UtilisateurDao(metaclass=Singleton):
                 with connection.cursor() as cursor:
                     cursor.execute(
                         "SELECT *                           "
-                        "FROM utilisateur                      "
-                        f" WHERE pseudo = %(pseudo)s;  ",
+                        "FROM projet.utilisateur                      "
+                        f" WHERE pseudo = '{pseudo}';  ",
                         {"pseudo": pseudo},
                     )
                     res = cursor.fetchone()
@@ -86,7 +86,6 @@ class UtilisateurDao(metaclass=Singleton):
             utilisateur = Utilisateur(
                 pseudo=res["pseudo"],
                 age=res["age"],
-                collections=res["collections"],
                 id_utilisateur=res["id_utilisateur"],
             )
 
@@ -122,15 +121,14 @@ class UtilisateurDao(metaclass=Singleton):
 
         if res:
             for row in res:
+                # Convertir chaque ligne (dictionnaire) en objet Utilisateur
                 utilisateur = Utilisateur(
-                    id_utilisateur=row["id_utilisateur"],
-                    pseudo=row["pseudo"],
-                    mot_de_passe=row["mot_de_passe"],
-                    age=row["age"],
+                    id_utilisateur=row['id_utilisateur'],
+                    pseudo=row['pseudo'],
+                    mot_de_passe=row['mot_de_passe'],
+                    age=row['age']
                 )
-
                 liste_utilisateurs.append(utilisateur)
-
         return liste_utilisateurs
 
     @log
@@ -227,8 +225,8 @@ class UtilisateurDao(metaclass=Singleton):
                     cursor.execute(
                         "SELECT *                           "
                         "  FROM projet.utilisateur                      "
-                        f" WHERE pseudo = %(pseudo)s         "
-                        f"   AND mot_de_passe = %(mot_de_passe)s;              ",
+                        f" WHERE pseudo = '{pseudo}'         "
+                        f"   AND mot_de_passe = '{mot_de_passe}';              ",
                         {"pseudo": pseudo, "mot_de_passe": mot_de_passe},
                     )
                     res = cursor.fetchone()
@@ -244,5 +242,8 @@ class UtilisateurDao(metaclass=Singleton):
                 age=res["age"],
                 id_utilisateur=res["id_utilisateur"],
             )
-
+            
         return utilisateur
+
+
+UtilisateurDao().se_connecter("user1","password1")

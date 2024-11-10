@@ -116,3 +116,5 @@ class UtilisateurService(metaclass=Singleton):
         else:
             return False
         return True
+
+UtilisateurDao().lister_tous()
