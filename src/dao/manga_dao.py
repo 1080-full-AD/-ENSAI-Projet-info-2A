@@ -206,13 +206,13 @@ class MangaDao(metaclass=Singleton):
                 liste_manga_auteur = []
                 if res_auteur:
                     for raw_auteur in res_auteur:
-                        manga_par_auteur = Manga(
+                        res_par_auteur = Manga(
                             titre_manga=raw_auteur["titre_manga"],
                             id_manga=raw_auteur["id_manga"],
-                            auteur=raw_auteur["auteurs"],
+                            auteurs=raw_auteur["auteurs"],
                             synopsis=raw_auteur["synopsis"],
                         )
-                        liste_manga_auteur.append(manga_par_auteur)
+                        liste_manga_auteur.append(res_par_auteur)
                     return liste_manga_auteur
                 else:
                     return None

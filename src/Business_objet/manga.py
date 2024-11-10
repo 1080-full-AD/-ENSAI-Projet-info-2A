@@ -7,7 +7,7 @@ class Manga:
         identifiant
     titre : str
         titre du manga
-    auteur: str
+    auteurs: str
         l'auteur du manga
     synopsis : int
         synopsis du manga

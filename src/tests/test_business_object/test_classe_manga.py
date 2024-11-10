@@ -8,7 +8,7 @@ class TestManga(TestCase):
 
     def test_manga_ok(self):
         # GIVEN
-        titre = "mettre un titre d'un manga de notre BDD"
+        titre = "Monster"
 
         # WHEN
         res = Manga().manga(titre)
@@ -18,7 +18,7 @@ class TestManga(TestCase):
 
     def test_manga_erreur(self):
         # GIVEN
-        titre_2 = "mettre un titre qui n'est pas dans la BDD"
+        titre_2 = "AbsentBDD"
 
         # WHEN
         res_2 = Manga().manga(titre_2)

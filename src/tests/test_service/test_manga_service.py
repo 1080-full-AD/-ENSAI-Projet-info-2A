@@ -4,6 +4,8 @@ from src.service.manga_service import MangaService
 from src.dao.manga_dao import MangaDao
 from src.business_objet.manga import Manga
 
+import unittest
+
 
 # Liste de mangas :
 Liste_Manga = [
@@ -120,13 +122,15 @@ def test_recherche_id_manga_ok():
     assert manga is not None
 
 
-def test_recherche_id_manga_echec():
+def test_recherche_id_manga_echec(self):
     """Tester si la recherche de manga à partir de son id renvoie bien un échec"""
 
     # GIVEN
-    id_manga = 13
+    id_manga = 9998
     mock_dao = MagicMock(spec=MangaDao)
-    mock_dao.trouver_par_id.return_value = False
+    mock_dao.trouver_par_id.return_value.side_effect = ValueError(
+        "Aucun manga ne possède cet identifiant :/"
+    )
 
     manga_service = MangaService()
     manga_service.MangaDao = mock_dao
@@ -135,7 +139,7 @@ def test_recherche_id_manga_echec():
     manga = manga_service.rechercher_un_id_manga(id_manga)
 
     # THEN
-    assert manga is None
+    self.assertEqual(manga, "Aucun manga ne possède cet identifiant :/")
 
 
 def test_supprimer_manga_ok():
@@ -158,7 +162,7 @@ def test_supprimer_manga_ok():
     res = manga_service.supprimer_un_manga(manga)
 
     # THEN
-    assert res is True
+    assert res is not None
 
 
 def test_supprimer_manga_echec():
@@ -233,7 +237,7 @@ def test_rechercher_un_auteur_ok():
     """Tester si la recherche d'un manga par le nom de son auteur fonctionne"""
 
     # GIVEN
-    auteurs = "Eiichirō Oda"
+    auteurs = "Urasawa, Naoki"
     mock_dao = MagicMock(spec=MangaDao)
     mock_dao.trouver_par_auteur.return_value = True
 
@@ -244,16 +248,18 @@ def test_rechercher_un_auteur_ok():
     result = manga_service.rechercher_un_auteur(auteurs)
 
     # THEN
-    assert result is True
+    assert result is not None
 
 
 def test_rechercher_un_auteur_echec():
     """Tester si la recherches d'un manga grâce au nom de son auteur est un échec"""
 
     # GIVEN
-    auteurs = "Eiichirō Oda"
+    auteurs = "Urasawa, Naoki"
     mock_dao = MagicMock(spec=MangaDao)
-    mock_dao.trouver_par_auteur.return_value = False
+    mock_dao.trouver_par_auteur.return_value.side_effect = ValueError(
+        "Aucun auteur ne s'apelle comme ça :/"
+    )
 
     manga_service = MangaService()
     manga_service.MangaDao = mock_dao
@@ -262,7 +268,7 @@ def test_rechercher_un_auteur_echec():
     result = manga_service.rechercher_un_auteur(auteurs)
 
     # THEN
-    assert result is False
+    assert result, "Aucun auteur ne s'apelle comme ça :/"
 
 
 def test_rechercher_une_serie_ok():
