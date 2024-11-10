@@ -37,10 +37,11 @@ class AvisDao(metaclass=Singleton):
             raise
 
         created = res is not None
+        print(res)
         if created:
-            projet.avis.id_manga = res[0]
-            projet.avis.id_utilisateur = res[1]
-            projet.avis.texte = res[2]
+            avis.id_manga = res['id_manga']
+            avis.id_utilisateur = res['id_utilisateur']
+            avis.texte = res['texte']
 
         return created
 
@@ -101,8 +102,8 @@ class AvisDao(metaclass=Singleton):
                     # Supprimer un avis de la base de données
                     cursor.execute(
                         "DELETE FROM projet.avis                  "
-                        f" WHERE id_manga={avis.id_manga}      ",
-                        f" AND id_utilisateur={avis.id_utilisateur}      ",
+                        f" WHERE id_manga={avis.id_manga}      "
+                        f" AND id_utilisateur={avis.id_utilisateur} ;     "
                     )
                     res = cursor.rowcount
         except Exception as e:
@@ -127,24 +128,22 @@ class AvisDao(metaclass=Singleton):
         """
 
         res = None
-
         try:
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
                         "UPDATE projet.avis                                "
-                        f"   SET texte      = '{texte}',        "
-                        f" WHERE id_manga = {id_manga},             ",
-                        f" AND id_utilisateur = {id_utilisateur};             ",
-                        {
-                            "id_manga": projet.avis.id_manga,
-                            "id_utilisateur": projet.avis.id_utilisateur,
-                            "texte": newtexte
-                        }
+                        f"   SET texte      = '{newtexte}'        "
+                        f" WHERE id_manga = {avis.id_manga}             "
+                        f" AND id_utilisateur = {avis.id_utilisateur};             "
                     )
                     res = cursor.rowcount
+
         except Exception as e:
             logging.info(e)
-
+        print(res)
         return res == 1
 
+
+avis=Avis(1,1,"lol")
+AvisDao().modifier(avis, 'haha')

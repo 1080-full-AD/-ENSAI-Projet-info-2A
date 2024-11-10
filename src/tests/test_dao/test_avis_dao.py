@@ -22,22 +22,22 @@ def test_creer_ok():
     """Création d'avis réussie"""
 
     # GIVEN
-    avis = Avis(id_manga=22, id_utilisateur=44, texte="Masterpiece")
+    avis = Avis(id_manga=3, id_utilisateur=2, texte="Masterpiece")
 
     # WHEN
     creation_ok = AvisDao().creer(avis)
 
     # THEN
     assert creation_ok
-    assert avis.id_utilisateur == 1
-    assert avis.id_manga == 1
+    assert avis.id_utilisateur == 2
+    assert avis.id_manga == 3
 
 
 def test_creer_ko():
     """Création d'avis échouée """
 
     # GIVEN
-    avis = Avis(id_manga=None, id_utilisateur=None, texte=None)
+    avis = Avis(id_manga=None, id_utilisateur=2, texte='l')
 
     # WHEN
     creation_ok = AvisDao().creer(avis)
@@ -51,7 +51,7 @@ def test_trouver_tous_par_id_existant():
     """Recherche les avis par id d'un joueur existant"""
 
     # GIVEN
-    id_utilisateur = 44
+    id_utilisateur = 1
 
     # WHEN
     avis = AvisDao().trouver_tous_par_id(id_utilisateur)
@@ -107,7 +107,7 @@ def test_modifier_ok():
 
     # GIVEN
     new_texte = "test_lol"
-    avis = Avis(id_manga=1, id_utilisateur=1, texte="test")
+    avis = Avis(id_manga=1, id_utilisateur=1, texte='Amazing manga!')
 
     # WHEN
     modification_ok = AvisDao().modifier(avis, new_texte)
