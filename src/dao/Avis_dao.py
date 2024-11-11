@@ -29,7 +29,7 @@ class AvisDao(metaclass=Singleton):
                 with connection.cursor() as cursor:
                     cursor.execute(
                         "INSERT INTO projet.avis(id_manga, id_utilisateur, texte) VALUES (%s, %s, %s) RETURNING id_manga, id_utilisateur, texte;",
-                        (avis.id_manga, avis.id_utilisateur, avis.texte)
+                        (avis.id_manga, avis.id_utilisateur, avis.texte),
                     )
                     res = cursor.fetchone()
         except Exception as e:
@@ -39,9 +39,9 @@ class AvisDao(metaclass=Singleton):
         created = res is not None
         print(res)
         if created:
-            avis.id_manga = res['id_manga']
-            avis.id_utilisateur = res['id_utilisateur']
-            avis.texte = res['texte']
+            avis.id_manga = res["id_manga"]
+            avis.id_utilisateur = res["id_utilisateur"]
+            avis.texte = res["texte"]
 
         return created
 
@@ -62,27 +62,25 @@ class AvisDao(metaclass=Singleton):
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        "SELECT * "
-                        "FROM projet.avis "
-                        f"WHERE id_utilisateur = {id}",
-                        {"id":id}
-                        )
+                        "SELECT * " "FROM projet.avis " f"WHERE id_utilisateur = {id}",
+                        {"id": id},
+                    )
                     avis_rows = cursor.fetchall()
                 for row in avis_rows:
                     avis = Avis(
                         id_manga=row["id_manga"],
                         id_utilisateur=row["id_utilisateur"],
-                        texte=row["texte"]
-                        )
+                        texte=row["texte"],
+                    )
                     res_avis.append(avis)
-                
+
         except Exception as e:
             logging.error(f"Erreur lors de la récupération des avis: {e}")
             raise
 
         return res_avis
 
-    @log        
+    @log
     def supprimer_avis(self, avis: Avis) -> bool:
         """Suppression d'un avis dans la base de données
 
@@ -111,7 +109,7 @@ class AvisDao(metaclass=Singleton):
             raise
 
         return res > 0
-    
+
     @log
     def modifier(self, avis: Avis, newtexte: str) -> bool:
         """Modification d'un avis dans la base de données
@@ -145,5 +143,5 @@ class AvisDao(metaclass=Singleton):
         return res == 1
 
 
-avis=Avis(1,1,"lol")
-AvisDao().modifier(avis, 'haha')
+avis = Avis(1, 1, "lol")
+AvisDao().modifier(avis, "haha")

@@ -18,6 +18,7 @@ def setup_test_environment():
         ResetDatabase().lancer()
         yield
 
+
 def test_creer_ok():
     """Création d'avis réussie"""
 
@@ -34,17 +35,16 @@ def test_creer_ok():
 
 
 def test_creer_ko():
-    """Création d'avis échouée """
+    """Création d'avis échouée"""
 
     # GIVEN
-    avis = Avis(id_manga=None, id_utilisateur=2, texte='l')
+    avis = Avis(id_manga=None, id_utilisateur=2, texte="l")
 
     # WHEN
     creation_ok = AvisDao().creer(avis)
 
     # THEN
     assert not creation_ok
-
 
 
 def test_trouver_tous_par_id_existant():
@@ -101,13 +101,12 @@ def test_supprimer_avis_ko():
     assert not suppression_ok
 
 
-
 def test_modifier_ok():
     """Modification d'avis réussie"""
 
     # GIVEN
     new_texte = "test_lol"
-    avis = Avis(id_manga=1, id_utilisateur=1, texte='Amazing manga!')
+    avis = Avis(id_manga=1, id_utilisateur=1, texte="Amazing manga!")
 
     # WHEN
     modification_ok = AvisDao().modifier(avis, new_texte)
@@ -117,7 +116,7 @@ def test_modifier_ok():
 
 
 def test_modifier_ko():
-    """Modification d'avis échouée """
+    """Modification d'avis échouée"""
 
     # GIVEN
     new_texte = "test_lol"
