@@ -3,6 +3,7 @@ from src.business_objet.utilisateur import Utilisateur
 from src.dao.utilisateur_dao import UtilisateurDao
 from src.utils.log_decorator import log
 from src.utils.securite import hash_password
+from src.views.session import Session
 import re
 
 
@@ -30,7 +31,7 @@ class UtilisateurService(metaclass=Singleton):
             )
         pseudo = str(pseudo)
         if self.pseudo_deja_utilise(pseudo):
-            raise ValueError("Ce nom d'utilisateur est dèjà pris.")
+            raise ValueError("Ce nom d'utilisateur est déjà pris.")
         self.is_valid_mdp(mot_de_passe)
 
         nouvel_utilisateur = Utilisateur(
@@ -87,6 +88,7 @@ class UtilisateurService(metaclass=Singleton):
     @log
     def se_deconnecter(self):
         """Se déconnecter de l'application"""
+        Session().deconnexion()
         return None
 
     def create_password(self):
@@ -101,7 +103,6 @@ class UtilisateurService(metaclass=Singleton):
             print("-Au moins une lettrre minuscule")
             print("-Au moins une lettre majuscule")
             print("-Au moins un chiffre")
-            print("-Au moins un caractère spécial parmi les suivants: %, #, /")
             self.create_password()
 
     def is_valid_mdp(self, mot_de_passe) -> bool:

@@ -206,20 +206,20 @@ class MangaDao(metaclass=Singleton):
                 liste_manga_auteur = []
                 if res_auteur:
                     for raw_auteur in res_auteur:
-                        manga_par_auteur = Manga(
+                        res_par_auteur = Manga(
                             titre_manga=raw_auteur["titre_manga"],
                             id_manga=raw_auteur["id_manga"],
-                            auteur=raw_auteur["auteurs"],
+                            auteurs=raw_auteur["auteurs"],
                             synopsis=raw_auteur["synopsis"],
                         )
-                        liste_manga_auteur.append(manga_par_auteur)
+                        liste_manga_auteur.append(res_par_auteur)
                     return liste_manga_auteur
                 else:
                     return None
 
     def trouver_serie_par_titre(self, titre_manga) -> Manga:
         """Trouver la série de manga : par exemple en recherchant "One Piece",
-        cela va afficher laliste de tous les tomes de cette sage
+        cela va afficher la liste de tous les tomes de cette sage
 
         Parameters
         ----------
@@ -238,7 +238,7 @@ class MangaDao(metaclass=Singleton):
                     "SELECT id_manga,"
                     "       auteurs,"
                     "       synopsis"
-                    "FROM projet.manga "
+                    " FROM projet.manga "
                     f"WHERE titre_manga = '{titre_manga}'"
                 )
                 res_serie = cursor.fetchall()
@@ -246,7 +246,7 @@ class MangaDao(metaclass=Singleton):
                 if res_serie:
                     for raw_serie in res_serie:
                         serie_manga = Manga(
-                            titre_manga=raw_serie["titre_manga"],
+                            titre_manga=titre_manga,
                             id_manga=raw_serie["id_manga"],
                             auteurs=raw_serie["auteurs"],
                             synopsis=raw_serie["synopsis"],

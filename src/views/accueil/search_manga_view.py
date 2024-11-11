@@ -3,6 +3,7 @@ from InquirerPy.validator import EmptyInputValidator
 from src.views.abstract_view import AbstractView
 from src.business_objet.manga import Manga
 from src.service.manga_service import MangaService
+from src.views.session import Session
 
 
 class MangaSearchView(AbstractView):
@@ -22,10 +23,13 @@ class MangaSearchView(AbstractView):
 
         match choix:
             case "Retour":
-                from src.views.accueil.main_menu_view import MainView
+                if Session().getuser() is None:
+                    from src.views.accueil.main_menu_view import MainView
 
-                return MainView("Retour au menu princial :)")
+                    return MainView("Retour au menu princial :)")
+                from src.views.users.main_user_view import MainUserView
 
+                return MainUserView("Retour au menu princial :)")
             case "Identifiant":
                 id = int(inquirer.number(message="Entrez l'identifiant "
                                                  "du manga :) ",
@@ -55,7 +59,8 @@ class MangaSearchView(AbstractView):
                                                " de l'auteur :) ").execute()
                 try:
                     manga = MangaService().rechercher_un_auteur(author)
-                    print(manga.__str__())
+                    for i in manga:
+                        print(i.__str__())
                     return MangaSearchView("\n" + "=" * 50 + " Recherche"
                                            " de mangas " + "=" * 50 + "\n")
                 except Exception as e:

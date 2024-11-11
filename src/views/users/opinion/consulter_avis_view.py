@@ -1,10 +1,10 @@
 from InquirerPy import inquirer
 from src.views.abstract_view import AbstractView
-from src.service.utilisateur_service import UtilisateurService
+from src.service.avis_service import AvisService
 
 
-class MainOpinionView(AbstractView):
-    """Menu principal des avis"""
+class ConsulterAvisView(AbstractView):
+    """Menu pour consulter les avis"""
 
     def choisir_menu(self):
         """Choix du menu suivant
@@ -18,25 +18,24 @@ class MainOpinionView(AbstractView):
         choix = inquirer.select(
             message="Faites votre choix : ",
             choices=[
-                "Rédiger un avis",
-                "Modifier un avis",
-                "Supprimer un avis",
-                "Consulter les avis",
+                "Consulter les avis d'un utilisateur",
+                "Consulter les avis sur un manga",
+                "Consulter vos avis"
                 "Retour",
             ],
         ).execute()
 
         match choix:
-            case "Rédiger un avis":
+            case "Consulter les avis d'un utilisateur":
                 pass
 
-            case "Modifier un avis":
+            case "Consulter les avis sur un manga":
                 pass
 
             case "Supprimer un avis":
                 pass
 
-            case "Consulter les avis":
+            case "Consulter vos avis":
                 pass
 
             case "Retour":

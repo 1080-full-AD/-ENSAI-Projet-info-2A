@@ -14,30 +14,31 @@ from src.business_objet.avis import Avis
 @pytest.fixture(scope="session", autouse=True)
 def setup_test_environment():
     """Initialisation des données de test"""
-    with patch.dict(os.environ, {"SCHEMA": "projet_test_dao"}):
+    with patch.dict(os.environ, {"SCHEMA": "projet"}):
         ResetDatabase().lancer()
         yield
+
 
 def test_creer_ok():
     """Création d'avis réussie"""
 
     # GIVEN
-    avis = Avis(id_manga=22, id_utilisateur=44, texte="Masterpiece")
+    avis = Avis(id_manga=3, id_utilisateur=2, texte="Masterpiece")
 
     # WHEN
     creation_ok = AvisDao().creer(avis)
 
     # THEN
     assert creation_ok
-    assert avis.id_utilisateur == 1
-    assert avis.id_manga == 1
+    assert avis.id_utilisateur == 2
+    assert avis.id_manga == 3
 
 
 def test_creer_ko():
-    """Création d'avis échouée """
+    """Création d'avis échouée"""
 
     # GIVEN
-    avis = Avis(id_manga=None, id_utilisateur=None, texte=None)
+    avis = Avis(id_manga=None, id_utilisateur=2, texte="l")
 
     # WHEN
     creation_ok = AvisDao().creer(avis)
@@ -46,12 +47,11 @@ def test_creer_ko():
     assert not creation_ok
 
 
-
 def test_trouver_tous_par_id_existant():
     """Recherche les avis par id d'un joueur existant"""
 
     # GIVEN
-    id_utilisateur = 44
+    id_utilisateur = 1
 
     # WHEN
     avis = AvisDao().trouver_tous_par_id(id_utilisateur)
@@ -74,6 +74,32 @@ def test_trouver_par_id_non_existant():
     assert isinstance(avis, list)
     assert len(avis) == 0
 
+def test_trouver_avis_par_manga_existant():
+    """Recherche les avis par id d'un manga existant"""
+
+    # GIVEN
+    id_manga = 1
+
+    # WHEN
+    avis = AvisDao().trouver_avis_par_manga(id_manga)
+
+    # THEN
+    assert isinstance(avis, list)
+    assert all(isinstance(a, Avis) for a in avis)
+
+
+def test_trouver_avis_par_manga_non_existant():
+    """Recherche les avis par id d'un manga n'existant pas"""
+
+    # GIVEN
+    id_manga = 999999999
+
+    # WHEN
+    avis = AvisDao().trouver_avis_par_manga(id_manga)
+
+    # THEN
+    assert isinstance(avis, list)
+    assert len(avis) == 0
 
 def test_supprimer_avis_ok():
     """Suppression d'un avis réussie"""
@@ -101,13 +127,12 @@ def test_supprimer_avis_ko():
     assert not suppression_ok
 
 
-
 def test_modifier_ok():
     """Modification d'avis réussie"""
 
     # GIVEN
     new_texte = "test_lol"
-    avis = Avis(id_manga=1, id_utilisateur=1, texte="test")
+    avis = Avis(id_manga=1, id_utilisateur=1, texte="Amazing manga!")
 
     # WHEN
     modification_ok = AvisDao().modifier(avis, new_texte)
@@ -117,7 +142,7 @@ def test_modifier_ok():
 
 
 def test_modifier_ko():
-    """Modification d'avis échouée """
+    """Modification d'avis échouée"""
 
     # GIVEN
     new_texte = "test_lol"
