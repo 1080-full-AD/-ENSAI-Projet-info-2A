@@ -20,14 +20,22 @@ class ConsulterAvisView(AbstractView):
             choices=[
                 "Consulter les avis d'un utilisateur",
                 "Consulter les avis sur un manga",
-                "Consulter vos avis"
+                "Consulter vos avis",
                 "Retour",
             ],
         ).execute()
 
         match choix:
             case "Consulter les avis d'un utilisateur":
-                pass
+                id = inquirer.number(
+                    "Entrez l'identifiant de l'utiisateur en question"
+                    ).execute()
+                avis = AvisService().trouver_tous_par_id(int(id))
+                for i in avis:
+                    print(i.__str__())
+                
+                return ConsulterAvisView("\n" + "=" * 50 + " Consultation d'avis"
+                            " :) " + "=" * 50 + "\n")
 
             case "Consulter les avis sur un manga":
                 pass

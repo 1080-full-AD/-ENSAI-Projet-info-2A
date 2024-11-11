@@ -37,8 +37,10 @@ class MainOpinionView(AbstractView):
                 pass
 
             case "Consulter les avis":
-                pass
+                from src.views.opinion.consulter_avis_view import ConsulterAvisView
 
+                return ConsulterAvisView("\n" + "=" * 50 + " Consultation d'avis"
+                            " :) " + "=" * 50 + "\n")
             case "Retour":
                 from src.views.users.main_user_view import MainUserView
 

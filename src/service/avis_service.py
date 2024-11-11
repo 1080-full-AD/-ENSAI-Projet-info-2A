@@ -41,7 +41,7 @@ class AvisService:
             Liste des avis de l'utilisateur
         """
         try:
-            return self.AvisDao.trouver_tous_par_id(id_utilisateur)
+            return AvisDao().trouver_tous_par_id(id_utilisateur)
         except Exception as e:
             logging.error(f"Erreur lors de la récupération des avis pour l'utilisateur {id_utilisateur}: {e}")
             return []

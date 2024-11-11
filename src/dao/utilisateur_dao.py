@@ -242,5 +242,4 @@ class UtilisateurDao(metaclass=Singleton):
                 age=res["age"],
                 id_utilisateur=res["id_utilisateur"],
             )
-            
         return utilisateur

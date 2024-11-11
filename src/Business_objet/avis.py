@@ -14,4 +14,11 @@ class Avis:
         """Constructeur"""
         self.id_manga = id_manga
         self.id_utilisateur = id_utilisateur
-        self.texte = texte      
+        self.texte = texte
+
+    def __str__(self):
+        return (
+            f"Avis de l'utilisateur {self.id_utilisateur}"
+            f" sur le manga {self.id_manga}:"
+            f"\n {self.texte}"
+        )
