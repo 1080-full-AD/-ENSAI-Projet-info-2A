@@ -85,6 +85,42 @@ def test_trouver_tous_par_id_echec():
     # THEN
     assert res == []
 
+def test_trouver_avis_par_manga_ok():
+    """Lister les avis d'un utilisateur avec succès"""
+
+    # GIVEN
+    id_manga = 1
+    mock_dao = MagicMock(spec=AvisDao)
+    mock_dao.trouver_avis_par_manga.return_value = [avis for avis in liste_avis if avis.id_manga == id_manga]
+
+    avis_service = AvisService()
+    avis_service.AvisDao = mock_dao 
+
+    # WHEN
+    res = avis_service.trouver_avis_par_manga(id_manga)
+
+    # THEN
+    assert len(res) == 1
+    for avis in res:
+        assert avis.id_manga == id_manga
+
+
+def test_trouver_avis_par_manga_echec():
+    """Lister les avis d'un utilisateur échoué"""
+
+    # GIVEN
+    id_manga = 1
+    mock_dao = MagicMock(spec=AvisDao)
+    mock_dao.trouver_avis_par_manga.side_effect = Exception("Erreur de base de données")
+
+    avis_service = AvisService()
+    avis_service.AvisDao = mock_dao 
+
+    # WHEN
+    res = avis_service.trouver_avis_par_manga(id_manga)
+
+    # THEN
+    assert res == []
 
 def test_supprimer_avis_ok():
     """Suppression d'un avis réussie"""

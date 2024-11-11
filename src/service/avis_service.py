@@ -45,6 +45,24 @@ class AvisService:
             logging.error(f"Erreur lors de la récupération des avis pour l'utilisateur {id_utilisateur}: {e}")
             return []
 
+    def trouver_avis_par_manga(self, id_manga: int) -> list[Avis]:
+        """Trouver les avis pour un manga
+
+        Parameters
+        ----------
+        id_manga : int
+
+        Returns
+        -------
+        list[Avis]
+            Liste des avis pour ce manga
+        """
+        try:
+            return self.AvisDao.trouver_avis_par_manga(id_manga)
+        except Exception as e:
+            logging.error(f"Erreur lors de la récupération des avis pour le manga {id_manga}: {e}")
+            return []
+
     def supprimer_avis(self, id_manga: int, id_utilisateur: int) -> bool:
         """Supprimer un avis
 

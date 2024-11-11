@@ -62,8 +62,47 @@ class AvisDao(metaclass=Singleton):
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        "SELECT * " "FROM projet.avis " f"WHERE id_utilisateur = {id}",
+                        "SELECT * " 
+                        "FROM projet.avis " 
+                        f"WHERE id_utilisateur = {id}",
                         {"id": id},
+                    )
+                    avis_rows = cursor.fetchall()
+                for row in avis_rows:
+                    avis = Avis(
+                        id_manga=row["id_manga"],
+                        id_utilisateur=row["id_utilisateur"],
+                        texte=row["texte"],
+                    )
+                    res_avis.append(avis)
+
+        except Exception as e:
+            logging.error(f"Erreur lors de la récupération des avis: {e}")
+            raise
+
+        return res_avis
+
+    @log
+    def trouver_avis_par_manga(self, id_manga: int) -> list[Avis]:
+        """Trouver les avis pour un manga
+
+        Parameters
+        ----------
+        id : l'id du manga : int
+
+        Returns
+        -------
+        res_avis : tous les avis pour ce manga
+        """
+        res_avis = []
+        try:
+            with DBConnection().connection as connection:
+                with connection.cursor() as cursor:
+                    cursor.execute(
+                        "SELECT * " 
+                        "FROM projet.avis " 
+                        f"WHERE id_manga = {id_manga}",
+                        {"id_manga": id_manga},
                     )
                     avis_rows = cursor.fetchall()
                 for row in avis_rows:
