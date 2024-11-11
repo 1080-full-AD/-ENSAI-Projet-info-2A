@@ -86,7 +86,7 @@ def test_trouver_tous_par_id_echec():
     assert res == []
 
 def test_trouver_avis_par_manga_ok():
-    """Lister les avis d'un utilisateur avec succès"""
+    """Lister les avis pour un manga avec succès"""
 
     # GIVEN
     id_manga = 1
@@ -106,7 +106,7 @@ def test_trouver_avis_par_manga_ok():
 
 
 def test_trouver_avis_par_manga_echec():
-    """Lister les avis d'un utilisateur échoué"""
+    """Lister les avis pour un manga échoué"""
 
     # GIVEN
     id_manga = 1

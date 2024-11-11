@@ -74,6 +74,32 @@ def test_trouver_par_id_non_existant():
     assert isinstance(avis, list)
     assert len(avis) == 0
 
+def test_trouver_avis_par_manga_existant():
+    """Recherche les avis par id d'un manga existant"""
+
+    # GIVEN
+    id_manga = 1
+
+    # WHEN
+    avis = AvisDao().trouver_avis_par_manga(id_manga)
+
+    # THEN
+    assert isinstance(avis, list)
+    assert all(isinstance(a, Avis) for a in avis)
+
+
+def test_trouver_avis_par_manga_non_existant():
+    """Recherche les avis par id d'un manga n'existant pas"""
+
+    # GIVEN
+    id_manga = 999999999
+
+    # WHEN
+    avis = AvisDao().trouver_avis_par_manga(id_manga)
+
+    # THEN
+    assert isinstance(avis, list)
+    assert len(avis) == 0
 
 def test_supprimer_avis_ok():
     """Suppression d'un avis réussie"""
