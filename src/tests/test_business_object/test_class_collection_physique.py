@@ -10,7 +10,7 @@ def test_collection_physique_creation_ok():
     list_manga = [manga1, manga2]
 
     # WHEN
-    collection = CollectionPhysique("Ma Collection", 1, list_manga)
+    collection = CollectionPhysique("Ma Collection", 1, list_manga,"description")
 
     # THEN
     assert collection.titre == "Ma Collection"
@@ -27,12 +27,12 @@ def test_collection_physique_creation_erreur():
 
     # WHEN/THEN
     with pytest.raises(ValueError):
-        CollectionPhysique("Ma Collection", 1, list_manga)
+        CollectionPhysique("Ma Collection", 1, list_manga,"m")
 
 
 def test_ajouter_manga_ok():
     # GIVEN
-    collection = CollectionPhysique("Ma Collection", 1, [])
+    collection = CollectionPhysique("Ma Collection", 1, [],"m")
     new_manga = MangaPhysique(1, 1, "Nouveau Manga", "Auteur", "Synopsis", [], 5, "Complet")
 
     # WHEN
@@ -45,7 +45,7 @@ def test_ajouter_manga_ok():
 
 def test_ajouter_manga_type_invalide():
     # GIVEN
-    collection = CollectionPhysique("Ma Collection", 1, [])
+    collection = CollectionPhysique("Ma Collection", 1, [],"m")
     new_manga = "Manga Invalide"  # Ce n'est pas un MangaPhysique
 
     # WHEN/THEN
@@ -56,7 +56,7 @@ def test_ajouter_manga_type_invalide():
 def test_supprimer_manga_ok():
     # GIVEN
     manga1 = MangaPhysique(1, 1, "Titre 1", "Auteur 1", "Synopsis 1", [], 10, "Complet")
-    collection = CollectionPhysique("Ma Collection", 1, [manga1])
+    collection = CollectionPhysique("Ma Collection", 1, [manga1],"m")
 
     # WHEN
     collection.supprimer_manga(manga1)
@@ -69,7 +69,7 @@ def test_supprimer_manga_non_existant():
     # GIVEN
     manga1 = MangaPhysique(1, 1, "Titre 1", "Auteur 1", "Synopsis 1", [], 10, "Complet")
     manga2 = MangaPhysique(2, 1, "Titre 2", "Auteur 2", "Synopsis 2", [], 15, "Complet")
-    collection = CollectionPhysique("Ma Collection", 1, [manga1])
+    collection = CollectionPhysique("Ma Collection", 1, [manga1],"m")
 
     # WHEN/THEN
     with pytest.raises(TypeError, match="ce manga n'est pas dans cette collection"):

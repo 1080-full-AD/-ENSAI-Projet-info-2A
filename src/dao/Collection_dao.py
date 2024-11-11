@@ -39,17 +39,48 @@ class CollectionDao(metaclass=Singleton):
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        "INSERT INTO projet.collection (Titre_collec, id_utilisateur,description) "
-                        "VALUES (%s, %s ,%s) RETURNING Titre_collec;",
-                        (collection.titre, collection.id_utilisateur ,collection.description)
-                          )
+                        f"INSERT INTO projet.collection (Titre_collec,"
+                        f"id_utilisateur,description) "
+                        f"VALUES (%(titre)s, %(id_utilisateur)s ,%(description)s) RETURNING Titre_collec;",
+                        {
+                            "titre": collection.titre, 
+                            "id_utilisateur": collection.id_utilisateur,
+                            "description": collection.description
+                            
+                            }
+                            )
+                         
                     
                     res = cursor.fetchone()
                 
         except Exception as e:
             logging.error("Error creating collection: %s", e)
 
-        if res:
+
+
+        
+        for i in collection.list_manga:
+            res_1=None
+            try: 
+                with DBConnection().connection as connection:
+                    with connection.cursor() as cursor:
+                    
+                        cursor.execute(
+                            f"INSERT INTO projet.collection_manga"
+                            f"(id_manga,id_utilsateur,titre_collec)"
+                            f" VALUES(%(id_manga)s,%(id_utilisateur),"
+                            f"%(titre_collec))",
+                            {
+                                "id_manga": i.id_manga,
+                                "id_utilisateur": collection.id_utilisateur,
+                                "titre_collec": collection.titre_collec
+                            }
+                        )
+                        res_1 = res_1 + cursor.fetchone()
+            except Exception as e:
+                logging.error("Error creating collection_manga: %s", e)
+
+        if res and len(res_1) == len(collection.list_manga):
             collection.titre = res["Titre_collec"]
             created = True
 
@@ -77,39 +108,42 @@ class CollectionDao(metaclass=Singleton):
                 with connection.cursor() as cursor:
 
                     cursor.execute(
-                        "Select c.*,u.pseudo"
-                        " from projet.collection c"
-                        "join projet.utilisateur using(id_utilisateur)"
-                        f"where titre='{titre}'", 
-                        {"titre": titre}
+
+                        f"SELECT c.*, u.pseudo "
+                        f"FROM projet.collection c "
+                        f"JOIN projet.utilisateur u USING(id_utilisateur) "
+                        f"WHERE titre_collec = %(titre)s",
+                    {
+
+                        "titre": titre
+
+                    }
                     )
                 res = cursor.fetchall()
 
         except Exception as e:
             logging.error("Error creating collection: %s", e)
-
         liste_collection = []
         if res:
             for row in res:
-                if row["type"] == "virtuelle":
-                    collection = CollectionVirtuelle(
-                                titre=row["titre"],
-                                id_utilisateur=row["id_utilisateur"],
-                                liste_manga=row["liste_manga"],
+                logging.debug(f"Row found: {row}")
+                collection = CollectionVirtuelle(
+                        titre=row["titre"],
+                        id_utilisateur=row["id_utilisateur"],
+                        liste_manga=row["liste_manga"],
                     
                         )
             
-                else:
-                    collection = CollectionPhysique(
-                                    titre=res["titre"],
-                                    id_utilisateur=res["id_utilisateur"],
-                                    liste_manga=res["liste_manga"],
-                        )
                 liste_collection.append({"utilisateur": row["pseudo"],
                                         "collection": collection}, )
             return liste_collection
         else:
-            return None
+            logging.debug("No collection found for title: %s", titre)
+            return None 
+
+
+
+
 
 
     @log
@@ -130,9 +164,14 @@ class CollectionDao(metaclass=Singleton):
                 with connection.cursor() as cursor:
 
                     cursor.execute(
-                    "DELETE FROM projet.collection WHERE Titre_Collec = %s AND id_utilisateur = %s",
-                        (collection.titre, collection.id_utilisateur)
-                        )
+                        f" DELETE FROM projet.collection" 
+                        f" WHERE titre_Collec = %(titre)s AND id_utilisateur = %(id_utilisateur)s",
+                            {
+                            "titre": collection.titre, 
+                            "id_utilisateur": collection.id_utilisateur
+                            }
+                            )
+                      
                     res = cursor.rowcount
         except Exception as e:
             logging.info(e)
@@ -165,7 +204,7 @@ class CollectionDao(metaclass=Singleton):
                         "UPDATE projet.collection      "
                         f"   titre = '{titre}',       "
                         f"   id_utilisateur = '{id_utilisateur}',    "
-                        f"  description = '{collection}',                      "
+                        f"  description = '{descritpion}',                      "
                         f"where titre='{titre}' and id_utilisateur='{id_utilisateur}", 
                            
                         {
