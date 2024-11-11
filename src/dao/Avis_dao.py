@@ -180,7 +180,3 @@ class AvisDao(metaclass=Singleton):
             logging.info(e)
         print(res)
         return res == 1
-
-
-avis = Avis(1, 1, "lol")
-AvisDao().modifier(avis, "haha")

@@ -244,6 +244,3 @@ class UtilisateurDao(metaclass=Singleton):
             )
             
         return utilisateur
-
-
-UtilisateurDao().se_connecter("user1","password1")

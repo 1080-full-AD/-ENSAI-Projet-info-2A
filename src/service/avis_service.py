@@ -4,6 +4,7 @@ import dotenv
 from src.dao.avis_dao import AvisDao
 from src.business_objet.avis import Avis
 
+
 class AvisService:
 
     def creer(self, id_manga: int, id_utilisateur: int, texte: str) -> bool:
