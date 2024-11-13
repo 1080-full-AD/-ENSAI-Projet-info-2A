@@ -155,5 +155,33 @@ def test_modifier_ko():
     assert not modification_ok
 
 
+def test_noter_ok():
+    """Notation du manga réussie"""
+
+    # GIVEN
+    note = 3
+    avis = Avis(id_manga=1, id_utilisateur=1, texte="")
+
+    # WHEN
+    note_ok = AvisDao().noter(avis=avis, note=note)
+
+    # THEN
+    assert note_ok
+
+
+def test_noter_ko():
+    """Notation du manga échouée"""
+
+    # GIVEN
+    note = 3
+    avis = Avis(id_manga=99999, id_utilisateur=999999, texte="")
+
+    # WHEN
+    note_ok = AvisDao().modifier(avis, note)
+
+    # THEN
+    assert not note_ok
+
+
 if __name__ == "__main__":
     pytest.main([__file__])

@@ -314,7 +314,7 @@ def test_se_connecter_ok():
     """Vérifier que la méthode se_connecter fonctionne correctement"""
 
     # GIVEN
-    user = Utilisateur(pseudo="user1", mot_de_passe="password1", age=25)
+    user = Utilisateur(pseudo="user1", age=25, mot_de_passe="password1")
     mock_dao = MagicMock(spec=UtilisateurDao)
     mock_dao.se_connecter.return_value = True
 

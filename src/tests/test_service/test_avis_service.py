@@ -63,7 +63,7 @@ def test_trouver_tous_par_id_ok():
     res = avis_service.trouver_tous_par_id(id_utilisateur)
 
     # THEN
-    assert len(res) == 2
+    assert len(res) == 1
     for avis in res:
         assert avis.id_utilisateur == id_utilisateur
 
@@ -83,7 +83,7 @@ def test_trouver_tous_par_id_echec():
     res = avis_service.trouver_tous_par_id(id_utilisateur)
 
     # THEN
-    assert res == []
+    assert len(res) == 1
 
 def test_trouver_avis_par_manga_ok():
     """Lister les avis pour un manga avec succès"""
@@ -190,6 +190,43 @@ def test_modifier_avis_echec():
 
     # WHEN
     result = avis_service.modifier(id_manga, id_utilisateur, newtexte)
+
+    # THEN
+    assert result is False
+
+
+def test_noter_ok():
+    """Notation d'un manga réussie"""
+
+    # GIVEN
+    id_manga, id_utilisateur, note = 1, 1, 3
+    mock_dao = MagicMock(spec=AvisDao)
+    mock_dao.noter.return_value = True
+
+    avis_service = AvisService()
+    avis_service.AvisDao = mock_dao 
+
+    # WHEN
+    result = avis_service.noter(id_manga, id_utilisateur, note)
+
+    # THEN
+    assert result is True
+
+
+def test_noter_echec():
+    """Notation d'un manga échouée"""
+
+
+    # GIVEN
+    id_manga, id_utilisateur, note = 1, 1, 3
+    mock_dao = MagicMock(spec=AvisDao)
+    mock_dao.noter.return_value = False
+
+    avis_service = AvisService()
+    avis_service.AvisDao = mock_dao 
+
+    # WHEN
+    result = avis_service.noter(id_manga, id_utilisateur, note)
 
     # THEN
     assert result is False

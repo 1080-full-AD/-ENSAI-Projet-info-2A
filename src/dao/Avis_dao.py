@@ -155,7 +155,8 @@ class AvisDao(metaclass=Singleton):
 
         Parameters
         ----------
-        manga : Avis
+        avis : Avis
+        note : int
 
         Returns
         -------
@@ -171,6 +172,39 @@ class AvisDao(metaclass=Singleton):
                     cursor.execute(
                         "UPDATE projet.avis                                "
                         f"   SET texte      = '{newtexte}'        "
+                        f" WHERE id_manga = {avis.id_manga}             "
+                        f" AND id_utilisateur = {avis.id_utilisateur};             "
+                    )
+                    res = cursor.rowcount
+
+        except Exception as e:
+            logging.info(e)
+        print(res)
+        return res == 1
+
+    @log
+    def noter(self, avis: Avis, note: int) -> bool:
+        """Notation d'un manga dans la base de données
+
+        Parameters
+        ----------
+        avis : Avis
+        note: int
+
+        Returns
+        -------
+        created : bool
+            True si la notation est un succès
+            False sinon
+        """
+
+        res = None
+        try:
+            with DBConnection().connection as connection:
+                with connection.cursor() as cursor:
+                    cursor.execute(
+                        "UPDATE projet.avis                                "
+                        f"   SET note      = '{note}'        "
                         f" WHERE id_manga = {avis.id_manga}             "
                         f" AND id_utilisateur = {avis.id_utilisateur};             "
                     )
