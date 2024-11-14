@@ -246,7 +246,7 @@ class MangaDao(metaclass=Singleton):
                 if res_serie:
                     for raw_serie in res_serie:
                         serie_manga = Manga(
-                            titre_manga=titre_manga,
+                            titre_manga=raw_serie["titre_manga"],
                             id_manga=raw_serie["id_manga"],
                             auteurs=raw_serie["auteurs"],
                             synopsis=raw_serie["synopsis"],
