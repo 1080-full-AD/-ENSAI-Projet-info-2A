@@ -123,10 +123,10 @@ class UtilisateurDao(metaclass=Singleton):
             for row in res:
                 # Convertir chaque ligne (dictionnaire) en objet Utilisateur
                 utilisateur = Utilisateur(
-                    id_utilisateur=row['id_utilisateur'],
-                    pseudo=row['pseudo'],
-                    mot_de_passe=row['mot_de_passe'],
-                    age=row['age']
+                    id_utilisateur=row["id_utilisateur"],
+                    pseudo=row["pseudo"],
+                    mot_de_passe=row["mot_de_passe"],
+                    age=row["age"],
                 )
                 liste_utilisateurs.append(utilisateur)
         return liste_utilisateurs
@@ -243,3 +243,25 @@ class UtilisateurDao(metaclass=Singleton):
                 id_utilisateur=res["id_utilisateur"],
             )
         return utilisateur
+
+    @log
+    def trouver_par_id(self, id_utilisateur) -> Utilisateur:
+        """Trouver un utilisateur par son identifiant s'il est connu (id)"""
+        with DBConnection().connection as connection:
+            with connection.cursor() as cursor:
+                cursor.execute(
+                    "SELECT *"
+                    "FROM projet.utilisateur "
+                    f"WHERE id_utilisateur = {id_utilisateur}",
+                    {"id_utilisateur": id_utilisateur},
+                )
+                res_id_utilisateur = cursor.fetchone()
+                if res_id_utilisateur:
+                    res_id_utilisateur = Utilisateur(
+                        pseudo=res_id_utilisateur["pseudo"],
+                        id_utilisateur=res_id_utilisateur["id_utilisateur"],
+                        age=res_id_utilisateur["age"],
+                    )
+                    return res_id_utilisateur
+                else:
+                    return None

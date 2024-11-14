@@ -130,7 +130,7 @@ def test_supprimer_echec():
 
 
 def test_supprimer_ok():
-    """Suppression de Joueur échouée (id inconnu)"""
+    """Suppression d'un manga réussie"""
 
     # GIVEN
     manga = Manga(
