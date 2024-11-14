@@ -8,6 +8,7 @@ from src.business_objet.collection.abstract_collection import AbstractCollection
 from src.business_objet.collection.collection_physique import CollectionPhysique
 from src.business_objet.collection.collection_virtuelle import CollectionVirtuelle
 from src.business_objet.manga import Manga
+from src.business_objet.manga_physique import MangaPhysique
 
 from src.dao.db_connection import DBConnection
 
@@ -54,29 +55,8 @@ class CollectionDao(metaclass=Singleton):
         except Exception as e:
             logging.error("Error creating collection: %s", e)
 
-        
-        for i in collection.list_manga:
-            res_1=None
-            try: 
-                with DBConnection().connection as connection:
-                    with connection.cursor() as cursor:
-                    
-                        cursor.execute(
-                                f"INSERT INTO projet.collection_manga"
-                                f"(id_manga,id_utilsateur,titre_collec)"
-                                f" VALUES(%(id_manga)s,%(id_utilisateur),"
-                                f"%(titre_collec))",
-                                {
-                                    "id_manga": i.id_manga,
-                                    "id_utilisateur": collection.id_utilisateur,
-                                    "titre_collec": collection.titre_collec
-                                }
-                            )
-                        res_1 = res_1 + cursor.fetchone()
-            except Exception as e:
-                logging.error("Error creating collection_manga: %s", e)
 
-        if res and len(res_1) == len(collection.list_manga):
+        if res :
             collection.titre = res["Titre_collec"]
             created = True
 
@@ -88,7 +68,7 @@ class CollectionDao(metaclass=Singleton):
 
 
     @log
-    def ajouter_manga_virtuelle(self,collection, manga) :
+    def ajouter_manga_virtuelle(self,collection:CollectionVirtuelle, manga:Manga)-> bool :
 
         """ajouter un manga  a une collection physique
 
@@ -137,7 +117,7 @@ class CollectionDao(metaclass=Singleton):
       
 
     @log
-    def supprimer_manga_virtuelle(self, manga) :
+    def supprimer_manga_virtuel(self, manga:Manga)->bool:
 
         """supprimer un manga d'une collection virtuelle
         Parameters
@@ -182,7 +162,7 @@ class CollectionDao(metaclass=Singleton):
 
 
     @log
-    def supprimer_collection_virtuelle(self, collection) :
+    def supprimer_collection_virtuelle(self, collection: CollectionVirtuelle)->bool:
         
         """Suppression  d'une collection virtuelle existante dans la base de données
 
@@ -291,20 +271,19 @@ class CollectionDao(metaclass=Singleton):
         liste_manga = []
         if res:
             for row in res:
-                manga = Manga(
+                manga = MangaPhysique(
                     id_manga=row["id.manga"],
                     auteur=row["auteur"],
                     titre=row["titre"],
-                    synopsis=row["synopsis"]
+                    synopsis=row["synopsis"],
+                    id_utilisateur=row["id_utilisateur"],
+                    dernier_tome=row["num_dernier"],
+                    tomes_manquants=row["num_manquants"],
+                    status=row["status"],
+
                      ) 
                 
-                dic={}
-                dic["manga"]=manga
-                dic["dernier_tome"]=row["num_dernier"]
-                dic["tomes_manquants"]=row["num_manquants"]
-
-
-                liste_manga.append(dic)
+                liste_manga.append(manga)
         
         return liste_manga 
 
