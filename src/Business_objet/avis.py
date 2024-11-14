@@ -21,6 +21,8 @@ class Avis:
         return (
             f"Avis de l'utilisateur {self.id_utilisateur}"
             f" sur le manga {self.id_manga}:"
-            f"\n {self.texte}"
-            f"\n Note donnée {self.note}"
+            f"\n{self.texte}"
+            "\n"
+            f"\nNote donnée: {self.note}"
+            "\n\n"
         )

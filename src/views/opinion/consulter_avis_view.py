@@ -1,7 +1,7 @@
 from InquirerPy import inquirer
 from src.views.abstract_view import AbstractView
 from src.service.avis_service import AvisService
-
+from src.service.utilisateur_service import UtilisateurService
 
 class ConsulterAvisView(AbstractView):
     """Menu pour consulter les avis"""
@@ -27,10 +27,12 @@ class ConsulterAvisView(AbstractView):
 
         match choix:
             case "Consulter les avis d'un utilisateur":
-                id = inquirer.number(
-                    "Entrez l'identifiant de l'utiisateur en question"
+                pseudo = inquirer.text(
+                    "Entrez le peuso de l'utiisateur en question"
                     ).execute()
-                avis = AvisService().trouver_tous_par_id(int(id))
+                user = UtilisateurService().trouver_par_pseudo_utilisateur(pseudo)
+                id = user.id_utilisateur
+                avis = AvisService().trouver_tous_par_id(id)
                 for i in avis:
                     print(i.__str__())
                 
@@ -50,3 +52,6 @@ class ConsulterAvisView(AbstractView):
                 from src.views.users.main_user_view import MainUserView
 
                 return MainUserView("Retour au menu utilisateur :)")
+
+
+ConsulterAvisView().choisir_menu()
