@@ -37,11 +37,13 @@ CREATE TABLE projet.manga (
 DROP TABLE IF EXISTS projet.avis;
 
 CREATE TABLE projet.avis (
-    id_manga integer REFERENCES projet.manga(id_manga),
-    id_utilisateur integer REFERENCES projet.utilisateur(id_utilisateur),
+    id_utilisateur INTEGER,
+    id_manga INTEGER,
     texte text,
     note integer,
-    PRIMARY KEY (id_manga, id_utilisateur)
+    PRIMARY KEY (id_manga, id_utilisateur),
+    FOREIGN KEY (id_manga)  REFERENCES projet.manga(id_manga),
+    FOREIGN KEY (id_utilisateur)  REFERENCES projet.utilisateur(id_utilisateur)
 );
 
 --------------------------------------------------------------

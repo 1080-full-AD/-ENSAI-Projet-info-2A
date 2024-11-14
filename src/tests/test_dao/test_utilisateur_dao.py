@@ -6,6 +6,7 @@ from src.utils.reset_database import ResetDatabase
 from src.business_objet.utilisateur import Utilisateur
 from src.dao.utilisateur_dao import UtilisateurDao
 from src.utils import securite
+from src.dao.avis_dao import AvisDao
 
 
 @pytest.fixture(scope="session", autouse=True)
