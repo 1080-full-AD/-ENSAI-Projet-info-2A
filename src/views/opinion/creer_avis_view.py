@@ -3,6 +3,7 @@ from src.views.abstract_view import AbstractView
 from src.service.avis_service import AvisService
 from src.service.manga_service import MangaService
 from src.views.session import Session
+from src.views.users.main_opinion_view import MainOpinionView
 
 
 class CreateOpinionView(AbstractView):
@@ -44,13 +45,15 @@ class CreateOpinionView(AbstractView):
                 texte = inquirer.text(
                     "Rédigez votre avis :)"
                 ).execute()
+                try:
+                    AvisService().creer(id_manga=id_manga,
+                                        id_utilisateur=id_utilisateur, texte=texte)
 
-                AvisService().creer(id_manga=id_manga,
-                                    id_utilisateur=id_utilisateur, texte=texte)
-                from src.views.users.main_opinion_view import MainOpinionView
+                    return MainOpinionView("\n" + "=" * 50 + " Menu des avis"
+                                        " :) " + "=" * 50 + "\n")
+                except Exception as e:
+                    return MainOpinionView(e)
 
-                return MainOpinionView("\n" + "=" * 50 + " Menu des avis"
-                                       " :) " + "=" * 50 + "\n")
             case "Donner une note":
 
                 note = int(inquirer.number(
@@ -58,16 +61,17 @@ class CreateOpinionView(AbstractView):
                     min_allowed=0,
                     max_allowed=5
                 ).execute())
-                AvisService().noter(id_manga=id_manga,
-                                    id_utilisateur=id_utilisateur, note=note)
 
-                from src.views.users.main_opinion_view import MainOpinionView
+                try:
+                    AvisService().noter(id_manga=id_manga,
+                                        id_utilisateur=id_utilisateur, note=note)
 
-                return MainOpinionView("\n" + "=" * 50 + " Menu des avis"
-                                       " :) " + "=" * 50 + "\n")
+                    return MainOpinionView("\n" + "=" * 50 + " Menu des avis"
+                                        " :) " + "=" * 50 + "\n")
+                except Exception as e:
+                    return MainOpinionView(e)
 
             case "Retour":
-                from src.views.users.main_opinion_view import MainOpinionView
 
                 return MainOpinionView("\n" + "=" * 50 + " Menu des avis"
                                        " :) " + "=" * 50 + "\n")

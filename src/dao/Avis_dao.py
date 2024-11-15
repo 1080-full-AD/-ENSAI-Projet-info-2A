@@ -75,12 +75,13 @@ class AvisDao(metaclass=Singleton):
                         note=row["note"]
                     )
                     res_avis.append(avis)
+                    return res_avis
 
         except Exception as e:
             logging.error(f"Erreur lors de la récupération des avis: {e}")
+            return []
             raise
 
-        return res_avis
 
     @log
     def trouver_avis_par_manga(self, id_manga: int) -> list[Avis]:
@@ -113,12 +114,14 @@ class AvisDao(metaclass=Singleton):
                         note=row["note"]
                     )
                     res_avis.append(avis)
+                    return res_avis
 
         except Exception as e:
             logging.error(f"Erreur lors de la récupération des avis: {e}")
+            return []
             raise
 
-        return res_avis
+        
 
     @log
     def supprimer_avis(self, avis: Avis) -> bool:
@@ -133,22 +136,42 @@ class AvisDao(metaclass=Singleton):
         -------
             True si l'avis a bien été supprimé
         """
+        L = AvisDao().trouver_tous_par_id(avis.id_utilisateur)
+        for avis_exist in L:
+            if (avis_exist.id_utilisateur == avis.id_utilisateur) and (avis_exist.id_manga == avis.id_manga) and (avis_exist.note is None):
+                try:
+                    with DBConnection().connection as connection:
+                        with connection.cursor() as cursor:
+                            # Supprimer un avis de la base de données
+                            cursor.execute(
+                                "DELETE FROM projet.avis                  "
+                                f" WHERE id_manga={avis.id_manga}      "
+                                f" AND id_utilisateur={avis.id_utilisateur} ;     "
+                            )
+                            res = cursor.rowcount
+                except Exception as e:
+                    logging.info(e)
+                    raise
+                return res > 0
+            elif (avis_exist.id_utilisateur == avis.id_utilisateur) and (avis_exist.id_manga == avis.id_manga) and (avis_exist.note is not None):
+                vide = ''
+                try:
+                    with DBConnection().connection as connection:
+                        with connection.cursor() as cursor:
+                            cursor.execute(
+                                "UPDATE projet.avis                                "
+                                f"   SET texte      = '{vide}'        "
+                                f" WHERE id_manga = {avis.id_manga}             "
+                                f" AND id_utilisateur = {avis.id_utilisateur};             "
+                            )
+                            res = cursor.rowcount
+                            return res == 1
+            
 
-        try:
-            with DBConnection().connection as connection:
-                with connection.cursor() as cursor:
-                    # Supprimer un avis de la base de données
-                    cursor.execute(
-                        "DELETE FROM projet.avis                  "
-                        f" WHERE id_manga={avis.id_manga}      "
-                        f" AND id_utilisateur={avis.id_utilisateur} ;     "
-                    )
-                    res = cursor.rowcount
-        except Exception as e:
-            logging.info(e)
-            raise
-
-        return res > 0
+                except Exception as e:
+                    logging.info(e)
+                print(res)
+                return res == 1
 
     @log
     def modifier(self, avis: Avis, newtexte: str) -> bool:

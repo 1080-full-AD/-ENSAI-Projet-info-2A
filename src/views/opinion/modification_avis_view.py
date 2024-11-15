@@ -58,8 +58,8 @@ class ModificationAvisView(AbstractView):
                     min_allowed=0,
                     max_allowed=5
                 ).execute())
-                AvisService().noter(id_manga=id_manga,
-                                    id_utilisateur=id_utilisateur, note=note)
+                AvisService().modifier_note(id_manga=id_manga,
+                                    id_utilisateur=id_utilisateur, newnote=note)
 
                 from src.views.users.main_opinion_view import MainOpinionView
 

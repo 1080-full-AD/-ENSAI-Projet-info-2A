@@ -1,6 +1,3 @@
-from src.business_objet.utilisateur import Utilisateur
-
-
 class Avis:
     """Classe représentant un avis
 
@@ -13,7 +10,7 @@ class Avis:
     avis: str
         l'avis de l'utilisateur
     """
-    def __init__(self, id_manga, id_utilisateur, texte=None, note = None):
+    def __init__(self, id_manga, id_utilisateur, texte=None, note=None):
         """Constructeur"""
         self.id_manga = id_manga
         self.id_utilisateur = id_utilisateur
