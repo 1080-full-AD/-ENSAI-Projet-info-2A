@@ -202,7 +202,6 @@ class AvisDao(metaclass=Singleton):
         if note < 0 or note > 5:
             logging.error(f"Note invalide: {note}. La note doit être comprise entre 0 et 5.")
             return False
-            git 
         L = AvisDao().trouver_tous_par_id(avis.id_utilisateur)
         for avis_exist in L:
             if avis_exist.id_utilisateur == avis.id_utilisateur and avis_exist.id_manga == avis.id_manga:

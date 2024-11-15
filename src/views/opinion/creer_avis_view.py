@@ -49,20 +49,25 @@ class CreateOpinionView(AbstractView):
                                     id_utilisateur=id_utilisateur, texte=texte)
                 from src.views.users.main_opinion_view import MainOpinionView
 
-                return MainOpinionView("\n" + "=" * 50 + " Création d'avis"
+                return MainOpinionView("\n" + "=" * 50 + " Menu des avis"
                                        " :) " + "=" * 50 + "\n")
             case "Donner une note":
 
                 note = inquirer.number(
-                    f"Donnez votre note à {manga.titre_manga}"
+                    f"Donnez votre note à {manga.titre_manga}",
+                    min_allowed=0,
+                    max_allowed=5
                 ).execute()
                 AvisService().noter(id_manga=id_manga,
                                     id_utilisateur=id_utilisateur, note=note)
 
-                return CreateOpinionView("\n" + "=" * 50 + " Création d'avis"
-                                         " :) " + "=" * 50 + "\n")
+                from src.views.users.main_opinion_view import MainOpinionView
+
+                return MainOpinionView("\n" + "=" * 50 + " Menu des avis"
+                                       " :) " + "=" * 50 + "\n")
 
             case "Retour":
-                from src.views.users.consulter_avis_view import ConsulterAvisView
+                from src.views.users.main_opinion_view import MainOpinionView
 
-                return ConsulterAvisView("Retour au menu des avis")
+                return MainOpinionView("\n" + "=" * 50 + " Menu des avis"
+                                       " :) " + "=" * 50 + "\n")

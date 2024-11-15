@@ -1,5 +1,4 @@
 from InquirerPy import inquirer
-import src.business_objet.utilisateur
 from src.views.abstract_view import AbstractView
 from src.views.session import Session
 from src.service.utilisateur_service import UtilisateurService
@@ -13,7 +12,8 @@ class ConnexionView(AbstractView):
         pseudo = inquirer.text(message="Entrez votre pseudo : ").execute()
         mdp = inquirer.secret(message="Entrez votre mot de passe :").execute()
 
-        user = UtilisateurService().se_connecter(pseudo=pseudo, mot_de_passe=mdp)
+        user = UtilisateurService().se_connecter(
+            pseudo=pseudo, mot_de_passe=mdp)
 
         if user:
             message = f"Vous êtes connecté sous le pseudo {user.pseudo}"
