@@ -214,3 +214,4 @@ class AvisDao(metaclass=Singleton):
             logging.info(e)
         print(res)
         return res == 1
+
