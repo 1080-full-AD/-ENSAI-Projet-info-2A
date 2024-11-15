@@ -37,7 +37,6 @@ class AvisDao(metaclass=Singleton):
             raise
 
         created = res is not None
-        print(res)
         if created:
             avis.id_manga = res["id_manga"]
             avis.id_utilisateur = res["id_utilisateur"]

@@ -7,7 +7,7 @@ from src.business_objet.avis import Avis
 
 class AvisService:
 
-    def creer(self, id_manga: int, id_utilisateur: int, texte: str) -> bool:
+    def creer(self, id_manga: int, id_utilisateur: int, texte: str) -> None:
         """Création d'un avis
 
         Parameters
@@ -22,11 +22,11 @@ class AvisService:
             True si l'avis a été créé avec succès, False sinon
         """
         avis = Avis(id_manga=id_manga, id_utilisateur=id_utilisateur, texte=texte)
-        try:
-            return AvisDao().creer(avis)
-        except Exception as e:
-            logging.error(f"Erreur lors de la création de l'avis: {e}")
-            return False
+        if AvisDao().creer(avis):
+            AvisDao().creer(avis)
+        else:
+            raise ValueError("Erreur lors de la création de l'avis :/ ")
+
 
     def trouver_tous_par_id(self, id_utilisateur: int) -> list[Avis]:
         """Trouver les avis d'un utilisateur
