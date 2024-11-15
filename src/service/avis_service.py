@@ -128,3 +128,24 @@ class AvisService:
         except Exception as e:
             logging.error(f"Erreur lors de la notation du manga: {e}")
             return False
+
+    def modifier_note(self, id_manga: int, id_utilisateur: int, newnote: int) -> bool:
+        """Modifier une note
+
+        Parameters
+        ----------
+        id_manga : int
+        id_utilisateur : int
+        newnote : int
+
+        Returns
+        -------
+        bool
+            True si la modification a été un succès, False sinon
+        """
+        avis = Avis(id_manga=id_manga, id_utilisateur=id_utilisateur, texte="")
+        try:
+            return AvisDao().modifier_note(avis, newnote)
+        except Exception as e:
+            logging.error(f"Erreur lors de la modification de la note: {e}")
+            return False
