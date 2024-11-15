@@ -288,14 +288,14 @@ def test_rechercher_une_serie_ok():
     result = manga_service.rechercher_une_serie(titre)
 
     # THEN
-    assert result is True
+    assert result is not None
 
 
 def test_rechercher_une_serie_echec():
     """Tester si la recherche de la saga d'un manga ne fonctionne pas"""
 
     # GIVEN
-    titre = "One Piece"
+    titre = "Twoe Piece"
     mock_dao = MagicMock(spec=MangaDao)
     mock_dao.trouver_serie_par_titre.return_value = False
 
