@@ -21,7 +21,7 @@ def test_creer_collection_ok():
     collection = CollectionVirtuelle("Ma Collection", 1, [], "Collection de test")
 
     # WHEN
-    created = CollectionDao().Creer(collection)
+    created = CollectionDao().creer(collection)
 
     # THEN
     assert created
@@ -33,7 +33,7 @@ def test_creer_collection_ko():
     collection = CollectionVirtuelle(None, 1, [], "Collection sans titre")
 
     # WHEN
-    created = CollectionDao().Creer(collection)
+    created = CollectionDao().creer(collection)
 
     # THEN
     assert not created
@@ -58,7 +58,7 @@ def test_ajouter_manga_virtuel_ok():
     )
 
     # WHEN
-    ajout = CollectionDao().ajouter_manga_virtuelle(collection, manga)
+    ajout = CollectionDao().ajouter_manga(collection, manga)
 
     # THEN
     assert ajout
@@ -82,11 +82,11 @@ def test_supprimer_manga_virtuel_ok():
         auteurs="Oda, Eiichiro",
     )
     collection = CollectionVirtuelle("Ma Collection", 2, [], "Collection de test")
-    CollectionDao().ajouter_manga_virtuelle(collection, manga)
+    CollectionDao().ajouter_manga(collection, manga)
 
 
     # WHEN
-    suppression = CollectionDao().supprimer_manga_virtuel(collection, manga)
+    suppression = CollectionDao().supprimer_manga(collection, manga)
 
     # THEN
     assert suppression
@@ -108,7 +108,7 @@ def test_supprimer_manga_virtuel_ko():
 def test_modifier_collection_ok():
     """Modification réussie d'une collection virtuelle"""
     # GIVEN
-    collection = CollectionVirtuelle("Ma Collection", 1, [], "Description de test")
+    collection = CollectionVirtuelle("Ma Collection", 2, [], "Description de test")
     collection.description = "Nouvelle description"
 
     # WHEN
@@ -130,7 +130,7 @@ def test_modifier_collection_ko():
     assert not modification
 
 
-def test_list_manga_virtuelle():
+def test_liste_manga_virtuel():
     """Vérifie que la liste des mangas d'une collection virtuelle est correcte."""
     
     # GIVEN: Création d'une collection virtuelle et ajout de mangas
@@ -178,7 +178,7 @@ def test_list_manga_virtuelle():
     CollectionDao().ajouter_manga_virtuelle(collection, manga2)
     
     # WHEN: Appel de la méthode liste_manga_virtuelle
-    liste_manga = CollectionDao().liste_manga_virtuelle(collection)
+    liste_manga = CollectionDao().liste_manga(collection)
 
     # THEN: Vérification que la liste des mangas est correcte
     assert len(liste_manga) == 2

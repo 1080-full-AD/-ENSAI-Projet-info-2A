@@ -17,7 +17,7 @@ class CollectionDao(metaclass=Singleton):
     """Classe contenant les méthodes pour accéder aux utilisateurs
        de la base de données"""
 
-    def Creer(self, collection: AbstractCollection) -> bool:
+    def creer(self, collection: AbstractCollection) -> bool:
 
         """Creation d'une collection dans la base de données
 
@@ -62,7 +62,7 @@ class CollectionDao(metaclass=Singleton):
 
 
     @log
-    def ajouter_manga_virtuelle(self, collection: CollectionVirtuelle, manga: Manga)-> bool :
+    def ajouter_manga(self, collection: CollectionVirtuelle, manga: Manga)-> bool :
 
         """ajouter un manga  a une collection physique
 
@@ -105,7 +105,7 @@ class CollectionDao(metaclass=Singleton):
         return res == 1      
 
     @log
-    def supprimer_manga_virtuel(self, collection, manga: Manga) -> bool:
+    def supprimer_manga(self, collection, manga: Manga) -> bool:
 
         """supprimer un manga d'une collection virtuelle
         Parameters
@@ -224,8 +224,7 @@ class CollectionDao(metaclass=Singleton):
         return res ==1
 
     
-    
-    def liste_manga_virtuelle(self, collection: CollectionVirtuelle) -> list:
+    def liste_manga(self, collection: CollectionVirtuelle) -> list:
         """liste tous les mangas d'une collection virtuelle
         Parameters
         ----------
