@@ -158,7 +158,7 @@ class AvisDao(metaclass=Singleton):
         Parameters
         ----------
         avis : Avis
-        note : int
+        newtexte : str
 
         Returns
         -------
@@ -201,7 +201,9 @@ class AvisDao(metaclass=Singleton):
         """
         L = AvisDao().trouver_tous_par_id(avis.id_utilisateur)
         for avis_exist in L:
-            if avis_exist.id_utilisateur == avis.id_utilisateur and avis_exist.id_manga == avis.id_manga:
+            if (avis_exist.id_utilisateur == avis.id_utilisateur) and (avis_exist.id_manga == avis.id_manga) and (avis_exist.note is not None):
+                raise ValueError("Une note existe déjà pour ce manga :/")
+            elif (avis_exist.id_utilisateur == avis.id_utilisateur) and (avis_exist.id_manga == avis.id_manga) and (avis_exist.note is None):
                 try:
                     with DBConnection().connection as connection:
                         with connection.cursor() as cursor:
@@ -231,3 +233,35 @@ class AvisDao(metaclass=Singleton):
             logging.error(f"Erreur lors de la notation: {e}")
             raise
 
+    @log
+    def modifier_note(self, avis: Avis, newnote: int) -> bool:
+        """Modification d'une note dans la base de données
+
+        Parameters
+        ----------
+        avis : Avis
+        newnote : int
+
+        Returns
+        -------
+        created : bool
+            True si la modification est un succès
+            False sinon
+        """
+
+        res = None
+        try:
+            with DBConnection().connection as connection:
+                with connection.cursor() as cursor:
+                    cursor.execute(
+                        "UPDATE projet.avis                                "
+                        f"   SET note      = '{newnote}'        "
+                        f" WHERE id_manga = {avis.id_manga}             "
+                        f" AND id_utilisateur = {avis.id_utilisateur};             "
+                    )
+                    res = cursor.rowcount
+
+        except Exception as e:
+            logging.info(e)
+        print(res)
+        return res == 1
