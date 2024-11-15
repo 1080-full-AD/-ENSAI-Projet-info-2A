@@ -33,16 +33,16 @@ class ModificationAvisView(AbstractView):
         choix = inquirer.select(
             message="Faites votre choix : ",
             choices=[
-                f"Modifier l'avis de {manga.titre_manga}",
-                f"Modifier la note de {manga.titre_manga}",
+                f"Modifier l'avis",
+                f"Modifier la note",
                 "Retour",
             ],
         ).execute()
 
         match choix:
-            case "Rédiger un avis":
+            case "Modifier l'avis":
                 texte = inquirer.text(
-                    "Rédigez votre nouvel avis :)"
+                    f"Rédigez votre nouvel avis  sur {manga.titre_manga}:)"
                 ).execute()
 
                 AvisService().creer(id_manga=id_manga,
@@ -51,7 +51,7 @@ class ModificationAvisView(AbstractView):
 
                 return MainOpinionView("\n" + "=" * 50 + " Menu des avis"
                                        " :) " + "=" * 50 + "\n")
-            case "Donner une note":
+            case "Modifier la note":
 
                 note = int(inquirer.number(
                     f"Donnez votre nouvelle note à {manga.titre_manga} :)",

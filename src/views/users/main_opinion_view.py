@@ -35,13 +35,13 @@ class MainOpinionView(AbstractView):
             case "Modifier un avis/modifier une note":
                 from src.views.opinion.modification_avis_view import ModificationAvisView
 
-                return ModificationOpinionView("\n" + "=" * 50 + " Modification d'avis"
+                return ModificationAvisView("\n" + "=" * 50 + " Modification d'avis"
                                          " :) " + "=" * 50 + "\n")
 
             case "Supprimer un avis/supprimer une note":
                 from src.views.opinion.supprimer_avis_view import SupprimerAvisView
 
-                return CreateOpinionView("\n" + "=" * 50 + " Création d'avis"
+                return SupprimerAvisView("\n" + "=" * 50 + " Création d'avis"
                                          " :) " + "=" * 50 + "\n")
 
             case "Consulter les avis/notes":
