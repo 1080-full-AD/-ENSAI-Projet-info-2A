@@ -203,7 +203,6 @@ class AvisDao(metaclass=Singleton):
                     raise
                 return res > 0
             elif (avis_exist.id_utilisateur == avis.id_utilisateur) and (avis_exist.id_manga == avis.id_manga) and (avis_exist.texte is not None):
-                vide = ''
                 try:
                     with DBConnection().connection as connection:
                         with connection.cursor() as cursor:

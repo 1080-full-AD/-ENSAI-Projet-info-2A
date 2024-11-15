@@ -158,6 +158,41 @@ def test_supprimer_avis_echec():
     assert result is False
 
 
+def test_supprimer_note_ok():
+    """Suppression d'un avis réussie"""
+
+    # GIVEN
+    id_manga, id_utilisateur = 1, 1
+    mock_dao = MagicMock(spec=AvisDao)
+    mock_dao.supprimer_note.return_value = True
+
+    avis_service = AvisService()
+    avis_service.AvisDao = mock_dao
+
+    # WHEN
+    result = avis_service.supprimer_note(id_manga, id_utilisateur)
+
+    # THEN
+    assert result is True
+
+
+def test_supprimer_note_echec():
+    """Suppression d'une note échouée"""
+
+    # GIVEN
+    id_manga, id_utilisateur = 1, 1
+    mock_dao = MagicMock(spec=AvisDao)
+    mock_dao.supprimer_note.return_value = False
+
+    avis_service = AvisService()
+    avis_service.AvisDao = mock_dao 
+
+    # WHEN
+    result = avis_service.supprimer_note(id_manga, id_utilisateur)
+
+    # THEN
+    assert result is False
+
 def test_modifier_avis_ok():
     """Modification d'un avis réussie"""
 
@@ -190,6 +225,43 @@ def test_modifier_avis_echec():
 
     # WHEN
     result = avis_service.modifier(id_manga, id_utilisateur, newtexte)
+
+    # THEN
+    assert result is False
+
+
+def test_modifier_note_ok():
+    """Modification d'un avis réussie"""
+
+    # GIVEN
+    id_manga, id_utilisateur, newnote = 1, 1, 3
+    mock_dao = MagicMock(spec=AvisDao)
+    mock_dao.modifier_note.return_value = True
+
+    avis_service = AvisService()
+    avis_service.AvisDao = mock_dao 
+
+    # WHEN
+    result = avis_service.modifier_note(id_manga, id_utilisateur, newnote)
+
+    # THEN
+    assert result is True
+
+
+def test_modifier_avis_echec():
+    """Modification d'un avis échouée"""
+
+
+    # GIVEN
+    id_manga, id_utilisateur, newnote = 1, 1, 3
+    mock_dao = MagicMock(spec=AvisDao)
+    mock_dao.modifier_note.return_value = False
+
+    avis_service = AvisService()
+    avis_service.AvisDao = mock_dao 
+
+    # WHEN
+    result = avis_service.modifier(id_manga, id_utilisateur, newnote)
 
     # THEN
     assert result is False

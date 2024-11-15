@@ -30,7 +30,7 @@ class ConsulterAvisView(AbstractView):
         match choix:
             case "Consulter les avis d'un utilisateur":
                 pseudo = inquirer.text(
-                    "Entrez le peuso de l'utilisateur en question"
+                    "Entrez le pseudo de l'utilisateur en question"
                     ).execute()
                 user = UtilisateurService(
 

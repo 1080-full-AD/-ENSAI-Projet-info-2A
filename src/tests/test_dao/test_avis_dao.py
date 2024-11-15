@@ -127,6 +127,60 @@ def test_supprimer_avis_ko():
     assert not suppression_ok
 
 
+def test_supprimer_note_ok():
+    """Suppression d'une note réussie"""
+
+    # GIVEN
+    avis = Avis(id_manga=1, id_utilisateur=1, texte="test", note= 4)
+
+    # WHEN
+    suppression_ok = AvisDao().supprimer_note(avis)
+
+    # THEN
+    assert suppression_ok
+
+
+def test_supprimer_note_ko():
+    """Suppression d'une note échouée (avis non existant)"""
+
+    # GIVEN
+    avis = Avis(id_manga=9999, id_utilisateur=9999, texte="non existant", note = 4)
+
+    # WHEN
+    suppression_ok = AvisDao().supprimer_note(avis)
+
+    # THEN
+    assert not suppression_ok
+
+
+def test_modifier_note_ok():
+    """Modification de note réussie"""
+
+    # GIVEN
+    newnote = 3
+    avis = Avis(id_manga=1, id_utilisateur=1, texte="Amazing manga!", note = 4)
+
+    # WHEN
+    modification_ok = AvisDao().modifier_note(avis, newnote)
+
+    # THEN
+    assert modification_ok
+
+
+def test_modifier_note_ko():
+    """Modification de note échouée"""
+
+    # GIVEN
+    newnote = 4
+    avis = Avis(id_manga=99999, id_utilisateur=999999, texte="test", note = 3)
+
+    # WHEN
+    modification_ok = AvisDao().modifier_note(avis, newnote)
+
+    # THEN
+    assert not modification_ok
+
+
 def test_modifier_ok():
     """Modification d'avis réussie"""
 
