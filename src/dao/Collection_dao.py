@@ -2,13 +2,9 @@ import logging
 from src.utils.singleton import Singleton
 from src.utils.log_decorator import log
 from typing import Optional
-
-
-from src.business_objet.collection.abstract_collection import AbstractCollection
-from src.business_objet.collection.collection_physique import CollectionPhysique
-from src.business_objet.collection.collection_virtuelle import CollectionVirtuelle
+from src.business_objet.collection_virtuelle import CollectionVirtuelle
 from src.business_objet.manga import Manga
-from src.business_objet.manga_physique import MangaPhysique
+
 
 from src.dao.db_connection import DBConnection
 
@@ -17,7 +13,7 @@ class CollectionDao(metaclass=Singleton):
     """Classe contenant les méthodes pour accéder aux utilisateurs
        de la base de données"""
 
-    def creer(self, collection: AbstractCollection) -> bool:
+    def creer(self, collection: CollectionVirtuelle) -> bool:
 
         """Creation d'une collection dans la base de données
 

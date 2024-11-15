@@ -23,7 +23,7 @@ class CollectionVirtuelleService:
         nouvelle_collection = CollectionVirtuelle(    
             titre=collection.titre,
             id_utilisateur=collection.id_utilisateur,
-            list_manga=collection.liste_manga,
+            liste_manga=collection.liste_manga,
             description=collection.description
             )
 
