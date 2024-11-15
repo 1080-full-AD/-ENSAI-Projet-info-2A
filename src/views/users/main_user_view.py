@@ -36,11 +36,10 @@ class MainUserView(AbstractView):
                                        " de mangas " + "=" * 50 + "\n")
 
             case "Accéder au menu des collections ":
-                from src.views.usres.menu_collections_view \
-                    import MenuCollectionsView
+                from src.views.users.main_collection_view import MainCollectionView
 
-                return MenuCollectionsView("\n" + "=" * 50 + " Menu des "
-                                           "collections " + "=" * 50 + "\n")
+                return MainCollectionView("\n" + "=" * 50 + " Menu des"
+                                        " collections " + "=" * 50 + "\n")
 
             case "Accéder au menu des avis":
                 from src.views.users.main_opinion_view import MainOpinionView
