@@ -2,6 +2,7 @@ from src.utils.singleton import Singleton
 from src.business_objet.manga_physique import MangaPhysique
 from src.dao.manga_physique_dao import MangaPhysiqueDao
 from src.utils.log_decorator import log
+from src.dao.manga_physique_dao import MangaPhysiqueDao
 
 
 class MangaService(metaclass=Singleton):
@@ -18,7 +19,7 @@ class MangaService(metaclass=Singleton):
         """Supprimer un manga de la base de données"""
         return MangaPhysiqueDao().supprimer_manga_physique(manga)
 
-
+    @log
     def ajouter_tome(self, manga,new_tome):
         """
         ajouter un nouveau tome au manga physique
@@ -33,16 +34,16 @@ class MangaService(metaclass=Singleton):
             raise TypeError("Le tome ajouté doit être un entier")
         if new_tome in manga.tomes_manquants:
             manga.tomes_manquants.remove(new_tome)
-            return MangaPysiqueDao().modifier_manga_physique(manga)
+            return MangaPhysiqueDao().modifier_manga_physique(manga)
         elif new_tome > manga.dernier_tome:
             for i in range(1, new_tome-manga.dernier_tome):
                 manga.tomes_manquants.append(manga.dernier_tome+i)
                 manga.dernier_tome = new_tome
-                return MangaPysiqueDao().modifier_manga_physique(manga)
+                return MangaPhysiqueDao().modifier_manga_physique(manga)
         else:
             print("tome deja existant")
 
-        
+    @log
     def enlever_tome(manga, tome):
         if not isinstance(tome, int):
             raise TypeError(f"{tome},doit être un entier")
@@ -56,10 +57,10 @@ class MangaService(metaclass=Singleton):
             while nouveau_dernier_tome in manga.tomes_manquants and nouveau_dernier_tome > 0:
                 nouveau_dernier_tome -= 1
                 manga.dernier_tome = nouveau_dernier_tome
-            return MangaPysiqueDao().modifier_manga_physique(manga)
+            return MangaPhysiqueDao().modifier_manga_physique(manga)
         elif tome < manga.dernier_tome:
             manga.tomes_manquants.append(tome)
-            return MangaPysiqueDao().modifier_manga_physique(manga)
+            return MangaPhysiqueDao().modifier_manga_physique(manga)
         else:
             print("tome pas existant")
 

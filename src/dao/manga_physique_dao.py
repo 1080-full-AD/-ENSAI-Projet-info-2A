@@ -24,7 +24,7 @@ class MangaPhysiqueDao(metaclass=Singleton):
             True si la création est un succès
             False sinon
         """
-        created=False
+        created = False
         res = None
 
         try: 
@@ -41,7 +41,7 @@ class MangaPhysiqueDao(metaclass=Singleton):
                             "id_utilisateur": manga.id_utilisateur,
                             "num_dernier": manga.dernier_tome,
                             "num_manquants":manga.tomes_manquants,
-                            "status":manga.status
+                            "status":manga.status,
 
                             
                             }
@@ -53,7 +53,7 @@ class MangaPhysiqueDao(metaclass=Singleton):
             logging.error("Error creating manga_physique: %s", e)
         
         if res:
-            created=True
+            created = True
         
         return created
 
@@ -98,13 +98,13 @@ class MangaPhysiqueDao(metaclass=Singleton):
         return res == 1
 
     
-    def modifier_manga(self,manga,tome):
-        """ajouter un tome a un manga physique 
+    def modifier_manga_physique(self,manga,tome):
+        """modifier le manga physique dans la base de données
 
         Parameters
         ----------
         manga:manga 
-        tome: tome à ajouter 
+        
         Returns
         -------
         bool
@@ -141,3 +141,55 @@ class MangaPhysiqueDao(metaclass=Singleton):
             logging.info(e)
 
         return res == 1
+
+
+    def liste_manga_physique(self, utilisateur: Utilisateur) -> list:
+        """liste tous les mangas d'une collection physique
+        Parameters
+        ----------
+        collection : collection physique
+
+        Returns
+        -------
+        liste_manga : list[manga]
+            retourne la liste de tous les mangas de la collections 
+           
+        """
+
+        res = None
+
+        try:
+            with DBConnection().connection as connection:
+                with connection.cursor() as cursor:
+                    cursor.execute(
+                        f"select *     "
+                        f"   from projet.mangatheque mt     "
+                        f" JOIN projet.manga m USING(id_manga)"
+                        f"WHERE mt.id_utilisateur=%(id_utilisateur)", 
+                           {
+                            "id_utilisateur": utilisateur.id_utilisateur,  
+                            }                                
+                        )
+                    res = cursor.fetchall()
+        except Exception as e:
+            logging.info(e)
+
+        liste_manga = []
+        if res:
+            for row in res:
+                manga = MangaPhysique(
+                    id_manga=row["id.manga"],
+                    auteur=row["auteur"],
+                    titre=row["titre"],
+                    synopsis=row["synopsis"],
+                    id_utilisateur=row["id_utilisateur"],
+                    dernier_tome=row["num_dernier"],
+                    tomes_manquants=row["num_manquants"],
+                    status=row["status"],
+
+                     ) 
+                
+                liste_manga.append(manga)
+        
+        return liste_manga 
+

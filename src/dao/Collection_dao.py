@@ -48,27 +48,21 @@ class CollectionDao(metaclass=Singleton):
                             
                             }
                             )
-                         
-                    
+                           
                     res = cursor.fetchone()
                 
         except Exception as e:
             logging.error("Error creating collection: %s", e)
 
-
         if res :
-            collection.titre = res["Titre_collec"]
+            collection.titre = res["titre_collec"]
             created = True
 
         return created
 
-    
-        
-        
-
 
     @log
-    def ajouter_manga_virtuelle(self,collection:CollectionVirtuelle, manga:Manga)-> bool :
+    def ajouter_manga_virtuelle(self, collection: CollectionVirtuelle, manga: Manga)-> bool :
 
         """ajouter un manga  a une collection physique
 
@@ -91,7 +85,7 @@ class CollectionDao(metaclass=Singleton):
 
                         f" INSERT INTO projet.collection_manga(id_utilisateur,id_manga,"
                         f" titre_collec)  "
-                        f" VALUES(%(id_utilisateur)s,%(id_manga)s,%(titre_collec)s,",
+                        f" VALUES(%(id_utilisateur)s,%(id_manga)s,%(titre_collec)s)",
                         
                         
                     {
@@ -105,19 +99,13 @@ class CollectionDao(metaclass=Singleton):
                     )
                 res = cursor.rowcount
         except Exception as e:
-            logging.info(e)
-
-        return res == 1
+            logging.error("Error brind collection: %s", e)
 
 
-
-
-    
-                    
-      
+        return res == 1      
 
     @log
-    def supprimer_manga_virtuel(self, manga:Manga)->bool:
+    def supprimer_manga_virtuel(self, collection, manga: Manga) -> bool:
 
         """supprimer un manga d'une collection virtuelle
         Parameters
@@ -137,9 +125,9 @@ class CollectionDao(metaclass=Singleton):
 
                     cursor.execute(
 
-                        f" deLETE FROM projet.collection_manga"
-                        f"wHeRe id_manga=%(id_manga) and id_utilisateur=%(id_utilisateur)  "
-                        f" and titre_collec=%(titre),",
+                        f" DELETE FROM projet.collection_manga"
+                        f" WHERE id_manga=%(id_manga)s and id_utilisateur=%(id_utilisateur)s  "
+                        f" and titre_collec=%(titre)s",
                         
                         
                     {
@@ -152,17 +140,15 @@ class CollectionDao(metaclass=Singleton):
                     )
                 res = cursor.rowcount
         except Exception as e:
-            logging.info(e)
+            logging.error("Error delete manga: %s", e)
+
 
         return res == 1
 
-        
-     
-    
 
 
     @log
-    def supprimer_collection_virtuelle(self, collection: CollectionVirtuelle)->bool:
+    def supprimer_collection_virtuelle(self, collection: CollectionVirtuelle) -> bool:
         
         """Suppression  d'une collection virtuelle existante dans la base de données
 
@@ -180,10 +166,11 @@ class CollectionDao(metaclass=Singleton):
                 with connection.cursor() as cursor:
 
                     cursor.execute(
-                        f" DELETE FROM projet.collection" 
-                        f" WHERE titre_Collec = %(titre)s AND id_utilisateur = %(id_utilisateur)s;"
-                        f"DELETE FROM projet.collection_manga"
-                        f"WHERE titre_Collec = %(titre)s AND id_utilisateur = %(id_utilisateur)s;",
+                        f"DELETE FROM projet.collection_manga   "
+                        f"WHERE titre_Collec = %(titre)s AND id_utilisateur = %(id_utilisateur)s;"
+                        f" DELETE FROM projet.collection  " 
+                        f" WHERE titre_Collec = %(titre)s AND id_utilisateur = %(id_utilisateur)s;",
+                        
                             {
                             "titre": collection.titre, 
                             "id_utilisateur": collection.id_utilisateur
@@ -192,14 +179,14 @@ class CollectionDao(metaclass=Singleton):
                       
                     res = cursor.rowcount
         except Exception as e:
-            logging.info(e)
+            logging.error("Error supprimer collection: %s", e)
             raise
 
         return res > 0
     
 
     @log
-    def modifier(self, collection) -> bool:
+    def modifier(self, collection:CollectionVirtuelle) -> bool:
         """Modification d'une collection dans la base de données
 
         Parameters
@@ -219,77 +206,26 @@ class CollectionDao(metaclass=Singleton):
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        "UPDATE projet.collection      "
-                        f"   titre_collec = %(titre)s       "
-                        f"   id_utilisateur = %(id_utilisateur)   "
-                        f"  description = %(descritpion)s                      "
-                        f"where titre=%(titre)s and id_utilisateur=%(id_utilisateur)s", 
+                        "UPDATE projet.collection  SET   "
+                        f"   titre_collec = %(titre)s  ,    "
+                        f"   id_utilisateur = %(id_utilisateur)s , "
+                        f"  description = %(description)s        "
+                        f" where titre_collec=%(titre)s AND id_utilisateur = %(id_utilisateur)s", 
                            
                         {
-                            "titre": collection.titre_collec,
+                            "titre": collection.titre,
                             "description": collection.description,
                             "id_utilisateur": collection.id_utilisateur,
                         },
                     )
                     res = cursor.rowcount
         except Exception as e:
-            logging.info(e)
-
+            logging.error("Error modifier manga: %s", e)
         return res ==1
 
-    def liste_manga_physique(self, collection) -> list:
-        """liste tous les mangas d'une collection physique
-        Parameters
-        ----------
-        collection : collection physique
-
-        Returns
-        -------
-        liste_manga : list[manga]
-            retourne la liste de tous les mangas de la collections 
-           
-        """
-
-        res = None
-
-        try:
-            with DBConnection().connection as connection:
-                with connection.cursor() as cursor:
-                    cursor.execute(
-                        f"select *     "
-                        f"   from projet.mangatheque mt     "
-                        f" JOIN projet.manga m USING(id_manga)"
-                        f"WHERE mt.id_utilisateur=%(id_utilisateur)", 
-                           {
-                            "id_utilisateur": collection.id_utilisateur,  
-                            }                                
-                        )
-                    res = cursor.fetchall()
-        except Exception as e:
-            logging.info(e)
-
-        liste_manga = []
-        if res:
-            for row in res:
-                manga = MangaPhysique(
-                    id_manga=row["id.manga"],
-                    auteur=row["auteur"],
-                    titre=row["titre"],
-                    synopsis=row["synopsis"],
-                    id_utilisateur=row["id_utilisateur"],
-                    dernier_tome=row["num_dernier"],
-                    tomes_manquants=row["num_manquants"],
-                    status=row["status"],
-
-                     ) 
-                
-                liste_manga.append(manga)
-        
-        return liste_manga 
-
-
     
-    def liste_manga_virtuelle(self, collection) -> list:
+    
+    def liste_manga_virtuelle(self, collection: CollectionVirtuelle) -> list:
         """liste tous les mangas d'une collection virtuelle
         Parameters
         ----------
@@ -311,8 +247,8 @@ class CollectionDao(metaclass=Singleton):
                         f"select *     "
                         f"   from projet.collection_manga cm     "
                         f" JOIN projet.manga m USING(id_manga)"
-                        f"WHERE cm.id_utilisateur=%(id_utilisateur)"
-                        f"AND cm.titre_collec=%(titre)", 
+                        f"WHERE cm.id_utilisateur=%(id_utilisateur)s"
+                        f"AND cm.titre_collec=%(titre)s", 
                            {
                             "id_utilisateur": collection.id_utilisateur,
                             "titre":collection.titre  
@@ -320,15 +256,15 @@ class CollectionDao(metaclass=Singleton):
                         )
                     res = cursor.fetchall()
         except Exception as e:
-            logging.info(e)
+            logging.error("Error lister manga: %s", e)
 
         liste_manga = []
         if res:
             for row in res:
                 manga = Manga(
-                    id_manga=row["id.manga"],
-                    auteur=row["auteur"],
-                    titre=row["titre"],
+                    id_manga=row["id_manga"],
+                    auteurs=row["auteurs"],
+                    titre_manga=row["titre_manga"],
                     synopsis=row["synopsis"]
                      ) 
 
