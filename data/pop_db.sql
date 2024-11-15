@@ -1,5 +1,5 @@
 INSERT INTO projet.utilisateur (id_utilisateur, mot_de_passe, pseudo, age) VALUES 
-(1, 'password1', 'user1', 25),
+(1, '45b18add9aaf3d752fcd4d9ba77a3e3c8047e6634c0ef6f802a054e7bf781845', 'user1', 25),
 (2, 'password2', 'user2', 30);
 
 
