@@ -73,6 +73,7 @@ class AvisDao(metaclass=Singleton):
                         id_manga=row["id_manga"],
                         id_utilisateur=row["id_utilisateur"],
                         texte=row["texte"],
+                        note=row["note"]
                     )
                     res_avis.append(avis)
 
@@ -110,6 +111,7 @@ class AvisDao(metaclass=Singleton):
                         id_manga=row["id_manga"],
                         id_utilisateur=row["id_utilisateur"],
                         texte=row["texte"],
+                        note=row["note"]
                     )
                     res_avis.append(avis)
 
@@ -197,20 +199,39 @@ class AvisDao(metaclass=Singleton):
             True si la notation est un succès
             False sinon
         """
+        if note < 0 or note > 5:
+            logging.error(f"Note invalide: {note}. La note doit être comprise entre 0 et 5.")
+            return False
+            git 
+        L = AvisDao().trouver_tous_par_id(avis.id_utilisateur)
+        for avis_exist in L:
+            if avis_exist.id_utilisateur == avis.id_utilisateur and avis_exist.id_manga == avis.id_manga:
+                try:
+                    with DBConnection().connection as connection:
+                        with connection.cursor() as cursor:
+                            cursor.execute(
+                                "UPDATE projet.avis                                "
+                                f"   SET note      = '{note}'        "
+                                f" WHERE id_manga = {avis.id_manga}             "
+                                f" AND id_utilisateur = {avis.id_utilisateur};             "
+                            )
+                            res = cursor.rowcount
+                            return res == 1
 
-        res = None
+                except Exception as e:
+                    logging.info(e)
+                print(res)
+                return res == 1
         try:
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        "UPDATE projet.avis                                "
-                        f"   SET note      = '{note}'        "
-                        f" WHERE id_manga = {avis.id_manga}             "
-                        f" AND id_utilisateur = {avis.id_utilisateur};             "
+                        "INSERT INTO projet.avis(id_manga, id_utilisateur, note) VALUES (%s, %s, %s) RETURNING id_manga, id_utilisateur, note;",
+                        (avis.id_manga, avis.id_utilisateur, note),
                     )
-                    res = cursor.rowcount
-
+                    res = cursor.fetchone()
+                    return res is not None
         except Exception as e:
-            logging.info(e)
-        print(res)
-        return res == 1
+            logging.error(f"Erreur lors de la notation: {e}")
+            raise
+
