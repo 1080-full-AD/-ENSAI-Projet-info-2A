@@ -119,9 +119,13 @@ class AvisService:
         bool
             True si la modification a été un succès, False sinon
         """
-        avis = Avis(id_manga=id_manga, id_utilisateur=id_utilisateur, texte="")
-        try:
-            return AvisDao().noter(avis, note)
-        except Exception as e:
-            logging.error(f"Erreur lors de la notation du manga: {e}")
+        if note < 0 or note > 5:
+            logging.error(f"Note invalide: {note}. La note doit être comprise entre 0 et 5.")
             return False
+        else:
+            avis = Avis(id_manga=id_manga, id_utilisateur=id_utilisateur, texte="")
+            try:
+                return AvisDao().noter(avis, note)
+            except Exception as e:
+                logging.error(f"Erreur lors de la notation du manga: {e}")
+                return False

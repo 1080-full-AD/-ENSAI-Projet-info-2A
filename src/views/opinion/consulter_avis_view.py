@@ -69,8 +69,6 @@ class ConsulterAvisView(AbstractView):
                 return ConsulterAvisView("\n" + "=" * 50 + " Consultation d'avis"
                                          " :) " + "=" * 50 + "\n")
 
-                
-
             case "Retour":
                 from src.views.users.main_user_view import MainUserView
 

@@ -5,7 +5,7 @@ from src.service.manga_service import MangaService
 from src.views.session import Session
 
 
-class CreateOpinionView(AbstractView):
+class ModificationAvisView(AbstractView):
     """Menu principal des avis"""
 
     def choisir_menu(self):
@@ -18,8 +18,8 @@ class CreateOpinionView(AbstractView):
         """
 
         titre_manga = inquirer.text(
-            "Entrez le nom du manga sur lequel vous voulez"
-            " partager votre avis :)"
+            "Entrez le nom du manga pour lequel vous voulez"
+            " modifier votre avis :)"
         ).execute()
 
         manga = MangaService().rechercher_un_manga(
@@ -33,8 +33,8 @@ class CreateOpinionView(AbstractView):
         choix = inquirer.select(
             message="Faites votre choix : ",
             choices=[
-                "Rédiger un avis",
-                "Donner une note",
+                f"Modifier l'avis de {manga.titre_manga}",
+                f"Modifier la note de {manga.titre_manga}",
                 "Retour",
             ],
         ).execute()
@@ -42,7 +42,7 @@ class CreateOpinionView(AbstractView):
         match choix:
             case "Rédiger un avis":
                 texte = inquirer.text(
-                    "Rédigez votre avis :)"
+                    "Rédigez votre nouvel avis :)"
                 ).execute()
 
                 AvisService().creer(id_manga=id_manga,
@@ -54,7 +54,7 @@ class CreateOpinionView(AbstractView):
             case "Donner une note":
 
                 note = int(inquirer.number(
-                    f"Donnez votre note à {manga.titre_manga}",
+                    f"Donnez votre nouvelle note à {manga.titre_manga} :)",
                     min_allowed=0,
                     max_allowed=5
                 ).execute())

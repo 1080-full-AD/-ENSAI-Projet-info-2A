@@ -1,9 +1,5 @@
 from InquirerPy import inquirer
 from src.views.abstract_view import AbstractView
-from src.service.utilisateur_service import UtilisateurService
-from src.service.avis_service import AvisService
-from src.service.manga_service import MangaService
-from src.views.session import Session
 
 
 class MainOpinionView(AbstractView):
@@ -37,10 +33,16 @@ class MainOpinionView(AbstractView):
                                          " :) " + "=" * 50 + "\n")
 
             case "Modifier un avis/modifier une note":
-                pass
+                from src.views.opinion.modification_avis_view import ModificationAvisView
+
+                return ModificationOpinionView("\n" + "=" * 50 + " Modification d'avis"
+                                         " :) " + "=" * 50 + "\n")
 
             case "Supprimer un avis/supprimer une note":
-                pass
+                from src.views.opinion.supprimer_avis_view import SupprimerAvisView
+
+                return CreateOpinionView("\n" + "=" * 50 + " Création d'avis"
+                                         " :) " + "=" * 50 + "\n")
 
             case "Consulter les avis/notes":
                 from src.views.opinion.consulter_avis_view import ConsulterAvisView
@@ -49,6 +51,5 @@ class MainOpinionView(AbstractView):
                                          " :) " + "=" * 50 + "\n")
             case "Retour":
                 from src.views.users.main_user_view import MainUserView
-
 
                 return MainUserView("Retour au menu utilisateur :)")
