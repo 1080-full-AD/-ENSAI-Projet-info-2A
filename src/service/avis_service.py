@@ -70,6 +70,22 @@ class AvisService:
         avis = Avis(id_manga=id_manga, id_utilisateur=id_utilisateur, texte="")
         return AvisDao().supprimer_avis(avis)
 
+    def supprimer_note(self, id_manga: int, id_utilisateur: int) -> bool:
+        """Supprimer une note
+
+        Parameters
+        ----------
+        id_manga : int
+        id_utilisateur : int
+
+        Returns
+        -------
+        bool
+            True si l'avis a été supprimé avec succès, False sinon
+        """
+        avis = Avis(id_manga=id_manga, id_utilisateur=id_utilisateur, texte="")
+        return AvisDao().supprimer_note(avis)
+
     def modifier(self, id_manga: int, id_utilisateur: int, newtexte: str) -> bool:
         """Modifier un avis
 

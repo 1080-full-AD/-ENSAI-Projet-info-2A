@@ -154,13 +154,62 @@ class AvisDao(metaclass=Singleton):
                     raise
                 return res > 0
             elif (avis_exist.id_utilisateur == avis.id_utilisateur) and (avis_exist.id_manga == avis.id_manga) and (avis_exist.note is not None):
+                try:
+                    with DBConnection().connection as connection:
+                        with connection.cursor() as cursor:
+                            cursor.execute(
+                                "UPDATE projet.avis                                "
+                                f"   SET texte      = NULL        "
+                                f" WHERE id_manga = {avis.id_manga}             "
+                                f" AND id_utilisateur = {avis.id_utilisateur};             "
+                            )
+                            res = cursor.rowcount
+                            return res == 1
+            
+
+                except Exception as e:
+                    logging.info(e)
+                print(res)
+                return res == 1
+
+    @log
+    def supprimer_note(self, avis: Avis) -> bool:
+        """Suppression d'une note dans la base de données
+
+        Parameters
+        ----------
+        avis : Avis
+            avis à supprimer de la base de données
+
+        Returns
+        -------
+            True si l'avis a bien été supprimé
+        """
+        L = AvisDao().trouver_tous_par_id(avis.id_utilisateur)
+        for avis_exist in L:
+            if (avis_exist.id_utilisateur == avis.id_utilisateur) and (avis_exist.id_manga == avis.id_manga) and (avis_exist.texte is None):
+                try:
+                    with DBConnection().connection as connection:
+                        with connection.cursor() as cursor:
+                            # Supprimer un avis de la base de données
+                            cursor.execute(
+                                "DELETE FROM projet.avis                  "
+                                f" WHERE id_manga={avis.id_manga}      "
+                                f" AND id_utilisateur={avis.id_utilisateur} ;     "
+                            )
+                            res = cursor.rowcount
+                except Exception as e:
+                    logging.info(e)
+                    raise
+                return res > 0
+            elif (avis_exist.id_utilisateur == avis.id_utilisateur) and (avis_exist.id_manga == avis.id_manga) and (avis_exist.texte is not None):
                 vide = ''
                 try:
                     with DBConnection().connection as connection:
                         with connection.cursor() as cursor:
                             cursor.execute(
                                 "UPDATE projet.avis                                "
-                                f"   SET texte      = '{vide}'        "
+                                f"   SET note      = NULL        "
                                 f" WHERE id_manga = {avis.id_manga}             "
                                 f" AND id_utilisateur = {avis.id_utilisateur};             "
                             )
