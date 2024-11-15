@@ -22,11 +22,8 @@ class AvisService:
             True si l'avis a été créé avec succès, False sinon
         """
         avis = Avis(id_manga=id_manga, id_utilisateur=id_utilisateur, texte=texte)
-        try:
-            return AvisDao().creer(avis)
-        except Exception as e:
-            logging.error(f"Erreur lors de la création de l'avis: {e}")
-            return False
+        return AvisDao().creer(avis)
+
 
     def trouver_tous_par_id(self, id_utilisateur: int) -> list[Avis]:
         """Trouver les avis d'un utilisateur
@@ -40,11 +37,7 @@ class AvisService:
         list[Avis]
             Liste des avis de l'utilisateur
         """
-        try:
-            return AvisDao().trouver_tous_par_id(id_utilisateur)
-        except Exception as e:
-            logging.error(f"Erreur lors de la récupération des avis pour l'utilisateur {id_utilisateur}: {e}")
-            return []
+        return AvisDao().trouver_tous_par_id(id_utilisateur)
 
     def trouver_avis_par_manga(self, id_manga: int) -> list[Avis]:
         """Trouver les avis pour un manga
@@ -58,11 +51,7 @@ class AvisService:
         list[Avis]
             Liste des avis pour ce manga
         """
-        try:
-            return AvisDao().trouver_avis_par_manga(id_manga)
-        except Exception as e:
-            logging.error(f"Erreur lors de la récupération des avis pour le manga {id_manga}: {e}")
-            return []
+        return AvisDao().trouver_avis_par_manga(id_manga)
 
     def supprimer_avis(self, id_manga: int, id_utilisateur: int) -> bool:
         """Supprimer un avis
@@ -78,11 +67,7 @@ class AvisService:
             True si l'avis a été supprimé avec succès, False sinon
         """
         avis = Avis(id_manga=id_manga, id_utilisateur=id_utilisateur, texte="")
-        try:
-            return AvisDao().supprimer_avis(avis)
-        except Exception as e:
-            logging.error(f"Erreur lors de la suppression de l'avis: {e}")
-            return False
+        return AvisDao().supprimer_avis(avis)
 
     def modifier(self, id_manga: int, id_utilisateur: int, newtexte: str) -> bool:
         """Modifier un avis
@@ -99,11 +84,7 @@ class AvisService:
             True si la modification a été un succès, False sinon
         """
         avis = Avis(id_manga=id_manga, id_utilisateur=id_utilisateur, texte="")
-        try:
-            return AvisDao().modifier(avis, newtexte)
-        except Exception as e:
-            logging.error(f"Erreur lors de la modification de l'avis: {e}")
-            return False
+        return AvisDao().modifier(avis, newtexte)
 
     def noter(self, id_manga: int, id_utilisateur: int, note: int) -> bool:
         """Noter un manga
@@ -119,15 +100,11 @@ class AvisService:
         bool
             True si la modification a été un succès, False sinon
         """
+        avis = Avis(id_manga=id_manga, id_utilisateur=id_utilisateur, texte="")
         if note < 0 or note > 5:
             logging.error(f"Note invalide: {note}. La note doit être comprise entre 0 et 5.")
             return False
-        avis = Avis(id_manga=id_manga, id_utilisateur=id_utilisateur, texte="")
-        try:
-            return AvisDao().noter(avis, note)
-        except Exception as e:
-            logging.error(f"Erreur lors de la notation du manga: {e}")
-            return False
+        return AvisDao().noter(avis, note)
 
     def modifier_note(self, id_manga: int, id_utilisateur: int, newnote: int) -> bool:
         """Modifier une note
