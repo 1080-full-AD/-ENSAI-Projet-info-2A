@@ -237,7 +237,8 @@ class MangaDao(metaclass=Singleton):
                 cursor.execute(
                     "SELECT id_manga,"
                     "       auteurs,"
-                    "       synopsis"
+                    "       synopsis,"
+                    "       titre_manga"
                     " FROM projet.manga "
                     f"WHERE titre_manga = '{titre_manga}'"
                 )

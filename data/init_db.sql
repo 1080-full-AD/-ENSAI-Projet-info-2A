@@ -13,6 +13,7 @@ CREATE TABLE projet.utilisateur (
     age integer
 );
 
+ALTER SEQUENCE projet.utilisateur_id_utilisateur_seq RESTART WITH 3;
 
 --------------------------------------------------------------
 -- Mangas
