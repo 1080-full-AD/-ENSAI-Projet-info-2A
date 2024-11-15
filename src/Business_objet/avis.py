@@ -23,7 +23,7 @@ class Avis:
     def __str__(self):
         return (
             f"Avis de l'utilisateur {self.id_utilisateur}"
-            f" sur le manga {self.titre_manga}:"
+            f" sur le manga {self.id_manga}:"
             f"\n{self.texte}"
             "\n"
             f"\nNote donnée: {self.note}"
