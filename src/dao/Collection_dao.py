@@ -144,7 +144,7 @@ class CollectionDao(metaclass=Singleton):
 
 
     @log
-    def supprimer_collection_virtuelle(self, collection: CollectionVirtuelle) -> bool:
+    def supprimer_collection(self, collection: CollectionVirtuelle) -> bool:
         
         """Suppression  d'une collection virtuelle existante dans la base de données
 
@@ -217,7 +217,7 @@ class CollectionDao(metaclass=Singleton):
                     res = cursor.rowcount
         except Exception as e:
             logging.error("Error modifier manga: %s", e)
-        return res ==1
+        return res == 1
 
     
     def liste_manga(self, collection: CollectionVirtuelle) -> list:

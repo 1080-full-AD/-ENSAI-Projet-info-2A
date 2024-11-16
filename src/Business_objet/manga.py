@@ -27,3 +27,19 @@ class Manga:
             f"      Auteur(s): {self.auteurs}\n"
             f"      Synopsis: {self.synopsis}"
         )
+
+    def __eq__(self, autre_manga):
+        """
+        Compare deux objets Manga pour vérifier s'ils sont égaux.
+    
+        param 
+        autre_manga: manga à comparer avec l'instance actuelle.
+        return: 
+        True si les deux mangas sont égaux, False sinon.
+        """
+        if isinstance(autre_manga, Manga):
+            return (self.id_manga == autre_manga.id_manga and
+                    self.titre_manga == autre_manga.titre_manga and
+                    self.auteurs == autre_manga.auteurs and
+                    self.synopsis == autre_manga.synopsis)
+        return False

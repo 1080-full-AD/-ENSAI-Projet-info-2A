@@ -48,7 +48,7 @@ class CollectionVirtuelleService:
     def supprimer(self, collection) -> bool :
         "supprimer la collection de l'utilisateur"
 
-        return CollectionDao().supprimer_collection_virtuelle(collection)
+        return CollectionDao().supprimer_collection(collection)
 
 
     @log
@@ -58,7 +58,7 @@ class CollectionVirtuelleService:
 
 
     @log 
-    def ajouter_manga(self,collection,new_manga):
+    def ajouter_manga(self, collection, new_manga):
         if not isinstance(new_manga, Manga):
             raise ValueError(f"{new_manga} n'est pas un manga")
         if isinstance(new_manga, MangaPhysique):
@@ -73,7 +73,7 @@ class CollectionVirtuelleService:
         if manga not in CollectionDao().liste_manga(collection):
             raise ValueError("ce manga ne fait pas partir de cette collection")
         else :
-            return CollectionDao().supprimer_manga_virtuel(manga)
+            return CollectionDao().supprimer_manga(manga)
        
 
 

@@ -3,7 +3,7 @@ import os
 import pytest
 from unittest.mock import patch
 from src.utils.reset_database import ResetDatabase
-from src.business_objet.collection.collection_virtuelle import CollectionVirtuelle
+from src.business_objet.collection_virtuelle import CollectionVirtuelle
 from src.business_objet.manga import Manga
 from src.dao.collection_dao import CollectionDao
 
@@ -99,7 +99,7 @@ def test_supprimer_manga_virtuel_ko():
     manga = Manga("999", "Manga Inexistant", "Auteur Inconnu", "Synopsis Inconnu")
 
     # WHEN
-    suppression = CollectionDao().supprimer_manga_virtuel(collection, manga)
+    suppression = CollectionDao().supprimer_manga(collection, manga)
 
     # THEN
     assert not suppression
@@ -108,7 +108,8 @@ def test_supprimer_manga_virtuel_ko():
 def test_modifier_collection_ok():
     """Modification réussie d'une collection virtuelle"""
     # GIVEN
-    collection = CollectionVirtuelle("Ma Collection", 2, [], "Description de test")
+    collection = CollectionVirtuelle("Ma Collec", 1, [], "Description de test")
+    CollectionDao().creer(collection)
     collection.description = "Nouvelle description"
 
     # WHEN
@@ -124,6 +125,7 @@ def test_modifier_collection_ko():
     collection = CollectionVirtuelle("Ma Collection", 999, [], "Description de test")
 
     # WHEN
+    
     modification = CollectionDao().modifier(collection)
 
     # THEN
@@ -134,7 +136,7 @@ def test_liste_manga_virtuel():
     """Vérifie que la liste des mangas d'une collection virtuelle est correcte."""
     
     # GIVEN: Création d'une collection virtuelle et ajout de mangas
-    collection = CollectionVirtuelle(titre="Ma Collection préfèrée", id_utilisateur=1, list_manga=[], description="Une collection test")
+    collection = CollectionVirtuelle(titre="Ma Collection préfèrée", id_utilisateur=1, liste_manga=[], description="Une collection test")
     manga1 = Manga(
         id_manga=13,
         titre_manga="One Piece",
@@ -173,9 +175,9 @@ def test_liste_manga_virtuel():
         "[Written by MAL Rewrite])"
         )
 
-    CollectionDao().Creer(collection)
-    CollectionDao().ajouter_manga_virtuelle(collection, manga1)
-    CollectionDao().ajouter_manga_virtuelle(collection, manga2)
+    CollectionDao().creer(collection)
+    CollectionDao().ajouter_manga(collection, manga1)
+    CollectionDao().ajouter_manga(collection, manga2)
     
     # WHEN: Appel de la méthode liste_manga_virtuelle
     liste_manga = CollectionDao().liste_manga(collection)
@@ -192,7 +194,7 @@ def test_supprimer_collection_virtuelle_ok():
     collection = CollectionVirtuelle("Ma Collection", 1, [], "Description de test")
 
     # WHEN
-    suppression = CollectionDao().supprimer_collection_virtuelle(collection)
+    suppression = CollectionDao().supprimer_collection(collection)
 
     # THEN
     assert suppression
@@ -204,7 +206,7 @@ def test_supprimer_collection_virtuelle_ko():
     collection = CollectionVirtuelle("Collection Inexistante", 1, [], "Description de test")
 
     # WHEN
-    suppression = CollectionDao().supprimer_collection_virtuelle(collection)
+    suppression = CollectionDao().supprimer_collection(collection)
 
     # THEN
     assert not suppression
