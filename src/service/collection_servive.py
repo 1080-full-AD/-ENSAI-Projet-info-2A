@@ -73,7 +73,7 @@ class CollectionVirtuelleService:
         if manga not in CollectionDao().liste_manga(collection):
             raise ValueError("ce manga ne fait pas partir de cette collection")
         else :
-            return CollectionDao().supprimer_manga(manga)
+            return CollectionDao().supprimer_manga(manga= manga, collection= collection)
        
 
 

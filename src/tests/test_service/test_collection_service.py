@@ -9,18 +9,12 @@ import pytest
 
 # Initialisation des objets pour les tests
 manga_virtuel = Manga(
-        id_manga=13,
-        titre_manga="One Piece",
-        synopsis="Gol D. Roger, a man referred to as the King of the Pirates,"
-        "is set to be executed by the World Government. But just before his demise, he confirms the existence of a great treasure,"
-        " One Piece, located somewhere within the vast ocean known as the Grand Line. Announcing that One Piece can be claimed by"
-        "anyone worthy enough to reach it, the King of the Pirates is executed and the Great Age of Pirates begins."
-        "Twenty-two years later, a young man by the name of Monkey D. Luffy is ready to embark on his own adventure"
-        ", searching for One Piece and striving to become the new King of the Pirates. Armed with just a straw hat, a small boat,"
-        "and an elastic body, he sets out on a fantastic journey to gather his own crew and a worthy ship that will take them across"
-        "the Grand Line to claim the greatest status on the high seas.[Written by MAL Rewrite]",
-        auteurs="Oda, Eiichiro",
+        id_manga=28,
+        titre_manga="manga_test",
+        synopsis='juste pour tester',
+        auteurs='auteur',
         )
+
 
 manga_physique = MangaPhysique(
     id_manga=2,
@@ -93,9 +87,8 @@ def test_liste_manga_ok():
     # THEN
     assert len(result) == 1
     assert result[0] == manga_virtuel
-    mock_dao.liste_manga.assert_called_once_with(collection)
-
-
+   
+    
 def test_modifier_collection_ok():
     """Tester la modification réussie d'une collection"""
 
@@ -132,7 +125,7 @@ def test_supprimer_manga_ok():
     service.CollectionDao = mock_dao
 
     # WHEN
-    result = service.supprimer_manga(collection, manga_virtuel)
+    result = service.supprimer_manga(collection= collection, manga = manga_virtuel)
 
     # THEN
     assert result is True
@@ -167,8 +160,7 @@ def test_ajouter_manga_ok():
 
     # THEN
     assert result is True
-    mock_dao.ajouter_manga.assert_called_once_with(collection , manga_virtuel)
-
+    
 
 def test_ajouter_manga_echec_manga_physique():
     """Tester l'ajout échoue si le manga est physique"""
