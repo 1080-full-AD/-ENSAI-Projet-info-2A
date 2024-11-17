@@ -70,7 +70,7 @@ CREATE TABLE projet.mangatheque (
     id_utilisateur integer REFERENCES projet.utilisateur(id_utilisateur),
     id_manga integer REFERENCES projet.manga(id_manga),
     num_dernier integer,
-    num_manquants integer,
+    num_manquants JSON,
     status text,
     PRIMARY KEY (id_utilisateur,id_manga)
 );
