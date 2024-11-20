@@ -9,7 +9,12 @@ class MangaService(metaclass=Singleton):
 
     @log
     def rechercher_un_manga(self, titre_manga) -> Manga:
-        """Trouver un manga à partir de son titre"""
+        """Trouver un manga à partir de son titre
+
+        Retourne TypeError, si le manga demandé n'est pas une chaîne de caractère
+        Retourne ValueError, si le manga recherché n'est pas trouvé
+
+        """
         if isinstance(titre_manga, str) is False:
             raise TypeError("Le titre doit être une chaîne de caractère :/")
         manga = MangaDao().trouver_par_titre(titre_manga)
@@ -20,7 +25,12 @@ class MangaService(metaclass=Singleton):
 
     @log
     def rechercher_un_id_manga(self, id_manga) -> Manga:
-        """Trouver un manga à partir de son id"""
+        """Trouver un manga à partir de son id
+
+        Retourne TypeError si l'identifiant saisi n'est pas un entier
+        Retourne ValueError si le manga recherché n'est pas trouvé
+
+        """
         if isinstance(id_manga, int) is False:
             raise TypeError("L'indentifiant doit être un entier :/")
         manga = MangaDao().trouver_par_id(id_manga)

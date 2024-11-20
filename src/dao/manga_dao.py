@@ -12,7 +12,6 @@ class MangaDao(metaclass=Singleton):
 
     def trouver_par_titre(self, titre_manga: str) -> Manga:
         """Trouver un manga par le nom exact du tome recherché
-        Trouver un manga par le nom exact du tome recherché
 
         Parameters
         ----------
@@ -95,6 +94,7 @@ class MangaDao(metaclass=Singleton):
         Returns
         -------
             True si le manga a bien été supprimé
+            False sinon
         """
 
         try:
@@ -153,8 +153,19 @@ class MangaDao(metaclass=Singleton):
 
         return res == 1
 
-    def trouver_par_id(self, id_manga: str) -> Manga:
-        """Trouver un manga par son identifiant s'il est connu (id)"""
+    def trouver_par_id(self, id_manga: str):
+        """Trouver un manga par son identifiant s'il est connu (id)
+
+        Parameters
+        ----------
+        id_manga : identifiant du manga
+
+        Returns
+        -------
+        res_id_manga : list
+            si la modification est un succès
+            None sinon
+        """
         with DBConnection().connection as connection:
             with connection.cursor() as cursor:
                 cursor.execute(

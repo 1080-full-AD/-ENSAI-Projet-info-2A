@@ -46,7 +46,7 @@ def test_creer_manga_ok():
 
 
 def test_creer_manga_echec():
-    """Création d'un manga dans la BDD réussie"""
+    """Création d'un manga dans la BDD échec"""
 
     # GIVEN
     manga = Manga(

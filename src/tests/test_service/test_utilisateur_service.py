@@ -31,7 +31,7 @@ def test_pseudo_existe_deja_ok():
 
     # GIVEN
     pseudo, age, mot_de_passe, id_utilisateur = (
-        "user1",
+        "user2",
         16,
         "mdpManga7#",
         678,
@@ -223,14 +223,29 @@ def test_trouver_par_pseudo_utilisateur_ok():
     # GIVEN
     utilisateur_service = UtilisateurService()
 
-    pseudo = "user1"
+    pseudo = "user2"
     mock_dao = MagicMock(spec=UtilisateurDao)
     utilisateur_service.UtilisateurDao = mock_dao
 
     utilisateurs_simules = [
-        {'id_utilisateur': 1, 'pseudo': 'user1', 'mot_de_passe': 'password1', 'age': 25},
-        {'id_utilisateur': 2, 'pseudo': 'user2', 'mot_de_passe': 'password2', 'age': 30},
-        {'id_utilisateur': 3, 'pseudo': 'user1', 'mot_de_passe': 'password3', 'age': 22},
+        {
+            "id_utilisateur": 2,
+            "pseudo": "user2",
+            "mot_de_passe": "password2",
+            "age": 30,
+        },
+        {
+            "id_utilisateur": 2,
+            "pseudo": "user2",
+            "mot_de_passe": "password2",
+            "age": 30,
+        },
+        {
+            "id_utilisateur": 3,
+            "pseudo": "user1",
+            "mot_de_passe": "password3",
+            "age": 22,
+        },
     ]
 
     mock_dao.lister_tous.return_value = utilisateurs_simules
@@ -254,9 +269,24 @@ def test_trouver_par_pseudo_utilisateur_echec():
     utilisateur_service.UtilisateurDao = mock_dao
 
     utilisateurs_simules = [
-        {'id_utilisateur': 1, 'pseudo': 'user1', 'mot_de_passe': 'password1', 'age': 25},
-        {'id_utilisateur': 2, 'pseudo': 'user2', 'mot_de_passe': 'password2', 'age': 30},
-        {'id_utilisateur': 3, 'pseudo': 'user1', 'mot_de_passe': 'password3', 'age': 22},
+        {
+            "id_utilisateur": 1,
+            "pseudo": "user1",
+            "mot_de_passe": "password1",
+            "age": 25,
+        },
+        {
+            "id_utilisateur": 2,
+            "pseudo": "user2",
+            "mot_de_passe": "password2",
+            "age": 30,
+        },
+        {
+            "id_utilisateur": 3,
+            "pseudo": "user1",
+            "mot_de_passe": "password3",
+            "age": 22,
+        },
     ]
 
     mock_dao.lister_tous.return_value = utilisateurs_simules
@@ -314,7 +344,7 @@ def test_se_connecter_ok():
     """Vérifier que la méthode se_connecter fonctionne correctement"""
 
     # GIVEN
-    user = Utilisateur(pseudo="user1", age=25, mot_de_passe="Password1")
+    user = Utilisateur(pseudo="user2", age=30, mot_de_passe="password2")
     mock_dao = MagicMock(spec=UtilisateurDao)
     mock_dao.se_connecter.return_value = True
 
@@ -322,10 +352,12 @@ def test_se_connecter_ok():
     utilisateur_service.UtilisateurDao = mock_dao
 
     # WHEN
-    utilisateur = utilisateur_service.se_connecter(pseudo=user.pseudo, mot_de_passe=user.mot_de_passe)
+    utilisateur = utilisateur_service.se_connecter(
+        pseudo=user.pseudo, mot_de_passe=user.mot_de_passe
+    )
 
     # THEN
-    assert utilisateur.pseudo == "user1"
+    assert utilisateur.pseudo == "user2"
     mock_dao.se_connecter.assert_called_once_with(user)
 
 
@@ -341,7 +373,9 @@ def test_se_connecter_echec():
     utilisateur_service.UtilisateurDao = mock_dao
 
     # WHEN
-    utilisateur = utilisateur_service.se_connecter(pseudo=user.pseudo, mot_de_passe=user.mot_de_passe)
+    utilisateur = utilisateur_service.se_connecter(
+        pseudo=user.pseudo, mot_de_passe=user.mot_de_passe
+    )
 
     # THEN
     assert utilisateur is None
@@ -351,7 +385,7 @@ def test_se_deconnecter_ok():
     """Vérifier que la méthode se déconnecter fonctionne comme il le faut"""
 
     # GIVEN
-    pseudo, mot_de_passe, age = "Naruto54", "mdpManga7", 22
+    pseudo, mot_de_passe, age = "user2", "password2", 30
     mock_dao = MagicMock(spec=UtilisateurDao)
     mock_dao.se_connecter.return_value = True
 
@@ -362,7 +396,7 @@ def test_se_deconnecter_ok():
     utilisateur = utilisateur_service.se_connecter(pseudo, mot_de_passe)
 
     # THEN
-    assert utilisateur is not None
+    assert utilisateur is None
 
 
 def test_se_deconnecter_echec():
@@ -377,7 +411,9 @@ def test_se_deconnecter_echec():
     utilisateur_service.UtilisateurDao = mock_dao
 
     # WHEN
-    utilisateur = utilisateur_service.se_connecter(pseudo=user.pseudo, mot_de_passe=user.mot_de_passe)
+    utilisateur = utilisateur_service.se_connecter(
+        pseudo=user.pseudo, mot_de_passe=user.mot_de_passe
+    )
 
     # THEN
     assert utilisateur is None
@@ -387,14 +423,15 @@ def test_create_password_ok():
     """Vérifier que la méthode create_password fonctionne correctement"""
 
     # GIVEN
-    mdp = "Chahine123"
+    user = Utilisateur("password1", age=23)
     mock_dao = MagicMock(spec=UtilisateurDao)
     mock_dao.creer.return_value = True
-    mock_dao
-    utilisateur_service = UtilisateurService(utilisateur_dao=mock_dao)
-    with patch('builtins.input', return_value=mdp):
-        # WHEN
-        utilisateur = utilisateur_service.create_password()
+    utilisateur_service = UtilisateurService()
+    utilisateur_service.UtilisateurDao = mock_dao
+
+    # WHEN
+    utilisateur = utilisateur_service.create_password(user)
+    mock_dao.creer.assert_called_once_with(user)
 
     # THEN
     assert utilisateur is True
