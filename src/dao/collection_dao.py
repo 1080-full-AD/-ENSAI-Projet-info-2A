@@ -217,7 +217,7 @@ class CollectionDao(metaclass=Singleton):
         return res == 1
 
     @log
-    def liste_manga(self, collection: CollectionVirtuelle) -> list:
+    def liste_manga(self, id_utilisateur: int, titre_collec: str) -> list:
         """liste tous les mangas d'une collection virtuelle
         Parameters
         ----------
@@ -242,8 +242,8 @@ class CollectionDao(metaclass=Singleton):
                         f" WHERE cm.id_utilisateur=%(id_utilisateur)s"
                         f" AND cm.titre_collec=%(titre)s", 
                         {
-                            "id_utilisateur": collection.id_utilisateur,
-                            "titre": collection.titre  
+                            "id_utilisateur": id_utilisateur,
+                            "titre": titre_collec 
                         }                                
                         )
                     res = cursor.fetchall()
@@ -308,4 +308,58 @@ class CollectionDao(metaclass=Singleton):
         
         return collection.titre in liste_titre_collec
 
-    
+
+
+    @log
+    def liste_collection(self, id_utilisateur: int)-> list:
+        
+        """retourne la liste des collections virtuelles d'un utilisateur
+        qui sont enregistré dans la base de données
+
+        Parameters
+        ----------
+        id-utilisateur : identifiant de l'utilisateur  
+
+        Returns
+        -------
+        list[CollectionVirtuelle]
+        la liste des collections virtuelles de l'utilisateur
+           
+        """
+
+        res = None
+
+        try:
+            with DBConnection().connection as connection:
+                with connection.cursor() as cursor:
+                    cursor.execute(
+                        f"  SELECT *    "
+                        f"  FROM projet.collection     "
+                        f"  WHERE id_utilisateur=%(id_utilisateur)s",
+                         
+                        {  
+                            "id_utilisateur": id_utilisateur
+                        }                                
+                        )
+                    res = cursor.fetchall()
+        except Exception as e:
+            logging.error("Error lister manga: %s", e)
+
+        liste_collection = []
+        if res:
+            for row in res:
+                liste_mangas = self.liste_manga(
+                            id_utilisateur=row["id_utilisateur"],
+                            titre_collec=row["titre_collec"]
+                            )
+                collection = CollectionVirtuelle(
+                    titre=row["titre_collec"],
+                    id_utilisateur=row["id_utilisateur"],
+                    liste_manga=liste_mangas,
+                    description=row["description"]
+
+                )
+                liste_collection.append(collection)
+        
+        return liste_collection
+

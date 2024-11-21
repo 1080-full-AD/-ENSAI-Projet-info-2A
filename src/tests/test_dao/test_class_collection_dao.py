@@ -180,12 +180,23 @@ def test_liste_manga_virtuel():
     CollectionDao().ajouter_manga(collection, manga2)
     
     # WHEN: Appel de la méthode liste_manga_virtuelle
-    liste_manga = CollectionDao().liste_manga(collection)
+    liste_manga = CollectionDao().liste_manga(id_utilisateur=1 ,titre_collec="Ma Collection préfèrée")
 
     # THEN: Vérification que la liste des mangas est correcte
     assert len(liste_manga) == 2
     assert any(m.titre_manga == "One Piece" for m in liste_manga)
     assert any(m.titre_manga == "Monster" for m in liste_manga)
+
+
+def test_liste_collection_ok():
+    #given
+    id_utilisateur = 1
+
+    #WHEN
+    result = CollectionDao().liste_collection(id_utilisateur)
+
+    #THEN 
+    assert len(result)>0
 
 
 def test_supprimer_collection_virtuelle_ok():
@@ -198,6 +209,8 @@ def test_supprimer_collection_virtuelle_ok():
 
     # THEN
     assert suppression
+
+
 
 
 def test_supprimer_collection_virtuelle_ko():
