@@ -128,7 +128,12 @@ class UtilisateurService(metaclass=Singleton):
     @log
     def trouver_par_pseudo_utilisateur(self, pseudo) -> Utilisateur:
         """Trouver un utilisateur à partir de son pseudo"""
-        return UtilisateurDao().trouver_par_pseudo(pseudo)
+        if isinstance(pseudo, str) is False:
+            raise TypeError("Le pseudo doit être une chaîne de caractère :/")
+        if UtilisateurDao().trouver_par_pseudo(pseudo) is None:
+            raise ValueError("Auncun utilisateur ne possède ce pseudo :/")
+        else:
+            return UtilisateurDao().trouver_par_pseudo(pseudo)
 
     @log
     def se_connecter(self, pseudo, mot_de_passe) -> Utilisateur:
