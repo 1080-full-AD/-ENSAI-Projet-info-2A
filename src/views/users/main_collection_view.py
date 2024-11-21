@@ -29,13 +29,13 @@ class MainCollectionView(AbstractView):
             case "Créer une collection":
                 from src.views.collection.creer_collection_view import CreateCollectionView
 
-                return CreateCollectionView("\n" + "=" * 50 + " Création de Collection"
+                return CreateCollectionView("\n" + "=" * 50 + " Création de collection"
                                          " :) " + "=" * 50 + "\n")
 
             case "Modifier une collection":
                 from src.views.collection.modification_collection_view import ModificationCollectionView
 
-                return ModificationCollectionView("\n" + "=" * 50 + " Modification de Collection"
+                return ModificationCollectionView("\n" + "=" * 50 + " Modification de collection"
                                          " :) " + "=" * 50 + "\n")
 
             case "Supprimer une collection":

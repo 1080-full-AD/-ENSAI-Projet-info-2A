@@ -38,10 +38,10 @@ class MangaPhysiqueService(metaclass=Singleton):
         elif new_tome > manga.dernier_tome:
             for i in range(1, new_tome-manga.dernier_tome):
                 manga.tomes_manquants.append(manga.dernier_tome+i)
-                manga.dernier_tome = new_tome
-                return MangaPhysiqueDao().modifier_manga_physique(manga)
+            manga.dernier_tome = new_tome
+            return MangaPhysiqueDao().modifier_manga_physique(manga)
         else:
-            raise TypeError("tome deja existant")
+            raise ValueError("tome deja existant")
 
     @log
     def enlever_tome(self,manga, tome):
@@ -58,13 +58,13 @@ class MangaPhysiqueService(metaclass=Singleton):
                 nouveau_dernier_tome -= 1
                 manga.dernier_tome = nouveau_dernier_tome
             return MangaPhysiqueDao().modifier_manga_physique(manga)
-        elif tome < manga.dernier_tome:
+        elif tome < manga.dernier_tome and tome not in manga.tomes_manquants:
             manga.tomes_manquants.append(tome)
             return MangaPhysiqueDao().modifier_manga_physique(manga)
         else:
-            print("tome pas existant")
+            raise ValueError("vous ne disposez pas de ce tome")
 
     @log
-    def modifier_manga_physique(self,manga):
+    def modifier_manga_physique(self, manga):
         "modifier un manga physique enregisté dans la base de donnnées"
         return MangaPhysiqueDao().modifier_manga_physique(manga)

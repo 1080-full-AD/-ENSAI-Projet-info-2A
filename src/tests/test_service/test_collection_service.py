@@ -120,10 +120,9 @@ def test_modifier_collection_ok():
     result = service.modifier_collection(collection)
 
     # THEN
-    assert result is not None
-    #mock_dao.modifier.assert_called_once_with(collection)
-
-
+    assert result is True
+    
+    
 def test_supprimer_manga_ok():
     """Tester la suppression d'un manga virtuel existant dans la collection"""
 
