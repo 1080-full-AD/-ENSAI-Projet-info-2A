@@ -306,7 +306,7 @@ class CollectionDao(metaclass=Singleton):
             for row in res:
                 liste_titre_collec.append(row["titre_collec"])
         
-        return collection.titre in liste_titre_collec
+        return titre in liste_titre_collec
 
 
 

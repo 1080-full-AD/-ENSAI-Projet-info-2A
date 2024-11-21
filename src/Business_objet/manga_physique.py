@@ -33,4 +33,3 @@ class MangaPhysique(Manga):
         self.tomes_manquants = tomes_manquants
         self.dernier_tome = dernier_tome
         self.status = status
-

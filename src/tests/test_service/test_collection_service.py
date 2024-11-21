@@ -71,7 +71,7 @@ def test_creer_collection_echec_manga_physique():
 
 
 def test_creer_collection_echec_titre_existant():
-    collection = CollectionVirtuelle ("Nouvelle Collection", 2, [manga_physique],"la meilleure")
+    collection = CollectionVirtuelle("Nouvelle Collection", 2, [manga_physique],"la meilleure")
     mock_dao = MagicMock()
     service = CollectionVirtuelleService()
     service.CollectionDao = mock_dao

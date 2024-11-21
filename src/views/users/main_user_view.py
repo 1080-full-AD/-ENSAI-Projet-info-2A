@@ -35,7 +35,7 @@ class MainUserView(AbstractView):
                 return MangaSearchView("\n" + "=" * 50 + " Recherche"
                                        " de mangas " + "=" * 50 + "\n")
 
-            case "Accéder au menu des collections ":
+            case "Accéder au menu des collections":
                 from src.views.users.main_collection_view import MainCollectionView
 
                 return MainCollectionView("\n" + "=" * 50 + " Menu des"

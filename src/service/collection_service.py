@@ -10,13 +10,22 @@ class CollectionVirtuelleService:
     "classe contenant les services des collections virtuelles"
 
     @log
+    def creer(self, titre: str, id_utilisateur: int, liste_manga: list[Manga], description: str)-> CollectionVirtuelle:
     def creer(self, collection: CollectionVirtuelle) -> CollectionVirtuelle:
         "création d'une collection virtuelle a partir de ses attributs"
 
+        if not all(isinstance(i, Manga) for i in liste_manga) :
+            raise ValueError("Les collections virtuelles ne conteniennent que des mangas virtuelles :/")
         if not all(isinstance(i, Manga) for i in collection.liste_manga) :
             raise ValueError("les collections virtuelles ne conteniennent que"
                              " des mangas virtuelles")
 
+        for i in liste_manga:
+            if isinstance(i, MangaPhysique):
+                raise ValueError("les collection virtuelles ne peuvent contenir des mangas physique")
+
+        if CollectionDao().titre_existant(titre=titre, id_utilisateur=id_utilisateur)== True:
+            raise ValueError("Vous avez déja une collection avec ce titre :/")
         for i in collection.liste_manga:
             if isinstance(i, MangaPhysique):
                 raise ValueError("les collection virtuelles ne peuvent"
@@ -27,20 +36,22 @@ class CollectionVirtuelleService:
             raise ValueError("vous avez déja une collection avec ce titre ,"
                              "veuillez changer le titre svp")
 
-        nouvelle_collection = CollectionVirtuelle(    
-            titre=collection.titre,
-            id_utilisateur=collection.id_utilisateur,
-            liste_manga=collection.liste_manga,
-            description=collection.description
+        nouvelle_collection = CollectionVirtuelle(
+            titre=titre,
+            id_utilisateur=id_utilisateur,
+            liste_manga=liste_manga,
+            description=description
             )
 
-        if CollectionDao().creer(nouvelle_collection) and all(CollectionDao().ajouter_manga(collection=nouvelle_collection , manga=manga) for manga in collection.liste_manga):
+        if CollectionDao().creer(
+            collection=nouvelle_collection
+            ) and all(CollectionDao().ajouter_manga(collection=nouvelle_collection , manga=manga) for manga in liste_manga):
             return nouvelle_collection
         else:
             return None
 
 
-    
+
 
 
     @log
@@ -70,6 +81,8 @@ class CollectionVirtuelleService:
             raise ValueError(f"{new_manga} n'est pas un manga")
         if isinstance(new_manga, MangaPhysique):
             raise ValueError("les collections virtuelle ne contiennent que des mangas virtuelles")
+        if new_manga in CollectionDao().liste_manga(collection):
+            raise ValueError(f"Ce manga appartient déja à {collection.titre} :/")
         if new_manga in CollectionDao().liste_manga(collection.id_utilisateur, collection.titre):
             raise ValueErrror("ce manga appartient déja à cette collection")
         return CollectionDao().ajouter_manga(collection=collection,manga=new_manga)
@@ -81,6 +94,7 @@ class CollectionVirtuelleService:
             raise ValueError("ce manga ne fait pas partir de cette collection")
         else :
             return CollectionDao().supprimer_manga(manga= manga, collection= collection)
+
        
     @log
     def liste_collection(self, id_utilisateur: int):
