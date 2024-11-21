@@ -266,6 +266,7 @@ class CollectionDao(metaclass=Singleton):
                 liste_manga.append(manga)
         
         return liste_manga 
+<<<<<<< HEAD:src/dao/Collection_dao.py
 
     @log
     def titre_existant(self, collection :CollectionVirtuelle):
@@ -311,3 +312,5 @@ class CollectionDao(metaclass=Singleton):
         return collection.titre in liste_titre_collec
 
     
+=======
+>>>>>>> db9b9fe54baf12fdc3774b5cf3ee682f367fa65f:src/dao/collection_dao.py

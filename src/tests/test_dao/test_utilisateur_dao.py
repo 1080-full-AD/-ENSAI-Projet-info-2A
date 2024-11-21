@@ -34,13 +34,13 @@ def test_creer_echec():
     """Création d'un utilisateur échouée"""
 
     # GIVEN
-    user = Utilisateur(pseudo="LoveMangaMax", age=23)
+    user = Utilisateur(pseudo="user2", age="??")
 
     # WHEN
     created = UtilisateurDao().creer(user)
 
     # THEN
-    assert not created
+    assert created is False
 
 
 def test_trouver_par_pseudo_existant():
@@ -174,7 +174,7 @@ def test_trouver_par_id_existant():
     """Recherche par id d'un utilisateur existant"""
 
     # GIVEN
-    id_utilisateur = 1
+    id_utilisateur = 2
 
     # WHEN
     user = UtilisateurDao().trouver_par_id(id_utilisateur)

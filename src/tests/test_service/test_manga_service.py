@@ -4,6 +4,7 @@ from src.service.manga_service import MangaService
 from src.dao.manga_dao import MangaDao
 from src.business_objet.manga import Manga
 
+import pytest
 import unittest
 
 
@@ -46,7 +47,7 @@ def test_creer_manga_ok():
 
 
 def test_creer_manga_echec():
-    """Création d'un manga dans la BDD réussie"""
+    """Création d'un manga dans la BDD échec"""
 
     # GIVEN
     manga = Manga(
@@ -86,7 +87,7 @@ def test_recherche_manga_ok():
     assert isinstance(manga, Manga)
 
 
-def test_recherche_manga_echec(self):
+def test_recherche_manga_echec():
     """Tester si la recherche de manga à partir de son titre renvoie bien un échec"""
 
     # GIVEN
@@ -99,11 +100,9 @@ def test_recherche_manga_echec(self):
     manga_service = MangaService()
     manga_service.MangaDao = mock_dao
 
-    # WHEN
-    manga = manga_service.rechercher_un_manga(titre_manga)
-
-    # THEN
-    self.assertEqual(manga, "Aucun manga ne possède ce titre :/")
+    # WHEN and THEN
+    with pytest.raises(ValueError, match="Aucun manga ne possède ce titre :/"):
+        manga_service.rechercher_un_manga("AbsentBDD")
 
 
 def test_recherche_id_manga_ok():
@@ -124,7 +123,7 @@ def test_recherche_id_manga_ok():
     assert manga is not None
 
 
-def test_recherche_id_manga_echec(self):
+def test_recherche_id_manga_echec():
     """Tester si la recherche de manga à partir de son id renvoie bien un échec"""
 
     # GIVEN
@@ -137,11 +136,9 @@ def test_recherche_id_manga_echec(self):
     manga_service = MangaService()
     manga_service.MangaDao = mock_dao
 
-    # WHEN
-    manga = manga_service.rechercher_un_id_manga(id_manga)
-
-    # THEN
-    self.assertEqual(manga, "Aucun manga ne possède cet identifiant :/")
+    # WHEN and THEN
+    with pytest.raises(ValueError, match="Aucun manga ne possède cet identifiant :/"):
+        manga_service.rechercher_un_id_manga(id_manga)
 
 
 def test_supprimer_manga_ok():

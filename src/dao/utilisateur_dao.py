@@ -93,7 +93,7 @@ class UtilisateurDao(metaclass=Singleton):
 
     @log
     def lister_tous(self) -> list[Utilisateur]:
-        """lister tous les utilisateur
+        """lister tous les utilisateurs
 
         Parameters
         ----------
@@ -246,7 +246,19 @@ class UtilisateurDao(metaclass=Singleton):
 
     @log
     def trouver_par_id(self, id_utilisateur) -> Utilisateur:
-        """Trouver un utilisateur par son identifiant s'il est connu (id)"""
+        """Trouver un utilisateur par son identifiant s'il est connu (id)
+
+        Parameters
+        ----------
+        id_utilisateur : str
+            identifiant de l'utilisateur que l'on souhaite trouver
+
+        Returns
+        -------
+        res_id_utilisateur : Utilisateur
+            renvoie l'utilisateur que l'on cherche s'il est trouvé
+            Sinon il renvoie None
+        """
         with DBConnection().connection as connection:
             with connection.cursor() as cursor:
                 cursor.execute(

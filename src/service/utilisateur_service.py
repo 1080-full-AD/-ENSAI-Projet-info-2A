@@ -13,7 +13,19 @@ class UtilisateurService(metaclass=Singleton):
     @log
     def pseudo_deja_utilise(self, pseudo) -> bool:
         """Vérifie si le pseudo est déjà utilisé
-        Retourne True si le pseudo existe déjà en BDD"""
+        Retourne True si le pseudo existe déjà en BDD
+
+        Parameters
+        ----------
+        pseudo : str
+            pseudo de l'utilisateur
+
+        Returns
+        ----------
+            bool
+                True si le pseudo est déjà utilisé par un utilisateur
+                False sinon
+        """
         utilisateur = UtilisateurDao().lister_tous()
         return pseudo in [j.pseudo for j in utilisateur]
 
@@ -21,7 +33,25 @@ class UtilisateurService(metaclass=Singleton):
     def creer_utilisateur(
         self, pseudo, age, mot_de_passe=None, id_utilisateur=None
     ) -> Utilisateur:
-        """Création d'un utilisateur à partir de ses attributs"""
+        """Création d'un utilisateur à partir de ses attributs
+
+        Parameters
+        ----------
+        pseudo : str
+            pseudo de l'utilisateur
+        age : str
+            age de l'utilisateur
+        mot_de_passe : None
+            par défaut
+        id_utilisateur : None
+            par défaut
+
+        Returns
+        ----------
+        nouvel_ulisateur : list[Utilisateur]
+                Si l'utilisateur est bien créé
+                None sinon
+        """
         if len(pseudo) == 0:
             raise ValueError("Le nom d'utilisateur ne peut pas être vide.")
         if not isinstance(pseudo, (str, int)):
@@ -47,7 +77,18 @@ class UtilisateurService(metaclass=Singleton):
 
     @log
     def modifier_utilisateur(self, utilisateur) -> Utilisateur:
-        """Modification d'un utilisateur"""
+        """Modification d'un utilisateur
+
+        Parameters
+        ----------
+        utilisateur : Utilisateur
+
+        Returns
+        ----------
+        utilisateur : Utilisateur
+                Si l'utilisateur est bien modifié
+                None sinon
+        """
         utilisateur.mot_de_passe = hash_password(
             utilisateur.mot_de_passe, utilisateur.pseudo
         )
@@ -58,7 +99,18 @@ class UtilisateurService(metaclass=Singleton):
 
     @log
     def supprimer_utilisateur(self, utilisateur) -> bool:
-        """Supprimer le compte d'un utilisateur"""
+        """Supprimer le compte d'un utilisateur
+
+        Parameters
+        ----------
+        utilisateur: Utilisateur
+
+        Returns
+        ----------
+        utilisateur : Utilisateur
+                Si l'utilisateur est bien supprimé
+                None sinon
+        """
         return UtilisateurDao().supprimer(utilisateur)
 
     @log
@@ -91,30 +143,29 @@ class UtilisateurService(metaclass=Singleton):
         Session().deconnexion()
         return None
 
-    def create_password(self):
-        """Demande à l'utilsateur de créer un mot de passe"""
+    def create_password(self, mot_de_passe):
+        """Demande à l'utilisateur de créer un mot de passe"""
         mot_de_passe = input("Veuillez créer un mot de passe :")
         if self.is_valid_mdp(mot_de_passe):
             self.mot_de_passe = mot_de_passe
-            print("Mot de passe créer avec succès !")
+            print("Mot de passe créé avec succès !")
         else:
             print("Le mot de passe ne respecte pas les critères suivants:")
             print("-Au moins 8 caractères")
             print("-Au moins une lettrre minuscule")
             print("-Au moins une lettre majuscule")
             print("-Au moins un chiffre")
-            self.create_password()
+            mot_de_passe = input("Veuillez créer un mot de passe :")
+            self.create_password(mot_de_passe)
 
     def is_valid_mdp(self, mot_de_passe) -> bool:
         """Méthode permettant de vérifier si le mot de passe créé est valide"""
         if (len(mot_de_passe)) < 8:
-            raise ValueError("Le mot de passe doit contenir au moins 8" "caractères.")
+            return False
         if not re.search(r"[A-Z]", mot_de_passe):
-            raise ValueError("Le mot de passe doit contenir au moins une" "majuscule.")
+            return False
         if not re.search(r"[a-z]", mot_de_passe):
-            raise ValueError("Le mot de passe doit contenir au moins une" "minuscule.")
+            return False
         if not re.search(r"[0-9]", mot_de_passe):
-            raise ValueError("Le mot de passe doit contenir au moins un" "chiffre.")
-        else:
             return False
         return True
