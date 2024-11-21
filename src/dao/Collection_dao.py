@@ -4,7 +4,7 @@ from src.utils.log_decorator import log
 from typing import Optional
 from src.business_objet.collection_virtuelle import CollectionVirtuelle
 from src.business_objet.manga import Manga
-
+from src.business_objet.utilisateur import Utilisateur
 
 from src.dao.db_connection import DBConnection
 
@@ -266,3 +266,48 @@ class CollectionDao(metaclass=Singleton):
                 liste_manga.append(manga)
         
         return liste_manga 
+
+    @log
+    def titre_existant(self, collection :CollectionVirtuelle):
+        
+        """indique si le titre de la collection est presente dans la 
+        base de données pour le même utilisateur
+        Parameters
+        ----------
+        collection : collection pour la quelle on fait la vérification
+
+        Returns
+        -------
+        bool 
+        true si le titre est déja enregistré dans la base de donnée 
+        pour le même utilisateur 
+        False sinon 
+           
+        """
+
+        res = None
+
+        try:
+            with DBConnection().connection as connection:
+                with connection.cursor() as cursor:
+                    cursor.execute(
+                        f"  select titre_collec    "
+                        f"  from projet.collection     "
+                        f" WHERE id_utilisateur=%(id_utilisateur)s",
+                         
+                           {
+                            "id_utilisateur": collection.id_utilisateur
+                            }                                
+                        )
+                    res = cursor.fetchall()
+        except Exception as e:
+            logging.error("Error lister manga: %s", e)
+
+        liste_titre_collec = []
+        if res:
+            for row in res:
+                liste_titre_collec.append(row["titre_collec"])
+        
+        return collection.titre in liste_titre_collec
+
+    

@@ -1,4 +1,3 @@
-import time
 import os
 import pytest
 from unittest.mock import patch
@@ -6,6 +5,7 @@ from src.utils.reset_database import ResetDatabase
 from src.business_objet.collection_virtuelle import CollectionVirtuelle
 from src.business_objet.manga import Manga
 from src.dao.collection_dao import CollectionDao
+from src.business_objet.utilisateur import Utilisateur
 
 @pytest.fixture(scope="session", autouse=True)
 def setup_test_environment():
@@ -212,7 +212,30 @@ def test_supprimer_collection_virtuelle_ko():
     assert not suppression
 
 
+
     
+def test_titre_existant_True():
+        # GIVEN
+    collection_1 = CollectionVirtuelle("Collection 1", 2, [], "Description de test")
+    collection_2 = CollectionVirtuelle("Collection 1", 2, [], "pour vérifier")
+
+        # WHEN
+    CollectionDao().creer(collection_1)
+    result = CollectionDao().titre_existant(collection_2)
+        # THEN
+    assert result== True
+
+
+def test_titre_existant_false():
+    # GIVEN
+    collection = CollectionVirtuelle("Collection manifique", 2, [], "Description de test")
+    # WHEN
+    result = CollectionDao().titre_existant(collection)
+    
+    #THEN
+    assert result==False 
+
+
    
 
 if __name__ == "__main__":

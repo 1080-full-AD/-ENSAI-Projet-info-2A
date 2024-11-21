@@ -5,7 +5,7 @@ from src.utils.log_decorator import log
 from src.dao.manga_physique_dao import MangaPhysiqueDao
 
 
-class MangaService(metaclass=Singleton):
+class MangaPhysiqueService(metaclass=Singleton):
     """Classe permettant d'avoir des informations à propos des Mangas"""
 
 
@@ -41,10 +41,10 @@ class MangaService(metaclass=Singleton):
                 manga.dernier_tome = new_tome
                 return MangaPhysiqueDao().modifier_manga_physique(manga)
         else:
-            print("tome deja existant")
+            raise TypeError("tome deja existant")
 
     @log
-    def enlever_tome(manga, tome):
+    def enlever_tome(self,manga, tome):
         if not isinstance(tome, int):
             raise TypeError(f"{tome},doit être un entier")
 
@@ -64,3 +64,7 @@ class MangaService(metaclass=Singleton):
         else:
             print("tome pas existant")
 
+    @log
+    def modifier_manga_physique(self,manga):
+        "modifier un manga physique enregisté dans la base de donnnées"
+        return MangaPhysiqueDao().modifier_manga_physique(manga)

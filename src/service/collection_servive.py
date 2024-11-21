@@ -9,7 +9,7 @@ class CollectionVirtuelleService:
     "classe contenant les services des collections virtuelles"
 
     @log
-    def creer(self, collection)-> CollectionVirtuelle:
+    def creer(self, collection: CollectionVirtuelle )-> CollectionVirtuelle:
         "création d'une collection virtuelle a partir de ses attributs"
 
         if not all(isinstance(i, Manga) for i in collection.liste_manga) :
@@ -19,6 +19,9 @@ class CollectionVirtuelleService:
             if isinstance(i , MangaPhysique):
                 raise ValueError("les collection virtuelles ne peuvent contenir des collections physique")
                 break
+            
+        if  CollectionDao().titre_existant(collection)== True:
+            raise ValueError("vous avez déja une collection avec ce titre ,veuillez changer le titre svp")
 
         nouvelle_collection = CollectionVirtuelle(    
             titre=collection.titre,
@@ -76,6 +79,4 @@ class CollectionVirtuelleService:
             return CollectionDao().supprimer_manga(manga= manga, collection= collection)
        
 
-
-class CollectionPhysiqueService:
-    "classe contenant les services des collections physique"
+    

@@ -3,11 +3,12 @@ from src.service.collection_servive import CollectionVirtuelleService
 from src.business_objet.collection_virtuelle import CollectionVirtuelle
 from src.business_objet.manga import Manga
 from src.business_objet.manga_physique import MangaPhysique
-
+from src.business_objet.utilisateur import Utilisateur
 import pytest
 
 
 # Initialisation des objets pour les tests
+
 manga_virtuel = Manga(
         id_manga=28,
         titre_manga="manga_test",
@@ -47,29 +48,38 @@ def test_creer_collection_ok():
     service.CollectionDao = mock_dao
 
     # WHEN
-    result = service.creer(collection)
+    result = service.creer(collection=collection)
 
     # THEN
     assert result is not None
-    #mock_dao.creer.assert_called_once()
-    #mock_dao.ajouter_collection_virtuelle.assert_called_once_with(manga_virtuel)
-
+    
+    
 
 def test_creer_collection_echec_manga_physique():
     """Tester la création échoue si un manga physique est présent"""
 
     # GIVEN
-    collection_1 = CollectionVirtuelle ("Nouvelle Collection", 1, [manga_physique],"la meilleure")
+    collection_1 = CollectionVirtuelle ("collection virtuelle", 2, [manga_virtuel],"la meilleure")
     mock_dao = MagicMock()
     service = CollectionVirtuelleService()
     service.CollectionDao = mock_dao
 
     # WHEN / THEN
     with pytest.raises(ValueError):
-        service.creer(collection_1)
+        service.creer(collection=collection_1)
 
 
+def test_creer_collection_echec_titre_existant():
+    collection = CollectionVirtuelle ("Nouvelle Collection", 2, [manga_physique],"la meilleure")
+    mock_dao = MagicMock()
+    service = CollectionVirtuelleService()
+    service.CollectionDao = mock_dao
 
+
+    # WHEN / THEN
+    with pytest.raises(ValueError):
+        service.creer(collection=collection)
+    
 def test_liste_manga_ok():
     """Tester le retour de la liste des mangas d'une collection"""
 

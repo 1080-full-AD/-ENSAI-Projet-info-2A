@@ -19,8 +19,8 @@ def test_creer_manga_physique_ok():
 
     # GIVEN
     manga = MangaPhysique(
-        id_manga=100,
-        id_utilisateur=1,
+        id_manga=3,
+        id_utilisateur=2,
         titre_manga="Test Manga",
         auteurs="Auteur Test",
         synopsis="Un test de création de manga physique.",
@@ -33,8 +33,8 @@ def test_creer_manga_physique_ok():
     creation = MangaPhysiqueDao().creer(manga)
 
     # THEN
-    assert creation is not None
-    assert manga.id_manga == 100
+    assert creation == True
+    
 
 
 def test_creer_manga_physique_echec():
@@ -65,8 +65,8 @@ def test_supprimer_manga_physique_ok():
 
     # GIVEN
     manga = MangaPhysique(
-        id_manga=100,
-        id_utilisateur=1,
+        id_manga=2,
+        id_utilisateur=2,
         titre_manga="Test Manga",
         auteurs="Auteur Test",
         synopsis="Un test de suppression de manga physique.",
@@ -76,7 +76,8 @@ def test_supprimer_manga_physique_ok():
     )
 
     # WHEN
-    suppression = MangaPhysiqueDao().supprimer(manga)
+    MangaPhysiqueDao().creer(manga)
+    suppression = MangaPhysiqueDao().supprimer_manga_physique(manga)
 
     # THEN
     assert suppression
@@ -88,7 +89,7 @@ def test_supprimer_manga_physique_echec():
     # GIVEN
     manga = MangaPhysique(
         id_manga=999,
-        id_utilisateur=1,
+        id_utilisateur=2,
         titre_manga="Manga Absent",
         auteurs="Auteur Absent",
         synopsis="Un manga qui n'existe pas dans la base.",
@@ -98,7 +99,7 @@ def test_supprimer_manga_physique_echec():
     )
 
     # WHEN
-    suppression = MangaPhysiqueDao().supprimer(manga)
+    suppression = MangaPhysiqueDao().supprimer_manga_physique(manga)
 
     # THEN
     assert not suppression
@@ -110,7 +111,7 @@ def test_modifier_manga_physique_ok():
     # GIVEN
     manga = MangaPhysique(
         id_manga=1,
-        id_utilisateur=1,
+        id_utilisateur=2,
         titre_manga="Titre Initial",
         auteurs="Auteur Test",
         synopsis="Synopsis Initial",
@@ -121,7 +122,8 @@ def test_modifier_manga_physique_ok():
     manga.titre_manga = "Titre Modifié"
 
     # WHEN
-    modification = MangaPhysiqueDao().modifier(manga)
+    MangaPhysiqueDao().creer(manga)
+    modification = MangaPhysiqueDao().modifier_manga_physique(manga)
 
     # THEN
     assert modification is not None
@@ -133,7 +135,7 @@ def test_modifier_manga_physique_echec():
     # GIVEN
     manga = MangaPhysique(
         id_manga=999,
-        id_utilisateur=1,
+        id_utilisateur=2,
         titre_manga="Titre Inconnu",
         auteurs="Auteur Inconnu",
         synopsis="Un manga inexistant.",
@@ -143,7 +145,7 @@ def test_modifier_manga_physique_echec():
     )
 
     # WHEN
-    modification = MangaPhysiqueDao().modifier(manga)
+    modification = MangaPhysiqueDao().modifier_manga_physique(manga)
 
     # THEN
     assert not modification
@@ -153,15 +155,41 @@ def test_liste_mangas_physiques_utilisateur_existant():
     """Lister tous les mangas physiques d'un utilisateur existant"""
 
     # GIVEN
-    id_utilisateur = 1
+    utilisateur = Utilisateur(
+                    id_utilisateur=2,
+                    mot_de_passe="password2",
+                    pseudo="user2",
+                    age=30)
+    
+    manga_1 = MangaPhysique(
+        id_manga=4,
+        id_utilisateur=2,
+        titre_manga="Titre Inconnu",
+        auteurs="Auteur Inconnu",
+        synopsis="Un manga inexistant.",
+        tomes_manquants=[5],
+        dernier_tome=0,
+        status="inconnu",)
+
+    manga_2 = MangaPhysique(
+        id_manga=27,
+        id_utilisateur=2,
+        titre_manga="Titre Inconnu",
+        auteurs="Auteur Inconnu",
+        synopsis="Un manga inexistant.",
+        tomes_manquants=[5],
+        dernier_tome=0,
+        status="inconnu",)
 
     # WHEN
-    liste_mangas = MangaPhysiqueDao().lister_par_utilisateur(id_utilisateur)
+    MangaPhysiqueDao().creer(manga_1)
+    MangaPhysiqueDao().creer(manga_2)
+    liste_mangas = MangaPhysiqueDao().liste_manga_physique(utilisateur)
 
     # THEN
-    assert liste_mangas is not None
-    assert len(liste_mangas) > 0
-
+    
+    assert len(liste_mangas)  == 4
+    
 
 def test_liste_mangas_physiques_utilisateur_non_existant():
     """Lister tous les mangas physiques d'un utilisateur non existant"""
@@ -170,7 +198,7 @@ def test_liste_mangas_physiques_utilisateur_non_existant():
     id_utilisateur = 999
 
     # WHEN
-    liste_mangas = MangaPhysiqueDao().lister_par_utilisateur(id_utilisateur)
+    liste_mangas = MangaPhysiqueDao().liste_manga_physique(id_utilisateur)
 
     # THEN
     assert liste_mangas is not None
