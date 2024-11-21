@@ -1,4 +1,5 @@
 from unittest.mock import patch, MagicMock
+import pytest
 
 from src.service.utilisateur_service import UtilisateurService
 from src.dao.utilisateur_dao import UtilisateurDao
@@ -98,7 +99,7 @@ def test_creer_utilisateur_ok():
     assert utilisateur is not None
 
 
-def test_creer_utilisateur_echec(self):
+def test_creer_utilisateur_echec():
     """Vérifier que la méthode creer_utilisateur renvoie bien un échec"""
 
     # GIVEN
@@ -109,20 +110,16 @@ def test_creer_utilisateur_echec(self):
         678,
     )
     mock_dao = MagicMock(spec=UtilisateurDao)
-    mock_dao.creer.return_value.side_effet = ValueError(
-        "Ce nom d'utilisateur est déjà pris."
-    )
-
+    mock_dao.creer.side_effect = ValueError("Ce nom d'utilisateur est déjà pris.")
     utilisateur_service = UtilisateurService()
     utilisateur_service.UtilisateurDao = mock_dao
 
     # WHEN
-    utilisateur = utilisateur_service.creer_utilisateur(
-        pseudo, age, mot_de_passe, id_utilisateur
-    )
+    with pytest.raises(ValueError) as exc_info:
+        utilisateur_service.creer_utilisateur(pseudo, age, mot_de_passe, id_utilisateur)
 
     # THEN
-    self.assertEqual(utilisateur, "Ce nom d'utilisateur est déjà pris.")
+    assert str(exc_info.value) == "Ce nom d'utilisateur est déjà pris."
 
 
 def test_modifier_utilisateur_ok():
@@ -301,13 +298,13 @@ def test_lister_tous_utilisateur_ok():
     """Lister tous les utilisateurs avec succès"""
 
     # GIVEN
-    id_utilisateur = 1
-    mock_dao = MagicMock(spec=UtilisateurDao)
-    mock_dao.lister_tous.return_value = [
-        pseudo
-        for pseudo in liste_utilisateur
-        if pseudo.id_utilisateur == id_utilisateur
+    liste_utilisateur = [
+        Utilisateur(id_utilisateur=1, pseudo="user1", mot_de_passe="password1", age=25),
+        Utilisateur(id_utilisateur=2, pseudo="user2", mot_de_passe="password2", age=30),
+        Utilisateur(id_utilisateur=3, pseudo="user3", mot_de_passe="password3", age=35),
     ]
+    mock_dao = MagicMock(spec=UtilisateurDao)
+    mock_dao.lister_tous.return_value = liste_utilisateur
 
     utilisateur_service = UtilisateurService()
     utilisateur_service.UtilisateurDao = mock_dao
@@ -316,28 +313,25 @@ def test_lister_tous_utilisateur_ok():
     res = utilisateur_service.lister_tous_utilisateur()
 
     # THEN
-    assert len(res) == 1
-    for pseudo in res:
-        assert pseudo.id_utilisateur == id_utilisateur
+    assert len(res) == 3
 
 
-def test_lister_tous_utilisateur_echec(self):
+def test_lister_tous_utilisateur_echec():
     """Vérifier que la méthode qui liste tous les utilisateurs grâce à leur
     identifiant renvoie bien un échec"""
 
     # GIVEN
-    id_utilisateur = 998
     mock_dao = MagicMock(spec=UtilisateurDao)
-    mock_dao.lister_tous.side_effect = Exception("Erreur de base de données")
+    mock_dao.lister_tous.return_value = []
 
     utilisateur_service = UtilisateurService()
     utilisateur_service.UtilisateurDao = mock_dao
 
     # WHEN
-    res = utilisateur_service.lister_tous_utilisateur(id_utilisateur)
+    res = utilisateur_service.lister_tous_utilisateur()
 
     # THEN
-    self.assertEqual(res == [], "Erreur de base de données")
+    assert res == []
 
 
 def test_se_connecter_ok():
@@ -346,14 +340,14 @@ def test_se_connecter_ok():
     # GIVEN
     user = Utilisateur(pseudo="user2", age=30, mot_de_passe="password2")
     mock_dao = MagicMock(spec=UtilisateurDao)
-    mock_dao.se_connecter.return_value = True
+    mock_dao.se_connecter.return_value = user
 
     utilisateur_service = UtilisateurService()
     utilisateur_service.UtilisateurDao = mock_dao
 
     # WHEN
     utilisateur = utilisateur_service.se_connecter(
-        pseudo=user.pseudo, mot_de_passe=user.mot_de_passe
+        "user2", mot_de_passe="password2"
     )
 
     # THEN
@@ -419,40 +413,28 @@ def test_se_deconnecter_echec():
     assert utilisateur is None
 
 
-def test_create_password_ok():
+@patch("builtins.input", side_effect=["short", "short","Password1"])
+@patch("builtins.print")
+def test_create_password_ok(mock_print, mock_input):
     """Vérifier que la méthode create_password fonctionne correctement"""
-
+    
     # GIVEN
-    user = Utilisateur("password1", age=23)
-    mock_dao = MagicMock(spec=UtilisateurDao)
-    mock_dao.creer.return_value = True
+    user = Utilisateur("chahine",22,"Password1")
     utilisateur_service = UtilisateurService()
-    utilisateur_service.UtilisateurDao = mock_dao
-
+    
     # WHEN
-    utilisateur = utilisateur_service.create_password(user)
-    mock_dao.creer.assert_called_once_with(user)
+    utilisateur_service.create_password(user.mot_de_passe)
 
     # THEN
-    assert utilisateur is True
+    mock_input.assert_any_call("Veuillez créer un mot de passe :")
+    mock_print.assert_any_call("Mot de passe créé avec succès !")
+    mock_print.assert_any_call("Le mot de passe ne respecte pas les critères suivants:")
+    mock_print.assert_any_call("-Au moins 8 caractères")
+    mock_print.assert_any_call("-Au moins une lettre majuscule")
+    mock_print.assert_any_call("-Au moins un chiffre")
 
-
-def test_create_password_echec():
-    """Vérifier que la méthode create_password renvoie bien une erreur"""
-
-    # GIVEN
-    user = "123456##7#"
-    mock_dao = MagicMock(spec=UtilisateurDao)
-    mock_dao.creer.return_value = False
-
-    utilisateur_service = UtilisateurService()
-    utilisateur_service.UtilisateurDao = mock_dao
-
-    # WHEN
-    utilisateur = utilisateur_service.create_password(user)
-
-    # THEN
-    assert utilisateur is False
+    # Ensure the password is set correctly
+    assert utilisateur_service.mot_de_passe == "Password1"
 
 
 def test_is_valid_mdp_ok():
@@ -477,18 +459,14 @@ def test_is_valid_mdp_echec():
     """Vérifier que la méthode is_valid_mdp renvoie bien une erreur"""
 
     # GIVEN
-    mdp = "#123456aN?D"
-    mock_dao = MagicMock(spec=UtilisateurDao)
-    mock_dao.modifier.return_value = False
+    mdp = ["short","nomajuscule1","NOMINUSCULE1","Nochiffre"]
 
     utilisateur_service = UtilisateurService()
-    utilisateur_service.UtilisateurDao = mock_dao
 
     # WHEN
-    utilisateur = utilisateur_service.is_valid_mdp(mdp)
-
-    # THEN
-    assert utilisateur is False
+    for mdp in mdp:
+        test = utilisateur_service.is_valid_mdp(mdp)
+        assert test is False
 
 
 if __name__ == "__main__":

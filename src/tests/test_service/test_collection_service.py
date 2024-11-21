@@ -1,5 +1,6 @@
 from unittest.mock import MagicMock
 from src.service.collection_servive import CollectionVirtuelleService
+from src.dao.collection_dao import CollectionDao
 from src.business_objet.collection_virtuelle import CollectionVirtuelle
 from src.business_objet.manga import Manga
 from src.business_objet.manga_physique import MangaPhysique

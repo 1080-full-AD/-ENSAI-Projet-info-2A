@@ -144,29 +144,28 @@ class UtilisateurService(metaclass=Singleton):
         return None
 
     def create_password(self, mot_de_passe):
-        """Demande à l'utilsateur de créer un mot de passe"""
+        """Demande à l'utilisateur de créer un mot de passe"""
         mot_de_passe = input("Veuillez créer un mot de passe :")
         if self.is_valid_mdp(mot_de_passe):
             self.mot_de_passe = mot_de_passe
-            print("Mot de passe créer avec succès !")
+            print("Mot de passe créé avec succès !")
         else:
             print("Le mot de passe ne respecte pas les critères suivants:")
             print("-Au moins 8 caractères")
             print("-Au moins une lettrre minuscule")
             print("-Au moins une lettre majuscule")
             print("-Au moins un chiffre")
-            self.create_password()
+            mot_de_passe = input("Veuillez créer un mot de passe :")
+            self.create_password(mot_de_passe)
 
     def is_valid_mdp(self, mot_de_passe) -> bool:
         """Méthode permettant de vérifier si le mot de passe créé est valide"""
         if (len(mot_de_passe)) < 8:
-            raise ValueError("Le mot de passe doit contenir au moins 8" "caractères.")
+            return False
         if not re.search(r"[A-Z]", mot_de_passe):
-            raise ValueError("Le mot de passe doit contenir au moins une" "majuscule.")
+            return False
         if not re.search(r"[a-z]", mot_de_passe):
-            raise ValueError("Le mot de passe doit contenir au moins une" "minuscule.")
+            return False
         if not re.search(r"[0-9]", mot_de_passe):
-            raise ValueError("Le mot de passe doit contenir au moins un" "chiffre.")
-        else:
             return False
         return True
