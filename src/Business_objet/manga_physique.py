@@ -14,7 +14,3 @@ class MangaPhysique(Manga):
             self.tomes_manquants = []
         liste_tome = [i for i in range(1,self.dernier_tome+1) if i not in self.tomes_manquants]
         return liste_tome
-
-    
-
-    
