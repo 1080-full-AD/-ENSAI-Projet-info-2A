@@ -47,7 +47,7 @@ class MainCollectionView(AbstractView):
             case "Consulter les collections":
                 from src.views.collection.consulter_collection_view import ConsulterCollectionView
 
-                return ConsulterCollectionView("\n" + "=" * 50 + " Consultation d'avis"
+                return ConsulterCollectionView("\n" + "=" * 50 + " Consultation des collections"
                                          " :) " + "=" * 50 + "\n")
             case "Retour":
                 from src.views.users.main_user_view import MainUserView
