@@ -22,10 +22,15 @@ class CreateOpinionView(AbstractView):
             "Entrez le nom du manga sur lequel vous voulez"
             " partager votre avis :)"
         ).execute()
+        try:
+            manga = MangaService().rechercher_un_manga(
+                titre_manga=titre_manga
+                )
+        except Exception as e:
+            print("\n", e, "\n")
+            return MainOpinionView("\n" + "=" * 50 + " Menu des avis"
+                                       " :) " + "=" * 50 + "\n")
 
-        manga = MangaService().rechercher_un_manga(
-            titre_manga=titre_manga
-            )
         id_manga = manga.id_manga
 
         user = Session().getuser()
@@ -47,12 +52,14 @@ class CreateOpinionView(AbstractView):
                 ).execute()
                 try:
                     AvisService().creer(id_manga=id_manga,
-                                        id_utilisateur=id_utilisateur, texte=texte)
+                                        id_utilisateur=id_utilisateur,
+                                        texte=texte)
 
-                    return MainOpinionView("\n" + "=" * 50 + " Menu des avis"
-                                        " :) " + "=" * 50 + "\n")
                 except Exception as e:
-                    return MainOpinionView(e)
+                    print("\n", e, "\n")
+
+                return MainOpinionView("\n" + "=" * 50 + " Menu des avis"
+                                        " :) " + "=" * 50 + "\n")
 
             case "Donner une note":
 
@@ -66,10 +73,11 @@ class CreateOpinionView(AbstractView):
                     AvisService().noter(id_manga=id_manga,
                                         id_utilisateur=id_utilisateur, note=note)
 
-                    return MainOpinionView("\n" + "=" * 50 + " Menu des avis"
-                                        " :) " + "=" * 50 + "\n")
                 except Exception as e:
-                    return MainOpinionView(e)
+                    print("\n", e, "\n")
+
+                return MainOpinionView("\n" + "=" * 50 + " Menu des avis"
+                                        " :) " + "=" * 50 + "\n")
 
             case "Retour":
 

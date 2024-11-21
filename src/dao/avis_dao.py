@@ -80,7 +80,6 @@ class AvisDao(metaclass=Singleton):
         except Exception as e:
             logging.error(f"Erreur lors de la récupération des avis: {e}")
             return []
-            raise
 
 
     @log
@@ -251,7 +250,6 @@ class AvisDao(metaclass=Singleton):
 
         except Exception as e:
             logging.info(e)
-        print(res)
         return res == 1
 
     @log
@@ -333,5 +331,6 @@ class AvisDao(metaclass=Singleton):
 
         except Exception as e:
             logging.info(e)
-        print(res)
         return res == 1
+
+print(AvisDao().trouver_tous_par_id(4))
