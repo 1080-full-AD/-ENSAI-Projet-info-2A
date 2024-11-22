@@ -7,7 +7,7 @@ from src.business_objet.avis import Avis
 
 class AvisService:
 
-    def creer(self, id_manga: int, id_utilisateur: int, texte: str) -> bool:
+    def creer(self, id_manga: int, id_utilisateur: int, texte: str, spoiler=False) -> bool:
         """Création d'un avis
 
         Parameters
@@ -35,7 +35,7 @@ class AvisService:
                                 " Si vous souhaitez le modifier,"
                                 " sélectionnez le menu modifier :)")
 
-        avis = Avis(id_manga=id_manga, id_utilisateur=id_utilisateur, texte=texte)
+        avis = Avis(id_manga=id_manga, id_utilisateur=id_utilisateur, texte=texte, spoiler=spoiler)
         res=AvisDao().creer(avis)
         print("Votre avis a bien été créé :)")
         return res
@@ -54,7 +54,7 @@ class AvisService:
         """
         return AvisDao().trouver_tous_par_id(id_utilisateur)
 
-    def trouver_avis_par_manga(self, id_manga: int) -> list[Avis]:
+    def trouver_avis_par_manga(self, id_manga: int, include_spoilers=False) -> list[Avis]:
         """Trouver les avis pour un manga
 
         Parameters
@@ -66,7 +66,7 @@ class AvisService:
         list[Avis]
             Liste des avis pour ce manga
         """
-        return AvisDao().trouver_avis_par_manga(id_manga)
+        return AvisDao().trouver_avis_par_manga(id_manga, include_spoilers)
 
     def supprimer_avis(self, id_manga: int, id_utilisateur: int) -> bool:
         """Supprimer un avis
@@ -127,7 +127,7 @@ class AvisService:
             else:
                 raise ValueError("Vous n'avez pas donné de note sur ce manga :/")
 
-    def modifier(self, id_manga: int, id_utilisateur: int, newtexte: str) -> bool:
+    def modifier(self, id_manga: int, id_utilisateur: int, newtexte: str, spoiler=False) -> bool:
         """Modifier un avis
 
         Parameters
@@ -154,7 +154,7 @@ class AvisService:
 
                 avis = Avis(id_manga=id_manga, id_utilisateur=id_utilisateur, texte="")
                 print("Votre avis a bien été modifié :)")
-                return AvisDao().modifier(avis, newtexte)
+                return AvisDao().modifier(avis, newtexte, spoiler)
 
             else:
                 raise ValueError("Vous n'avez pas donné d'avis sur ce manga."

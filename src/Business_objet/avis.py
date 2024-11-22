@@ -12,7 +12,7 @@ class Avis:
     spoiler: bool
         si l'avis contient un spoiler ou pas
     """
-    def __init__(self, id_manga, id_utilisateur, texte=None, note=None, spoiler):
+    def __init__(self, id_manga, id_utilisateur, texte=None, note=None, spoiler =False):
         """Constructeur"""
         self.id_manga = id_manga
         self.id_utilisateur = id_utilisateur
