@@ -43,7 +43,7 @@ CREATE TABLE projet.avis (
     id_manga INTEGER,
     texte text,
     note integer,
-    spoiler boolean
+    spoiler boolean,
     PRIMARY KEY (id_manga, id_utilisateur),
     FOREIGN KEY (id_manga)  REFERENCES projet.manga(id_manga),
     FOREIGN KEY (id_utilisateur)  REFERENCES projet.utilisateur(id_utilisateur) ON DELETE CASCADE
