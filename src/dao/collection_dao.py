@@ -265,7 +265,7 @@ class CollectionDao(metaclass=Singleton):
         return liste_manga 
 
     @log
-    def titre_existant(self, collection: CollectionVirtuelle)-> bool:
+    def titre_existant(self, titre: str, id_utilisateur: int)-> bool:
         
         """indique si le titre de la collection est presente dans la 
             base de données pour le même utilisateur
@@ -294,7 +294,7 @@ class CollectionDao(metaclass=Singleton):
                         f"  WHERE id_utilisateur=%(id_utilisateur)s",
                          
                         {  
-                            "id_utilisateur": collection.id_utilisateur
+                            "id_utilisateur": id_utilisateur
                         }                                
                         )
                     res = cursor.fetchall()
@@ -306,7 +306,7 @@ class CollectionDao(metaclass=Singleton):
             for row in res:
                 liste_titre_collec.append(row["titre_collec"])
         
-        return collection.titre in liste_titre_collec
+        return titre in liste_titre_collec
 
 
 

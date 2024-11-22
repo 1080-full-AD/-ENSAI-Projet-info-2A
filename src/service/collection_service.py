@@ -29,7 +29,7 @@ class CollectionVirtuelleService:
                 raise ValueError("les collection virtuelles ne peuvent"
                                  " contenir des collections physique")
                 break
-            
+
         
         nouvelle_collection = CollectionVirtuelle(
             titre=titre,

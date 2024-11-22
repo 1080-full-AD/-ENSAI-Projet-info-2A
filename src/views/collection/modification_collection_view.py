@@ -34,7 +34,6 @@ class ModificationCollectionView(AbstractView):
                                          " :) " + "=" * 50 + "\n")
 
 
-
         choix = inquirer.select(
             message="Faites votre choix : ",
             choices=[
