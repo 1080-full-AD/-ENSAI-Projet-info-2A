@@ -36,6 +36,8 @@ class MangaDao(metaclass=Singleton):
                     id_manga=res_manga["id_manga"],
                     auteurs=res_manga["auteurs"],
                     synopsis=res_manga["synopsis"],
+                    nb_volumes=res_manga["nb_volumes"],
+                    nb_chapitres=res_manga["nb_chapitres"],
                 )
                 return res_manga
 
@@ -60,15 +62,17 @@ class MangaDao(metaclass=Singleton):
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        "INSERT INTO manga(id_manga, titre_manga, auteurs, synopsis)"
+                        "INSERT INTO manga(id_manga, titre_manga, auteurs, synopsis, nb_volumes, nb_chapitres)"
                         "VALUES                                              "
-                        f"('{manga.id_manga}', '{manga.titre_manga}', '{manga.auteurs}', '{manga.synopsis}') "
+                        f"('{manga.id_manga}', '{manga.titre_manga}', '{manga.auteurs}', '{manga.synopsis}', '{manga.nb_volumes}', '{manga.nb_chapitres}') "
                         "  RETURNING id_manga;                               ",
                         {
                             "id_manga": manga.id_manga,
                             "titre_manga": manga.titre_manga,
                             "auteurs": manga.auteurs,
                             "synopsis": manga.synopsis,
+                            "nb_volumes": manga.nb_volumes,
+                            "nb_chapitres": manga.nb_chapitres,
                         },
                     )
                     res = cursor.fetchone()
@@ -139,12 +143,16 @@ class MangaDao(metaclass=Singleton):
                         f"       titre_manga         = (%(titre_manga)s) ,           "
                         f"        auteurs       = (%(auteurs)s),           "
                         f"       synopsis      = (%(synopsis)s) ,        "
+                        f"       nb_volumes     = (%(nb_volumes)s),"
+                        f"       nb_chapitres    = (%(nb_chapitres))"
                         f" WHERE id_manga = (%(id_manga)s) ;             ",
                         {
                             "id_manga": manga.id_manga,
                             "titre_manga": manga.titre_manga,
                             "auteurs": manga.auteurs,
                             "synopsis": manga.synopsis,
+                            "nb_volumes": manga.nb_volumes,
+                            "nb_chapitres": manga.nb_chapitres,
                         },
                     )
                     res = cursor.rowcount
@@ -172,7 +180,9 @@ class MangaDao(metaclass=Singleton):
                     f"SELECT titre_manga,"
                     "       id_manga,"
                     "       auteurs,"
-                    "       synopsis "
+                    "       synopsis, "
+                    "       nb_volumes,"
+                    "       nb_chapitres"
                     "FROM projet.manga "
                     f" WHERE id_manga = %(id_manga)s",
                     {"id_manga": id_manga},
@@ -184,6 +194,8 @@ class MangaDao(metaclass=Singleton):
                         id_manga=res_id_manga["id_manga"],
                         auteurs=res_id_manga["auteurs"],
                         synopsis=res_id_manga["synopsis"],
+                        nb_volumes=res_id_manga["nb_volumes"],
+                        nb_chapitres=res_id_manga["nb_chapitres"],
                     )
                     return res_id_manga
                 else:
@@ -209,7 +221,9 @@ class MangaDao(metaclass=Singleton):
                     "SELECT titre_manga,"
                     "       id_manga,"
                     "       auteurs,"
-                    "       synopsis"
+                    "       synopsis,"
+                    "       nb_volumes,"
+                    "       nb_chapitres"
                     "       FROM projet.manga "
                     f" WHERE auteurs = '{auteurs}'"
                 )
@@ -222,6 +236,8 @@ class MangaDao(metaclass=Singleton):
                             id_manga=raw_auteur["id_manga"],
                             auteurs=raw_auteur["auteurs"],
                             synopsis=raw_auteur["synopsis"],
+                            nb_volumes=raw_auteur["nb_volumes"],
+                            nb_chapitres=raw_auteur["nb_chapitres"],
                         )
                         liste_manga_auteur.append(res_par_auteur)
                     return liste_manga_auteur
@@ -249,7 +265,9 @@ class MangaDao(metaclass=Singleton):
                     "SELECT id_manga,"
                     "       auteurs,"
                     "       synopsis,"
-                    "       titre_manga"
+                    "       titre_manga,"
+                    "       nb_volumes,"
+                    "       nb_chapitres"
                     " FROM projet.manga "
                     f"WHERE titre_manga = '{titre_manga}'"
                 )
@@ -262,6 +280,8 @@ class MangaDao(metaclass=Singleton):
                             id_manga=raw_serie["id_manga"],
                             auteurs=raw_serie["auteurs"],
                             synopsis=raw_serie["synopsis"],
+                            nb_volumes=raw_serie["nb_volumes"],
+                            nb_chapitres=raw_serie["nb_chapitres"],
                         )
                         liste_serie.append(serie_manga)
                     return liste_serie
