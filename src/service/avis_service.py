@@ -231,3 +231,5 @@ class AvisService:
                                  " Si vous souhaitez en donner une,"
                                  " sélectionnez le menu Rédiger un avis/donner"
                                  " une note :)")
+
+
