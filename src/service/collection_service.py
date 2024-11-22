@@ -50,7 +50,7 @@ class CollectionVirtuelleService:
 
 
     @log
-<<<<<<< HEAD
+
     def modifier_description(self, collection, new_description)->CollectionVirtuelle:
         "modifier la description d'une collection"
         collection.description = new_description
@@ -58,13 +58,7 @@ class CollectionVirtuelleService:
             return collection
         else:
             return None
-            
-=======
-    def modifier_description(self , collection ,new_description)->CollectionVirtuelle:
-        "modifier la description d'une collection"
-        collection.descrition = new_description
-        return collection if CollectionDao().modifier(collection) else None
->>>>>>> 9b9909944517af5f1aa69268ad34ecf6ebef09c4
+
 
     @log
     def modifier_titre(self , collection ,new_titre):
@@ -73,18 +67,15 @@ class CollectionVirtuelleService:
             raise ValueError("Vous avez déja une collection avec ce titre :/")   
 
         else:
-            ancienne_collection = collection
-            collection.titre = new_titre
-<<<<<<< HEAD
-            return CollectionDao().modifier_titre(collection= ancienne_collection, new_titre=new_titre)
+            #ancienne_collection = collection
+            #collection.titre = new_titre
+
+            return CollectionDao().modifier_titre(collection= collection, new_titre=new_titre)
                 #return collection
             #else:
                 #return None
-=======
-            CollectionDao().modifier_titre(collection=ancienne_collection, new_titre=new_titre)
-            return collection if CollectionDao().modifier_titre(collection=ancienne_collection, new_titre=new_titre) else None
->>>>>>> 9b9909944517af5f1aa69268ad34ecf6ebef09c4
 
+           
 
     @log
     def supprimer(self, collection) -> bool :

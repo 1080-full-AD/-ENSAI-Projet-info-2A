@@ -148,11 +148,10 @@ def test_modifier_collection_ok():
     assert modification is True 
 
 
-
 def test_modifier_titre_ok():
     """Modification réussie d'une collection virtuelle"""
     # GIVEN
-    collection = CollectionVirtuelle("Ma new_Collec", 1, [], "Description de test")
+    collection = CollectionVirtuelle("Ma new_Collec", 3, [], "Description de test")
     CollectionDao().creer(collection)
     new_titre = "Nouvelle collec"
 
