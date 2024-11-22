@@ -239,8 +239,8 @@ class CollectionDao(metaclass=Singleton):
                         f"select *     "
                         f" FROM projet.collection_manga cm     "
                         f" JOIN projet.manga m USING(id_manga)"
-                        f" WHERE cm.id_utilisateur=%(id_utilisateur)s"
-                        f" AND cm.titre_collec=%(titre)s", 
+                        f" WHERE cm.id_utilisateur = %(id_utilisateur)s"
+                        f" AND cm.titre_collec = %(titre)s", 
                         {
                             "id_utilisateur": id_utilisateur,
                             "titre": titre_collec 

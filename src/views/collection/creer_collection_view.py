@@ -53,7 +53,7 @@ class CreateCollectionView(AbstractView):
             except Exception as e:
                 print("\n", e, "\n")
             ajout = inquirer.confirm("Voulez-vous ajouter un autre manga?").execute()
-            print(f'\n La collection {titre} a été créée avec succès :)')
+        print(f'\n La collection {titre} a été créée avec succès :)')
 
         return MainCollectionView("\n" + "=" * 50 + " Menu des"
                                         " collections " + "=" * 50 + "\n")
