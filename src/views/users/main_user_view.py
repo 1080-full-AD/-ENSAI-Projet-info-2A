@@ -22,6 +22,7 @@ class MainUserView(AbstractView):
             choices=[
                 "Rechercher des mangas",
                 "Accéder au menu des collections",
+                "Accéder au menu des mangathèques",
                 "Accéder au menu des avis",
                 "Se déconnecter",
                 "Supprimer son compte :(",
@@ -40,6 +41,12 @@ class MainUserView(AbstractView):
 
                 return MainCollectionView("\n" + "=" * 50 + " Menu des"
                                         " collections " + "=" * 50 + "\n")
+
+            case "Accéder au menu des mangathèques":
+                from src.views.users.main_mangatheque_view import MainMangathequeView
+
+                return MainCollectionView("\n" + "=" * 50 + " Menu des"
+                                        " Mangathèques :) " + "=" * 50 + "\n")
 
             case "Accéder au menu des avis":
                 from src.views.users.main_opinion_view import MainOpinionView

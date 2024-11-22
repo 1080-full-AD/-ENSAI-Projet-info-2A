@@ -71,6 +71,7 @@ class CollectionVirtuelleService:
     @log
     def supprimer(self, collection) -> bool :
         "supprimer la collection de l'utilisateur"
+        print(f"Suppresion de la collection {collection.titre} réussie :)")
 
         return CollectionDao().supprimer_collection(collection)
 
@@ -91,14 +92,16 @@ class CollectionVirtuelleService:
             raise ValueError(f"Ce manga appartient déja à {collection.titre} :/")
         if new_manga in CollectionDao().liste_manga(id_utilisateur=collection.id_utilisateur, titre_collec=collection.titre):
             raise ValueErrror("ce manga appartient déja à cette collection")
+        print(f"{new_manga} a été ajouté à {collection.titre} :)")
         return CollectionDao().ajouter_manga(collection=collection,manga=new_manga)
 
 
     @log    
     def supprimer_manga(self,collection, manga):
         if manga not in CollectionDao().liste_manga(collection.id_utilisateur, collection.titre):
-            raise ValueError("ce manga ne fait pas partir de cette collection")
+            raise ValueError(f"{manga.titre_manga} ne fait pas partit de {collection.titre} :/")
         else :
+            print(f"{manga} a été supprimé de {collection.titre} avec succès :)")
             return CollectionDao().supprimer_manga(manga= manga, collection= collection)
 
        
@@ -117,7 +120,7 @@ class CollectionVirtuelleService:
         """rechercher une collection à partir de l'identifiant d'un utilisateur 
         et du titre de la collection"""
         if CollectionDao().recherhcer_collection(id_utilisateur, titre_collec) is None:
-            raise ValueError("Collection non existante")
+            raise ValueError("Vous ne possédez pas de collection avec ce nom :/")
         else:
             return CollectionDao().recherhcer_collection(id_utilisateur, titre_collec)
         

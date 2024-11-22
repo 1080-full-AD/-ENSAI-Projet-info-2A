@@ -2,7 +2,7 @@ from InquirerPy import inquirer
 from src.views.abstract_view import AbstractView
 
 
-class MainCollectionView(AbstractView):
+class MainMangathequeView(AbstractView):
     """Menu principal des collections"""
 
     def choisir_menu(self):
@@ -17,35 +17,35 @@ class MainCollectionView(AbstractView):
         choix = inquirer.select(
             message="Faites votre choix : ",
             choices=[
-                "Créer une collection",
-                "Modifier une collection",
-                "Supprimer une collection",
-                "Consulter les collections",
+                "Créer une mangathèque",
+                "Modifier une mangathèque",
+                "Supprimer une mangathèque",
+                "Consulter les mangathèques",
                 "Retour",
             ],
         ).execute()
 
         match choix:
-            case "Créer une collection":
-                from src.views.collection.creer_collection_view import CreateCollectionView
+            case "Créer une mangathèque":
+                from src.views.collection.creer_mangatheque_view import CreateMangathequeView
 
                 return CreateCollectionView("\n" + "=" * 50 + " Création de collection"
                                          " :) " + "=" * 50 + "\n")
 
-            case "Modifier une collection":
+            case "Modifier une mangathèque":
                 from src.views.collection.modification_collection_view import ModificationCollectionView
 
                 return ModificationCollectionView("\n" + "=" * 50 + " Modification de collection"
                                          " :) " + "=" * 50 + "\n")
 
-            case "Supprimer une collection":
+            case "Supprimer une mangathèque":
                 from src.views.collection.supprimer_collection_view import SupprimerCollectionView
 
                 return SupprimerCollectionView("\n" + "=" * 50 + " Suppression de collections"
                                          " :) " + "=" * 50 + "\n")
 
-            case "Consulter les collections":
-                from src.views.collection.consulter_collection_view import ConsulterCollectionView
+            case "Consulter les mangathèques":
+                from src.views.collection.consulter_mangatheque_view import ConsulterCollectionView
 
                 return ConsulterCollectionView("\n" + "=" * 50 + " Consultation des collections"
                                          " :) " + "=" * 50 + "\n")

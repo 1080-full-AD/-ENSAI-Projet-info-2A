@@ -28,7 +28,6 @@ class SupprimerCollectionView(AbstractView):
         try:
             collection = CollectionVirtuelleService().rechercher_collection(id_utilisateur=id_utilisateur, titre_collec=titre)
             CollectionVirtuelleService().supprimer(collection)
-            
 
         except Exception as e:
             print("\n", e)
