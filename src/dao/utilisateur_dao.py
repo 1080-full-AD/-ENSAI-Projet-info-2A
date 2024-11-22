@@ -33,13 +33,14 @@ class UtilisateurDao(metaclass=Singleton):
                 with connection.cursor() as cursor:
                     cursor.execute(
                         "INSERT INTO projet.utilisateur(pseudo, mot_de_passe,"
-                        "age) VALUES                            "
-                        f"('{utilisateur.pseudo}', '{utilisateur.mot_de_passe}', '{utilisateur.age}')"
+                        "age, is_admin) VALUES                            "
+                        f"('{utilisateur.pseudo}', '{utilisateur.mot_de_passe}', {utilisateur.age}, {utilisateur.is_admin})"
                         "  RETURNING id_utilisateur;                         ",
                         {
                             "pseudo": utilisateur.pseudo,
                             "mot_de_passe": utilisateur.mot_de_passe,
                             "age": utilisateur.age,
+                            "is_admin": utilisateur.is_admin
                         },
                     )
                     res = cursor.fetchone()
@@ -241,6 +242,7 @@ class UtilisateurDao(metaclass=Singleton):
                 mot_de_passe=res["mot_de_passe"],
                 age=res["age"],
                 id_utilisateur=res["id_utilisateur"],
+                is_admin=res["is_admin"]
             )
         return utilisateur
 

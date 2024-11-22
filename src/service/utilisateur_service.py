@@ -92,7 +92,7 @@ class UtilisateurService(metaclass=Singleton):
         utilisateur.mot_de_passe = hash_password(
             utilisateur.mot_de_passe, utilisateur.pseudo
         )
-        if self.UtilisateurDao.modifier(utilisateur):
+        if UtilisateurDao().modifier(utilisateur):
             return utilisateur
         else:
             None

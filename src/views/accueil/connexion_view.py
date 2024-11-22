@@ -16,8 +16,9 @@ class ConnexionView(AbstractView):
             pseudo=pseudo, mot_de_passe=mdp)
 
         if user:
-            message = f"Vous êtes connecté sous le pseudo {user.pseudo}"
             Session().connexion(user)
+            message = f"Vous êtes connecté sous le pseudo {user.pseudo}"
+
             from src.views.users.main_user_view import MainUserView
 
             return MainUserView(message)
@@ -26,3 +27,4 @@ class ConnexionView(AbstractView):
         from src.views.accueil.main_menu_view import MainView
 
         return MainView(message)
+
