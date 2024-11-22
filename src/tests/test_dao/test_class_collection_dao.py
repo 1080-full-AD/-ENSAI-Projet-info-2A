@@ -145,7 +145,7 @@ def test_modifier_collection_ok():
     modification = CollectionDao().modifier(collection)
 
     # THEN
-    assert modification
+    assert modification is True 
 
 
 
@@ -160,7 +160,7 @@ def test_modifier_titre_ok():
     modification = CollectionDao().modifier_titre(collection, new_titre)
 
     # THEN
-    assert modification
+    assert modification == True
 
 
 def test_modifier_collection_ko():

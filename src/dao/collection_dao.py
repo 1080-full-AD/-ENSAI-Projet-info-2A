@@ -213,7 +213,7 @@ class CollectionDao(metaclass=Singleton):
                     )
                     res = cursor.rowcount
         except Exception as e:
-            logging.error("Error modifier manga: %s", e)
+            logging.error("Error modifier collection: %s", e)
         return res == 1
 
 
@@ -237,7 +237,11 @@ class CollectionDao(metaclass=Singleton):
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        "UPDATE projet.collection  SET   "
+                        f"UPDATE projet.collection_manga SET"
+                        f"  titre_collec = %(new_titre)s      "       
+                        f"  WHERE titre_collec=%(titre)s "
+                        f"  AND id_utilisateur = %(id_utilisateur)s ;"
+                        "   UPDATE projet.collection  SET   "
                         f"  titre_collec = %(new_titre)s      "       
                         f"  WHERE titre_collec=%(titre)s "
                         f"  AND id_utilisateur = %(id_utilisateur)s", 
@@ -250,8 +254,9 @@ class CollectionDao(metaclass=Singleton):
                         )
                     res = cursor.rowcount
         except Exception as e:
-            logging.error("Error modifier manga: %s", e)
+            logging.error("Error modifier titre collection: %s", e)
         return res == 1
+
     @log
     def liste_manga(self, id_utilisateur: int, titre_collec: str) -> list:
         """liste tous les mangas d'une collection virtuelle

@@ -160,7 +160,7 @@ def liste_collection_ok():
     
 
     
-def test_modifier_collection_ok():
+def test_modifier_description_ok():
     """Tester la modification réussie d'une collection"""
 
     # GIVEN
@@ -170,19 +170,35 @@ def test_modifier_collection_ok():
     liste_manga=[manga_virtuel],
     description="Ma première collection virtuelle."
 )"""
-    mock_dao = MagicMock()
+    new_description="ma new description"
+    mock_dao = MagicMock(spec=CollectionDao)
     mock_dao.modifier.return_value = True
 
     service = CollectionVirtuelleService()
     service.CollectionDao = mock_dao
 
     # WHEN
-    result = service.modifier_collection(collection)
+    result = service.modifier_description(collection=collection ,new_description=new_description)
+
+    # THEN
+    assert result is not None
+    assert result.description == collection.description
+    
+def test_modifier_titre_ok():
+    new_titre = "ma new collection"
+    mock_dao = MagicMock(spec=CollectionDao)
+    mock_dao.modifier_titre.return_value = True
+
+    service = CollectionVirtuelleService()
+    service.CollectionDao = mock_dao
+    # WHEN
+    result = service.modifier_titre(collection=collection, new_titre=new_titre)
 
     # THEN
     assert result is True
-    
-    
+    #assert result.titre == new_titre
+
+
 def test_supprimer_manga_ok():
     """Tester la suppression d'un manga virtuel existant dans la collection"""
 
