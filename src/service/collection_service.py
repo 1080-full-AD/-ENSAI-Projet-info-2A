@@ -76,9 +76,9 @@ class CollectionVirtuelleService:
             raise ValueError(f"{new_manga} n'est pas un manga")
         if isinstance(new_manga, MangaPhysique):
             raise ValueError("les collections virtuelle ne contiennent que des mangas virtuelles")
-        if new_manga in CollectionDao().liste_manga(collection):
+        if new_manga in CollectionDao().liste_manga(id_utilisateur=collection.id_utilisateur, titre_collec=collection.titre):
             raise ValueError(f"Ce manga appartient déja à {collection.titre} :/")
-        if new_manga in CollectionDao().liste_manga(collection.id_utilisateur, collection.titre):
+        if new_manga in CollectionDao().liste_manga(id_utilisateur=collection.id_utilisateur, titre_collec=collection.titre):
             raise ValueErrror("ce manga appartient déja à cette collection")
         return CollectionDao().ajouter_manga(collection=collection,manga=new_manga)
 

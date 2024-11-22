@@ -39,6 +39,7 @@ class CreateCollectionView(AbstractView):
         ).execute()
 
         collection.description = description
+        CollectionVirtuelleService().modifier_collection(collection=collection)
         ajout = True
 
         while ajout is True:
@@ -53,7 +54,7 @@ class CreateCollectionView(AbstractView):
             except Exception as e:
                 print("\n", e, "\n")
             ajout = inquirer.confirm("Voulez-vous ajouter un autre manga?").execute()
-            print(f'\n La collection {titre} a été créée avec succès :)')
+        print(f'\n La collection {titre} a été créée avec succès :)')
 
         return MainCollectionView("\n" + "=" * 50 + " Menu des"
                                         " collections " + "=" * 50 + "\n")

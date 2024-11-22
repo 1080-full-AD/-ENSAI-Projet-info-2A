@@ -1,4 +1,5 @@
 from InquirerPy import inquirer
+from src.business_objet.collection_virtuelle import CollectionVirtuelle
 from src.views.abstract_view import AbstractView
 from src.service.collection_service import CollectionVirtuelleService
 from src.service.utilisateur_service import UtilisateurService
@@ -31,6 +32,10 @@ class ConsulterCollectionView(AbstractView):
             case "Consulter vos collections":
                 user = Session().getuser()
                 id_utilisateur = user.id_utilisateur
+
+                liste_collec = CollectionVirtuelleService().liste_collection(id_utilisateur=id_utilisateur)
+                for i in liste_collec:
+                    print(i.__str__())
 
 ############################## IL FAUT UN EMETHODE POUR LISTER LES COLLECTIONS DES USER###############################
 
