@@ -37,11 +37,11 @@ class Manga:
         return: 
         True si les deux mangas sont égaux, False sinon.
         """
-        
-        return (self.id_manga == autre_manga.id_manga and
-                self.titre_manga == autre_manga.titre_manga and
-                self.auteurs == autre_manga.auteurs and
-                self.synopsis == autre_manga.synopsis)
-       
+        if isinstance(autre_manga, Manga):
+            return (self.id_manga == autre_manga.id_manga and
+                    self.titre_manga == autre_manga.titre_manga and
+                    self.auteurs == autre_manga.auteurs and
+                    self.synopsis == autre_manga.synopsis)
+        return False
 
 
