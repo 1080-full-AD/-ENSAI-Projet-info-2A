@@ -1,30 +1,29 @@
+import json
 import logging
 from src.utils.singleton import Singleton
 from src.utils.log_decorator import log
-from typing import Optional
-import json 
-
-
-from src.business_objet.manga_physique import MangaPhysique
-
-from src.business_objet.manga import Manga
 from src.business_objet.utilisateur import Utilisateur
+from src.business_objet.manga_physique import MangaPhysique
 from src.dao.db_connection import DBConnection
 
+
 class MangaPhysiqueDao(metaclass=Singleton):
-    def creer(self, manga ) -> bool:
+    @log
+    def creer(self, manga: MangaPhysique) -> bool:
 
         """Creation d'un manga physique dans la base de données
 
         Parameters
         ----------
         manga: manga physique
+
         Returns
         -------
         created : bool
             True si la création est un succès
             False sinon
         """
+
         created = False
         res = None
 
@@ -54,27 +53,27 @@ class MangaPhysiqueDao(metaclass=Singleton):
                 
         except Exception as e:
             
-            logging.error("Error creating manga_physique: %s", e)
+            logging.error("Error creer manga_physique: %s", e)
         
         if res:
             created = True
         
         return created
 
-
     @log
-    def supprimer_manga_physique(self, manga) :
+    def supprimer_manga_physique(self, manga: MangaPhysique) -> bool:
 
         """supprimer un manga physique  d'une collection physique
 
         Parameters
         ----------
-        manga:manga a ajouter à la collection
+        manga:manga a supprimer de la collection
         
         Returns
         -------
         bool
-        true si la suppression  du manga à été effectuée
+        True si la suppression  du manga à été effectuée
+        False sinon
         """
         res = None
         try:
@@ -88,20 +87,21 @@ class MangaPhysiqueDao(metaclass=Singleton):
                         f" AND id_manga=%(id_manga)s",
                         
                         
-                    {
+                        {
 
-                        "id_utilisateur": manga.id_utilisateur,
-                        "id_manga": manga.id_manga,
+                            "id_utilisateur": manga.id_utilisateur,
+                            "id_manga": manga.id_manga,
                         
-                    }
+                        }
                     )
                     res = cursor.rowcount
         except Exception as e:
-            logging.error("Error delete manga_physique: %s", e)
+            logging.error("Error supprimer manga_physique: %s", e)
         return res == 1
 
-    
-    def modifier_manga_physique(self,manga):
+    @log
+    def modifier_manga_physique(self, manga: MangaPhysique) -> bool:
+
         """modifier le manga physique dans la base de données
 
         Parameters
@@ -115,24 +115,24 @@ class MangaPhysiqueDao(metaclass=Singleton):
     
         """
 
-
         res = None
 
         try:
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        f"UPDATE projet.mangatheque      "
-                        f"  id_utilisateur = %(id_utilisateur)s       "
-                        f"  id_manga = %(id_manga)s   "
-                        f"  num_dernier = %(num_dernier)s                      "
-                        f"  num_manquants=%(num_manquants)s           "
-                        f"  status=%(status)s"
-                        f"  where titre=%(titre)s and id_utilisateur=%(id_utilisateur)s", 
+                        f"UPDATE projet.mangatheque   SET   "
+                        f"  id_utilisateur = %(id_utilisateur)s ,      "
+                        f"  id_manga = %(id_manga)s ,  "
+                        f"  num_dernier = %(num_dernier)s   ,         "
+                        f"  num_manquants=%(num_manquants)s ,          "
+                        f"  status=%(status)s "
+                        f"  WHERE id_manga=%(id_manga)s "
+                        f"  AND id_utilisateur=%(id_utilisateur)s", 
                            
                         {
                             "id_manga": manga.id_manga,
-                            "id_utilisateur": manga.id_utlisateur,
+                            "id_utilisateur": manga.id_utilisateur,
                             "num_dernier": manga.dernier_tome,
                             "num_manquants": json.dumps(manga.tomes_manquants),
                             "status": manga.status
@@ -141,21 +141,24 @@ class MangaPhysiqueDao(metaclass=Singleton):
 
                     res = cursor.rowcount
         except Exception as e:
-            logging.info(e)
+            logging.error("Error modifier manga_physique: %s", e)
 
         return res == 1
 
-
+    @log
     def liste_manga_physique(self, utilisateur: Utilisateur) -> list:
+
         """liste tous les mangas d'une collection physique
         Parameters
         ----------
-        collection : collection physique
+        utilisateur : utilisateur pour lequel on recherche 
+                      tous les manga
 
         Returns
         -------
         liste_manga : list[manga]
-            retourne la liste de tous les mangas de la collections 
+            retourne la liste de tous les mangas physique de 
+            l'utilisateur
            
         """
 
@@ -169,9 +172,10 @@ class MangaPhysiqueDao(metaclass=Singleton):
                         f"  from projet.mangatheque mt     "
                         f"  JOIN projet.manga m USING(id_manga)"
                         f"  WHERE mt.id_utilisateur=%(id_utilisateur)s", 
-                           {
-                            "id_utilisateur": utilisateur.id_utilisateur,  
-                            }                                
+                        {
+
+                                "id_utilisateur": utilisateur.id_utilisateur,  
+                        }                                
                         )
                     res = cursor.fetchall()
         except Exception as e:

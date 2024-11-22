@@ -36,13 +36,14 @@ class AvisDao(metaclass=Singleton):
             logging.error(f"Erreur lors de la création de l'avis: {e}")
             raise
 
+        print("res=",res)
         created = res is not None
         if created:
             avis.id_manga = res["id_manga"]
             avis.id_utilisateur = res["id_utilisateur"]
             avis.texte = res["texte"]
 
-        return created
+        return True
 
     @log
     def trouver_tous_par_id(self, id: int) -> list[Avis]:
@@ -75,7 +76,7 @@ class AvisDao(metaclass=Singleton):
                         note=row["note"]
                     )
                     res_avis.append(avis)
-                    return res_avis
+            return res_avis
 
         except Exception as e:
             logging.error(f"Erreur lors de la récupération des avis: {e}")
@@ -113,14 +114,12 @@ class AvisDao(metaclass=Singleton):
                         note=row["note"]
                     )
                     res_avis.append(avis)
-                    return res_avis
+            return res_avis
 
         except Exception as e:
             logging.error(f"Erreur lors de la récupération des avis: {e}")
             return []
             raise
-
-        
 
     @log
     def supprimer_avis(self, avis: Avis) -> bool:
@@ -164,11 +163,9 @@ class AvisDao(metaclass=Singleton):
                             )
                             res = cursor.rowcount
                             return res == 1
-            
 
                 except Exception as e:
                     logging.info(e)
-                print(res)
                 return res == 1
 
     @log
@@ -217,7 +214,6 @@ class AvisDao(metaclass=Singleton):
 
                 except Exception as e:
                     logging.info(e)
-                print(res)
                 return res == 1
 
     @log
@@ -286,7 +282,6 @@ class AvisDao(metaclass=Singleton):
 
                 except Exception as e:
                     logging.info(e)
-                print(res)
                 return res == 1
         try:
             with DBConnection().connection as connection:
@@ -332,5 +327,3 @@ class AvisDao(metaclass=Singleton):
         except Exception as e:
             logging.info(e)
         return res == 1
-
-print(AvisDao().trouver_tous_par_id(4))

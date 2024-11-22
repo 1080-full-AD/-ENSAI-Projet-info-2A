@@ -10,25 +10,31 @@ class MangaPhysiqueService(metaclass=Singleton):
 
 
     @log
-    def creer_manga_physique(self, manga) -> bool:
+    def creer_manga_physique(self, manga: MangaPhysique) -> bool:
         """Créer un manga physique dans la base de données"""
         return MangaPhysiqueDao().creer(manga)
 
     @log
-    def supprimer_manga_physique(self, manga) -> bool:
+    def supprimer_manga_physique(self, manga: MangaPhysique) -> bool:
         """Supprimer un manga de la base de données"""
         return MangaPhysiqueDao().supprimer_manga_physique(manga)
 
     @log
-    def ajouter_tome(self, manga,new_tome):
+    def ajouter_tome(self, manga: MangaPhysique, new_tome: int)-> bool:
+
         """
         ajouter un nouveau tome au manga physique
 
         parameters
+        -----------
         manga:manga 
         new_tome:tome à ajouter 
 
         return
+        ---------
+        bool
+        True si l'ajout c'est bien passée 
+        False sinon 
         """
         if not isinstance(new_tome, int):
             raise TypeError("Le tome ajouté doit être un entier")
@@ -38,19 +44,34 @@ class MangaPhysiqueService(metaclass=Singleton):
         elif new_tome > manga.dernier_tome:
             for i in range(1, new_tome-manga.dernier_tome):
                 manga.tomes_manquants.append(manga.dernier_tome+i)
-                manga.dernier_tome = new_tome
-                return MangaPhysiqueDao().modifier_manga_physique(manga)
+            manga.dernier_tome = new_tome
+            return MangaPhysiqueDao().modifier_manga_physique(manga)
         else:
-            raise TypeError("tome deja existant")
+            raise ValueError("tome deja existant")
 
     @log
-    def enlever_tome(self,manga, tome):
+    def enlever_tome(self, manga: MangaPhysique, tome) -> bool:
+
+        """
+        elever un  tome au manga physique
+
+        parameters
+        -----------
+        manga:manga 
+        tome:tome à elever
+
+        return
+        ---------
+        bool
+        True si le tome a bien été enlever
+        False sinon 
+        """
         if not isinstance(tome, int):
             raise TypeError(f"{tome},doit être un entier")
 
         if tome == manga.dernier_tome:
             manga.tomes_manquants.append(tome)
-            manga.tomes_manquants.sort()  # Trier pour garantir l'ordre croissant
+            manga.tomes_manquants.sort() # Trier pour garantir l'ordre croissant
             
         # On cherche le nouveau dernier tome qui n'est pas manquant
             nouveau_dernier_tome = tome - 1
@@ -58,13 +79,14 @@ class MangaPhysiqueService(metaclass=Singleton):
                 nouveau_dernier_tome -= 1
                 manga.dernier_tome = nouveau_dernier_tome
             return MangaPhysiqueDao().modifier_manga_physique(manga)
-        elif tome < manga.dernier_tome:
+            
+        elif tome < manga.dernier_tome and tome not in manga.tomes_manquants:
             manga.tomes_manquants.append(tome)
             return MangaPhysiqueDao().modifier_manga_physique(manga)
         else:
-            print("tome pas existant")
+            raise ValueError("vous ne disposez pas de ce tome")
 
     @log
-    def modifier_manga_physique(self,manga):
+    def modifier_manga_physique(self, manga):
         "modifier un manga physique enregisté dans la base de donnnées"
         return MangaPhysiqueDao().modifier_manga_physique(manga)

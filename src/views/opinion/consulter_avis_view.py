@@ -32,10 +32,15 @@ class ConsulterAvisView(AbstractView):
                 pseudo = inquirer.text(
                     "Entrez le pseudo de l'utilisateur en question"
                     ).execute()
-                user = UtilisateurService(
+                try:
+                    user = UtilisateurService(
+                    ).trouver_par_pseudo_utilisateur(pseudo=pseudo)
+                    id_utilisateur = user.id_utilisateur
+                except Exception as e:
+                    print("\n", e)
+                    return ConsulterAvisView("\n" + "=" * 50 + " Consultation d'avis"
+                                         " :) " + "=" * 50 + "\n")
 
-                ).trouver_par_pseudo_utilisateur(pseudo=pseudo)
-                id_utilisateur = user.id_utilisateur
                 avis = AvisService(
                 ).trouver_tous_par_id(id_utilisateur=id_utilisateur)
                 for i in avis:
@@ -48,7 +53,13 @@ class ConsulterAvisView(AbstractView):
                 name = inquirer.text(
                  "Entrez le nom du manga en question"
                 ).execute()
-                manga = MangaService().rechercher_un_manga(titre_manga=name)
+                try:
+                    manga = MangaService().rechercher_un_manga(titre_manga=name)
+                except Exception as e:
+                    print("\n", e)
+                    return ConsulterAvisView("\n" + "=" * 50 + " Consultation d'avis"
+                                         " :) " + "=" * 50 + "\n")
+
                 id_manga = manga.id_manga
                 avis = AvisService().trouver_avis_par_manga(id_manga=id_manga)
                 for i in avis:

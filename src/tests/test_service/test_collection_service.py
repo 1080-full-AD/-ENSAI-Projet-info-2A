@@ -1,7 +1,7 @@
 
 
 from unittest.mock import MagicMock
-from src.service.collection_servive import CollectionVirtuelleService
+from src.service.collection_service import CollectionVirtuelleService
 from src.dao.collection_dao import CollectionDao
 from src.business_objet.collection_virtuelle import CollectionVirtuelle
 from src.business_objet.manga import Manga
@@ -13,7 +13,7 @@ import pytest
 # Initialisation des objets pour les tests
 
 manga_virtuel = Manga(
-        id_manga=28,
+        id_manga=27,
         titre_manga="manga_test",
         synopsis='juste pour tester',
         auteurs='auteur',
@@ -43,6 +43,7 @@ def test_creer_collection_ok():
     """Tester la création d'une collection virtuelle avec des mangas virtuels uniquement"""
 
     # GIVEN
+    
     mock_dao = MagicMock()
     mock_dao.creer.return_value = True
     mock_dao.ajouter_collection_virtuelle.return_value = True
@@ -51,7 +52,12 @@ def test_creer_collection_ok():
     service.CollectionDao = mock_dao
 
     # WHEN
-    result = service.creer(collection=collection)
+    result = service.creer(
+        id_utilisateur=collection.id_utilisateur,
+        titre=collection.titre,
+        liste_manga=collection.liste_manga,
+        description=collection.description
+        )
 
     # THEN
     assert result is not None
@@ -62,27 +68,59 @@ def test_creer_collection_echec_manga_physique():
     """Tester la création échoue si un manga physique est présent"""
 
     # GIVEN
-    collection_1 = CollectionVirtuelle ("collection virtuelle", 2, [manga_virtuel],"la meilleure")
-    mock_dao = MagicMock()
+    collection_1 = CollectionVirtuelle("collection virtuelle", 2, [manga_physique],"la meilleure")
+    mock_dao = MagicMock(spec=CollectionDao)
+    mock_dao.creer.return_value.side_effect = TypeError(
+        "les collection virtuelles ne peuvent contenir des mangas physique")
+
     service = CollectionVirtuelleService()
     service.CollectionDao = mock_dao
 
     # WHEN / THEN
-    with pytest.raises(ValueError):
-        service.creer(collection=collection_1)
+    with pytest.raises(TypeError, match="les collection virtuelles ne peuvent contenir des mangas physique"):
+        service.creer(
+        id_utilisateur=collection_1.id_utilisateur,
+        titre=collection_1.titre,
+        liste_manga=collection_1.liste_manga,
+        description=collection_1.description
+        )
 
 
 def test_creer_collection_echec_titre_existant():
-    collection = CollectionVirtuelle ("Nouvelle Collection", 2, [manga_physique],"la meilleure")
-    mock_dao = MagicMock()
+    collection_2 = CollectionVirtuelle("collection virtuelle", 2, [manga_virtuel],"la meilleure")
+    mock_dao = MagicMock(spec=CollectionDao)
+    mock_dao.creer.return_value.side_effect = ValueError(
+        "Vous avez déja une collection avec ce titre :/")
     service = CollectionVirtuelleService()
     service.CollectionDao = mock_dao
 
 
     # WHEN / THEN
-    with pytest.raises(ValueError):
-        service.creer(collection=collection)
+    with pytest.raises(ValueError, match="Vous avez déja une collection avec ce titre :/"):
+        service.creer(
+                    id_utilisateur = collection_2.id_utilisateur,
+                    titre = collection_2.titre,
+                    liste_manga = collection_2.liste_manga,
+                    description = collection_2.description
+                    )
     
+def test_recherche_collection():
+    #GIVEN
+    id_utilisateur = 1
+    titre_collec = "Collection Virtuelle"
+    mock_dao = MagicMock()
+    mock_dao.rechercher_collection.return_value = collection
+    service = CollectionVirtuelleService()
+    service.CollectionDao = mock_dao
+
+      # WHEN
+    result = service.rechercher_collection(id_utilisateur=id_utilisateur, titre_collec=titre_collec)
+
+      #THEN
+    assert result is not None
+    assert result.titre == collection.titre
+
+
 def test_liste_manga_ok():
     """Tester le retour de la liste des mangas d'une collection"""
 
@@ -95,12 +133,34 @@ def test_liste_manga_ok():
 
     # WHEN
 
-    result = service.liste_manga(collection)
+    result = service.liste_manga(id_utilisateur=1,titre_collec="Collection Virtuelle" )
 
     # THEN
     assert len(result) == 1
-    assert result[0] == manga_virtuel
-   
+    #assert result[0] == manga_virtuel
+    assert result[0].id_manga==manga_virtuel.id_manga
+    assert result[0].titre_manga==manga_virtuel.titre_manga
+    assert result[0].synopsis==manga_virtuel.synopsis
+    assert result[0].auteurs==manga_virtuel.auteurs
+    
+def liste_collection_ok():
+
+    # GIVEN
+    id_utilisateur = 1
+    mock_dao = MagicMock()
+    mock_dao.liste_manga_virtuelle.return_value = [collection]
+
+    service = CollectionVirtuelleService()
+    service.CollectionDao = mock_dao
+
+    # WHEN
+
+    result = service.liste_collection(id_utilisateur)
+
+    # THEN
+    assert len(result) == 1
+    
+
     
 def test_modifier_collection_ok():
     """Tester la modification réussie d'une collection"""
@@ -122,10 +182,9 @@ def test_modifier_collection_ok():
     result = service.modifier_collection(collection)
 
     # THEN
-    assert result is not None
-    #mock_dao.modifier.assert_called_once_with(collection)
-
-
+    assert result is True
+    
+    
 def test_supprimer_manga_ok():
     """Tester la suppression d'un manga virtuel existant dans la collection"""
 

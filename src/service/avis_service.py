@@ -7,7 +7,7 @@ from src.business_objet.avis import Avis
 
 class AvisService:
 
-    def creer(self, id_manga: int, id_utilisateur: int, texte: str) -> None:
+    def creer(self, id_manga: int, id_utilisateur: int, texte: str) -> bool:
         """Création d'un avis
 
         Parameters
@@ -29,16 +29,16 @@ class AvisService:
             raise TypeError("L'avis doit être une chaîne de caractère :/")
 
         avisuser = AvisService().trouver_tous_par_id(id_utilisateur)
-        print(avisuser)
         for i in avisuser:
-            if i.id_manga == id_manga:
+            if i.id_manga == id_manga and i.texte is not None:
                 raise ValueError("Vous avez déjà donné un avis sur ce manga."
                                 " Si vous souhaitez le modifier,"
                                 " sélectionnez le menu modifier :)")
 
         avis = Avis(id_manga=id_manga, id_utilisateur=id_utilisateur, texte=texte)
-        AvisDao().creer(avis)
-
+        res=AvisDao().creer(avis)
+        print("Votre avis a bien été créé :)")
+        return res
 
     def trouver_tous_par_id(self, id_utilisateur: int) -> list[Avis]:
         """Trouver les avis d'un utilisateur
@@ -88,13 +88,15 @@ class AvisService:
 
         avisuser = AvisService().trouver_tous_par_id(id_utilisateur)
         for i in avisuser:
-            if i.id_manga == id_manga:
+            if i.id_manga == id_manga and i.texte is not None:
 
                 avis = Avis(id_manga=id_manga, id_utilisateur=id_utilisateur, texte="")
+                print("Votre avis a bien été supprimé :)")
                 return AvisDao().supprimer_avis(avis)
 
             else:
                 raise ValueError("Vous n'avez pas donné d'avis sur ce manga :/")
+        return False
 
     def supprimer_note(self, id_manga: int, id_utilisateur: int) -> bool:
         """Supprimer une note
@@ -116,9 +118,10 @@ class AvisService:
 
         avisuser = AvisService().trouver_tous_par_id(id_utilisateur)
         for i in avisuser:
-            if i.id_manga == id_manga:
+            if i.id_manga == id_manga and i.note is not None:
 
                 avis = Avis(id_manga=id_manga, id_utilisateur=id_utilisateur, texte="")
+                print("Votre note a bien été supprimée :)")
                 return AvisDao().supprimer_note(avis)
 
             else:
@@ -147,9 +150,10 @@ class AvisService:
 
         avisuser = AvisService().trouver_tous_par_id(id_utilisateur)
         for i in avisuser:
-            if i.id_manga == id_manga:
+            if i.id_manga == id_manga and i.texte is not None:
 
                 avis = Avis(id_manga=id_manga, id_utilisateur=id_utilisateur, texte="")
+                print("Votre avis a bien été modifié :)")
                 return AvisDao().modifier(avis, newtexte)
 
             else:
@@ -184,12 +188,13 @@ class AvisService:
 
         avisuser = AvisService().trouver_tous_par_id(id_utilisateur)
         for i in avisuser:
-            if i.id_manga == id_manga:
+            if i.id_manga == id_manga and i.note is not None:
                 raise ValueError("Vous avez déjà donné noté ce manga."
                                  " Si vous souhaitez la modifier,"
                                  " sélectionnez le menu modifier :)")
 
         avis = Avis(id_manga=id_manga, id_utilisateur=id_utilisateur, texte="")
+        print("Votre note a bien été ajoutée :)")
         return AvisDao().noter(avis, note)
 
     def modifier_note(self, id_manga: int, id_utilisateur: int, newnote: int) -> bool:
@@ -215,9 +220,10 @@ class AvisService:
 
         avisuser = AvisService().trouver_tous_par_id(id_utilisateur)
         for i in avisuser:
-            if i.id_manga == id_manga:
+            if i.id_manga == id_manga and i.note is not None:
 
                 avis = Avis(id_manga=id_manga, id_utilisateur=id_utilisateur, texte="")
+                print("Votre note a bien été modifiée :)")
                 return AvisDao().modifier_note(avis, newnote)
 
             else:
