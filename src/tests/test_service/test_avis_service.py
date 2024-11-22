@@ -251,15 +251,15 @@ def test_modifier_avis_echec():
 
 
     # GIVEN
-    id_manga, id_utilisateur, newnote = 1, 1, 3
+    id_manga, id_utilisateur, newavis = 1, 1, 3
     mock_dao = MagicMock(spec=AvisDao)
-    mock_dao.modifier_note.return_value = False
+    mock_dao.modifier_avis.return_value = False
 
     avis_service = AvisService()
     avis_service.AvisDao = mock_dao 
 
     # WHEN
-    result = avis_service.modifier(id_manga, id_utilisateur, newnote)
+    result = avis_service.modifier(id_manga, id_utilisateur, "aaa")
 
     # THEN
     assert result is False
@@ -269,7 +269,7 @@ def test_noter_ok():
     """Notation d'un manga réussie"""
 
     # GIVEN
-    id_manga, id_utilisateur, note = 1, 1, 3
+    id_manga, id_utilisateur, note = 1, 5, 3
     mock_dao = MagicMock(spec=AvisDao)
     mock_dao.noter.return_value = True
 
@@ -278,6 +278,7 @@ def test_noter_ok():
 
     # WHEN
     result = avis_service.noter(id_manga, id_utilisateur, note)
+    avis_service.supprimer_note(id_manga,id_utilisateur)
 
     # THEN
     assert result is True
@@ -288,7 +289,7 @@ def test_noter_echec():
 
 
     # GIVEN
-    id_manga, id_utilisateur, note = 1, 1, 3
+    id_manga, id_utilisateur, note = 1, 5, 3
     mock_dao = MagicMock(spec=AvisDao)
     mock_dao.noter.return_value = False
 
