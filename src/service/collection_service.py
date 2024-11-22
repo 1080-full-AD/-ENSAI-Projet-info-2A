@@ -50,10 +50,16 @@ class CollectionVirtuelleService:
 
 
     @log
+<<<<<<< HEAD
     def modifier_description(self , collection ,new_description)->CollectionVirtuelle:
         "modifier la description d'une collection"
         collection.descrition = new_description
         return collection if CollectionDao().modifier(collection) else None
+=======
+    def modifier_collection(self , collection)->CollectionVirtuelle:
+        "modifier une collection"
+        return collection if CollectionDao().modifier(collection) else 'lalal'
+>>>>>>> 8dc86273141e789c181d1aed6b7c39e3c1a2a516
 
     @log
     def modifier_titre(self , collection ,new_titre):

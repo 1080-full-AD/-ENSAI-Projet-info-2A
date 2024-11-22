@@ -19,46 +19,48 @@ class ModificationCollectionView(AbstractView):
         """
 
         titre = inquirer.text(
-            message="Bonnez le titre de la collection que vous souhaitez modifier :)",
+            message="Donnez le titre de la collection que vous souhaitez modifier :)",
         ).execute()
 
         user = Session().getuser()
         id_utilisateur = user.id_utilisateur
 
         try:
-            collection = CollectionVirtuelleService().trouverMACHIN(titre, id_utilisateur)
-#############METHODE POUR AVOIR ACC7S A UNE COLLECTION AVEC LE TITRE ET LID DE LUSER#######################
+            collection = CollectionVirtuelleService().rechercher_collection(id_utilisateur=id_utilisateur, titre_collec=titre)
+
         except Exception as e:
             print("\n", e)
-            return ModificationCollectionView("\n" + "=" * 50 + " Modification de collection"
+            return MainCollectionView("\n" + "=" * 50 + " Menu des collection"
                                          " :) " + "=" * 50 + "\n")
 
 
         choix = inquirer.select(
             message="Faites votre choix : ",
             choices=[
-                f"Modifier le titre de NOM COLLECTION",
-                f"Modifier la dscription de NOM COLLECTION",
-                f"Ajouter un manga a NOM COLLECTION",
-                f"Enlever un manga a NOM COLLECTION",
+                "Modifier le titre",
+                "Modifier la dscription",
+                "Ajouter un manga",
+                "Enlever un manga",
                 "Retour",
             ],
         ).execute()
 
         match choix:
-            case "Modifier le titre de NOM COLLECTION":
-                texte = inquirer.text(
-                    "Rédigez votre nouvel avis :)"
+            case "Modifier le titre":
+                titre = inquirer.text(
+                    "Rédigez votre nouveau titre :)"
                 ).execute()
+                collection.titre = titre
+                try:
+                    CollectionVirtuelleService().modifier_collection(collection=collection)
+                except Exception as e:
+                    print("\n", e)
 
-                AvisService().creer(id_manga=id_manga,
-                                    id_utilisateur=id_utilisateur, texte=texte)
-                from src.views.users.main_opinion_view import MainOpinionView
+                return  ModificationCollectionView(("\n" + "=" * 50 + " Modification de collection"
+                                        " :) " + "=" * 50 + "\n"))
 
-                return MainOpinionView("\n" + "=" * 50 + " Menu des avis"
-                                       " :) " + "=" * 50 + "\n")
             
-            case "Modifier la dscription de NOM COLLECTION":
+            case "Modifier la dscription":
 
                 note = int(inquirer.number(
                     f"Donnez votre nouvelle note à {manga.titre_manga} :)",
