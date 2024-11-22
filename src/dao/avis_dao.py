@@ -100,14 +100,23 @@ class AvisDao(metaclass=Singleton):
         try:
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
-                    if include_spoilers
-                    cursor.execute(
-                        "SELECT * " 
-                        "FROM projet.avis " 
-                        f"WHERE id_manga = {id_manga}",
-                        {"id_manga": id_manga},
-                    )
-                    avis_rows = cursor.fetchall()
+                    if include_spoilers:
+                        cursor.execute(
+                            "SELECT * " 
+                            "FROM projet.avis " 
+                            f"WHERE id_manga = {id_manga}",
+                            {"id_manga": id_manga},
+                        )
+                        avis_rows = cursor.fetchall()
+                    else:
+                        cursor.execute(
+                            "SELECT * " 
+                            "FROM projet.avis " 
+                            f"WHERE id_manga = {id_manga}"
+                            f" AND spoiler = True ;     ",
+                            {"id_manga": id_manga},
+                        )
+                        avis_rows = cursor.fetchall()                        
                 for row in avis_rows:
                     avis = Avis(
                         id_manga=row["id_manga"],
@@ -219,13 +228,14 @@ class AvisDao(metaclass=Singleton):
                 return res == 1
 
     @log
-    def modifier(self, avis: Avis, newtexte: str) -> bool:
+    def modifier(self, avis: Avis, newtexte: str, spoiler=False) -> bool:
         """Modification d'un avis dans la base de données
 
         Parameters
         ----------
         avis : Avis
         newtexte : str
+        spoiler : bool
 
         Returns
         -------
@@ -240,7 +250,7 @@ class AvisDao(metaclass=Singleton):
                 with connection.cursor() as cursor:
                     cursor.execute(
                         "UPDATE projet.avis                                "
-                        f"   SET texte      = '{newtexte}'        "
+                        f"   SET texte      = '{newtexte}' AND spoiler = {spoiler}        "
                         f" WHERE id_manga = {avis.id_manga}             "
                         f" AND id_utilisateur = {avis.id_utilisateur};             "
                     )

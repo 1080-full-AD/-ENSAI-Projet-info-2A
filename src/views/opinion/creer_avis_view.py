@@ -25,14 +25,13 @@ class CreateOpinionView(AbstractView):
         try:
             manga = MangaService().rechercher_un_manga(
                 titre_manga=titre_manga
-                )
+            )
         except Exception as e:
             print("\n", e, "\n")
             return MainOpinionView("\n" + "=" * 50 + " Menu des avis"
-                                       " :) " + "=" * 50 + "\n")
+                                   " :) " + "=" * 50 + "\n")
 
         id_manga = manga.id_manga
-
         user = Session().getuser()
         id_utilisateur = user.id_utilisateur
 
@@ -50,36 +49,41 @@ class CreateOpinionView(AbstractView):
                 texte = inquirer.text(
                     "Rédigez votre avis :)"
                 ).execute()
+
+                spoiler = inquirer.select(
+                    message="Cet avis contient-il un spoiler ?",
+                    choices=["Oui", "Non"]
+                ).execute()
+
+                # Convertir la réponse en un booléen
+                spoiler = spoiler == "Oui"
+
                 try:
                     AvisService().creer(id_manga=id_manga,
                                         id_utilisateur=id_utilisateur,
-                                        texte=texte)
-
+                                        texte=texte,
+                                        spoiler=spoiler)  # Passer l'argument spoiler
                 except Exception as e:
                     print("\n", e, "\n")
 
                 return MainOpinionView("\n" + "=" * 50 + " Menu des avis"
-                                        " :) " + "=" * 50 + "\n")
+                                       " :) " + "=" * 50 + "\n")
 
             case "Donner une note":
-
                 note = int(inquirer.number(
                     f"Donnez votre note à {manga.titre_manga}",
                     min_allowed=0,
                     max_allowed=5
                 ).execute())
-
                 try:
                     AvisService().noter(id_manga=id_manga,
                                         id_utilisateur=id_utilisateur, note=note)
-
                 except Exception as e:
                     print("\n", e, "\n")
 
                 return MainOpinionView("\n" + "=" * 50 + " Menu des avis"
-                                        " :) " + "=" * 50 + "\n")
+                                       " :) " + "=" * 50 + "\n")
 
             case "Retour":
-
                 return MainOpinionView("\n" + "=" * 50 + " Menu des avis"
                                        " :) " + "=" * 50 + "\n")
