@@ -37,8 +37,6 @@ class ConsulterCollectionView(AbstractView):
                 for i in liste_collec:
                     print(i.__str__())
 
-############################## IL FAUT UN EMETHODE POUR LISTER LES COLLECTIONS DES USER###############################
-
                 return ConsulterCollectionView("\n" + "=" * 50 + " Consultation des collections"
                                     " :) " + "=" * 50 + "\n")
 
@@ -50,9 +48,12 @@ class ConsulterCollectionView(AbstractView):
                     user = UtilisateurService(
                     ).trouver_par_pseudo_utilisateur(pseudo=pseudo)
                     id_utilisateur = user.id_utilisateur
+                    liste_collec = CollectionVirtuelleService().liste_collection(id_utilisateur=id_utilisateur)
+                    for i in liste_collec:
+                        print(i.__str__())
                 except Exception as e:
                     print("\n", e)
-############################## IL FAUT UN EMETHODE POUR LISTER LES COLLECTIONS DES USER###############################
+
                 return ConsulterCollectionView("\n" + "=" * 50 + " Consultation des collections"
                                     " :) " + "=" * 50 + "\n")
             case "Retour":

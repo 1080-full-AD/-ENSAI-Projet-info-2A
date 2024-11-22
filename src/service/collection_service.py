@@ -52,7 +52,7 @@ class CollectionVirtuelleService:
     @log
     def modifier_collection(self , collection)->CollectionVirtuelle:
         "modifier une collection"
-        return collection if CollectionDao().modifier(collection) else None
+        return collection if CollectionDao().modifier(collection) else 'lalal'
 
 
 
