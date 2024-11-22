@@ -10,7 +10,8 @@ CREATE TABLE projet.utilisateur (
     id_utilisateur serial PRIMARY KEY,
     mot_de_passe text NOT NULL,
     pseudo text NOT NULL,
-    age integer
+    age integer,
+    is_admin boolean
 );
 
 ALTER SEQUENCE projet.utilisateur_id_utilisateur_seq RESTART WITH 3;
@@ -42,6 +43,7 @@ CREATE TABLE projet.avis (
     id_manga INTEGER,
     texte text,
     note integer,
+    spoiler boolean,
     PRIMARY KEY (id_manga, id_utilisateur),
     FOREIGN KEY (id_manga)  REFERENCES projet.manga(id_manga),
     FOREIGN KEY (id_utilisateur)  REFERENCES projet.utilisateur(id_utilisateur) ON DELETE CASCADE
@@ -84,6 +86,6 @@ DROP TABLE IF EXISTS projet.collection_manga CASCADE;
 CREATE TABLE projet.collection_manga (
     id_manga integer REFERENCES projet.manga(id_manga),
     id_utilisateur integer REFERENCES projet.utilisateur(id_utilisateur),
-    titre_collec text REFERENCES projet.collection(titre_collec),
+    titre_collec text REFERENCES projet.collection(titre_collec) ON UPDATE CASCADE,
     PRIMARY KEY (id_manga, id_utilisateur,titre_collec)
 );

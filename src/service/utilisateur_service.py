@@ -131,7 +131,8 @@ class UtilisateurService(metaclass=Singleton):
         if isinstance(pseudo, str) is False:
             raise TypeError("Le pseudo doit être une chaîne de caractère :/")
         if UtilisateurDao().trouver_par_pseudo(pseudo) is None:
-            raise ValueError("Auncun utilisateur ne possède ce pseudo :/")
+            print("Auncun utilisateur ne possède ce pseudo :/")
+            return None
         else:
             return UtilisateurDao().trouver_par_pseudo(pseudo)
 

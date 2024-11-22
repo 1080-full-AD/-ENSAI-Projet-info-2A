@@ -38,8 +38,7 @@ class CreateCollectionView(AbstractView):
             "Entrez une description pour votre collection :)"
         ).execute()
 
-        collection.description = description
-        CollectionVirtuelleService().modifier_collection(collection=collection)
+        CollectionVirtuelleService().modifier_description(collection=collection, new_description=description)
         ajout = True
 
         while ajout is True:

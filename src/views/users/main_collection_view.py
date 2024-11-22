@@ -41,7 +41,7 @@ class MainCollectionView(AbstractView):
             case "Supprimer une collection":
                 from src.views.collection.supprimer_collection_view import SupprimerCollectionView
 
-                return CreateCollectionView("\n" + "=" * 50 + " Création d'avis"
+                return SupprimerCollectionView("\n" + "=" * 50 + " Suppression de collections"
                                          " :) " + "=" * 50 + "\n")
 
             case "Consulter les collections":

@@ -7,7 +7,7 @@ from src.business_objet.avis import Avis
 
 class AvisService:
 
-    def creer(self, id_manga: int, id_utilisateur: int, texte: str) -> None:
+    def creer(self, id_manga: int, id_utilisateur: int, texte: str, spoiler=False) -> bool:
         """Création d'un avis
 
         Parameters
@@ -35,11 +35,12 @@ class AvisService:
                                 " Si vous souhaitez le modifier,"
                                 " sélectionnez le menu modifier :)")
 
-        avis = Avis(id_manga=id_manga, id_utilisateur=id_utilisateur, texte=texte)
-        AvisDao().creer(avis)
+        avis = Avis(id_manga=id_manga, id_utilisateur=id_utilisateur, texte=texte, spoiler=spoiler)
+        res=AvisDao().creer(avis)
         print("Votre avis a bien été créé :)")
+        return res
 
-    def trouver_tous_par_id(self, id_utilisateur: int) -> list[Avis]:
+    def trouver_tous_par_id(self, id_utilisateur: int, include_spoilers=True) -> list[Avis]:
         """Trouver les avis d'un utilisateur
 
         Parameters
@@ -51,9 +52,9 @@ class AvisService:
         list[Avis]
             Liste des avis de l'utilisateur
         """
-        return AvisDao().trouver_tous_par_id(id_utilisateur)
+        return AvisDao().trouver_tous_par_id(id_utilisateur, include_spoilers)
 
-    def trouver_avis_par_manga(self, id_manga: int) -> list[Avis]:
+    def trouver_avis_par_manga(self, id_manga: int, include_spoilers=True) -> list[Avis]:
         """Trouver les avis pour un manga
 
         Parameters
@@ -65,7 +66,7 @@ class AvisService:
         list[Avis]
             Liste des avis pour ce manga
         """
-        return AvisDao().trouver_avis_par_manga(id_manga)
+        return AvisDao().trouver_avis_par_manga(id_manga, include_spoilers)
 
     def supprimer_avis(self, id_manga: int, id_utilisateur: int) -> bool:
         """Supprimer un avis
@@ -95,6 +96,7 @@ class AvisService:
 
             else:
                 raise ValueError("Vous n'avez pas donné d'avis sur ce manga :/")
+        return False
 
     def supprimer_note(self, id_manga: int, id_utilisateur: int) -> bool:
         """Supprimer une note
@@ -125,7 +127,7 @@ class AvisService:
             else:
                 raise ValueError("Vous n'avez pas donné de note sur ce manga :/")
 
-    def modifier(self, id_manga: int, id_utilisateur: int, newtexte: str) -> bool:
+    def modifier(self, id_manga: int, id_utilisateur: int, newtexte: str, spoiler=False) -> bool:
         """Modifier un avis
 
         Parameters
@@ -152,7 +154,7 @@ class AvisService:
 
                 avis = Avis(id_manga=id_manga, id_utilisateur=id_utilisateur, texte="")
                 print("Votre avis a bien été modifié :)")
-                return AvisDao().modifier(avis, newtexte)
+                return AvisDao().modifier(avis, newtexte, spoiler)
 
             else:
                 raise ValueError("Vous n'avez pas donné d'avis sur ce manga."
@@ -229,3 +231,5 @@ class AvisService:
                                  " Si vous souhaitez en donner une,"
                                  " sélectionnez le menu Rédiger un avis/donner"
                                  " une note :)")
+
+

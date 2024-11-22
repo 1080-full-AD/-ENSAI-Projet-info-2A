@@ -1,6 +1,7 @@
 from InquirerPy import inquirer
 from src.views.abstract_view import AbstractView
 from src.service.utilisateur_service import UtilisateurService
+from src.views.session import Session
 
 
 class MainUserView(AbstractView):
@@ -17,11 +18,33 @@ class MainUserView(AbstractView):
 
         print("\n" + "=" * 50 + " Bienvenue :) " + "=" * 50 + "\n")
 
+        user = Session().getuser()
+        id_utilisateur = user.id_utilisateur
+        if user.is_admin is True:
+            choices = [
+                "Rechercher des mangas",
+                "Accéder au menu des collections",
+                "Accéder au menu des mangathèques",
+                "Accéder au menu des avis",
+                "Se déconnecter",
+                "Supprimer son compte :(",
+            ]
+        else:
+            choices = [
+                "Rechercher des mangas",
+                "Accéder au menu des collections",
+                "Accéder au menu des mangathèques",
+                "Accéder au menu des avis",
+                "Accéder au menu de modification de la base"
+                "Se déconnecter"
+            ]
+
         choix = inquirer.select(
             message="Faites votre choix : ",
             choices=[
                 "Rechercher des mangas",
                 "Accéder au menu des collections",
+                "Accéder au menu des mangathèques",
                 "Accéder au menu des avis",
                 "Se déconnecter",
                 "Supprimer son compte :(",
@@ -40,6 +63,12 @@ class MainUserView(AbstractView):
 
                 return MainCollectionView("\n" + "=" * 50 + " Menu des"
                                         " collections " + "=" * 50 + "\n")
+
+            case "Accéder au menu des mangathèques":
+                from src.views.users.main_mangatheque_view import MainMangathequeView
+
+                return MainMangathequeView("\n" + "=" * 50 + " Menu des"
+                                        " Mangathèques :) " + "=" * 50 + "\n")
 
             case "Accéder au menu des avis":
                 from src.views.users.main_opinion_view import MainOpinionView

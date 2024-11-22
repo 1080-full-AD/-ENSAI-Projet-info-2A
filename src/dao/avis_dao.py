@@ -28,24 +28,26 @@ class AvisDao(metaclass=Singleton):
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        "INSERT INTO projet.avis(id_manga, id_utilisateur, texte) VALUES (%s, %s, %s) RETURNING id_manga, id_utilisateur, texte;",
-                        (avis.id_manga, avis.id_utilisateur, avis.texte),
+                        "INSERT INTO projet.avis(id_manga, id_utilisateur, texte, spoiler) VALUES (%s, %s, %s, %s) RETURNING id_manga, id_utilisateur, texte, spoiler;",
+                        (avis.id_manga, avis.id_utilisateur, avis.texte, avis.spoiler),
                     )
                     res = cursor.fetchone()
         except Exception as e:
             logging.error(f"Erreur lors de la création de l'avis: {e}")
             raise
 
+        print("res=",res)
         created = res is not None
         if created:
             avis.id_manga = res["id_manga"]
             avis.id_utilisateur = res["id_utilisateur"]
             avis.texte = res["texte"]
+            avis.avis = res["avis"]
 
         return created
 
     @log
-    def trouver_tous_par_id(self, id: int) -> list[Avis]:
+    def trouver_tous_par_id(self, id: int, include_spoilers=True) -> list[Avis]:
         """Trouver les avis par son id
 
         Parameters
@@ -60,13 +62,22 @@ class AvisDao(metaclass=Singleton):
         try:
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
-                    cursor.execute(
-                        "SELECT * " 
-                        "FROM projet.avis " 
-                        f"WHERE id_utilisateur = {id}",
-                        {"id": id},
-                    )
-                    avis_rows = cursor.fetchall()
+                    if include_spoilers:
+                        cursor.execute(
+                            "SELECT * " 
+                            "FROM projet.avis " 
+                            f"WHERE id_utilisateur = {id}",
+                            {"id": id},
+                        )
+                        avis_rows = cursor.fetchall()
+                    else:
+                        cursor.execute(
+                            "SELECT * " 
+                            "FROM projet.avis " 
+                            f"WHERE id_utilisateur = {id} AND spoiler = False",
+                            {"id": id},
+                        )
+                        avis_rows = cursor.fetchall()                        
                 for row in avis_rows:
                     avis = Avis(
                         id_manga=row["id_manga"],
@@ -83,7 +94,7 @@ class AvisDao(metaclass=Singleton):
 
 
     @log
-    def trouver_avis_par_manga(self, id_manga: int) -> list[Avis]:
+    def trouver_avis_par_manga(self, id_manga: int, include_spoilers=True) -> list[Avis]:
         """Trouver les avis pour un manga
 
         Parameters
@@ -98,13 +109,23 @@ class AvisDao(metaclass=Singleton):
         try:
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
-                    cursor.execute(
-                        "SELECT * " 
-                        "FROM projet.avis " 
-                        f"WHERE id_manga = {id_manga}",
-                        {"id_manga": id_manga},
-                    )
-                    avis_rows = cursor.fetchall()
+                    if include_spoilers:
+                        cursor.execute(
+                            "SELECT * " 
+                            "FROM projet.avis " 
+                            f"WHERE id_manga = {id_manga}",
+                            {"id_manga": id_manga},
+                        )
+                        avis_rows = cursor.fetchall()
+                    else:
+                        cursor.execute(
+                            "SELECT * " 
+                            "FROM projet.avis " 
+                            f"WHERE id_manga = {id_manga}"
+                            f" AND spoiler = True ;     ",
+                            {"id_manga": id_manga},
+                        )
+                        avis_rows = cursor.fetchall()                        
                 for row in avis_rows:
                     avis = Avis(
                         id_manga=row["id_manga"],
@@ -165,7 +186,7 @@ class AvisDao(metaclass=Singleton):
 
                 except Exception as e:
                     logging.info(e)
-                return res == 1
+                    return False
 
     @log
     def supprimer_note(self, avis: Avis) -> bool:
@@ -216,13 +237,14 @@ class AvisDao(metaclass=Singleton):
                 return res == 1
 
     @log
-    def modifier(self, avis: Avis, newtexte: str) -> bool:
+    def modifier(self, avis: Avis, newtexte: str, spoiler=False) -> bool:
         """Modification d'un avis dans la base de données
 
         Parameters
         ----------
         avis : Avis
         newtexte : str
+        spoiler : bool
 
         Returns
         -------
@@ -237,7 +259,7 @@ class AvisDao(metaclass=Singleton):
                 with connection.cursor() as cursor:
                     cursor.execute(
                         "UPDATE projet.avis                                "
-                        f"   SET texte      = '{newtexte}'        "
+                        f"   SET texte      = '{newtexte}' AND spoiler = {spoiler}        "
                         f" WHERE id_manga = {avis.id_manga}             "
                         f" AND id_utilisateur = {avis.id_utilisateur};             "
                     )
@@ -326,3 +348,4 @@ class AvisDao(metaclass=Singleton):
         except Exception as e:
             logging.info(e)
         return res == 1
+

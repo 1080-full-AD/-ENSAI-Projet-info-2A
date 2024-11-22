@@ -26,6 +26,9 @@ class Manga:
             f"      Identifiant: {self.id_manga}\n"
             f"      Auteur(s): {self.auteurs}\n"
             f"      Synopsis: {self.synopsis}"
+            f"      Nombre de volumes: {self.id_manga}\n"
+            f"      Nombre de chapitres: {self.auteurs}\n"
+            f"      Synopsis: {self.synopsis}"
         )
 
     def __eq__(self, autre_manga):

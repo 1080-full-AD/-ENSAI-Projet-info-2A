@@ -1,12 +1,12 @@
 from InquirerPy import inquirer
 from src.views.abstract_view import AbstractView
 from src.service.collection_service import CollectionVirtuelleService
-from src.service.manga_service import MangaService
+from src.service.manga_pysique_service import MangaPhysiqueService
 from src.views.session import Session
 from src.views.users.main_collection_view import MainCollectionView
 
 
-class SupprimerCollectionView(AbstractView):
+class SupprimerMangathequeView(AbstractView):
     """Menu principal des avis"""
 
     def choisir_menu(self):
@@ -19,17 +19,15 @@ class SupprimerCollectionView(AbstractView):
         """
 
         titre = inquirer.text(
-            message="Donnez le titre de la collection que vous souhaitez supprimer :)",
+            message="Donnez le titre du manga pour lequel que vous souhaitez supprimer la mangathèque :)",
         ).execute()
 
         user = Session().getuser()
         id_utilisateur = user.id_utilisateur
 
         try:
-            collection = CollectionVirtuelleService().rechercher_collection(id_utilisateur=id_utilisateur, titre_collec=titre)
-            CollectionVirtuelleService().supprimer(collection)
-            
-
+######################## IL FAUT LA METHODE POUR TROUUVER LES MANGATHEQUE################################ 
+            MangaPhysiqueService().supprimer_manga_physique(mangatheque)
         except Exception as e:
             print("\n", e)
 
