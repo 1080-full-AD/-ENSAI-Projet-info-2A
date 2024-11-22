@@ -1,0 +1,4 @@
+inquirerPy
+pytest
+python-dotenv
+requests
