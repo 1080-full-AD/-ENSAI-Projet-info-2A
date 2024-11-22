@@ -64,6 +64,20 @@ def test_ajouter_manga_virtuel_ok():
     assert ajout
 
 
+def test_rechercher_collection_ok():
+    #GIVEN
+    id_utilisateur = 1
+    titre_collec = "Ma Collection"
+
+    #WHEN
+    resultat = CollectionDao().recherhcer_collection(
+               id_utilisateur=id_utilisateur, titre_collec=titre_collec)
+
+    #THEN
+    assert resultat is not None
+    assert resultat.titre == "Ma Collection"
+    assert resultat.liste_manga[0].id_manga == 13
+
 
 def test_supprimer_manga_virtuel_ok():
     """Suppression d'un manga dans une collection virtuelle réussie"""

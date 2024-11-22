@@ -11,14 +11,12 @@ class CollectionVirtuelleService:
 
     @log
     def creer(self, titre: str, id_utilisateur: int, liste_manga: list[Manga], description: str)-> CollectionVirtuelle:
-    def creer(self, collection: CollectionVirtuelle) -> CollectionVirtuelle:
+ 
         "création d'une collection virtuelle a partir de ses attributs"
 
         if not all(isinstance(i, Manga) for i in liste_manga) :
             raise ValueError("Les collections virtuelles ne conteniennent que des mangas virtuelles :/")
-        if not all(isinstance(i, Manga) for i in collection.liste_manga) :
-            raise ValueError("les collections virtuelles ne conteniennent que"
-                             " des mangas virtuelles")
+        
 
         for i in liste_manga:
             if isinstance(i, MangaPhysique):
@@ -32,10 +30,7 @@ class CollectionVirtuelleService:
                                  " contenir des collections physique")
                 break
             
-        if CollectionDao().titre_existant(collection) is True:
-            raise ValueError("vous avez déja une collection avec ce titre ,"
-                             "veuillez changer le titre svp")
-
+        
         nouvelle_collection = CollectionVirtuelle(
             titre=titre,
             id_utilisateur=id_utilisateur,

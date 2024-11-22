@@ -306,7 +306,7 @@ class CollectionDao(metaclass=Singleton):
             for row in res:
                 liste_titre_collec.append(row["titre_collec"])
         
-        return titre in liste_titre_collec
+        return collection.titre in liste_titre_collec
 
 
 
@@ -362,4 +362,60 @@ class CollectionDao(metaclass=Singleton):
                 liste_collection.append(collection)
         
         return liste_collection
+
+
+
+    @log
+    def recherhcer_collection(self, id_utilisateur: int, titre_collec: str)-> CollectionVirtuelle:
+        
+        """Retourne la collecttion virtuelle qui correspond au l'identifiant de l'utilisateur et au titre renseigné
+
+        Parameters
+        ----------
+        id-utilisateur : identifiant de l'utilisateur  
+        titre_collec :titre de la collection
+        Returns
+        -------
+       CollectionVirtuelle
+       la collection virtuelle trouvé ou 
+       None si aucune collection n'est trouvée
+           
+        """
+
+        res = None
+
+        try:
+            with DBConnection().connection as connection:
+                with connection.cursor() as cursor:
+                    cursor.execute(
+                        f"  SELECT *    "
+                        f"  FROM projet.collection     "
+                        f"  WHERE id_utilisateur=%(id_utilisateur)s"
+                        f"  AND titre_collec=%(titre_collec)s",
+                         
+                        {  
+                            "id_utilisateur": id_utilisateur,
+                            "titre_collec": titre_collec
+                        }                                
+                        )
+                    res = cursor.fetchone()
+        except Exception as e:
+            logging.error("Error lister manga: %s", e)
+
+        if res:
+            liste_mangas = self.liste_manga(
+                        id_utilisateur=res["id_utilisateur"],
+                        titre_collec=res["titre_collec"]
+                            )
+            collection = CollectionVirtuelle(
+                    titre=res["titre_collec"],
+                    id_utilisateur=res["id_utilisateur"],
+                    liste_manga=liste_mangas,
+                    description=res["description"]
+                    )
+                
+            return collection
+        
+        else:
+            return res
 
