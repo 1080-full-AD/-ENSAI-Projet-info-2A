@@ -15,12 +15,12 @@ class CollectionVirtuelleService:
         "création d'une collection virtuelle a partir de ses attributs"
 
         if not all(isinstance(i, Manga) for i in liste_manga) :
-            raise ValueError("Les collections virtuelles ne conteniennent que des mangas virtuelles :/")
+            raise TypeError("Les collections virtuelles ne conteniennent que des mangas virtuelles :/")
         
 
         for i in liste_manga:
             if isinstance(i, MangaPhysique):
-                raise ValueError("les collection virtuelles ne peuvent contenir des mangas physique")
+                raise TypeError("les collection virtuelles ne peuvent contenir des mangas physique")
 
         if CollectionDao().titre_existant(titre=titre, id_utilisateur=id_utilisateur)== True:
             raise ValueError("Vous avez déja une collection avec ce titre :/")
@@ -50,11 +50,21 @@ class CollectionVirtuelleService:
 
 
     @log
-    def modifier_collection(self , collection)->CollectionVirtuelle:
-        "modifier une collection"
+    def modifier_description(self , collection ,new_description)->CollectionVirtuelle:
+        "modifier la description d'une collection"
+        collection.descrition = new_description
         return collection if CollectionDao().modifier(collection) else None
 
+    @log
+    def modifier_titre(self , collection ,new_titre):
+        "modifier le titre d'une collection dans la base de données "
+        if CollectionDao().titre_existant(titre=titre, id_utilisateur=id_utilisateur)== True:
+            raise ValueError("Vous avez déja une collection avec ce titre :/")   
 
+        else:
+            ancienne_collection = collection
+            collection.titre = new_titre
+            return collection if CollectionDao().modifier_titre(ancienne_collection) else None
 
 
     @log

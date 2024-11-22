@@ -148,6 +148,21 @@ def test_modifier_collection_ok():
     assert modification
 
 
+
+def test_modifier_titre_ok():
+    """Modification réussie d'une collection virtuelle"""
+    # GIVEN
+    collection = CollectionVirtuelle("Ma new_Collec", 1, [], "Description de test")
+    CollectionDao().creer(collection)
+    new_titre = "Nouvelle collec"
+
+    # WHEN
+    modification = CollectionDao().modifier_titre(collection, new_titre)
+
+    # THEN
+    assert modification
+
+
 def test_modifier_collection_ko():
     """Échec de modification d'une collection (ex. id utilisateur incorrect)"""
     # GIVEN

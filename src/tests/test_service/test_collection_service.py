@@ -68,14 +68,14 @@ def test_creer_collection_echec_manga_physique():
     # GIVEN
     collection_1 = CollectionVirtuelle("collection virtuelle", 2, [manga_physique],"la meilleure")
     mock_dao = MagicMock(spec=CollectionDao)
-    mock_dao.creer.return_value.side_effect = ValueError(
-        "Vous avez déja une collection avec ce titre :/")
-        
+    mock_dao.creer.return_value.side_effect = TypeError(
+        "les collection virtuelles ne peuvent contenir des mangas physique")
+
     service = CollectionVirtuelleService()
     service.CollectionDao = mock_dao
 
     # WHEN / THEN
-    with pytest.raises(ValueError, match="Vous avez déja une collection avec ce titre :/"):
+    with pytest.raises(TypeError, match="les collection virtuelles ne peuvent contenir des mangas physique"):
         service.creer(
         id_utilisateur=collection_1.id_utilisateur,
         titre=collection_1.titre,
@@ -86,13 +86,15 @@ def test_creer_collection_echec_manga_physique():
 
 def test_creer_collection_echec_titre_existant():
     collection_2 = CollectionVirtuelle("collection virtuelle", 2, [manga_virtuel],"la meilleure")
-    mock_dao = MagicMock()
+    mock_dao = MagicMock(spec=CollectionDao)
+    mock_dao.creer.return_value.side_effect = ValueError(
+        "Vous avez déja une collection avec ce titre :/")
     service = CollectionVirtuelleService()
     service.CollectionDao = mock_dao
 
 
     # WHEN / THEN
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match="Vous avez déja une collection avec ce titre :/"):
         service.creer(
                     id_utilisateur = collection_2.id_utilisateur,
                     titre = collection_2.titre,
@@ -102,8 +104,8 @@ def test_creer_collection_echec_titre_existant():
     
 def test_recherche_collection():
     #GIVEN
-    id_utilisateur=1
-    titre_collec="collection virtuelle"
+    id_utilisateur = 1
+    titre_collec = "Collection Virtuelle"
     mock_dao = MagicMock()
     mock_dao.rechercher_collection.return_value = collection
     service = CollectionVirtuelleService()
@@ -133,9 +135,12 @@ def test_liste_manga_ok():
 
     # THEN
     assert len(result) == 1
-    assert result[0] == manga_virtuel
-
-
+    #assert result[0] == manga_virtuel
+    assert result[0].id_manga==manga_virtuel.id_manga
+    assert result[0].titre_manga==manga_virtuel.titre_manga
+    assert result[0].synopsis==manga_virtuel.synopsis
+    assert result[0].auteurs==manga_virtuel.auteurs
+    
 def liste_collection_ok():
 
     # GIVEN

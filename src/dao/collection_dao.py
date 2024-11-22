@@ -216,6 +216,42 @@ class CollectionDao(metaclass=Singleton):
             logging.error("Error modifier manga: %s", e)
         return res == 1
 
+
+    @log
+    def modifier_titre(self, collection: CollectionVirtuelle, new_titre: str) -> bool:
+        """Modification du titre d'une collection dans la base de données
+
+        Parameters
+        ----------
+        collection : collection
+        new_titre : nouveau titre de la collection
+        Returns
+        -------
+        created : bool
+            True si la modification est un succès
+            False sinon
+        """
+        res = None
+
+        try:
+            with DBConnection().connection as connection:
+                with connection.cursor() as cursor:
+                    cursor.execute(
+                        "UPDATE projet.collection  SET   "
+                        f"  titre_collec = %(new_titre)s      "       
+                        f"  WHERE titre_collec=%(titre)s "
+                        f"  AND id_utilisateur = %(id_utilisateur)s", 
+                           
+                        {
+                            "new_titre": new_titre,
+                            "titre": collection.titre,
+                            "id_utilisateur": collection.id_utilisateur,
+                        },
+                        )
+                    res = cursor.rowcount
+        except Exception as e:
+            logging.error("Error modifier manga: %s", e)
+        return res == 1
     @log
     def liste_manga(self, id_utilisateur: int, titre_collec: str) -> list:
         """liste tous les mangas d'une collection virtuelle
