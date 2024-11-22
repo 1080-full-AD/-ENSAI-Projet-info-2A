@@ -28,8 +28,8 @@ class AvisDao(metaclass=Singleton):
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        "INSERT INTO projet.avis(id_manga, id_utilisateur, texte) VALUES (%s, %s, %s) RETURNING id_manga, id_utilisateur, texte;",
-                        (avis.id_manga, avis.id_utilisateur, avis.texte),
+                        "INSERT INTO projet.avis(id_manga, id_utilisateur, texte, spoiler) VALUES (%s, %s, %s, %s) RETURNING id_manga, id_utilisateur, texte, spoiler;",
+                        (avis.id_manga, avis.id_utilisateur, avis.texte, avis.spoiler),
                     )
                     res = cursor.fetchone()
         except Exception as e:
@@ -42,8 +42,9 @@ class AvisDao(metaclass=Singleton):
             avis.id_manga = res["id_manga"]
             avis.id_utilisateur = res["id_utilisateur"]
             avis.texte = res["texte"]
+            avis.avis = res["avis"]
 
-        return True
+        return created
 
     @log
     def trouver_tous_par_id(self, id: int) -> list[Avis]:
@@ -84,7 +85,7 @@ class AvisDao(metaclass=Singleton):
 
 
     @log
-    def trouver_avis_par_manga(self, id_manga: int) -> list[Avis]:
+    def trouver_avis_par_manga(self, id_manga: int, include_spoilers=False) -> list[Avis]:
         """Trouver les avis pour un manga
 
         Parameters
@@ -99,6 +100,7 @@ class AvisDao(metaclass=Singleton):
         try:
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
+                    if include_spoilers
                     cursor.execute(
                         "SELECT * " 
                         "FROM projet.avis " 
@@ -166,7 +168,7 @@ class AvisDao(metaclass=Singleton):
 
                 except Exception as e:
                     logging.info(e)
-                return res == 1
+                    return False
 
     @log
     def supprimer_note(self, avis: Avis) -> bool:
@@ -327,3 +329,4 @@ class AvisDao(metaclass=Singleton):
         except Exception as e:
             logging.info(e)
         return res == 1
+

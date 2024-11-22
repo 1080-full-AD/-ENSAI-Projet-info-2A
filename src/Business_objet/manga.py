@@ -13,7 +13,7 @@ class Manga:
         synopsis du manga
     """
 
-    def __init__(self, id_manga, titre_manga, auteurs, synopsis, nb_volumes, nb_chapitres):
+    def __init__(self, id_manga, titre_manga, auteurs, synopsis):
         """Constructeur"""
         self.titre_manga = titre_manga
         self.id_manga = id_manga

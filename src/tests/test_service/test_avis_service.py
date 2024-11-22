@@ -1,5 +1,5 @@
 from unittest.mock import MagicMock
-
+import unittest
 from src.service.avis_service import AvisService
 from src.dao.avis_dao import AvisDao
 from src.business_objet.avis import Avis
@@ -34,7 +34,7 @@ def test_creer_echec():
     """Création d'un avis échouée """
 
     # GIVEN
-    id_manga, id_utilisateur, texte = 1, 4, "C'est un super manga !"
+    id_manga, id_utilisateur, texte = 1, 1, "C'est un super manga !"
     mock_dao = MagicMock(spec=AvisDao)
     mock_dao.creer.return_value = False
 
@@ -189,7 +189,7 @@ def test_supprimer_note_echec():
     result = avis_service.supprimer_note(id_manga, id_utilisateur)
 
     # THEN
-    self.assertEqual(str(context.exception), "Vous n'avez pas donné de note sur ce manga :/")
+    self.assertEqual(str(context.exception) == "Vous n'avez pas donné de note sur ce manga :/")
 
 def test_modifier_avis_ok():
     """Modification d'un avis réussie"""
