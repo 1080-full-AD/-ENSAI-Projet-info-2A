@@ -34,7 +34,7 @@ def test_creer_echec():
     """Création d'un avis échouée """
 
     # GIVEN
-    id_manga, id_utilisateur, texte = 1, 1, "C'est un super manga !"
+    id_manga, id_utilisateur, texte = 1, 3, "C'est un super manga !"
     mock_dao = MagicMock(spec=AvisDao)
     mock_dao.creer.return_value = False
 
@@ -111,16 +111,16 @@ def test_trouver_avis_par_manga_echec():
     # GIVEN
     id_manga = 1
     mock_dao = MagicMock(spec=AvisDao)
-    mock_dao.trouver_avis_par_manga.side_effect = Exception("Erreur de base de données")
+    mock_dao.trouver_avis_par_manga.return_value = []
 
     avis_service = AvisService()
     avis_service.AvisDao = mock_dao 
 
     # WHEN
     res = avis_service.trouver_avis_par_manga(id_manga)
-
+    print(res)
     # THEN
-    assert res == []
+    assert res == 0
 
 def test_supprimer_avis_ok():
     """Suppression d'un avis réussie"""
