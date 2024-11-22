@@ -356,7 +356,7 @@ def test_se_connecter_ok():
 
 
 def test_se_connecter_echec():
-    """Vérifier que la méthod se connecter renvoie bien une erreur"""
+    """Vérifier que la méthode se connecter renvoie bien une erreur"""
 
     # GIVEN
     user = Utilisateur(pseudo="NarutO54", mot_de_passe="mdpMAnga7#", age=18)

@@ -1,4 +1,4 @@
-INSERT INTO projet.manga (id_manga,titre_manga,synopsis,auteurs,nb_volumes,nb_chapitres) VALUES 
+INSERT INTO test.manga (id_manga,titre_manga,synopsis,auteurs,nb_volumes,nb_chapitres) VALUES 
 (1, 'Monster', 'Kenzou Tenma, a renowned Japanese neurosurgeon working in post-war Germany, faces a difficult choice: to operate on Johan Liebert, an orphan boy on the verge of death, or on the mayor of Düsseldorf. In the end, Tenma decides to gamble his reputation by saving Johan, effectively leaving the mayor for dead.
 
 As a consequence of his actions, hospital director Heinemann strips Tenma of his position, and Heinemann"s daughter Eva breaks off their engagement. Disgraced and shunned by his colleagues, Tenma loses all hope of a successful career—that is, until the mysterious killing of Heinemann gives him another chance.

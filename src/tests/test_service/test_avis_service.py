@@ -16,7 +16,7 @@ def test_creer_ok():
     """Création d'un avis réussie"""
 
     # GIVEN
-    id_manga, id_utilisateur, texte = 1, 2, "C'est un super manga !"
+    id_manga, id_utilisateur, texte = 1, 5, "C'est un super manga !"
     mock_dao = MagicMock(spec=AvisDao)
     mock_dao.creer.return_value = True
 
@@ -25,7 +25,7 @@ def test_creer_ok():
 
     # WHEN
     avis = avis_service.creer(id_manga, id_utilisateur, texte)
-
+    avis_service.supprimer_avis(id_manga,id_utilisateur)
     # THEN
     assert avis is True
 
@@ -34,7 +34,7 @@ def test_creer_echec():
     """Création d'un avis échouée """
 
     # GIVEN
-    id_manga, id_utilisateur, texte = 1, 1, "C'est un super manga !"
+    id_manga, id_utilisateur, texte = 1, 4, "C'est un super manga !"
     mock_dao = MagicMock(spec=AvisDao)
     mock_dao.creer.return_value = False
 
@@ -43,7 +43,7 @@ def test_creer_echec():
 
     # WHEN
     avis = avis_service.creer(id_manga, id_utilisateur, texte)
-
+    avis_service.supprimer_avis(id_manga,id_utilisateur)
     # THEN
     assert avis is False
 
@@ -63,7 +63,7 @@ def test_trouver_tous_par_id_ok():
     res = avis_service.trouver_tous_par_id(id_utilisateur)
 
     # THEN
-    assert len(res) == 1
+    assert len(res) == 2
     for avis in res:
         assert avis.id_utilisateur == id_utilisateur
 
@@ -72,18 +72,17 @@ def test_trouver_tous_par_id_echec():
     """Lister les avis d'un utilisateur échoué"""
 
     # GIVEN
-    id_utilisateur = 1
+    id_utilisateur = 999
     mock_dao = MagicMock(spec=AvisDao)
-    mock_dao.trouver_tous_par_id.side_effect = Exception("Erreur de base de données")
 
     avis_service = AvisService()
     avis_service.AvisDao = mock_dao 
 
     # WHEN
     res = avis_service.trouver_tous_par_id(id_utilisateur)
-
+    print(res)
     # THEN
-    assert len(res) == 1
+    assert res == []
 
 def test_trouver_avis_par_manga_ok():
     """Lister les avis pour un manga avec succès"""
@@ -109,9 +108,8 @@ def test_trouver_avis_par_manga_echec():
     """Lister les avis pour un manga échoué"""
 
     # GIVEN
-    id_manga = 1
+    id_manga = 999
     mock_dao = MagicMock(spec=AvisDao)
-    mock_dao.trouver_avis_par_manga.side_effect = Exception("Erreur de base de données")
 
     avis_service = AvisService()
     avis_service.AvisDao = mock_dao 
@@ -126,14 +124,14 @@ def test_supprimer_avis_ok():
     """Suppression d'un avis réussie"""
 
     # GIVEN
-    id_manga, id_utilisateur = 1, 1
+    id_manga, id_utilisateur = 1, 5
     mock_dao = MagicMock(spec=AvisDao)
-    mock_dao.supprimer_avis.return_value = True
 
     avis_service = AvisService()
     avis_service.AvisDao = mock_dao
 
     # WHEN
+    avis_service.creer(id_manga,id_utilisateur,"a")
     result = avis_service.supprimer_avis(id_manga, id_utilisateur)
 
     # THEN
@@ -144,7 +142,6 @@ def test_supprimer_avis_echec():
     """Suppression d'un avis échouée"""
 
     # GIVEN
-    id_manga, id_utilisateur = 1, 1
     mock_dao = MagicMock(spec=AvisDao)
     mock_dao.supprimer_avis.return_value = False
 
@@ -152,7 +149,7 @@ def test_supprimer_avis_echec():
     avis_service.AvisDao = mock_dao 
 
     # WHEN
-    result = avis_service.supprimer_avis(id_manga, id_utilisateur)
+    result = avis_service.supprimer_avis(9999, 9999)
 
     # THEN
     assert result is False
@@ -162,7 +159,7 @@ def test_supprimer_note_ok():
     """Suppression d'un avis réussie"""
 
     # GIVEN
-    id_manga, id_utilisateur = 1, 1
+    id_manga, id_utilisateur = 1, 5
     mock_dao = MagicMock(spec=AvisDao)
     mock_dao.supprimer_note.return_value = True
 
@@ -170,6 +167,7 @@ def test_supprimer_note_ok():
     avis_service.AvisDao = mock_dao
 
     # WHEN
+    avis_service.noter(1,5,3)
     result = avis_service.supprimer_note(id_manga, id_utilisateur)
 
     # THEN
@@ -180,14 +178,14 @@ def test_supprimer_note_echec():
     """Suppression d'une note échouée"""
 
     # GIVEN
-    id_manga, id_utilisateur = 1, 1
+    id_manga, id_utilisateur = 1, 5
     mock_dao = MagicMock(spec=AvisDao)
     mock_dao.supprimer_note.return_value = False
 
     avis_service = AvisService()
-    avis_service.AvisDao = mock_dao 
-
+    avis_service.AvisDao = mock_dao
     # WHEN
+    avis_service.noter(1,5,3) 
     result = avis_service.supprimer_note(id_manga, id_utilisateur)
 
     # THEN

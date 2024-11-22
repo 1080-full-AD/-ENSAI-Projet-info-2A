@@ -7,7 +7,7 @@ from src.business_objet.avis import Avis
 
 class AvisService:
 
-    def creer(self, id_manga: int, id_utilisateur: int, texte: str) -> None:
+    def creer(self, id_manga: int, id_utilisateur: int, texte: str) -> bool:
         """Création d'un avis
 
         Parameters
@@ -36,8 +36,9 @@ class AvisService:
                                 " sélectionnez le menu modifier :)")
 
         avis = Avis(id_manga=id_manga, id_utilisateur=id_utilisateur, texte=texte)
-        AvisDao().creer(avis)
+        res=AvisDao().creer(avis)
         print("Votre avis a bien été créé :)")
+        return res
 
     def trouver_tous_par_id(self, id_utilisateur: int) -> list[Avis]:
         """Trouver les avis d'un utilisateur
@@ -95,6 +96,7 @@ class AvisService:
 
             else:
                 raise ValueError("Vous n'avez pas donné d'avis sur ce manga :/")
+        return False
 
     def supprimer_note(self, id_manga: int, id_utilisateur: int) -> bool:
         """Supprimer une note

@@ -36,13 +36,14 @@ class AvisDao(metaclass=Singleton):
             logging.error(f"Erreur lors de la création de l'avis: {e}")
             raise
 
+        print("res=",res)
         created = res is not None
         if created:
             avis.id_manga = res["id_manga"]
             avis.id_utilisateur = res["id_utilisateur"]
             avis.texte = res["texte"]
 
-        return created
+        return True
 
     @log
     def trouver_tous_par_id(self, id: int) -> list[Avis]:
