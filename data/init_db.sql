@@ -10,7 +10,8 @@ CREATE TABLE projet.utilisateur (
     id_utilisateur serial PRIMARY KEY,
     mot_de_passe text NOT NULL,
     pseudo text NOT NULL,
-    age integer
+    age integer,
+    is_admin boolean
 );
 
 ALTER SEQUENCE projet.utilisateur_id_utilisateur_seq RESTART WITH 3;

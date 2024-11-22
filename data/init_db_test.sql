@@ -10,7 +10,8 @@ CREATE TABLE test.utilisateur (
     id_utilisateur serial PRIMARY KEY,
     mot_de_passe text NOT NULL,
     pseudo text NOT NULL,
-    age integer
+    age integer,
+    is_admin boolean
 );
 
 ALTER SEQUENCE test.utilisateur_id_utilisateur_seq RESTART WITH 3;
