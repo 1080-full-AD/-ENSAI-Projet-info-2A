@@ -27,27 +27,27 @@ class MainMangathequeView(AbstractView):
 
         match choix:
             case "Créer une mangathèque":
-                from src.views.collection.creer_mangatheque_view import CreateMangathequeView
+                from src.views.mangatheque.creer_mangatheque_view import CreateMangathequeView
 
-                return CreateCollectionView("\n" + "=" * 50 + " Création de collection"
+                return CreateMangathequeView("\n" + "=" * 50 + " Création de collection"
                                          " :) " + "=" * 50 + "\n")
 
             case "Modifier une mangathèque":
-                from src.views.collection.modification_collection_view import ModificationCollectionView
+                from src.views.collection.modification_mangatheque_view import ModificationMangathequeView
 
-                return ModificationCollectionView("\n" + "=" * 50 + " Modification de collection"
+                return ModificationMangathequeView("\n" + "=" * 50 + " Modification de collection"
                                          " :) " + "=" * 50 + "\n")
 
             case "Supprimer une mangathèque":
-                from src.views.collection.supprimer_collection_view import SupprimerCollectionView
+                from src.views.collection.supprimer_mangatheque_view import SupprimerCollectionView
 
                 return SupprimerCollectionView("\n" + "=" * 50 + " Suppression de collections"
                                          " :) " + "=" * 50 + "\n")
 
             case "Consulter les mangathèques":
-                from src.views.collection.consulter_mangatheque_view import ConsulterCollectionView
+                from src.views.collection.consulter_mangatheque_view import ConsulterMangathequeView
 
-                return ConsulterCollectionView("\n" + "=" * 50 + " Consultation des collections"
+                return ConsulterMangathequeView("\n" + "=" * 50 + " Consultation des collections"
                                          " :) " + "=" * 50 + "\n")
             case "Retour":
                 from src.views.users.main_user_view import MainUserView

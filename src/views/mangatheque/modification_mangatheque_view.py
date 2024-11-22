@@ -6,7 +6,7 @@ from src.views.session import Session
 from src.views.users.main_collection_view import MainCollectionView
 
 
-class ModificationCollectionView(AbstractView):
+class ModificationMangathequeView(AbstractView):
     """Menu principal des avis"""
 
     def choisir_menu(self):
@@ -19,7 +19,7 @@ class ModificationCollectionView(AbstractView):
         """
 
         titre = inquirer.text(
-            message="Donnez le titre de la collection que vous souhaitez modifier :)",
+            message="Donnez le titre de la mangathèque que vous souhaitez modifier :)",
         ).execute()
 
         user = Session().getuser()
