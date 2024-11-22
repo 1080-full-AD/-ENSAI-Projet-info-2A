@@ -39,6 +39,7 @@ class CreateCollectionView(AbstractView):
         ).execute()
 
         collection.description = description
+        CollectionVirtuelleService().modifier_collection(collection=collection)
         ajout = True
 
         while ajout is True:
