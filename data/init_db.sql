@@ -85,6 +85,6 @@ DROP TABLE IF EXISTS projet.collection_manga CASCADE;
 CREATE TABLE projet.collection_manga (
     id_manga integer REFERENCES projet.manga(id_manga),
     id_utilisateur integer REFERENCES projet.utilisateur(id_utilisateur),
-    titre_collec text REFERENCES projet.collection(titre_collec),
+    titre_collec text REFERENCES projet.collection(titre_collec) ON UPDATE CASCADE,
     PRIMARY KEY (id_manga, id_utilisateur,titre_collec)
 );
