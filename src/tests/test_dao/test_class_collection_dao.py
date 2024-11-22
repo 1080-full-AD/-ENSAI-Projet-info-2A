@@ -79,6 +79,21 @@ def test_rechercher_collection_ok():
     assert resultat.liste_manga[0].id_manga == 13
 
 
+def test_rechercher_collection_none():
+    #GIVEN
+    id_utilisateur = 4
+    titre_collec = "Ma Collection"
+
+    #WHEN
+    resultat = CollectionDao().recherhcer_collection(
+               id_utilisateur=id_utilisateur, titre_collec=titre_collec)
+
+    #THEN
+    assert resultat is None
+    
+
+
+
 def test_supprimer_manga_virtuel_ok():
     """Suppression d'un manga dans une collection virtuelle réussie"""
     # GIVEN
@@ -238,29 +253,33 @@ def test_supprimer_collection_virtuelle_ko():
     # THEN
     assert not suppression
 
-
-
     
 def test_titre_existant_True():
+    """test pour vérifier que la methode titre_existant retourne True 
+    lorsque le titre est déja enregistrer dans la base de données pour 
+    utilisateur """
         # GIVEN
     collection_1 = CollectionVirtuelle("Collection 1", 2, [], "Description de test")
-    collection_2 = CollectionVirtuelle("Collection 1", 2, [], "pour vérifier")
-
+    id_utilisateur = 2
+    titre = "Collection 1"
         # WHEN
     CollectionDao().creer(collection_1)
-    result = CollectionDao().titre_existant(collection_2)
+    result = CollectionDao().titre_existant(id_utilisateur=id_utilisateur, titre=titre)
         # THEN
-    assert result== True
+    assert result == True
 
 
 def test_titre_existant_false():
+    """test pour vérifier que la méthode titre_existant retourne false lorsque le titre 
+    n'est pas enregister dans la base de données pour un utilisateur """
     # GIVEN
-    collection = CollectionVirtuelle("Collection manifique", 2, [], "Description de test")
+    id_utilisateur = 2
+    titre = "Collection merveilleuse"
     # WHEN
-    result = CollectionDao().titre_existant(collection)
+    result = CollectionDao().titre_existant(id_utilisateur=id_utilisateur, titre=titre)
     
     #THEN
-    assert result==False 
+    assert result == False 
 
 
    

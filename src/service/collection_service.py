@@ -24,7 +24,7 @@ class CollectionVirtuelleService:
 
         if CollectionDao().titre_existant(titre=titre, id_utilisateur=id_utilisateur)== True:
             raise ValueError("Vous avez déja une collection avec ce titre :/")
-        for i in collection.liste_manga:
+        for i in liste_manga:
             if isinstance(i, MangaPhysique):
                 raise ValueError("les collection virtuelles ne peuvent"
                                  " contenir des collections physique")
@@ -94,8 +94,19 @@ class CollectionVirtuelleService:
     @log
     def liste_collection(self, id_utilisateur: int):
         "lister toutes les collections virtuelles de l'utilisateur "
-        if not isinstance(id_utilisateur,int):
+        if not isinstance(id_utilisateur, int):
             raise TypeError(f"{id_utilisateur} n'est pas un identifiant")
-        if UtilisateurDao().trouver_par_id(id_utilisateur) is None :
+        if UtilisateurDao().trouver_par_id(id_utilisateur) is None:
             raise ValueError("ce identifiant n'est associé à aucun utilisateur")
         return CollectionDao().liste_collection(id_utilisateur)
+
+
+    @log
+    def rechercher_collection(self, id_utilisateur: int, titre_collec: str):
+        """rechercher une collection à partir de l'identifiant d'un utilisateur 
+        et du titre de la collection"""
+        if CollectionDao().recherhcer_collection(id_utilisateur, titre_collec) is None:
+            raise ValueError("Collection non existante")
+        else:
+            return CollectionDao().recherhcer_collection(id_utilisateur, titre_collec)
+        

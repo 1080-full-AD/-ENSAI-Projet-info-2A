@@ -41,6 +41,7 @@ def test_creer_collection_ok():
     """Tester la création d'une collection virtuelle avec des mangas virtuels uniquement"""
 
     # GIVEN
+    
     mock_dao = MagicMock()
     mock_dao.creer.return_value = True
     mock_dao.ajouter_collection_virtuelle.return_value = True
@@ -49,7 +50,12 @@ def test_creer_collection_ok():
     service.CollectionDao = mock_dao
 
     # WHEN
-    result = service.creer(collection=collection)
+    result = service.creer(
+        id_utilisateur=collection.id_utilisateur,
+        titre=collection.titre,
+        liste_manga=collection.liste_manga,
+        description=collection.description
+        )
 
     # THEN
     assert result is not None
@@ -60,18 +66,26 @@ def test_creer_collection_echec_manga_physique():
     """Tester la création échoue si un manga physique est présent"""
 
     # GIVEN
-    collection_1 = CollectionVirtuelle ("collection virtuelle", 2, [manga_virtuel],"la meilleure")
-    mock_dao = MagicMock()
+    collection_1 = CollectionVirtuelle("collection virtuelle", 2, [manga_physique],"la meilleure")
+    mock_dao = MagicMock(spec=CollectionDao)
+    mock_dao.creer.return_value.side_effect = ValueError(
+        "Vous avez déja une collection avec ce titre :/")
+        
     service = CollectionVirtuelleService()
     service.CollectionDao = mock_dao
 
     # WHEN / THEN
-    with pytest.raises(ValueError):
-        service.creer(collection=collection_1)
+    with pytest.raises(ValueError, match="Vous avez déja une collection avec ce titre :/"):
+        service.creer(
+        id_utilisateur=collection_1.id_utilisateur,
+        titre=collection_1.titre,
+        liste_manga=collection_1.liste_manga,
+        description=collection_1.description
+        )
 
 
 def test_creer_collection_echec_titre_existant():
-    collection = CollectionVirtuelle("Nouvelle Collection", 2, [manga_physique],"la meilleure")
+    collection_2 = CollectionVirtuelle("collection virtuelle", 2, [manga_virtuel],"la meilleure")
     mock_dao = MagicMock()
     service = CollectionVirtuelleService()
     service.CollectionDao = mock_dao
@@ -79,8 +93,30 @@ def test_creer_collection_echec_titre_existant():
 
     # WHEN / THEN
     with pytest.raises(ValueError):
-        service.creer(collection=collection)
+        service.creer(
+                    id_utilisateur = collection_2.id_utilisateur,
+                    titre = collection_2.titre,
+                    liste_manga = collection_2.liste_manga,
+                    description = collection_2.description
+                    )
     
+def test_recherche_collection():
+    #GIVEN
+    id_utilisateur=1
+    titre_collec="collection virtuelle"
+    mock_dao = MagicMock()
+    mock_dao.rechercher_collection.return_value = collection
+    service = CollectionVirtuelleService()
+    service.CollectionDao = mock_dao
+
+      # WHEN
+    result = service.rechercher_collection(id_utilisateur=id_utilisateur, titre_collec=titre_collec)
+
+      #THEN
+    assert result is not None
+    assert result.titre == collection.titre
+
+
 def test_liste_manga_ok():
     """Tester le retour de la liste des mangas d'une collection"""
 
@@ -117,8 +153,6 @@ def liste_collection_ok():
     # THEN
     assert len(result) == 1
     
-
-
 
     
 def test_modifier_collection_ok():
