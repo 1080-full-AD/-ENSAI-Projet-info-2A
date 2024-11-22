@@ -77,7 +77,7 @@ class MainUserView(AbstractView):
 
             case "Supprimer son compte :(":
                 from src.views.accueil.main_menu_view import MainView
-                from src.views.session import Session
+
                 UtilisateurService().supprimer_utilisateur(utilisateur=Session().getuser())
                 return MainView("Retour au menu principal")
 
