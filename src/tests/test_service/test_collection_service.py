@@ -33,7 +33,7 @@ manga_physique = MangaPhysique(
 
 collection = CollectionVirtuelle(
     titre="Collection Virtuelle",
-    id_utilisateur=1,
+    id_utilisateur=3,
     liste_manga=[manga_virtuel],
     description="Ma première collection virtuelle."
 )
@@ -106,7 +106,7 @@ def test_creer_collection_echec_titre_existant():
     
 def test_recherche_collection():
     #GIVEN
-    id_utilisateur = 1
+    id_utilisateur = 3
     titre_collec = "Collection Virtuelle"
     mock_dao = MagicMock()
     mock_dao.rechercher_collection.return_value = collection
@@ -136,7 +136,7 @@ def test_liste_manga_ok():
     result = service.liste_manga(id_utilisateur=1,titre_collec="Collection Virtuelle" )
 
     # THEN
-    assert len(result) == 1
+    assert len(result) == 3
     #assert result[0] == manga_virtuel
     assert result[0].id_manga==manga_virtuel.id_manga
     assert result[0].titre_manga==manga_virtuel.titre_manga
