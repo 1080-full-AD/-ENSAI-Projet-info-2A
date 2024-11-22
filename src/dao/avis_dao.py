@@ -47,7 +47,7 @@ class AvisDao(metaclass=Singleton):
         return created
 
     @log
-    def trouver_tous_par_id(self, id: int) -> list[Avis]:
+    def trouver_tous_par_id(self, id: int, include_spoilers=True) -> list[Avis]:
         """Trouver les avis par son id
 
         Parameters
@@ -62,13 +62,22 @@ class AvisDao(metaclass=Singleton):
         try:
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
-                    cursor.execute(
-                        "SELECT * " 
-                        "FROM projet.avis " 
-                        f"WHERE id_utilisateur = {id}",
-                        {"id": id},
-                    )
-                    avis_rows = cursor.fetchall()
+                    if include_spoilers:
+                        cursor.execute(
+                            "SELECT * " 
+                            "FROM projet.avis " 
+                            f"WHERE id_utilisateur = {id}",
+                            {"id": id},
+                        )
+                        avis_rows = cursor.fetchall()
+                    else:
+                        cursor.execute(
+                            "SELECT * " 
+                            "FROM projet.avis " 
+                            f"WHERE id_utilisateur = {id} AND spoiler = False",
+                            {"id": id},
+                        )
+                        avis_rows = cursor.fetchall()                        
                 for row in avis_rows:
                     avis = Avis(
                         id_manga=row["id_manga"],
@@ -85,7 +94,7 @@ class AvisDao(metaclass=Singleton):
 
 
     @log
-    def trouver_avis_par_manga(self, id_manga: int, include_spoilers=False) -> list[Avis]:
+    def trouver_avis_par_manga(self, id_manga: int, include_spoilers=True) -> list[Avis]:
         """Trouver les avis pour un manga
 
         Parameters

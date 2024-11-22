@@ -49,7 +49,7 @@ class ConsulterAvisView(AbstractView):
                     return ConsulterAvisView("\n" + "=" * 50 + " Consultation d'avis"
                                              " :) " + "=" * 50 + "\n")
 
-                avis = AvisService().trouver_tous_par_id(id_utilisateur=id_utilisateur)
+                avis = AvisService().trouver_tous_par_id(id_utilisateur=id_utilisateur, include_spoilers=afficher_spoilers)
 
                 # Filtrer les avis en fonction du choix de l'utilisateur sur les spoilers
                 for i in avis:
@@ -73,7 +73,7 @@ class ConsulterAvisView(AbstractView):
                                              " :) " + "=" * 50 + "\n")
 
                 id_manga = manga.id_manga
-                avis = AvisService().trouver_avis_par_manga(id_manga=id_manga)
+                avis = AvisService().trouver_avis_par_manga(id_manga=id_manga, include_spoilers=afficher_spoilers)
 
                 # Filtrer les avis en fonction du choix de l'utilisateur sur les spoilers
                 for i in avis:

@@ -40,7 +40,7 @@ class AvisService:
         print("Votre avis a bien été créé :)")
         return res
 
-    def trouver_tous_par_id(self, id_utilisateur: int) -> list[Avis]:
+    def trouver_tous_par_id(self, id_utilisateur: int, include_spoilers=True) -> list[Avis]:
         """Trouver les avis d'un utilisateur
 
         Parameters
@@ -52,9 +52,9 @@ class AvisService:
         list[Avis]
             Liste des avis de l'utilisateur
         """
-        return AvisDao().trouver_tous_par_id(id_utilisateur)
+        return AvisDao().trouver_tous_par_id(id_utilisateur, include_spoilers)
 
-    def trouver_avis_par_manga(self, id_manga: int, include_spoilers=False) -> list[Avis]:
+    def trouver_avis_par_manga(self, id_manga: int, include_spoilers=True) -> list[Avis]:
         """Trouver les avis pour un manga
 
         Parameters
