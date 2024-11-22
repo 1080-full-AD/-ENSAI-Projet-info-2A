@@ -19,8 +19,8 @@ class MainUserView(AbstractView):
         print("\n" + "=" * 50 + " Bienvenue :) " + "=" * 50 + "\n")
 
         user = Session().getuser()
-        id_utilisateur = user.id_utilisateur
-        if user.is_admin is True:
+
+        if user.is_admin is False:
             choices = [
                 "Rechercher des mangas",
                 "Accéder au menu des collections",
@@ -35,20 +35,13 @@ class MainUserView(AbstractView):
                 "Accéder au menu des collections",
                 "Accéder au menu des mangathèques",
                 "Accéder au menu des avis",
-                "Accéder au menu de modification de la base"
+                "Accéder au menu de modération"
                 "Se déconnecter"
             ]
 
         choix = inquirer.select(
             message="Faites votre choix : ",
-            choices=[
-                "Rechercher des mangas",
-                "Accéder au menu des collections",
-                "Accéder au menu des mangathèques",
-                "Accéder au menu des avis",
-                "Se déconnecter",
-                "Supprimer son compte :(",
-            ],
+            choices=choices,
         ).execute()
 
         match choix:
@@ -84,6 +77,12 @@ class MainUserView(AbstractView):
 
             case "Supprimer son compte :(":
                 from src.views.accueil.main_menu_view import MainView
-                from src.views.session import Session
+
                 UtilisateurService().supprimer_utilisateur(utilisateur=Session().getuser())
                 return MainView("Retour au menu principal")
+
+            case "Accéder au menu de modération":
+                from src.views.accueil.search_manga_view import MangaSearchView
+
+                return MangaSearchView("\n" + "=" * 50 + " Recherche"
+                                       " de mangas " + "=" * 50 + "\n")

@@ -90,3 +90,22 @@ class MangaPhysiqueService(metaclass=Singleton):
     def modifier_manga_physique(self, manga):
         "modifier un manga physique enregisté dans la base de donnnées"
         return MangaPhysiqueDao().modifier_manga_physique(manga)
+
+
+    @log
+    def lister_manga_physique(self, id_utilisateur):
+        "lister tous les mangas physique d'un utilisateur"
+        if not isinstance(id_utilisateur, int):
+            raise TypeError(f"{id_utilisateur} n'est pas un identifiant")
+        if UtilisateurDao().trouver_par_id(id_utilisateur) is None:
+            raise ValueError("ce identifiant n'est associé à aucun utilisateur")
+        return MangaPhysiqueDao().liste_manga_physique()    
+
+    @log
+    def rechercher_collection(self, id_utilisateur: int, id_manga: int):
+        """rechercher un manga physique à partir de l'identifiant d'un utilisateur 
+        et de celui du manga"""
+        if MangaPhysiqueDao().recherhcer_manga_physique(id_utilisateur, id_manga) is None:
+            raise ValueError("aucun manga trouvé :/")
+        else:
+            return MangaPhysiqueDao().recherhcer_manga_physique(id_utilisateur, id_manga)

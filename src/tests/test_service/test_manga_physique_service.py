@@ -59,13 +59,45 @@ def test_creer_manga_physique_echec():
     service.MangaPhysiqueDao = mock_dao
 
     
-
     # WHEN
     manga = service.creer_manga_physique(manga)
 
     # THEN
     assert manga is False
 
+def test_lister_manga_physique_ok():
+    #GIVEN
+    id_utilisateur = 1
+    mock_dao = MagicMock(spec=MangaPhysiqueDao)
+    mock_dao.lister_manga_physique.return_value = True
+
+    service = MangaPhysiqueService()
+    service.MangaPhysiqueDao = mock_dao
+
+     # WHEN
+    result = service.lister_manga_physique(id_utilisateur)
+
+     # THEN
+    assert resultat is not None
+    assert resultat[0].titre_manga == manga_test.titre_manga 
+
+def test_rechercher_manga_ok():
+    #GIVEN
+    id_utilisateur = 1
+    id_manga = manga_test.id_manga
+    mock_dao = MagicMock(spec=MangaPhysiqueDao)
+    mock_dao.rechercher_manga_physique.return_value = True
+
+    service = MangaPhysiqueService()
+    service.MangaPhysiqueDao = mock_dao
+     # WHEN
+    result = service.rechercher_manga_physique(id_utilisateur=id_utilisateur, id_manga=id_manga)
+
+     # THEN
+    assert resultat is not None
+    assert resultat.titre_manga == manga_test.titre_manga 
+
+    
 
 def test_ajouter_tome_manquant_ok():
     """Test pour vérifier l'ajout d'un tome manquant"""
@@ -257,7 +289,8 @@ def test_supprimer_manga_physique_ok() :
     # THEN
     assert result is True
 
-        
+
+
 
 if __name__ == "__main__":
     pytest.main([__file__])

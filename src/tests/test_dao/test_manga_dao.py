@@ -83,6 +83,8 @@ def test_creer_ok():
         titre_manga="gg",
         synopsis="manga génial sur la vie de gg",
         auteurs="Urasawa, Naoki",
+        nb_volumes=4,
+        nb_chapitres=126,
     )
 
     # WHEN
@@ -102,6 +104,8 @@ def test_creer_echec():
         titre_manga="gd",
         synopsis="manga génial sur la vie de gg",
         auteurs="Urasawa, Naoki",
+        nb_volumes=4,
+        nb_chapitres=12,
     )
 
     # WHEN
@@ -120,6 +124,8 @@ def test_supprimer_echec():
         titre_manga="miguel",
         synopsis="manga qui raconte la vie de miguel étudiant en art",
         auteurs="Urasawa, Naoki",
+        nb_volumes=6,
+        nb_chapitres=12,
     )
 
     # WHEN
@@ -145,6 +151,8 @@ def test_supprimer_ok():
         "and an elastic body, he sets out on a fantastic journey to gather his own crew and a worthy ship that will take them across"
         "the Grand Line to claim the greatest status on the high seas.[Written by MAL Rewrite]",
         auteurs="Oda, Eiichiro",
+        nb_volumes=None,
+        nb_chapitres=None,
     )
 
     # WHEN
@@ -171,6 +179,8 @@ def test_modifier_ok():
         "and an elastic body, he sets out on a fantastic journey to gather his own crew and a worthy ship that will take them across"
         "the Grand Line to claim the greatest status on the high seas.[Written by MAL Rewrite]",
         auteurs="Oda, Eiichiro",
+        nb_volumes=None,
+        nb_chapitres=None,
     )
 
     # WHEN
@@ -189,6 +199,8 @@ def test_modifier_echec():
         titre_manga="id inconnu",
         auteurs="Miguel",
         synopsis="Manga racontant la vie de Miguel",
+        nb_volumes=56,
+        nb_chapitres=134,
     )
 
     # WHEN

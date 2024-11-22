@@ -13,12 +13,16 @@ class Manga:
         synopsis du manga
     """
 
-    def __init__(self, id_manga, titre_manga, auteurs, synopsis):
+    def __init__(
+        self, id_manga, titre_manga, auteurs, synopsis, nb_volumes, nb_chapitres
+    ):
         """Constructeur"""
         self.titre_manga = titre_manga
         self.id_manga = id_manga
         self.auteurs = auteurs
         self.synopsis = synopsis
+        self.nb_volumes = nb_volumes
+        self.nb_chapitres = nb_chapitres
 
     def __str__(self):
         return (
@@ -34,17 +38,17 @@ class Manga:
     def __eq__(self, autre_manga):
         """
         Compare deux objets Manga pour vérifier s'ils sont égaux.
-    
-        param 
+
+        param
         autre_manga: manga à comparer avec l'instance actuelle.
-        return: 
+        return:
         True si les deux mangas sont égaux, False sinon.
         """
         if isinstance(autre_manga, Manga):
-            return (self.id_manga == autre_manga.id_manga and
-                    self.titre_manga == autre_manga.titre_manga and
-                    self.auteurs == autre_manga.auteurs and
-                    self.synopsis == autre_manga.synopsis)
+            return (
+                self.id_manga == autre_manga.id_manga
+                and self.titre_manga == autre_manga.titre_manga
+                and self.auteurs == autre_manga.auteurs
+                and self.synopsis == autre_manga.synopsis
+            )
         return False
-
-

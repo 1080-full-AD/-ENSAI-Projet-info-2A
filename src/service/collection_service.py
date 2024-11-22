@@ -67,8 +67,13 @@ class CollectionVirtuelleService:
             raise ValueError("Vous avez déja une collection avec ce titre :/")   
 
         else:
+<<<<<<< HEAD
             #ancienne_collection = collection
             #collection.titre = new_titre
+=======
+            modifiee = CollectionDao().modifier_titre(collection=ancienne_collection, new_titre=new_titre)
+            return collection if modifiee else None
+>>>>>>> 54b064416c999a207cba2aa51c4dea77936a8928
 
             return CollectionDao().modifier_titre(collection= collection, new_titre=new_titre)
                 #return collection

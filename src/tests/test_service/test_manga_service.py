@@ -19,6 +19,8 @@ Liste_Manga = [
         "the King of the Pirates is executed and the Great Age of Pirates begins.\n\nTwenty-two years later, a young man by the name of Monkey D. Luffy is ready to embark on his own adventure, searching for One "
         "Piece and striving to become the new King of the Pirates. Armed with just a straw hat, a small boat, and an elastic body, he sets out on a fantastic journey to gather his own crew and a worthy ship that"
         " will take them across the Grand Line to claim the greatest status on the high seas.\n\n[Written by MAL Rewrite]",
+        nb_volumes=None,
+        nb_chapitres=None,
     )
 ]
 
@@ -32,6 +34,8 @@ def test_creer_manga_ok():
         "Le12",
         "Eiichirō Oda",
         "Manga génial qui raconte la vie de 12 personnes",
+        None,
+        None,
     )
     mock_dao = MagicMock(spec=MangaDao)
     mock_dao.creer_manga.return_value = True
@@ -55,6 +59,8 @@ def test_creer_manga_echec():
         "Le12",
         "Eiichirō Oda",
         "Manga génial qui raconte la vie de 12 personnes",
+        None,
+        None,
     )
     mock_dao = MagicMock(spec=MangaDao)
     mock_dao.creer_manga.return_value = False
@@ -150,6 +156,8 @@ def test_supprimer_manga_ok():
         "Le12",
         "Eiichirō Oda",
         "Manga génial qui raconte la vie de 12 personnes",
+        None,
+        None,
     )
     mock_dao = MagicMock(spec=MangaDao)
     mock_dao.supprimer_manga.return_value = True
@@ -172,6 +180,8 @@ def test_supprimer_manga_echec():
         "Le12",
         "Eiichirō Oda",
         "Manga génial qui raconte la vie de 12 personnes",
+        None,
+        None,
     )
     mock_dao = MagicMock(spec=MangaDao)
     mock_dao.supprimer_manga.return_value = False
@@ -195,6 +205,8 @@ def test_modifier_manga_ok():
         "Le12",
         "Eiichirō Oda",
         "Manga génial qui raconte la vie de 12 personnes",
+        None,
+        None,
     )
     mock_dao = MagicMock(spec=MangaDao)
     mock_dao.modifier.return_value = True
@@ -218,6 +230,8 @@ def test_modifier_manga_echec():
         "Le12",
         "Eiichirō Oda",
         "Manga génial qui raconte la vie de 12 personnes",
+        None,
+        None,
     )
     mock_dao = MagicMock(spec=MangaDao)
     mock_dao.modifier.return_value = False
@@ -274,7 +288,7 @@ def test_rechercher_une_serie_ok():
     """Tester si la recherche de la saga d'un manga fonctionne"""
 
     # GIVEN
-    titre = "One Piece"
+    titre = "Monster"
     mock_dao = MagicMock(spec=MangaDao)
     mock_dao.trouver_serie_par_titre.return_value = True
 
