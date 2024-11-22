@@ -1,5 +1,5 @@
 from unittest.mock import MagicMock
-from src.service.collection_servive import CollectionVirtuelleService
+from src.service.collection_service import CollectionVirtuelleService
 from src.dao.collection_dao import CollectionDao
 from src.business_objet.collection_virtuelle import CollectionVirtuelle
 from src.business_objet.manga import Manga
@@ -11,7 +11,7 @@ import pytest
 # Initialisation des objets pour les tests
 
 manga_virtuel = Manga(
-        id_manga=28,
+        id_manga=27,
         titre_manga="manga_test",
         synopsis='juste pour tester',
         auteurs='auteur',
@@ -71,7 +71,7 @@ def test_creer_collection_echec_manga_physique():
 
 
 def test_creer_collection_echec_titre_existant():
-    collection = CollectionVirtuelle ("Nouvelle Collection", 2, [manga_physique],"la meilleure")
+    collection = CollectionVirtuelle("Nouvelle Collection", 2, [manga_physique],"la meilleure")
     mock_dao = MagicMock()
     service = CollectionVirtuelleService()
     service.CollectionDao = mock_dao
@@ -93,12 +93,33 @@ def test_liste_manga_ok():
 
     # WHEN
 
-    result = service.liste_manga(collection)
+    result = service.liste_manga(id_utilisateur=1,titre_collec="Collection Virtuelle" )
 
     # THEN
     assert len(result) == 1
     assert result[0] == manga_virtuel
-   
+
+
+def liste_collection_ok():
+
+    # GIVEN
+    id_utilisateur = 1
+    mock_dao = MagicMock()
+    mock_dao.liste_manga_virtuelle.return_value = [collection]
+
+    service = CollectionVirtuelleService()
+    service.CollectionDao = mock_dao
+
+    # WHEN
+
+    result = service.liste_collection(id_utilisateur)
+
+    # THEN
+    assert len(result) == 1
+    
+
+
+
     
 def test_modifier_collection_ok():
     """Tester la modification réussie d'une collection"""
