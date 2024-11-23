@@ -5,39 +5,52 @@ from src.utils.log_decorator import log
 
 
 class MangaService(metaclass=Singleton):
-    """Classe permettant d'avoir des informations à propos des Mangas"""
+    """Classe permettant d'avoir 
+    des informations à propos des Mangas"""
 
     @log
     def rechercher_un_manga(self, titre_manga) -> Manga:
         """Trouver un manga à partir de son titre
 
-        Retourne TypeError, si le manga demandé n'est pas une chaîne de caractère
-        Retourne ValueError, si le manga recherché n'est pas trouvé
+        Retourne TypeError, si le manga demandé 
+        n'est pas une chaîne de caractère
+        Retourne ValueError, si le manga recherché 
+        n'est pas trouvé
 
         """
         if isinstance(titre_manga, str) is False:
-            raise TypeError("Le titre doit être une chaîne de caractère :/")
+            raise TypeError(
+                "Le titre doit être une chaîne de caractère :/"
+                )
         manga = MangaDao().trouver_par_titre(titre_manga)
         if manga:
             return manga
         else:
-            raise ValueError("Aucun manga ne possède ce titre :/")
+            raise ValueError(
+                "Aucun manga ne possède ce titre :/"
+                )
 
     @log
     def rechercher_un_id_manga(self, id_manga) -> Manga:
         """Trouver un manga à partir de son id
 
-        Retourne TypeError si l'identifiant saisi n'est pas un entier
-        Retourne ValueError si le manga recherché n'est pas trouvé
+        Retourne TypeError 
+        si l'identifiant saisi n'est pas un entier
+        Retourne ValueError 
+        si le manga recherché n'est pas trouvé
 
         """
         if isinstance(id_manga, int) is False:
-            raise TypeError("L'indentifiant doit être un entier :/")
+            raise TypeError(
+                "L'indentifiant doit être un entier :/"
+                )
         manga = MangaDao().trouver_par_id(id_manga)
         if manga:
             return manga
         else:
-            raise ValueError("Aucun manga ne possède cet identifiant :/")
+            raise ValueError(
+                "Aucun manga ne possède cet identifiant :/"
+                )
 
     @log
     def creer_manga(self, manga) -> bool:
@@ -51,7 +64,9 @@ class MangaService(metaclass=Singleton):
 
     @log
     def supprimer_un_manga(self, manga) -> bool:
-        MangaService().rechercher_un_id_manga(id_manga=manga.id_manga)
+        MangaService().rechercher_un_id_manga(
+            id_manga=manga.id_manga
+            )
         """Supprimer un manga de la base de données"""
         if MangaDao().supprimer_manga(manga):
             print("Manga supprimé de la base")
@@ -73,7 +88,9 @@ class MangaService(metaclass=Singleton):
     def rechercher_un_auteur(self, auteurs) -> Manga:
         """Trouver un manga à partir de son auteur"""
         if isinstance(auteurs, str) is False:
-            raise TypeError("Le nom de l'auteur doit être une chaîne de caractère :/")
+            raise TypeError(
+                "Le nom de l'auteur doit être une chaîne de caractère :/"
+                )
         manga = MangaDao().trouver_par_auteur(auteurs)
         if manga:
             return manga

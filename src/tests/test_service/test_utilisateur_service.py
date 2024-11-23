@@ -22,13 +22,17 @@ liste_utilisateur = [
         id_utilisateur=2,
     ),
     Utilisateur(
-        pseudo="23One", age=22, mot_de_passe=("78Naruto#", "23One"), id_utilisateur=5
+        pseudo="23One", 
+        age=22, 
+        mot_de_passe=("78Naruto#", "23One"), 
+        id_utilisateur=5
     ),
 ]
 
 
 def test_pseudo_existe_deja_ok():
-    """Vérifier que la méthode pseudo_existe_déjà fonctionne correctement"""
+    """Vérifier que la méthode 
+    pseudo_existe_déjà fonctionne correctement"""
 
     # GIVEN
     pseudo, age, mot_de_passe, id_utilisateur = (
@@ -51,7 +55,8 @@ def test_pseudo_existe_deja_ok():
 
 
 def test_pseudo_existe_déjà_echec():
-    """Vérifier que la méthode pseudo_existe_déjà renvoie bien une erreur"""
+    """Vérifier que la méthode 
+    pseudo_existe_déjà renvoie bien une erreur"""
 
     # GIVEN
     pseudo, age, mot_de_passe, id_utilisateur = (
@@ -74,7 +79,8 @@ def test_pseudo_existe_déjà_echec():
 
 
 def test_creer_utilisateur_ok():
-    """Vérifier que la méthode creer_utilisateur fonctionne bien"""
+    """Vérifier que la méthode 
+    creer_utilisateur fonctionne bien"""
 
     # GIVEN
     pseudo, age, mot_de_passe, id_utilisateur = (
@@ -100,7 +106,8 @@ def test_creer_utilisateur_ok():
 
 
 def test_creer_utilisateur_echec():
-    """Vérifier que la méthode creer_utilisateur renvoie bien un échec"""
+    """Vérifier que la méthode 
+    creer_utilisateur renvoie bien un échec"""
 
     # GIVEN
     pseudo, age, mot_de_passe, id_utilisateur = (
@@ -110,20 +117,25 @@ def test_creer_utilisateur_echec():
         678,
     )
     mock_dao = MagicMock(spec=UtilisateurDao)
-    mock_dao.creer.side_effect = ValueError("Ce nom d'utilisateur est déjà pris.")
+    mock_dao.creer.side_effect = ValueError(
+        "Ce nom d'utilisateur est déjà pris."
+        )
     utilisateur_service = UtilisateurService()
     utilisateur_service.UtilisateurDao = mock_dao
 
     # WHEN
     with pytest.raises(ValueError) as exc_info:
-        utilisateur_service.creer_utilisateur(pseudo, age, mot_de_passe, id_utilisateur)
+        utilisateur_service.creer_utilisateur(
+            pseudo, age, mot_de_passe, id_utilisateur
+            )
 
     # THEN
     assert str(exc_info.value) == "Ce nom d'utilisateur est déjà pris."
 
 
 def test_modifier_utilisateur_ok():
-    """Vérifier que la méthode modifier_utilisateur fonctionne correctement"""
+    """Vérifier que la méthode 
+    modifier_utilisateur fonctionne correctement"""
 
     # GIVEN
     user = Utilisateur(
@@ -146,7 +158,8 @@ def test_modifier_utilisateur_ok():
 
 
 def test_modifier_utilisateur_echec():
-    """Vérifier que la méthode modifier_utilisateur renvoie bien une erreur"""
+    """Vérifier que la méthode 
+    modifier_utilisateur renvoie bien une erreur"""
 
     # GIVEN
     user = Utilisateur(
@@ -169,7 +182,8 @@ def test_modifier_utilisateur_echec():
 
 
 def test_supprimer_utilisateur_ok():
-    """Vérifier que la méthode supprimer_utilsiateur fonctionne correctement"""
+    """Vérifier que la méthode 
+    supprimer_utilsiateur fonctionne correctement"""
 
     # GIVEN
     user = Utilisateur(
@@ -192,7 +206,8 @@ def test_supprimer_utilisateur_ok():
 
 
 def test_supprimer_utilisateur_echec():
-    """Vérifier que la méthode supprimer_utilsiateur renvoie bien une erreur"""
+    """Vérifier que la méthode 
+    supprimer_utilsiateur renvoie bien une erreur"""
 
     # GIVEN
     user = Utilisateur(
@@ -215,7 +230,8 @@ def test_supprimer_utilisateur_echec():
 
 
 def test_trouver_par_pseudo_utilisateur_ok():
-    """Vérifier que la méthode qui liste les utilisateurs grâce à leur pseudo fonctionne"""
+    """Vérifier que la méthode qui 
+    liste les utilisateurs grâce à leur pseudo fonctionne"""
 
     # GIVEN
     utilisateur_service = UtilisateurService()
@@ -254,7 +270,8 @@ def test_trouver_par_pseudo_utilisateur_ok():
 
 
 def test_trouver_par_pseudo_utilisateur_echec():
-    """Vérifier que la méthode qui renvoie les utilisateurs renvoie bien
+    """Vérifier que la méthode 
+    qui renvoie les utilisateurs renvoie bien
     un échec"""
 
     # GIVEN
@@ -295,7 +312,8 @@ def test_trouver_par_pseudo_utilisateur_echec():
 
 
 def test_trouver_par_id_utilisateur_ok():
-    """Vérifier que la méthode qui liste les utilisateurs grâce à leur identifiant fonctionne"""
+    """Vérifier que la méthode qui liste 
+    les utilisateurs grâce à leur identifiant fonctionne"""
 
     # GIVEN
     utilisateur_service = UtilisateurService()
@@ -312,7 +330,8 @@ def test_trouver_par_id_utilisateur_ok():
 
 
 def test_trouver_par_id_utilisateur_echec():
-    """Vérifier que la méthode qui renvoie les utilisateurs renvoie bien
+    """Vérifier que la méthode 
+    qui renvoie les utilisateurs renvoie bien
     un échec"""
 
     # GIVEN
@@ -335,9 +354,15 @@ def test_lister_tous_utilisateur_ok():
 
     # GIVEN
     liste_utilisateur = [
-        Utilisateur(id_utilisateur=1, pseudo="user1", mot_de_passe="password1", age=25),
-        Utilisateur(id_utilisateur=2, pseudo="user2", mot_de_passe="password2", age=30),
-        Utilisateur(id_utilisateur=3, pseudo="user3", mot_de_passe="password3", age=35),
+        Utilisateur(
+            id_utilisateur=1, pseudo="user1", mot_de_passe="password1", age=25
+            ),
+        Utilisateur(
+            id_utilisateur=2, pseudo="user2", mot_de_passe="password2", age=30
+            ),
+        Utilisateur(
+            id_utilisateur=3, pseudo="user3", mot_de_passe="password3", age=35
+            ),
     ]
     mock_dao = MagicMock(spec=UtilisateurDao)
     mock_dao.lister_tous.return_value = liste_utilisateur
@@ -353,7 +378,8 @@ def test_lister_tous_utilisateur_ok():
 
 
 def test_lister_tous_utilisateur_echec():
-    """Vérifier que la méthode qui liste tous les utilisateurs grâce à leur
+    """Vérifier que la méthode 
+    qui liste tous les utilisateurs grâce à leur
     identifiant renvoie bien un échec"""
 
     # GIVEN
@@ -371,7 +397,8 @@ def test_lister_tous_utilisateur_echec():
 
 
 def test_se_connecter_ok():
-    """Vérifier que la méthode se_connecter fonctionne correctement"""
+    """Vérifier que la méthode 
+    se_connecter fonctionne correctement"""
 
     # GIVEN
     user = Utilisateur(pseudo="user2", age=30, mot_de_passe="password2")
@@ -390,7 +417,8 @@ def test_se_connecter_ok():
 
 
 def test_se_connecter_echec():
-    """Vérifier que la méthode se connecter renvoie bien une erreur"""
+    """Vérifier que la méthode 
+    se connecter renvoie bien une erreur"""
 
     # GIVEN
     user = Utilisateur(pseudo="NarutO54", mot_de_passe="mdpMAnga7#", age=18)
@@ -410,7 +438,8 @@ def test_se_connecter_echec():
 
 
 def test_se_deconnecter_ok():
-    """Vérifier que la méthode se déconnecter fonctionne comme il le faut"""
+    """Vérifier que la méthode 
+    se déconnecter fonctionne comme il le faut"""
 
     # GIVEN
     pseudo, mot_de_passe, age = "user2", "password2", 30
@@ -428,10 +457,13 @@ def test_se_deconnecter_ok():
 
 
 def test_se_deconnecter_echec():
-    """Vérifier que la méthode se déconnecter renvoie bien une erreur"""
+    """Vérifier que la méthode 
+    se déconnecter renvoie bien une erreur"""
 
     # GIVEN
-    user = Utilisateur(pseudo="Naruto54", mot_de_passe="mdpManga72", age=18)
+    user = Utilisateur(
+        pseudo="Naruto54", mot_de_passe="mdpManga72", age=18
+        )
     mock_dao = MagicMock(spec=UtilisateurDao)
     mock_dao.se_connecter.return_value = False
 
@@ -450,7 +482,8 @@ def test_se_deconnecter_echec():
 @patch("builtins.input", side_effect=["short", "short", "Password1"])
 @patch("builtins.print")
 def test_create_password_ok(mock_print, mock_input):
-    """Vérifier que la méthode create_password fonctionne correctement"""
+    """Vérifier que la méthode 
+    create_password fonctionne correctement"""
 
     # GIVEN
     user = Utilisateur("chahine", 22, "Password1")
@@ -462,7 +495,8 @@ def test_create_password_ok(mock_print, mock_input):
     # THEN
     mock_input.assert_any_call("Veuillez créer un mot de passe :")
     mock_print.assert_any_call("Mot de passe créé avec succès !")
-    mock_print.assert_any_call("Le mot de passe ne respecte pas les critères suivants:")
+    mock_print.assert_any_call("Le mot de passe ne" 
+    "respecte pas les critères suivants:")
     mock_print.assert_any_call("-Au moins 8 caractères")
     mock_print.assert_any_call("-Au moins une lettre majuscule")
     mock_print.assert_any_call("-Au moins un chiffre")
@@ -472,7 +506,8 @@ def test_create_password_ok(mock_print, mock_input):
 
 
 def test_is_valid_mdp_ok():
-    """Vérifier que la méthode is_valid_mdp fonctionne comme il le faut"""
+    """Vérifier que la méthode 
+    is_valid_mdp fonctionne comme il le faut"""
 
     # GIVEN
     mdp = "A123456aB"
@@ -490,7 +525,8 @@ def test_is_valid_mdp_ok():
 
 
 def test_is_valid_mdp_echec():
-    """Vérifier que la méthode is_valid_mdp renvoie bien une erreur"""
+    """Vérifier que la méthode 
+    is_valid_mdp renvoie bien une erreur"""
 
     # GIVEN
     mdp = ["short", "nomajuscule1", "NOMINUSCULE1", "Nochiffre"]

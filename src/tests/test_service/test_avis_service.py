@@ -1,5 +1,4 @@
 from unittest.mock import MagicMock
-import unittest
 from src.service.avis_service import AvisService
 from src.dao.avis_dao import AvisDao
 from src.business_objet.avis import Avis
@@ -192,12 +191,12 @@ def test_supprimer_note_echec():
     avis_service.AvisDao = mock_dao
     # WHEN
     avis_service.noter(1, 5, 3)
-    result = avis_service.supprimer_note(id_manga, id_utilisateur)
+    result = avis_service.supprimer_note(
+        id_manga, id_utilisateur
+        )
 
     # THEN
-    self.assertEqual(
-        str(context.exception) == "Vous n'avez pas donné de note sur ce manga :/"
-    )
+    assert result is False
 
 
 def test_modifier_avis_ok():
@@ -213,7 +212,9 @@ def test_modifier_avis_ok():
 
     # WHEN
     avis_service.creer(1, 5, "lol")
-    result = avis_service.modifier(id_manga, id_utilisateur, newtexte)
+    result = avis_service.modifier(
+        id_manga, id_utilisateur, newtexte
+        )
     avis_service.supprimer_avis(1, 5)
 
     # THEN
@@ -233,7 +234,9 @@ def test_modifier_avis_echec():
 
     # WHEN
     avis_service.creer(1, 5, "lol")
-    result = avis_service.modifier(id_manga, id_utilisateur, newtexte)
+    result = avis_service.modifier(
+        id_manga, id_utilisateur, newtexte
+        )
     avis_service.supprimer_avis(1, 5)
 
     # THEN
@@ -252,7 +255,9 @@ def test_noter_ok():
     avis_service.AvisDao = mock_dao
 
     # WHEN
-    result = avis_service.noter(id_manga, id_utilisateur, note)
+    result = avis_service.noter(
+        id_manga, id_utilisateur, note
+        )
     avis_service.supprimer_note(id_manga, id_utilisateur)
 
     # THEN
@@ -291,7 +296,9 @@ def test_modifier_note_ok():
 
     # WHEN
     avis_service.noter(1, 5, 4)
-    result = avis_service.modifier_note(id_manga, id_utilisateur, newnote)
+    result = avis_service.modifier_note(
+        id_manga, id_utilisateur, newnote
+        )
     avis_service.supprimer_note(1, 5)
 
     # THEN
@@ -311,13 +318,17 @@ def test_modifier_note_echec():
 
     # WHEN
     avis_service.noter(1, 5, 4)
-    result = avis_service.modifier_note(id_manga, id_utilisateur, newnote)
+    result = avis_service.modifier_note(
+        id_manga, id_utilisateur, newnote
+        )
     avis_service.supprimer_note(1, 5)
 
     # THEN
     assertEqual(
         str(context.exception),
-        "Vous n'avez pas donné de note à ce manga. Si vous souhaitez en donner une, sélectionnez le menu Rédiger un avis/donner une note :)",
+        "Vous n'avez pas donné de note à ce manga." 
+        "Si vous souhaitez en donner une, sélectionnez" 
+        "le menu Rédiger un avis/donner une note :)",
     )
 
 

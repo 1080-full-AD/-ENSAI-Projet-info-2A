@@ -6,18 +6,24 @@ from src.dao.utilisateur_dao import UtilisateurDao
 
 
 class MangaPhysiqueService(metaclass=Singleton):
-    """Classe permettant d'avoir des informations à propos des Mangas"""
+    """Classe permettant d'avoir 
+    des informations à propos des Mangas"""
 
     @log
-    def creer_manga_physique(self, manga: MangaPhysique) -> bool:
+    def creer_manga_physique(
+        self, manga: MangaPhysique
+    ) -> bool:
         """Créer un manga physique dans la base de données"""
         if MangaPhysiqueDao().creer(manga):
             print("Création de la mangathèque réussie :)")
             return True
         else:
             return False
+
     @log
-    def supprimer_manga_physique(self, manga: MangaPhysique) -> bool:
+    def supprimer_manga_physique(
+        self, manga: MangaPhysique
+    ) -> bool:
         """Supprimer un manga de la base de données"""
         if MangaPhysiqueDao().supprimer_manga_physique(manga):
             print("Suppression de la mangathèque réussie :)")
@@ -26,7 +32,9 @@ class MangaPhysiqueService(metaclass=Singleton):
             return False
 
     @log
-    def ajouter_tome(self, manga: MangaPhysique, new_tome: int) -> bool:
+    def ajouter_tome(
+        self, manga: MangaPhysique, new_tome: int
+    ) -> bool:
         """
         ajouter un nouveau tome au manga physique
 
@@ -42,7 +50,9 @@ class MangaPhysiqueService(metaclass=Singleton):
         False sinon
         """
         if not isinstance(new_tome, int):
-            raise TypeError("Le tome ajouté doit être un entier")
+            raise TypeError(
+                "Le tome ajouté doit être un entier"
+                )
         if new_tome in manga.tomes_manquants:
             manga.tomes_manquants.remove(new_tome)
             return MangaPhysiqueDao().modifier_manga_physique(manga)
@@ -55,7 +65,9 @@ class MangaPhysiqueService(metaclass=Singleton):
             raise ValueError("Vous possédez déjà ce tome")
 
     @log
-    def enlever_tome(self, manga: MangaPhysique, tome) -> bool:
+    def enlever_tome(
+        self, manga: MangaPhysique, tome
+    ) -> bool:
         """
         elever un  tome au manga physique
 
@@ -75,7 +87,7 @@ class MangaPhysiqueService(metaclass=Singleton):
 
         if tome == manga.dernier_tome:
             manga.tomes_manquants.append(tome)
-            manga.tomes_manquants.sort()  # Trier pour garantir l'ordre croissant
+            manga.tomes_manquants.sort()
 
             # On cherche le nouveau dernier tome qui n'est pas manquant
             nouveau_dernier_tome = tome - 1
@@ -91,38 +103,55 @@ class MangaPhysiqueService(metaclass=Singleton):
             manga.tomes_manquants.append(tome)
             return MangaPhysiqueDao().modifier_manga_physique(manga)
         else:
-            raise ValueError("vous ne disposez pas de ce tome :/")
+            raise ValueError(
+                "vous ne disposez pas de ce tome :/"
+                )
 
     @log
     def modifier_manga_physique(self, manga):
-        "modifier un manga physique enregisté dans la base de donnnées"
+        """modifier un manga physique
+         enregisté dans la base de donnnées"""
         return MangaPhysiqueDao().modifier_manga_physique(manga)
 
     @log
     def lister_manga_physique(self, id_utilisateur):
-        "lister tous les mangas physique d'un utilisateur"
+        """lister tous les mangas
+         physique d'un utilisateur"""
         if not isinstance(id_utilisateur, int):
-            raise TypeError(f"{id_utilisateur} n'est pas un identifiant")
+            raise TypeError(
+                f"{id_utilisateur} n'est pas un identifiant"
+                )
         if UtilisateurDao().trouver_par_id(id_utilisateur) is None:
-            raise ValueError("ce identifiant n'est associé à aucun utilisateur")
+            raise ValueError(
+                "ce identifiant n'est associé à aucun utilisateur"
+                )
         return MangaPhysiqueDao().liste_manga_physique(id_utilisateur)
 
     @log
-    def rechercher_manga_physique(self, id_utilisateur: int, id_manga: int):
-        """rechercher un manga physique à partir de l'identifiant d'un utilisateur
+    def rechercher_manga_physique(
+        self, id_utilisateur: int, id_manga: int
+    ):
+        """rechercher un manga physique 
+        à partir de l'identifiant d'un utilisateur
         et de celui du manga"""
         if not isinstance(id_utilisateur, int) or not isinstance(id_manga, int):
-            raise TypeError("les informations renseignés ne sont pas correctes")
+            raise TypeError(
+                "les informations renseignés ne sont pas correctes"
+                )
         else:
             if UtilisateurDao().trouver_par_id(id_utilisateur) is None:
-                raise ValueError("cet identifiant n'est associé à aucun utilisateur")
+                raise ValueError(
+                    "cet identifiant n'est associé à aucun utilisateur"
+                    )
             else:
                 if (
-                    MangaPhysiqueDao().rechercher_manga_physique(id_utilisateur, id_manga)
+                    MangaPhysiqueDao().rechercher_manga_physique(
+                        id_utilisateur, id_manga
+                    )
                     is None
-                    ):
+                ):
                     raise ValueError("aucun manga trouvé :/")
                 else:
                     return MangaPhysiqueDao().rechercher_manga_physique(
                         id_utilisateur, id_manga
-                         )
+                    )

@@ -9,13 +9,13 @@ from src.dao.collection_dao import CollectionDao
 # données de test
 
 manga = Manga(
-        id_manga=28,
-        titre_manga="manga_test",
-        synopsis='juste pour tester',
-        auteurs='auteur',
-        nb_chapitres=20,
-        nb_volumes=15
-    )
+    id_manga=28,
+    titre_manga="manga_test",
+    synopsis="juste pour tester",
+    auteurs="auteur",
+    nb_chapitres=20,
+    nb_volumes=15,
+)
 
 
 @pytest.fixture(scope="session", autouse=True)
@@ -102,7 +102,7 @@ def test_liste_manga_virtuel():
     liste_manga = CollectionDao().liste_manga(
         id_utilisateur=3, titre_collec="Ma Collection"
     )
-    
+
     # THEN: Vérification que la liste des mangas est correcte
     assert len(liste_manga) == 2
     assert any(m.titre_manga == "manga_test" for m in liste_manga)
