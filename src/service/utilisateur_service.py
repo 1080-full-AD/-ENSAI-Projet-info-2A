@@ -112,7 +112,13 @@ class UtilisateurService(metaclass=Singleton):
                 Si l'utilisateur est bien supprimé
                 None sinon
         """
-        return UtilisateurDao().supprimer(utilisateur)
+        if utilisateur.is_admin is True:
+            raise ValueError('Impossible de supprimer les comptes modérateur')
+        if UtilisateurDao().supprimer(utilisateur):
+            print("Suppresion du compte réussie")
+            return True
+        else:
+            return False
 
     @log
     def lister_tous_utilisateur(self, inclure_mdp=False) -> list[Utilisateur]:

@@ -1,6 +1,8 @@
 from InquirerPy import inquirer
 from src.views.abstract_view import AbstractView
 from src.service.utilisateur_service import UtilisateurService
+from src.service.collection_service import CollectionVirtuelleService
+from src.service.avis_service import AvisService
 from src.views.users.main_moderation_view import MainModerationView
 
 
@@ -22,21 +24,35 @@ class ModerationUtilisateurView(AbstractView):
                                         " voulez supprimer").execute()
             )
             utilisateur = UtilisateurService().trouver_par_id_utilisateur(id=id_utilisateur)
+            print(utilisateur.is_admin)
 
         except Exception as e:
             print("\n", e)
             return MainModerationView(
                         "\n" + "=" * 50 + " Menu de modération " + "=" * 50 + "\n"
                     )
-        supp = inquirer.confirm(
-            message=f"Confirmer la suppression "
-                    f"de de l'utilisateur {id_utilisateur} ?"
-        ).execute()
+        Lc = CollectionVirtuelleService().liste_collection(id_utilisateur=id_utilisateur)
+        La = AvisService().trouver_tous_par_id(id_utilisateur=id_utilisateur)
 
-        if supp is True:
-            UtilisateurService().supprimer_utilisateur(
-                utilisateur=utilisateur
-            )
+        try:
+            supp = inquirer.confirm(
+                message=f"Confirmer la suppression "
+                        f"de de l'utilisateur {id_utilisateur} ?"
+            ).execute()
+
+            if supp is True:
+                for i in Lc:
+                    CollectionVirtuelleService().supprimer(i)
+                for i in La:
+                    AvisService().supprimer_avis(id_utilisateur=i.id_utilisateur, id_manga=i.id_manga
+                )
+                UtilisateurService().supprimer_utilisateur(utilisateur=utilisateur)
+
+        except Exception as e:
+            print("\n", e)
+            return MainModerationView(
+                        "\n" + "=" * 50 + " Menu de modération " + "=" * 50 + "\n"
+                    )
 
         return MainModerationView(
                     "\n" + "=" * 50 + " Menu de modération " + "=" * 50 + "\n"
