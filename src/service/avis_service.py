@@ -64,12 +64,8 @@ class AvisService:
         list[Avis]
             Liste des avis de l'utilisateur
         """
-        if UtilisateurDao().trouver_par_id(id) is None:
-            raise ValueError("Auncun utilisateur ne possède ce pseudo :/")
-        elif AvisDao().trouver_tous_par_id(id_utilisateur, include_spoilers) == []:
-            raise ValueError("Auncun avis à afficher pour cet utilisateur :/")
-        else:
-            return AvisDao().trouver_tous_par_id(id_utilisateur, include_spoilers)
+
+        return AvisDao().trouver_tous_par_id(id_utilisateur, include_spoilers)
 
     def trouver_avis_par_manga(
         self, id_manga: int, include_spoilers=True
