@@ -70,7 +70,7 @@ class CollectionVirtuelleService:
     @log
     def modifier_description(
         self, collection, new_description
-        ) -> CollectionVirtuelle:
+    ) -> CollectionVirtuelle:
         "modifier la description d'une collection"
         collection.description = new_description
         if CollectionDao().modifier(collection) == True:
@@ -147,7 +147,7 @@ class CollectionVirtuelleService:
     def supprimer_manga(self, collection, manga):
         if manga not in CollectionDao().liste_manga(
             collection.id_utilisateur, collection.titre
-        ):
+    ):
             raise ValueError(
                 f"{manga.titre_manga} ne fait pas partit de {collection.titre} :/"
             )
@@ -173,7 +173,7 @@ class CollectionVirtuelleService:
     @log
     def rechercher_collection(
         self, id_utilisateur: int, titre_collec: str
-        ):
+    ):
         """rechercher une collection 
         à partir de l'identifiant d'un utilisateur
         et du titre de la collection"""

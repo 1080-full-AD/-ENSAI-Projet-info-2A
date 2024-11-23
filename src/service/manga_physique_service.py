@@ -12,7 +12,7 @@ class MangaPhysiqueService(metaclass=Singleton):
     @log
     def creer_manga_physique(
         self, manga: MangaPhysique
-        ) -> bool:
+    ) -> bool:
         """Créer un manga physique dans la base de données"""
         if MangaPhysiqueDao().creer(manga):
             print("Création de la mangathèque réussie :)")
@@ -23,7 +23,7 @@ class MangaPhysiqueService(metaclass=Singleton):
     @log
     def supprimer_manga_physique(
         self, manga: MangaPhysique
-        ) -> bool:
+    ) -> bool:
         """Supprimer un manga de la base de données"""
         if MangaPhysiqueDao().supprimer_manga_physique(manga):
             print("Suppression de la mangathèque réussie :)")
@@ -34,7 +34,7 @@ class MangaPhysiqueService(metaclass=Singleton):
     @log
     def ajouter_tome(
         self, manga: MangaPhysique, new_tome: int
-        ) -> bool:
+    ) -> bool:
         """
         ajouter un nouveau tome au manga physique
 
@@ -67,7 +67,7 @@ class MangaPhysiqueService(metaclass=Singleton):
     @log
     def enlever_tome(
         self, manga: MangaPhysique, tome
-        ) -> bool:
+    ) -> bool:
         """
         elever un  tome au manga physique
 
@@ -130,7 +130,7 @@ class MangaPhysiqueService(metaclass=Singleton):
     @log
     def rechercher_manga_physique(
         self, id_utilisateur: int, id_manga: int
-        ):
+    ):
         """rechercher un manga physique 
         à partir de l'identifiant d'un utilisateur
         et de celui du manga"""

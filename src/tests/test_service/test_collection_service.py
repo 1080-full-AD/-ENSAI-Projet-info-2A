@@ -41,7 +41,8 @@ collection = CollectionVirtuelle(
 
 
 def test_creer_collection_ok():
-    """Tester la création d'une collection virtuelle avec des mangas virtuels uniquement"""
+    """Tester la création d'une collection
+    virtuelle avec des mangas virtuels uniquement"""
 
     # GIVEN
 
@@ -83,7 +84,8 @@ def test_creer_collection_echec_manga_physique():
     # WHEN / THEN
     with pytest.raises(
         TypeError,
-        match="les collection virtuelles ne peuvent contenir des mangas physique",
+        match="les collection virtuelles" 
+        "ne peuvent contenir des mangas physique",
     ):
         service.creer(
             id_utilisateur=collection_1.id_utilisateur,
@@ -147,7 +149,9 @@ def test_liste_manga_ok():
 
     # WHEN
 
-    result = service.liste_manga(id_utilisateur=3, titre_collec="Collection Virtuelle")
+    result = service.liste_manga(
+        id_utilisateur=3, titre_collec="Collection Virtuelle"
+        )
 
     # THEN
     assert len(result) > 0
@@ -226,7 +230,8 @@ def test_supprimer_manga_ok():
 
 
 def test_supprimer_manga_echec():
-    """Tester la suppression échoue si le manga n'existe pas dans la collection"""
+    """Tester la suppression échoue 
+    si le manga n'existe pas dans la collection"""
 
     # GIVEN
     mock_dao = MagicMock()

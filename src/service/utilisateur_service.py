@@ -87,7 +87,7 @@ class UtilisateurService(metaclass=Singleton):
     @log
     def modifier_utilisateur(
         self, utilisateur
-        ) -> Utilisateur:
+    ) -> Utilisateur:
         """Modification d'un utilisateur
 
         Parameters
@@ -111,7 +111,7 @@ class UtilisateurService(metaclass=Singleton):
     @log
     def supprimer_utilisateur(
         self, utilisateur
-        ) -> bool:
+    ) -> bool:
         """Supprimer le compte d'un utilisateur
 
         Parameters
@@ -138,7 +138,7 @@ class UtilisateurService(metaclass=Singleton):
     @log
     def lister_tous_utilisateur(
         self, inclure_mdp=False
-        ) -> list[Utilisateur]:
+    ) -> list[Utilisateur]:
         """Lister tous les utilisateurs
         Si inclure_mdp=True, les mots de passe seront inclus
         Par défaut, tous les mdp des utilisateurs sont à None
@@ -182,7 +182,7 @@ class UtilisateurService(metaclass=Singleton):
     @log
     def se_connecter(
         self, pseudo, mot_de_passe
-        ) -> Utilisateur:
+    ) -> Utilisateur:
         """Se connecter à partir de pseudo et mdp"""
         return UtilisateurDao().se_connecter(
             pseudo, hash_password(mot_de_passe, pseudo)

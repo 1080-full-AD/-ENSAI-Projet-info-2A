@@ -142,7 +142,9 @@ class AvisService:
                     )
         return False
 
-    def supprimer_note(self, id_manga: int, id_utilisateur: int) -> bool:
+    def supprimer_note(
+        self, id_manga: int, id_utilisateur: int
+    ) -> bool:
         """Supprimer une note
 
         Parameters
@@ -229,7 +231,7 @@ class AvisService:
 
     def noter(
         self, id_manga: int, id_utilisateur: int, note: int
-        ) -> bool:
+    ) -> bool:
         """Noter un manga
 
         Parameters
@@ -278,7 +280,7 @@ class AvisService:
 
     def modifier_note(
         self, id_manga: int, id_utilisateur: int, newnote: int
-        ) -> bool:
+    ) -> bool:
         """Modifier une note
 
         Parameters
