@@ -143,8 +143,7 @@ class UtilisateurService(metaclass=Singleton):
         if isinstance(id, int) is False:
             raise TypeError("L'identifiant doit être un entier :/")
         if UtilisateurDao().trouver_par_id(id) is None:
-            print("Auncun utilisateur ne possède cet identifiant :/")
-            return None
+            raise ValueError("Auncun utilisateur ne possède cet identifiant :/")
         else:
             return UtilisateurDao().trouver_par_id(id)
 

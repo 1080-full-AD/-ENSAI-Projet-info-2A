@@ -20,7 +20,6 @@ class MainModerationView(AbstractView):
                 "Gestion de la base de manga",
                 "Gestion des avis",
                 "Gestion des utilisateurs",
-                "Gestion des collections",
                 "Retour",
             ],
         ).execute()
@@ -35,35 +34,26 @@ class MainModerationView(AbstractView):
                     "\n" + "=" * 50 + " Modération de manga" + "=" * 50 + "\n"
                 )
 
-            case "Modifier une mangathèque":
-                from src.views.collection.modification_mangatheque_view import (
-                    ModificationMangathequeView,
+            case "Gestion des avis":
+                from src.views.moderation.moderation_avis_view import (
+                    ModerationAvisView
                 )
 
-                return ModificationMangathequeView(
-                    "\n" + "=" * 50 + " Modification de collection"
-                    " :) " + "=" * 50 + "\n"
+                return ModerationAvisView(
+                    "\n" + "=" * 50 + " Modération des avis "
+                    + "=" * 50 + "\n"
                 )
 
-            case "Supprimer une mangathèque":
-                from src.views.collection.supprimer_mangatheque_view import (
-                    SupprimerCollectionView,
+            case "Gestion des utilisateurs":
+                from src.views.moderation.moderation_utilisateur_view import (
+                    ModerationUtilisateurView
                 )
 
-                return SupprimerCollectionView(
-                    "\n" + "=" * 50 + " Suppression de collections"
-                    " :) " + "=" * 50 + "\n"
+                return ModerationUtilisateurView(
+                    "\n" + "=" * 50 + " Modération des utilisateurs"
+                    + "=" * 50 + "\n"
                 )
 
-            case "Consulter les mangathèques":
-                from src.views.collection.consulter_mangatheque_view import (
-                    ConsulterMangathequeView,
-                )
-
-                return ConsulterMangathequeView(
-                    "\n" + "=" * 50 + " Consultation des collections"
-                    " :) " + "=" * 50 + "\n"
-                )
             case "Retour":
                 from src.views.users.main_user_view import MainUserView
 

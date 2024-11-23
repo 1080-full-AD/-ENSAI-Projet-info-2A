@@ -15,16 +15,22 @@ class ModerationAvisView(AbstractView):
         view
             Retourne la vue choisie par l'utilisateur dans le terminal
         """
+        try:
+            id_utilisateur = int(
+                inquirer.number(message="Entrez l'identifiant"
+                                        " de l'utilisateur").execute()
+            )
+            id_manga = int(
+                inquirer.number(message="Entrez l'identifiant du manga").execute()
+            )
 
-        id_utilisateur = int(
-            inquirer.number(message="Entrez l'identifiant de l'utilisateur").execute()
-        )
-        id_manga = int(
-            inquirer.number(message="Entrez l'identifiant du manga").execute()
-        )
+        except Exception as e:
+            print("\n", e)
 
         supp = inquirer.confirm(
-            message=f"Confirmer la suppression de l'avis de l'utilisateur {id_utilisateur} sur le manga {id_manga} ?"
+            message=f"Confirmer la suppression "
+                    f"de l'avis de l'utilisateur {id_utilisateur} "
+                    f"sur le manga {id_manga} ?"
         ).execute()
         if supp is True:
             AvisService().supprimer_avis(
