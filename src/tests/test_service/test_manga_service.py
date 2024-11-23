@@ -323,7 +323,7 @@ def test_rechercher_une_serie_ok():
 
 
 def test_rechercher_une_serie_echec():
-    """Tester si la recherche 
+    """Tester si la recherche
     de la saga d'un manga ne fonctionne pas"""
 
     # GIVEN

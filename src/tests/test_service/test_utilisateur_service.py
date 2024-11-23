@@ -31,7 +31,7 @@ liste_utilisateur = [
 
 
 def test_pseudo_existe_deja_ok():
-    """Vérifier que la méthode 
+    """Vérifier que la méthode
     pseudo_existe_déjà fonctionne correctement"""
 
     # GIVEN
@@ -55,7 +55,7 @@ def test_pseudo_existe_deja_ok():
 
 
 def test_pseudo_existe_déjà_echec():
-    """Vérifier que la méthode 
+    """Vérifier que la méthode
     pseudo_existe_déjà renvoie bien une erreur"""
 
     # GIVEN
@@ -79,7 +79,7 @@ def test_pseudo_existe_déjà_echec():
 
 
 def test_creer_utilisateur_ok():
-    """Vérifier que la méthode 
+    """Vérifier que la méthode
     creer_utilisateur fonctionne bien"""
 
     # GIVEN
@@ -106,7 +106,7 @@ def test_creer_utilisateur_ok():
 
 
 def test_creer_utilisateur_echec():
-    """Vérifier que la méthode 
+    """Vérifier que la méthode
     creer_utilisateur renvoie bien un échec"""
 
     # GIVEN
@@ -134,7 +134,7 @@ def test_creer_utilisateur_echec():
 
 
 def test_modifier_utilisateur_ok():
-    """Vérifier que la méthode 
+    """Vérifier que la méthode
     modifier_utilisateur fonctionne correctement"""
 
     # GIVEN
@@ -158,7 +158,7 @@ def test_modifier_utilisateur_ok():
 
 
 def test_modifier_utilisateur_echec():
-    """Vérifier que la méthode 
+    """Vérifier que la méthode
     modifier_utilisateur renvoie bien une erreur"""
 
     # GIVEN
@@ -182,7 +182,7 @@ def test_modifier_utilisateur_echec():
 
 
 def test_supprimer_utilisateur_ok():
-    """Vérifier que la méthode 
+    """Vérifier que la méthode
     supprimer_utilsiateur fonctionne correctement"""
 
     # GIVEN
@@ -206,7 +206,7 @@ def test_supprimer_utilisateur_ok():
 
 
 def test_supprimer_utilisateur_echec():
-    """Vérifier que la méthode 
+    """Vérifier que la méthode
     supprimer_utilsiateur renvoie bien une erreur"""
 
     # GIVEN
@@ -230,7 +230,7 @@ def test_supprimer_utilisateur_echec():
 
 
 def test_trouver_par_pseudo_utilisateur_ok():
-    """Vérifier que la méthode qui 
+    """Vérifier que la méthode qui
     liste les utilisateurs grâce à leur pseudo fonctionne"""
 
     # GIVEN
@@ -270,7 +270,7 @@ def test_trouver_par_pseudo_utilisateur_ok():
 
 
 def test_trouver_par_pseudo_utilisateur_echec():
-    """Vérifier que la méthode 
+    """Vérifier que la méthode
     qui renvoie les utilisateurs renvoie bien
     un échec"""
 
@@ -312,7 +312,7 @@ def test_trouver_par_pseudo_utilisateur_echec():
 
 
 def test_trouver_par_id_utilisateur_ok():
-    """Vérifier que la méthode qui liste 
+    """Vérifier que la méthode qui liste
     les utilisateurs grâce à leur identifiant fonctionne"""
 
     # GIVEN
@@ -330,7 +330,7 @@ def test_trouver_par_id_utilisateur_ok():
 
 
 def test_trouver_par_id_utilisateur_echec():
-    """Vérifier que la méthode 
+    """Vérifier que la méthode
     qui renvoie les utilisateurs renvoie bien
     un échec"""
 
@@ -378,7 +378,7 @@ def test_lister_tous_utilisateur_ok():
 
 
 def test_lister_tous_utilisateur_echec():
-    """Vérifier que la méthode 
+    """Vérifier que la méthode
     qui liste tous les utilisateurs grâce à leur
     identifiant renvoie bien un échec"""
 
@@ -397,7 +397,7 @@ def test_lister_tous_utilisateur_echec():
 
 
 def test_se_connecter_ok():
-    """Vérifier que la méthode 
+    """Vérifier que la méthode
     se_connecter fonctionne correctement"""
 
     # GIVEN
@@ -438,7 +438,7 @@ def test_se_connecter_echec():
 
 
 def test_se_deconnecter_ok():
-    """Vérifier que la méthode 
+    """Vérifier que la méthode
     se déconnecter fonctionne comme il le faut"""
 
     # GIVEN
@@ -457,7 +457,7 @@ def test_se_deconnecter_ok():
 
 
 def test_se_deconnecter_echec():
-    """Vérifier que la méthode 
+    """Vérifier que la méthode
     se déconnecter renvoie bien une erreur"""
 
     # GIVEN
@@ -482,7 +482,7 @@ def test_se_deconnecter_echec():
 @patch("builtins.input", side_effect=["short", "short", "Password1"])
 @patch("builtins.print")
 def test_create_password_ok(mock_print, mock_input):
-    """Vérifier que la méthode 
+    """Vérifier que la méthode
     create_password fonctionne correctement"""
 
     # GIVEN
@@ -495,7 +495,7 @@ def test_create_password_ok(mock_print, mock_input):
     # THEN
     mock_input.assert_any_call("Veuillez créer un mot de passe :")
     mock_print.assert_any_call("Mot de passe créé avec succès !")
-    mock_print.assert_any_call("Le mot de passe ne" 
+    mock_print.assert_any_call("Le mot de passe ne"
     "respecte pas les critères suivants:")
     mock_print.assert_any_call("-Au moins 8 caractères")
     mock_print.assert_any_call("-Au moins une lettre majuscule")
@@ -506,7 +506,7 @@ def test_create_password_ok(mock_print, mock_input):
 
 
 def test_is_valid_mdp_ok():
-    """Vérifier que la méthode 
+    """Vérifier que la méthode
     is_valid_mdp fonctionne comme il le faut"""
 
     # GIVEN
@@ -525,7 +525,7 @@ def test_is_valid_mdp_ok():
 
 
 def test_is_valid_mdp_echec():
-    """Vérifier que la méthode 
+    """Vérifier que la méthode
     is_valid_mdp renvoie bien une erreur"""
 
     # GIVEN
@@ -540,6 +540,5 @@ def test_is_valid_mdp_echec():
 
 
 if __name__ == "__main__":
-    import pytest
 
     pytest.main([__file__])

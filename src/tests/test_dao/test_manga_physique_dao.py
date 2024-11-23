@@ -88,7 +88,8 @@ def test_supprimer_manga_physique_ok():
 
 
 def test_supprimer_manga_physique_echec():
-    """Suppression d'un manga physique échouée (id non existant)"""
+    """Suppression d'un manga
+    physique échouée (id non existant)"""
 
     # GIVEN
     manga = MangaPhysique(
@@ -138,7 +139,8 @@ def test_modifier_manga_physique_ok():
 
 
 def test_modifier_manga_physique_echec():
-    """Modification d'un manga physique échouée (id non existant)"""
+    """Modification d'un manga
+    physique échouée (id non existant)"""
 
     # GIVEN
     manga = MangaPhysique(
