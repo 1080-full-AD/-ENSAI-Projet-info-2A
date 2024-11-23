@@ -161,10 +161,9 @@ class MangaDao(metaclass=Singleton):
 
         modif = False
         if res:
-            manga.id_manga = res["id_manga"]
+            modif = True
 
         return modif
-        return res == 1
 
     def trouver_par_id(self, id_manga: str):
         """Trouver un manga par son identifiant s'il est connu (id)

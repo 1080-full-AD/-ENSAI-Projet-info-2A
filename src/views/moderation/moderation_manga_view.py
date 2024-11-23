@@ -64,10 +64,10 @@ class ModerationMangaView(AbstractView):
                         message="Entrez l'identifiant du manga à supprimer"
                     ).execute()
                 )
-                supp = inquirer.confirm(message="Confirmer ?").execute()
                 try:
+                    manga = MangaService().rechercher_un_id_manga(id_manga=id_manga)
+                    supp = inquirer.confirm(message="Confirmer ?").execute()
                     if supp is True:
-                        manga = MangaService().rechercher_un_id_manga(id_manga=id_manga)
                         s = manga.__str__()
                         print(s)
                         MangaService().supprimer_un_manga(manga=manga)
@@ -84,7 +84,13 @@ class ModerationMangaView(AbstractView):
                         message="Entrez l'identifiant du manga à modifier"
                     ).execute()
                 )
-                manga = MangaService().rechercher_un_id_manga(id_manga=id_manga)
+                try:
+                    manga = MangaService().rechercher_un_id_manga(id_manga=id_manga)
+                except Exception as e:
+                    print("\n", e)
+                    return ModerationMangaView(
+                        "\n" + "=" * 50 + " Modération de manga " + "=" * 50 + "\n"
+                    )
                 modif = inquirer.select(
                     message="Choisissez l'atribut à modifier",
                     choices=[
