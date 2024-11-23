@@ -90,6 +90,7 @@ class AvisDao(metaclass=Singleton):
         except Exception as e:
             logging.error(f"Erreur lors de la récupération des avis: {e}")
             return []
+            raise
 
     @log
     def trouver_avis_par_manga(

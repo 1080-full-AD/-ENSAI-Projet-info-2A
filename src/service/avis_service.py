@@ -2,6 +2,8 @@ import logging
 import dotenv
 
 from src.dao.avis_dao import AvisDao
+from src.dao.manga_dao import MangaDao
+from src.dao.utilisateur_dao import UtilisateurDao
 from src.business_objet.avis import Avis
 
 
@@ -62,8 +64,10 @@ class AvisService:
         list[Avis]
             Liste des avis de l'utilisateur
         """
-        if AvisDao().trouver_tous_par_id(id_utilisateur, include_spoilers) == []:
+        if UtilisateurDao().trouver_par_id(id) is None:
             raise ValueError("Auncun utilisateur ne possède ce pseudo :/")
+        elif AvisDao().trouver_tous_par_id(id_utilisateur, include_spoilers) == []:
+            raise ValueError("Auncun avis à afficher pour cet utilisateur :/")
         else:
             return AvisDao().trouver_tous_par_id(id_utilisateur, include_spoilers)
 
@@ -81,8 +85,10 @@ class AvisService:
         list[Avis]
             Liste des avis pour ce manga
         """
-        if AvisDao().trouver_avis_par_manga(id_manga, include_spoilers) == []:
+        if MangaDao().trouver_par_id(id_manga) is None:
             raise ValueError("Auncun manga ne possède ce nom :/")
+        elif AvisDao().trouver_avis_par_manga(id_manga, include_spoilers) == []:
+            raise ValueError("Auncun avis à afficher pour ce manga :/")
         else:
             return AvisDao().trouver_avis_par_manga(id_manga, include_spoilers)
 

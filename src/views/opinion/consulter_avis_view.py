@@ -102,7 +102,7 @@ class ConsulterAvisView(AbstractView):
 
                 user = Session().getuser()
                 id_utilisateur = user.id_utilisateur
-                avis = AvisService().trouver_tous_par_id(id_utilisateur=id_utilisateur)
+                avis = AvisService().trouver_tous_par_id(id_utilisateur= id_utilisateur)
 
                 for i in avis:
                     print(i.__str__())
