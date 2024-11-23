@@ -54,7 +54,8 @@ class MangaPhysique(Manga):
             self.id_utilisateur
         )
         return (
-            f"Mangathèque personelle du manga {self.titre_manga} de {utilisateur.pseudo} :)\n"
+            f"Mangathèque personelle du manga {self.titre_manga}"
+            f" de {utilisateur.pseudo} :)\n"
             f"Identifiant: {self.id_manga}\n"
             f"Titre: {self.titre_manga}\n"
             f"Auteur(s): {self.auteurs}\n"

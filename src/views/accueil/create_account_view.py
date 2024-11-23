@@ -17,7 +17,8 @@ class RegistrationView(AbstractView):
                 length=8,
                 cap=True,
                 number=True,
-                message="Au moins 8 caractères, incluant une majuscule et" "un chiffre",
+                message="Au moins 8 caractères, incluant une majuscule et"
+                " un chiffre",
             ),
         ).execute()
 
@@ -39,7 +40,8 @@ class RegistrationView(AbstractView):
             )
 
         else:
-            message = "Erreur de connexion :/\n" "(pseudo ou mot de passe invalide)"
+            message = "Erreur de connexion :/\n"
+            "(pseudo ou mot de passe invalide)"
 
         from src.views.accueil.main_menu_view import MainView
 

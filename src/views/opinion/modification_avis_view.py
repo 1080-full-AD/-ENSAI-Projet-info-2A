@@ -19,7 +19,8 @@ class ModificationAvisView(AbstractView):
         """
 
         titre_manga = inquirer.text(
-            "Entrez le nom du manga pour lequel vous voulez" " modifier votre avis :)"
+            "Entrez le nom du manga pour lequel vous voulez"
+            " modifier votre avis :)"
         ).execute()
 
         try:
@@ -50,7 +51,8 @@ class ModificationAvisView(AbstractView):
                 ).execute()
 
                 spoiler = inquirer.select(
-                    message="Cet avis contient-il un spoiler ?", choices=["Oui", "Non"]
+                    message="Cet avis contient-il un spoiler ?",
+                    choices=["Oui", "Non"]
                 ).execute()
 
                 # Convertir la réponse en un booléen
@@ -67,7 +69,7 @@ class ModificationAvisView(AbstractView):
                     print("\n", e, "\n")
 
                 return MainOpinionView(
-                    "\n" + "=" * 50 + " Menu des avis" " :) " + "=" * 50 + "\n"
+                    "\n" + "=" * 50 + " Menu des avis :) " + "=" * 50 + "\n"
                 )
 
             case "Modifier la note":
@@ -81,7 +83,9 @@ class ModificationAvisView(AbstractView):
                 )
                 try:
                     AvisService().modifier_note(
-                        id_manga=id_manga, id_utilisateur=id_utilisateur, newnote=note
+                        id_manga=id_manga,
+                        id_utilisateur=id_utilisateur,
+                        newnote=note
                     )
                 except Exception as e:
                     print("\n", e, "\n")

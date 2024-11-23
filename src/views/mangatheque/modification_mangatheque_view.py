@@ -19,7 +19,8 @@ class ModificationMangathequeView(AbstractView):
         """
 
         titre = inquirer.text(
-            message="Donnez le titre de la mangathèque que vous souhaitez modifier :)",
+            message="Donnez le titre de la mangathèque que"
+            " vous souhaitez modifier :)",
         ).execute()
 
         try:
@@ -28,12 +29,14 @@ class ModificationMangathequeView(AbstractView):
             user = Session().getuser()
             id_utilisateur = user.id_utilisateur
 
-            L = MangaPhysiqueService().rechercher_manga_physique(id_utilisateur=id_utilisateur, id_manga=manga.id_manga)
+            L = MangaPhysiqueService().rechercher_manga_physique(
+                id_utilisateur=id_utilisateur, id_manga=manga.id_manga)
 
         except Exception as e:
             print("\n", e)
             return ModificationMangathequeView(
-                "\n" + "=" * 50 + " Menu des mangathèques" " :) " + "=" * 50 + "\n"
+                "\n" + "=" * 50 + " Menu des mangathèques"
+                " :) " + "=" * 50 + "\n"
             )
 
         choix = inquirer.select(
@@ -47,19 +50,25 @@ class ModificationMangathequeView(AbstractView):
 
         match choix:
             case "Ajouter un tome":
-                new_tome = int(inquirer.number(message="Entrez le numéro du tome que vous voulez ajouter:").execute())
+                new_tome = int(inquirer.number(
+                    message="Entrez le numéro du tome"
+                    " que vous voulez ajouter:").execute())
                 try:
-                    MangaPhysiqueService().ajouter_tome(manga=L, new_tome=new_tome)
+                    MangaPhysiqueService().ajouter_tome(
+                        manga=L, new_tome=new_tome)
 
                 except Exception as e:
                     print("\n", e)
 
                 return MainMangathequeView(
-                    ("\n" + "=" * 50 + " Menu des mangathèques" " :) " + "=" * 50 + "\n")
+                    ("\n" + "=" * 50 + " Menu des mangathèques"
+                     " :) " + "=" * 50 + "\n")
                 )
 
             case "Enlever un tome":
-                tome = int(inquirer.number(message="Entrez le numéro du tome que vous voulez supprimer :)").execute())
+                tome = int(inquirer.number(
+                    message="Entrez le numéro du tome"
+                    " que vous voulez supprimer :)").execute())
                 try:
                     MangaPhysiqueService().enlever_tome(manga=L, tome=tome)
 
@@ -67,10 +76,12 @@ class ModificationMangathequeView(AbstractView):
                     print("\n", e)
 
                 return MainMangathequeView(
-                    ("\n" + "=" * 50 + " Menu des mangathèques" " :) " + "=" * 50 + "\n")
+                    ("\n" + "=" * 50 + " Menu des mangathèques"
+                     " :) " + "=" * 50 + "\n")
                 )
 
             case "Retour":
                 return MainMangathequeView(
-                    "\n" + "=" * 50 + " Menu des collections" " :) " + "=" * 50 + "\n"
+                    "\n" + "=" * 50 + " Menu des collections"
+                    " :) " + "=" * 50 + "\n"
                 )

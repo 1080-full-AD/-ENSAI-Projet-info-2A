@@ -19,7 +19,8 @@ class CreateOpinionView(AbstractView):
         """
 
         titre_manga = inquirer.text(
-            "Entrez le nom du manga sur lequel vous voulez" " partager votre avis :)"
+            "Entrez le nom du manga sur lequel vous voulez"
+            " partager votre avis :)"
         ).execute()
         try:
             manga = MangaService().rechercher_un_manga(titre_manga=titre_manga)
@@ -47,7 +48,8 @@ class CreateOpinionView(AbstractView):
                 texte = inquirer.text("Rédigez votre avis :)").execute()
 
                 spoiler = inquirer.select(
-                    message="Cet avis contient-il un spoiler ?", choices=["Oui", "Non"]
+                    message="Cet avis contient-il un spoiler ?",
+                    choices=["Oui", "Non"]
                 ).execute()
 
                 # Convertir la réponse en un booléen
@@ -77,7 +79,9 @@ class CreateOpinionView(AbstractView):
                 )
                 try:
                     AvisService().noter(
-                        id_manga=id_manga, id_utilisateur=id_utilisateur, note=note
+                        id_manga=id_manga,
+                        id_utilisateur=id_utilisateur,
+                        note=note
                     )
                 except Exception as e:
                     print("\n", e, "\n")

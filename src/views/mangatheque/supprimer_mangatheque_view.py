@@ -1,6 +1,5 @@
 from InquirerPy import inquirer
 from src.views.abstract_view import AbstractView
-from src.service.collection_service import CollectionVirtuelleService
 from src.service.manga_physique_service import MangaPhysiqueService
 from src.service.manga_service import MangaService
 from src.views.session import Session
@@ -19,7 +18,8 @@ class SupprimerMangathequeView(AbstractView):
             Retourne la vue choisie par l'utilisateur dans le terminal
         """
         titre = inquirer.text(
-            message="Donnez le titre du manga pour lequel que vous souhaitez supprimer la mangathèque :)",
+            message="Donnez le titre du manga pour lequel que"
+            " vous souhaitez supprimer la mangathèque :)",
         ).execute()
 
         try:
@@ -28,7 +28,8 @@ class SupprimerMangathequeView(AbstractView):
             user = Session().getuser()
             id_utilisateur = user.id_utilisateur
 
-            L = MangaPhysiqueService().rechercher_manga_physique(id_utilisateur=id_utilisateur, id_manga=manga.id_manga)
+            L = MangaPhysiqueService().rechercher_manga_physique(
+                id_utilisateur=id_utilisateur, id_manga=manga.id_manga)
             MangaPhysiqueService().supprimer_manga_physique(L)
 
         except Exception as e:

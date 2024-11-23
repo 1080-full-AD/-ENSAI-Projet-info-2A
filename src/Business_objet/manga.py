@@ -14,7 +14,8 @@ class Manga:
     """
 
     def __init__(
-        self, id_manga, titre_manga, auteurs, synopsis, nb_volumes, nb_chapitres
+        self, id_manga, titre_manga, auteurs, synopsis, nb_volumes,
+        nb_chapitres
     ):
         """Constructeur"""
         self.titre_manga = titre_manga

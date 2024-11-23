@@ -16,7 +16,8 @@ class Utilisateur:
     """
 
     def __init__(
-        self, pseudo, age, mot_de_passe=None, id_utilisateur=None, is_admin=False
+        self, pseudo, age, mot_de_passe=None, id_utilisateur=None,
+        is_admin=False
     ):
         """Constructeur"""
         self.id_utilisateur = id_utilisateur
@@ -24,7 +25,3 @@ class Utilisateur:
         self.mot_de_passe = mot_de_passe
         self.age = age
         self.is_admin = is_admin
-
-    def get_pseudo(self) -> str:
-        """Permet d'afficher le pseudo de l'utilisateur"""
-        return f"Utilisateur({self.pseudo}.)"

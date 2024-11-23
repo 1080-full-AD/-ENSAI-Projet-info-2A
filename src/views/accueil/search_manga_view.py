@@ -1,7 +1,6 @@
 from InquirerPy import inquirer
 from InquirerPy.validator import EmptyInputValidator
 from src.views.abstract_view import AbstractView
-from src.business_objet.manga import Manga
 from src.service.manga_service import MangaService
 from src.views.session import Session
 
@@ -41,17 +40,20 @@ class MangaSearchView(AbstractView):
                     manga = MangaService().rechercher_un_id_manga(id)
                     print(manga.__str__())
                     return MangaSearchView(
-                        "\n" + "=" * 50 + " Recherche" " de mangas " + "=" * 50 + "\n"
+                        "\n" + "=" * 50 + " Recherche"
+                        " de mangas " + "=" * 50 + "\n"
                     )
                 except Exception as e:
                     return MangaSearchView(e)
             case "Nom":
-                name = inquirer.text(message="Entrez le nom " "du manga :) ").execute()
+                name = inquirer.text(message="Entrez le nom "
+                                             "du manga :) ").execute()
                 try:
                     manga = MangaService().rechercher_un_manga(name)
                     print(manga.__str__())
                     return MangaSearchView(
-                        "\n" + "=" * 50 + " Recherche" " de mangas " + "=" * 50 + "\n"
+                        "\n" + "=" * 50 + " Recherche"
+                        " de mangas " + "=" * 50 + "\n"
                     )
                 except Exception as e:
                     return MangaSearchView(e)
@@ -65,7 +67,8 @@ class MangaSearchView(AbstractView):
                     for i in manga:
                         print(i.__str__())
                     return MangaSearchView(
-                        "\n" + "=" * 50 + " Recherche" " de mangas " + "=" * 50 + "\n"
+                        "\n" + "=" * 50 + " Recherche"
+                        " de mangas " + "=" * 50 + "\n"
                     )
                 except Exception as e:
                     return MangaSearchView(e)

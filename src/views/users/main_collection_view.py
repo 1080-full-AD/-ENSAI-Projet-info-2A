@@ -32,7 +32,8 @@ class MainCollectionView(AbstractView):
                 )
 
                 return CreateCollectionView(
-                    "\n" + "=" * 50 + " Création de collection" " :) " + "=" * 50 + "\n"
+                    "\n" + "=" * 50 + " Création de collection"
+                    " :) " + "=" * 50 + "\n"
                 )
 
             case "Modifier une collection":

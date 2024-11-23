@@ -52,7 +52,8 @@ class ConsulterAvisView(AbstractView):
                     )
 
                 avis = AvisService().trouver_tous_par_id(
-                    id_utilisateur=id_utilisateur, include_spoilers=afficher_spoilers
+                    id_utilisateur=id_utilisateur,
+                    include_spoilers=afficher_spoilers
                 )
 
                 for i in avis:
@@ -62,7 +63,8 @@ class ConsulterAvisView(AbstractView):
                         print("Avis marqué comme spoiler, non affiché.")
 
                 return ConsulterAvisView(
-                    "\n" + "=" * 50 + " Consultation d'avis" " :) " + "=" * 50 + "\n"
+                    "\n" + "=" * 50 + " Consultation d'avis :) "
+                    + "=" * 50 + "\n"
                 )
 
             case "Consulter les avis sur un manga":
@@ -72,9 +74,11 @@ class ConsulterAvisView(AbstractView):
                 ).execute()
 
                 afficher_spoilers = afficher_spoilers == "Oui"
-                name = inquirer.text("Entrez le nom du manga en question").execute()
+                name = inquirer.text(
+                    "Entrez le nom du manga en question").execute()
                 try:
-                    manga = MangaService().rechercher_un_manga(titre_manga=name)
+                    manga = MangaService().rechercher_un_manga(
+                        titre_manga=name)
                 except Exception as e:
                     print("\n", e)
                     return ConsulterAvisView(
@@ -94,7 +98,8 @@ class ConsulterAvisView(AbstractView):
                         print("Avis marqué comme spoiler, non affiché.")
 
                 return ConsulterAvisView(
-                    "\n" + "=" * 50 + " Consultation d'avis" " :) " + "=" * 50 + "\n"
+                    "\n" + "=" * 50 + " Consultation d'avis :) "
+                    + "=" * 50 + "\n"
                 )
 
             case "Consulter vos avis":
@@ -102,13 +107,15 @@ class ConsulterAvisView(AbstractView):
 
                 user = Session().getuser()
                 id_utilisateur = user.id_utilisateur
-                avis = AvisService().trouver_tous_par_id(id_utilisateur= id_utilisateur)
+                avis = AvisService().trouver_tous_par_id(
+                    id_utilisateur=id_utilisateur)
 
                 for i in avis:
                     print(i.__str__())
 
                 return ConsulterAvisView(
-                    "\n" + "=" * 50 + " Consultation d'avis" " :) " + "=" * 50 + "\n"
+                    "\n" + "=" * 50 + " Consultation d'avis :) "
+                    + "=" * 50 + "\n"
                 )
 
             case "Retour":

@@ -52,7 +52,9 @@ class ConsulterMangathequeView(AbstractView):
                         pseudo=pseudo
                     )
                     id_utilisateur = user.id_utilisateur
-                    liste_collec = MangaPhysiqueService().lister_manga_physique(
+                    liste_collec = MangaPhysiqueService(
+
+                    ).lister_manga_physique(
                         id_utilisateur=id_utilisateur
                     )
                     for i in liste_collec:
@@ -66,5 +68,6 @@ class ConsulterMangathequeView(AbstractView):
                 )
             case "Retour":
                 return MainMangathequeView(
-                    "\n" + "=" * 50 + " Menu des mangatheques " + "=" * 50 + "\n"
+                    "\n" + "=" * 50 + " Menu des mangatheques :)"
+                    + "=" * 50 + "\n"
                 )

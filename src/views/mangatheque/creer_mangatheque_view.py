@@ -28,22 +28,27 @@ class CreateMangathequeView(AbstractView):
         except Exception as e:
             print("\n", e)
             return MainMangathequeView(
-                "\n" + "=" * 50 + " Menu des" " Mangathèques :) " + "=" * 50 + "\n"
+                "\n" + "=" * 50 + " Menu des" " Mangathèques :) "
+                + "=" * 50 + "\n"
             )
-        missing = inquirer.confirm(message="Vous manque-t-il des tomes ? ").execute()
+        missing = inquirer.confirm(
+            message="Vous manque-t-il des tomes ? ").execute()
         try:
             if missing is True:
                 tomes_manquants = inquirer.text(
-                    message="Entrez les tomes manquants séparés par des virgules (ex: 1, 3, 7):"
+                    message="Entrez les tomes manquants séparés"
+                    " par des virgules (ex: 1, 3, 7):"
                 ).execute()
-                tomes_manquants = [x.strip() for x in tomes_manquants.split(",")]
+                tomes_manquants = (
+                    [x.strip() for x in tomes_manquants.split(",")])
                 tomes_manquants = [int(x) for x in tomes_manquants]
             else:
                 tomes_manquants = None
         except Exception as e:
             print("\n", e)
             return MainMangathequeView(
-                "\n" + "=" * 50 + " Menu des" " Mangathèques :) " + "=" * 50 + "\n"
+                "\n" + "=" * 50 + " Menu des"
+                " Mangathèques :) " + "=" * 50 + "\n"
             )
         try:
             status = inquirer.select(
@@ -52,7 +57,8 @@ class CreateMangathequeView(AbstractView):
             ).execute()
             dernier_tome = int(
                 inquirer.number(
-                    message="Quel est le numéro du dernier tome que vous possédez ?"
+                    message="Quel est le numéro du dernier"
+                    " tome que vous possédez ?"
                 ).execute()
             )
             mangatheque = MangaPhysique(

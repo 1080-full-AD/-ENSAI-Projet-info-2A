@@ -23,7 +23,8 @@ class CreateCollectionView(AbstractView):
             id_utilisateur = user.id_utilisateur
 
             titre = inquirer.text(
-                "Entrez le nom de la collection que vous voulez" " voulez créer :)"
+                "Entrez le nom de la collection que vous voulez"
+                " voulez créer :)"
             ).execute()
 
             collection = CollectionVirtuelleService().creer(
@@ -53,13 +54,16 @@ class CreateCollectionView(AbstractView):
                 f"Entrez le nom du manga que vous voulez ajouter à {titre} :)"
             ).execute()
             try:
-                manga = MangaService().rechercher_un_manga(titre_manga=titre_manga)
+                manga = MangaService().rechercher_un_manga(
+                    titre_manga=titre_manga
+                    )
                 CollectionVirtuelleService().ajouter_manga(
                     collection=collection, new_manga=manga
                 )
             except Exception as e:
                 print("\n", e, "\n")
-            ajout = inquirer.confirm("Voulez-vous ajouter un autre manga?").execute()
+            ajout = inquirer.confirm(
+                "Voulez-vous ajouter un autre manga?").execute()
         print(f"\n La collection {titre} a été créée avec succès :)")
 
         return MainCollectionView(

@@ -17,7 +17,8 @@ class Avis:
         si l'avis contient un spoiler ou pas
     """
 
-    def __init__(self, id_manga, id_utilisateur, texte=None, note=None, spoiler=False):
+    def __init__(self, id_manga, id_utilisateur,
+                 texte=None, note=None, spoiler=False):
         """Constructeur"""
         self.id_manga = id_manga
         self.id_utilisateur = id_utilisateur
@@ -33,7 +34,9 @@ class Avis:
             pseudo_utilisateur = utilisateur.pseudo
         except Exception as e:
             pseudo_utilisateur = "Utilisateur inconnu"
-            print(f"Erreur lors de la récupération du pseudo de l'utilisateur : {e}")
+            print(
+                f"Erreur lors de la récupération du"
+                f" pseudo de l'utilisateur : {e}")
 
         try:
             manga = MangaService().rechercher_un_id_manga(self.id_manga)

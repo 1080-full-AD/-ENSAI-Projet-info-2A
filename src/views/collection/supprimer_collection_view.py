@@ -1,7 +1,6 @@
 from InquirerPy import inquirer
 from src.views.abstract_view import AbstractView
 from src.service.collection_service import CollectionVirtuelleService
-from src.service.manga_service import MangaService
 from src.views.session import Session
 from src.views.users.main_collection_view import MainCollectionView
 
@@ -19,7 +18,8 @@ class SupprimerCollectionView(AbstractView):
         """
 
         titre = inquirer.text(
-            message="Donnez le titre de la collection que vous souhaitez supprimer :)",
+            message="Donnez le titre de la collection"
+            " que vous souhaitez supprimer :)",
         ).execute()
 
         user = Session().getuser()

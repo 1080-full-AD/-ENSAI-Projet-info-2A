@@ -35,12 +35,15 @@ class ModerationMangaView(AbstractView):
                     message="Entrez le(s) auteur(s) du manga"
                 ).execute()
                 nb_volumes = int(
-                    inquirer.number(message="Entrez le nombre de volumes").execute()
+                    inquirer.number(
+                        message="Entrez le nombre de volumes").execute()
                 )
                 nb_chapitres = int(
-                    inquirer.number(message="Entrez le nombre de chapitres").execute()
+                    inquirer.number(
+                        message="Entrez le nombre de chapitres").execute()
                 )
-                synopsis = inquirer.text(message="Entrez le synopsis").execute()
+                synopsis = inquirer.text(
+                    message="Entrez le synopsis").execute()
                 manga = Manga(
                     id_manga=1,
                     titre_manga=titre_manga,
@@ -65,7 +68,8 @@ class ModerationMangaView(AbstractView):
                     ).execute()
                 )
                 try:
-                    manga = MangaService().rechercher_un_id_manga(id_manga=id_manga)
+                    manga = MangaService().rechercher_un_id_manga(
+                        id_manga=id_manga)
                     supp = inquirer.confirm(message="Confirmer ?").execute()
                     if supp is True:
                         s = manga.__str__()
@@ -85,11 +89,13 @@ class ModerationMangaView(AbstractView):
                     ).execute()
                 )
                 try:
-                    manga = MangaService().rechercher_un_id_manga(id_manga=id_manga)
+                    manga = MangaService().rechercher_un_id_manga(
+                        id_manga=id_manga)
                 except Exception as e:
                     print("\n", e)
                     return ModerationMangaView(
-                        "\n" + "=" * 50 + " Modération de manga " + "=" * 50 + "\n"
+                        "\n" + "=" * 50 + " Modération de manga "
+                        + "=" * 50 + "\n"
                     )
                 modif = inquirer.select(
                     message="Choisissez l'atribut à modifier",
@@ -103,7 +109,8 @@ class ModerationMangaView(AbstractView):
                 ).execute()
                 match modif:
                     case "Titre":
-                        new_titre = inquirer.text("Entrez le nouveau titre").execute()
+                        new_titre = inquirer.text(
+                            "Entrez le nouveau titre").execute()
                         manga.titre = new_titre
                         mod = inquirer.confirm(message="Confirmer ?").execute()
                         if mod is True:
@@ -113,12 +120,14 @@ class ModerationMangaView(AbstractView):
                                 print("\n", e)
 
                         return ModerationMangaView(
-                            "\n" + "=" * 50 + " Modération de manga " + "=" * 50 + "\n"
+                            "\n" + "=" * 50 + " Modération de manga "
+                            + "=" * 50 + "\n"
                         )
 
                 match modif:
                     case "Synopsis":
-                        new_syn = inquirer.text("Entrez le nouveau Synopsis").execute()
+                        new_syn = inquirer.text(
+                            "Entrez le nouveau Synopsis").execute()
                         manga.synopsis = new_syn
                         mod = inquirer.confirm(message="Confirmer ?").execute()
                         if mod is True:
@@ -128,7 +137,8 @@ class ModerationMangaView(AbstractView):
                                 print("\n", e)
 
                         return ModerationMangaView(
-                            "\n" + "=" * 50 + " Modération de manga " + "=" * 50 + "\n"
+                            "\n" + "=" * 50 + " Modération de manga "
+                            + "=" * 50 + "\n"
                         )
 
                 match modif:
@@ -145,7 +155,8 @@ class ModerationMangaView(AbstractView):
                                 print("\n", e)
 
                         return ModerationMangaView(
-                            "\n" + "=" * 50 + " Modération de manga " + "=" * 50 + "\n"
+                            "\n" + "=" * 50 + " Modération de manga "
+                            + "=" * 50 + "\n"
                         )
 
                 match modif:
@@ -162,7 +173,8 @@ class ModerationMangaView(AbstractView):
                                 print("\n", e)
 
                         return ModerationMangaView(
-                            "\n" + "=" * 50 + " Modération de manga " + "=" * 50 + "\n"
+                            "\n" + "=" * 50 + " Modération de manga "
+                            + "=" * 50 + "\n"
                         )
 
                 match modif:
@@ -179,11 +191,14 @@ class ModerationMangaView(AbstractView):
                                 print("\n", e)
 
                         return ModerationMangaView(
-                            "\n" + "=" * 50 + " Modération de manga " + "=" * 50 + "\n"
+                            "\n" + "=" * 50 + " Modération de manga "
+                            + "=" * 50 + "\n"
                         )
 
             case "Retour":
-                from src.views.users.main_moderation_view import MainModerationView
+                from src.views.users.main_moderation_view import (
+                    MainModerationView
+                )
 
                 return MainModerationView(
                     "\n" + "=" * 50 + " Menu de modération " + "=" * 50 + "\n"

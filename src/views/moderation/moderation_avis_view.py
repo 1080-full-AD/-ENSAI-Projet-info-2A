@@ -21,7 +21,8 @@ class ModerationAvisView(AbstractView):
                                         " de l'utilisateur").execute()
             )
             id_manga = int(
-                inquirer.number(message="Entrez l'identifiant du manga").execute()
+                inquirer.number(
+                    message="Entrez l'identifiant du manga").execute()
             )
 
         except Exception as e:

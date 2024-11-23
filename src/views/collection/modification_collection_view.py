@@ -19,7 +19,8 @@ class ModificationCollectionView(AbstractView):
         """
 
         titre = inquirer.text(
-            message="Donnez le titre de la collection que vous souhaitez modifier :)",
+            message="Donnez le titre de la collection"
+            " que vous souhaitez modifier :)",
         ).execute()
 
         user = Session().getuser()
@@ -33,7 +34,7 @@ class ModificationCollectionView(AbstractView):
         except Exception as e:
             print("\n", e)
             return MainCollectionView(
-                "\n" + "=" * 50 + " Menu des collection" " :) " + "=" * 50 + "\n"
+                "\n" + "=" * 50 + " Menu des collections :) " + "=" * 50 + "\n"
             )
 
         choix = inquirer.select(
@@ -49,7 +50,8 @@ class ModificationCollectionView(AbstractView):
 
         match choix:
             case "Modifier le titre":
-                new_titre = inquirer.text("Rédigez votre nouveau titre :)").execute()
+                new_titre = inquirer.text(
+                    "Rédigez votre nouveau titre :)").execute()
                 try:
                     CollectionVirtuelleService().modifier_titre(
                         collection=collection, new_titre=new_titre
@@ -58,11 +60,13 @@ class ModificationCollectionView(AbstractView):
                     print("\n", e)
 
                 return MainCollectionView(
-                    ("\n" + "=" * 50 + " Menu des collections" " :) " + "=" * 50 + "\n")
+                    ("\n" + "=" * 50 + " Menu des collections"
+                     " :) " + "=" * 50 + "\n")
                 )
 
             case "Modifier la description":
-                desc = inquirer.text("Rédigez votre nouvelle description :)").execute()
+                desc = inquirer.text(
+                    "Rédigez votre nouvelle description :)").execute()
                 try:
                     CollectionVirtuelleService().modifier_description(
                         collection=collection, new_description=desc
@@ -71,7 +75,8 @@ class ModificationCollectionView(AbstractView):
                     print("\n", e)
 
                 return MainCollectionView(
-                    ("\n" + "=" * 50 + " Menu des collections" " :) " + "=" * 50 + "\n")
+                    ("\n" + "=" * 50 + " Menu des collections"
+                     " :) " + "=" * 50 + "\n")
                 )
 
             case "Ajouter un manga":
@@ -79,7 +84,8 @@ class ModificationCollectionView(AbstractView):
                     "Entrez le nom du manga que vous voulez ajouter :)"
                 ).execute()
                 try:
-                    manga = MangaService().rechercher_un_manga(titre_manga=titre_manga)
+                    manga = MangaService().rechercher_un_manga(
+                        titre_manga=titre_manga)
                     CollectionVirtuelleService().ajouter_manga(
                         collection=collection, new_manga=manga
                     )
@@ -99,7 +105,8 @@ class ModificationCollectionView(AbstractView):
                 ).execute()
 
                 try:
-                    manga = MangaService().rechercher_un_manga(titre_manga=titre_manga)
+                    manga = MangaService().rechercher_un_manga(
+                        titre_manga=titre_manga)
                     CollectionVirtuelleService().supprimer_manga(
                         collection=collection, manga=manga
                     )
@@ -107,12 +114,12 @@ class ModificationCollectionView(AbstractView):
                     print("\n", e)
 
                 return MainCollectionView(
-                    "\n" + "=" * 50 + " Menu des collections" " :) " + "=" * 50 + "\n"
+                    "\n" + "=" * 50 + " Menu des collections"
+                    " :) " + "=" * 50 + "\n"
                 )
 
             case "Retour":
-                from src.views.users.main_opinion_view import MainOpinionView
-
                 return MainCollectionView(
-                    "\n" + "=" * 50 + " Menu des collections" " :) " + "=" * 50 + "\n"
+                    "\n" + "=" * 50 + " Menu des collections"
+                    " :) " + "=" * 50 + "\n"
                 )

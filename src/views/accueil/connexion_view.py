@@ -11,7 +11,9 @@ class ConnexionView(AbstractView):
         pseudo = inquirer.text(message="Entrez votre pseudo : ").execute()
         mdp = inquirer.secret(message="Entrez votre mot de passe :").execute()
 
-        user = UtilisateurService().se_connecter(pseudo=pseudo, mot_de_passe=mdp)
+        user = UtilisateurService().se_connecter(
+            pseudo=pseudo, mot_de_passe=mdp
+            )
 
         if user:
             Session().connexion(user)

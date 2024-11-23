@@ -19,7 +19,8 @@ class SupprimerAvisView(AbstractView):
         """
 
         titre_manga = inquirer.text(
-            "Entrez le nom du manga pour lequel vous voulez" " supprimer votre avis :)"
+            "Entrez le nom du manga pour lequel vous voulez"
+            " supprimer votre avis :)"
         ).execute()
         try:
             manga = MangaService().rechercher_un_manga(titre_manga=titre_manga)

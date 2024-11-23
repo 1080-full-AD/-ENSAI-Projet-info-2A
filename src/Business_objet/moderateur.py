@@ -1,7 +1,3 @@
-from src.business_objet.utilisateur import Utilisateur
-from src.dao.utilisateur_dao import UtilisateurDao
-
-
 class Moderateur:
     """
     Classe représentant un Utilisateur
@@ -27,13 +23,3 @@ class Moderateur:
         super().__init__(pseudo=pseudo, age=age, mdp=mdp,
                          collections=collections,
                          id_utilisateur=id_utilisateur)
-
-    
-    def get_pseudo(self, id_utilisateur: int) -> str:
-
-
-
-
-try:
-    recherche_id([1,23])
-    

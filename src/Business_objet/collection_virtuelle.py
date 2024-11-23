@@ -8,5 +8,6 @@ class CollectionVirtuelle:
     def __str__(self):
         L = [i.titre_manga for i in self.liste_manga]
         return (
-            f"=== {self.titre} ===\n" f"Description: {self.description}\n" f"->{L}\n \n"
+            f"=== {self.titre} ===\n" f"Description: {self.description}\n"
+            f"->{L}\n \n"
         )
