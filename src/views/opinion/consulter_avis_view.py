@@ -50,12 +50,12 @@ class ConsulterAvisView(AbstractView):
 
                 avis = AvisService().trouver_tous_par_id(id_utilisateur=id_utilisateur, include_spoilers=afficher_spoilers)
 
-                # Filtrer les avis en fonction du choix de l'utilisateur sur les spoilers
+
                 for i in avis:
-                    if afficher_spoilers or not i.spoiler:  # Si l'utilisateur veut voir les spoilers ou l'avis n'est pas un spoiler
+                    if afficher_spoilers or not i.spoiler: 
                         print(i.__str__())
                     else:
-                        print("Avis marqué comme spoiler, non affiché.")  # Message si l'avis est un spoiler
+                        print("Avis marqué comme spoiler, non affiché.")
 
                 return ConsulterAvisView("\n" + "=" * 50 + " Consultation d'avis"
                                          " :) " + "=" * 50 + "\n")

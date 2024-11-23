@@ -1,5 +1,6 @@
 import os
 import pytest
+import logging
 from unittest.mock import patch
 from src.utils.reset_database import ResetDatabase
 from src.business_objet.collection_virtuelle import CollectionVirtuelle
@@ -7,43 +8,9 @@ from src.business_objet.manga import Manga
 from src.dao.collection_dao import CollectionDao
 from src.business_objet.utilisateur import Utilisateur
 
-@pytest.fixture(scope="session", autouse=True)
-def setup_test_environment():
-    """Initialisation des données de test"""
-    with patch.dict(os.environ, {"SCHEMA": "projet_test_dao"}):
-        ResetDatabase().lancer()
-        yield
+# données de test
 
-
-def test_creer_collection_ok():
-    """Création d'une collection virtuelle réussie"""
-    # GIVEN
-    collection = CollectionVirtuelle("Ma Collection", 1, [], "Collection de test")
-
-    # WHEN
-    created = CollectionDao().creer(collection)
-
-    # THEN
-    assert created
-
-
-def test_creer_collection_ko():
-    """Échec de la création d'une collection (ex. titre manquant)"""
-    # GIVEN
-    collection = CollectionVirtuelle(None, 1, [], "Collection sans titre")
-
-    # WHEN
-    created = CollectionDao().creer(collection)
-
-    # THEN
-    assert not created
-
-
-def test_ajouter_manga_virtuel_ok():
-    """Ajout d'un manga dans une collection virtuelle réussie"""
-    # GIVEN
-    collection = CollectionVirtuelle("Ma Collection", 1, [], "Collection de test")
-    manga = Manga(
+manga = Manga(
         id_manga=13,
         titre_manga="One Piece",
         synopsis="Gol D. Roger, a man referred to as the King of the Pirates,"
@@ -55,8 +22,46 @@ def test_ajouter_manga_virtuel_ok():
         "and an elastic body, he sets out on a fantastic journey to gather his own crew and a worthy ship that will take them across"
         "the Grand Line to claim the greatest status on the high seas.[Written by MAL Rewrite]",
         auteurs="Oda, Eiichiro",
-    )
+        nb_volumes=15,
+        nb_chapitres=10,
+      )
 
+@pytest.fixture(scope="session", autouse=True)
+def setup_test_environment():
+    """Initialisation des données de test"""
+    with patch.dict(os.environ, {"SCHEMA": "projet_test_dao"}):
+       # ResetDatabase().lancer()
+        yield
+
+
+def test_creer_collection_ok():
+    """Création d'une collection virtuelle réussie"""
+    # GIVEN
+    collection = CollectionVirtuelle("Ma Collection", 3, [], "Collection de test")
+
+    # WHEN
+    created = CollectionDao().creer(collection)
+
+    # THEN
+    assert created
+
+
+def test_creer_collection_ko():
+    """Échec de la création d'une collection (ex. titre manquant)"""
+    # GIVEN
+    collection = CollectionVirtuelle(None, 3, [], "Collection sans titre")
+
+    # WHEN
+    created = CollectionDao().creer(collection)
+
+    # THEN
+    assert not created
+
+
+def test_ajouter_manga_virtuel_ok():
+    """Ajout d'un manga dans une collection virtuelle réussie"""
+    # GIVEN
+    collection = CollectionVirtuelle("Ma Collection", 3, [], "Collection de test")
     # WHEN
     ajout = CollectionDao().ajouter_manga(collection, manga)
 
@@ -66,7 +71,7 @@ def test_ajouter_manga_virtuel_ok():
 
 def test_rechercher_collection_ok():
     #GIVEN
-    id_utilisateur = 1
+    id_utilisateur = 3
     titre_collec = "Ma Collection"
 
     #WHEN
@@ -79,7 +84,7 @@ def test_rechercher_collection_ok():
     assert resultat.liste_manga[0].id_manga == 13
 
 
-def test_rechercher_collection_none():
+def test_rechercher_collection_echec():
     #GIVEN
     id_utilisateur = 4
     titre_collec = "Ma Collection"
@@ -92,28 +97,11 @@ def test_rechercher_collection_none():
     assert resultat is None
     
 
-
-
 def test_supprimer_manga_virtuel_ok():
     """Suppression d'un manga dans une collection virtuelle réussie"""
     # GIVEN
-    manga = Manga(
-        id_manga=13,
-        titre_manga="One Piece",
-        synopsis="Gol D. Roger, a man referred to as the King of the Pirates,"
-        "is set to be executed by the World Government. But just before his demise, he confirms the existence of a great treasure,"
-        " One Piece, located somewhere within the vast ocean known as the Grand Line. Announcing that One Piece can be claimed by"
-        "anyone worthy enough to reach it, the King of the Pirates is executed and the Great Age of Pirates begins."
-        "Twenty-two years later, a young man by the name of Monkey D. Luffy is ready to embark on his own adventure"
-        ", searching for One Piece and striving to become the new King of the Pirates. Armed with just a straw hat, a small boat,"
-        "and an elastic body, he sets out on a fantastic journey to gather his own crew and a worthy ship that will take them across"
-        "the Grand Line to claim the greatest status on the high seas.[Written by MAL Rewrite]",
-        auteurs="Oda, Eiichiro",
-    )
-    collection = CollectionVirtuelle("Ma Collection", 2, [], "Collection de test")
-    CollectionDao().ajouter_manga(collection, manga)
-
-
+    collection = CollectionVirtuelle("Ma Collection", 3, [manga], "Collection de test")
+    
     # WHEN
     suppression = CollectionDao().supprimer_manga(collection, manga)
 
@@ -125,7 +113,7 @@ def test_supprimer_manga_virtuel_ko():
     """Échec de suppression d'un manga non existant dans une collection virtuelle"""
     # GIVEN
     collection = CollectionVirtuelle("Ma Collection", 2, [], "Collection de test")
-    manga = Manga("999", "Manga Inexistant", "Auteur Inconnu", "Synopsis Inconnu")
+    manga = Manga("999", "Manga Inexistant", "Auteur Inconnu", "Synopsis Inconnu" ,15 ,20)
 
     # WHEN
     suppression = CollectionDao().supprimer_manga(collection, manga)
@@ -134,11 +122,10 @@ def test_supprimer_manga_virtuel_ko():
     assert not suppression
 
 
-def test_modifier_collection_ok():
+def test_modifier_description_collection_ok():
     """Modification réussie d'une collection virtuelle"""
     # GIVEN
-    collection = CollectionVirtuelle("Ma Collec", 1, [], "Description de test")
-    CollectionDao().creer(collection)
+    collection = CollectionVirtuelle("Ma Collection", 3, [], "Collection de test")
     collection.description = "Nouvelle description"
 
     # WHEN
@@ -151,15 +138,14 @@ def test_modifier_collection_ok():
 def test_modifier_titre_ok():
     """Modification réussie d'une collection virtuelle"""
     # GIVEN
-    collection = CollectionVirtuelle("Ma new_Collec", 3, [], "Description de test")
-    CollectionDao().creer(collection)
+    collection = CollectionVirtuelle("Ma Collection", 3, [manga], "Collection de test")
     new_titre = "Nouvelle collec"
 
     # WHEN
     modification = CollectionDao().modifier_titre(collection, new_titre)
 
     # THEN
-    assert modification == True
+    assert modification is True
 
 
 def test_modifier_collection_ko():
@@ -179,20 +165,8 @@ def test_liste_manga_virtuel():
     """Vérifie que la liste des mangas d'une collection virtuelle est correcte."""
     
     # GIVEN: Création d'une collection virtuelle et ajout de mangas
-    collection = CollectionVirtuelle(titre="Ma Collection préfèrée", id_utilisateur=1, liste_manga=[], description="Une collection test")
-    manga1 = Manga(
-        id_manga=13,
-        titre_manga="One Piece",
-        synopsis="Gol D. Roger, a man referred to as the King of the Pirates,"
-        "is set to be executed by the World Government. But just before his demise, he confirms the existence of a great treasure,"
-        " One Piece, located somewhere within the vast ocean known as the Grand Line. Announcing that One Piece can be claimed by"
-        "anyone worthy enough to reach it, the King of the Pirates is executed and the Great Age of Pirates begins."
-        "Twenty-two years later, a young man by the name of Monkey D. Luffy is ready to embark on his own adventure"
-        ", searching for One Piece and striving to become the new King of the Pirates. Armed with just a straw hat, a small boat,"
-        "and an elastic body, he sets out on a fantastic journey to gather his own crew and a worthy ship that will take them across"
-        "the Grand Line to claim the greatest status on the high seas.[Written by MAL Rewrite]",
-        auteurs="Oda, Eiichiro",
-    )
+    collection = CollectionVirtuelle(titre="Nouvelle collec", id_utilisateur=3, liste_manga=[manga], description="Une collection test")
+    
     manga2 = Manga(
         id_manga=1, 
         titre_manga="Monster", 
@@ -215,15 +189,15 @@ def test_liste_manga_virtuel():
         "in his life. Through undergoing vigorous training and taking on challenging missions, Naruto must learn what it means"
         " to work in a team and carve his own route toward becoming a full-fledged ninja recognized by his village."
 
-        "[Written by MAL Rewrite])"
+        "[Written by MAL Rewrite])",
+        nb_chapitres=15,
+        nb_volumes=20
         )
 
-    CollectionDao().creer(collection)
-    CollectionDao().ajouter_manga(collection, manga1)
     CollectionDao().ajouter_manga(collection, manga2)
     
     # WHEN: Appel de la méthode liste_manga_virtuelle
-    liste_manga = CollectionDao().liste_manga(id_utilisateur=1 ,titre_collec="Ma Collection préfèrée")
+    liste_manga = CollectionDao().liste_manga(id_utilisateur=3 ,titre_collec="Nouvelle collec")
 
     # THEN: Vérification que la liste des mangas est correcte
     assert len(liste_manga) == 2
@@ -233,7 +207,7 @@ def test_liste_manga_virtuel():
 
 def test_liste_collection_ok():
     #given
-    id_utilisateur = 1
+    id_utilisateur = 3
 
     #WHEN
     result = CollectionDao().liste_collection(id_utilisateur)
@@ -245,8 +219,8 @@ def test_liste_collection_ok():
 def test_supprimer_collection_virtuelle_ok():
     """Suppression réussie d'une collection virtuelle"""
     # GIVEN
-    collection = CollectionVirtuelle("Ma Collection", 1, [], "Description de test")
-
+    collection = CollectionVirtuelle(titre="Nouvelle collec", id_utilisateur=3, liste_manga=[manga], description="Une collection test")
+    
     # WHEN
     suppression = CollectionDao().supprimer_collection(collection)
 
@@ -273,8 +247,8 @@ def test_titre_existant_True():
     lorsque le titre est déja enregistrer dans la base de données pour 
     utilisateur """
         # GIVEN
-    collection_1 = CollectionVirtuelle("Collection 1", 2, [], "Description de test")
-    id_utilisateur = 2
+    collection_1 = CollectionVirtuelle("Collection 1", 3, [], "Description de test")
+    id_utilisateur = 3
     titre = "Collection 1"
         # WHEN
     CollectionDao().creer(collection_1)

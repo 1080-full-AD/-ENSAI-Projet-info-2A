@@ -81,16 +81,12 @@ class CollectionVirtuelleService:
 
         else:
             modifiee = CollectionDao().modifier_titre(
-                collection=ancienne_collection, new_titre=new_titre
-            )
-            return collection if modifiee else None
-
-            return CollectionDao().modifier_titre(
                 collection=collection, new_titre=new_titre
             )
-            # return collection
-            # else:
-            # return None
+            collection.titre=new_titre
+            return collection if modifiee else None
+
+            
 
     @log
     def supprimer(self, collection) -> bool:

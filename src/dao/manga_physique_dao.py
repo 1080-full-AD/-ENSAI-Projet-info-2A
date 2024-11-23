@@ -2,7 +2,6 @@ import json
 import logging
 from src.utils.singleton import Singleton
 from src.utils.log_decorator import log
-from src.business_objet.utilisateur import Utilisateur
 from src.business_objet.manga_physique import MangaPhysique
 from src.dao.db_connection import DBConnection
 
@@ -31,6 +30,7 @@ class MangaPhysiqueDao(metaclass=Singleton):
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
+
                         f" INSERT INTO projet.mangatheque (id_manga,"
                         f" id_utilisateur,num_dernier,num_manquants,status) "
                         f" VALUES (%(id_manga)s, %(id_utilisateur)s ,"
@@ -44,7 +44,7 @@ class MangaPhysiqueDao(metaclass=Singleton):
                             "num_dernier": manga.dernier_tome,
                             "num_manquants": json.dumps(manga.tomes_manquants),
                             "status": manga.status,
-
+                            
                             
                             }
                             )
@@ -126,7 +126,7 @@ class MangaPhysiqueDao(metaclass=Singleton):
                         f"  id_manga = %(id_manga)s ,  "
                         f"  num_dernier = %(num_dernier)s   ,         "
                         f"  num_manquants=%(num_manquants)s ,          "
-                        f"  status=%(status)s "
+                        f"  status=%(status)s  "
                         f"  WHERE id_manga=%(id_manga)s "
                         f"  AND id_utilisateur=%(id_utilisateur)s", 
                            
@@ -193,14 +193,16 @@ class MangaPhysiqueDao(metaclass=Singleton):
                     dernier_tome=row["num_dernier"],
                     tomes_manquants=row["num_manquants"],
                     status=row["status"],
-
+                    nb_chapitres=row["nb_chapitres"],
+                    nb_volumes=row["nb_volumes"]
+                    
                      ) 
                 
                 liste_manga.append(manga)
         
         return liste_manga 
 
-     @log
+    @log
     def rechercher_manga_physique(self, id_utilisateur: int, id_manga: int) -> list:
 
         """rechercher un manga physique
@@ -237,10 +239,9 @@ class MangaPhysiqueDao(metaclass=Singleton):
                     res = cursor.fetchone()
         except Exception as e:
             logging.info(e)
-
-        
+ 
         if res:
-                manga = MangaPhysique(
+            manga = MangaPhysique(
                     id_manga=res["id_manga"],
                     auteurs=res["auteurs"],
                     titre_manga=res["titre_manga"],
@@ -249,7 +250,8 @@ class MangaPhysiqueDao(metaclass=Singleton):
                     dernier_tome=res["num_dernier"],
                     tomes_manquants=res["num_manquants"],
                     status=res["status"],
-
+                    nb_chapitres=res["nb_chapitres"],
+                    nb_volumes=res["nb_volumes"]
                      ) 
         
             return manga 

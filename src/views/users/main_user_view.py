@@ -35,7 +35,7 @@ class MainUserView(AbstractView):
                 "Accéder au menu des collections",
                 "Accéder au menu des mangathèques",
                 "Accéder au menu des avis",
-                "Accéder au menu de modération"
+                "Accéder au menu de modération",
                 "Se déconnecter"
             ]
 
@@ -82,7 +82,7 @@ class MainUserView(AbstractView):
                 return MainView("Retour au menu principal")
 
             case "Accéder au menu de modération":
-                from src.views.accueil.search_manga_view import MangaSearchView
+                from src.views.users.main_moderation_view import MainModerationView
 
-                return MangaSearchView("\n" + "=" * 50 + " Recherche"
-                                       " de mangas " + "=" * 50 + "\n")
+                return MainModerationView("\n" + "=" * 50 + " Menu des modérateurs"
+                                       + "=" * 50 + "\n")

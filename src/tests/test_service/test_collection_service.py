@@ -17,6 +17,8 @@ manga_virtuel = Manga(
         titre_manga="manga_test",
         synopsis='juste pour tester',
         auteurs='auteur',
+        nb_chapitres=15,
+        nb_volumes=20
         )
 
 
@@ -28,7 +30,9 @@ manga_physique = MangaPhysique(
     id_utilisateur=1,
     tomes_manquants=[],
     dernier_tome=15,
-    status="lu"
+    status="lu",
+    nb_volumes=15,
+    nb_chapitres=20,
     )
 
 collection = CollectionVirtuelle(
@@ -197,8 +201,8 @@ def test_modifier_titre_ok():
     result = service.modifier_titre(collection=collection, new_titre=new_titre)
 
     # THEN
-    assert result is True
-    #assert result.titre == new_titre
+    #assert result is True
+    assert result.titre == new_titre
 
 
 def test_supprimer_manga_ok():
