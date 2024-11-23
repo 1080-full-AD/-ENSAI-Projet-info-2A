@@ -114,6 +114,7 @@ class UtilisateurService(metaclass=Singleton):
         """
         if utilisateur.is_admin is True:
             raise ValueError('Impossible de supprimer les comptes modérateur')
+
         if UtilisateurDao().supprimer(utilisateur):
             print("Suppresion du compte réussie")
             return True
