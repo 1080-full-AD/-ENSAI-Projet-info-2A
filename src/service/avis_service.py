@@ -62,7 +62,10 @@ class AvisService:
         list[Avis]
             Liste des avis de l'utilisateur
         """
-        return AvisDao().trouver_tous_par_id(id_utilisateur, include_spoilers)
+        if AvisDao().trouver_tous_par_id(id_utilisateur, include_spoilers) == []:
+            raise ValueError("Auncun utilisateur ne possède ce pseudo :/")
+        else:
+            return AvisDao().trouver_tous_par_id(id_utilisateur, include_spoilers)
 
     def trouver_avis_par_manga(
         self, id_manga: int, include_spoilers=True
@@ -78,7 +81,10 @@ class AvisService:
         list[Avis]
             Liste des avis pour ce manga
         """
-        return AvisDao().trouver_avis_par_manga(id_manga, include_spoilers)
+        if AvisDao().trouver_avis_par_manga(id_manga, include_spoilers) == []:
+            raise ValueError("Auncun manga ne possède ce nom :/")
+        else:
+            return AvisDao().trouver_avis_par_manga(id_manga, include_spoilers)
 
     def supprimer_avis(self, id_manga: int, id_utilisateur: int) -> bool:
         """Supprimer un avis
