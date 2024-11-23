@@ -182,7 +182,7 @@ class MangaDao(metaclass=Singleton):
                     "       auteurs,"
                     "       synopsis, "
                     "       nb_volumes,"
-                    "       nb_chapitres"
+                    "       nb_chapitres "
                     "FROM projet.manga "
                     f" WHERE id_manga = %(id_manga)s",
                     {"id_manga": id_manga},

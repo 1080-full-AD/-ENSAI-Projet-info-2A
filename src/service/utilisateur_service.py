@@ -31,7 +31,7 @@ class UtilisateurService(metaclass=Singleton):
 
     @log
     def creer_utilisateur(
-        self, pseudo, age, mot_de_passe=None, id_utilisateur=None
+        self, pseudo, age, mot_de_passe=None, id_utilisateur=None, is_admin=False
     ) -> Utilisateur:
         """Création d'un utilisateur à partir de ses attributs
 
@@ -69,6 +69,7 @@ class UtilisateurService(metaclass=Singleton):
             age=age,
             mot_de_passe=hash_password(mot_de_passe, pseudo),
             id_utilisateur=id_utilisateur,
+            is_admin=is_admin
         )
         if UtilisateurDao().creer(nouvel_utilisateur):
             return nouvel_utilisateur

@@ -42,12 +42,21 @@ class MangaService(metaclass=Singleton):
     @log
     def creer_manga(self, manga) -> bool:
         """Créer un manga dans la base de données"""
-        return MangaDao().creer_manga(manga)
-
+        if MangaDao().creer_manga(manga):
+            print("Manga ajouté à la base")
+            return True
+        else:
+            print("echec")
+            return False
     @log
     def supprimer_un_manga(self, manga) -> bool:
+        MangaService().rechercher_un_id_manga(id_manga=manga.id_manga)
         """Supprimer un manga de la base de données"""
-        return MangaDao().supprimer_manga(manga)
+        if MangaDao().supprimer_manga(manga):
+            print("Manga supprimé de la base")
+            return True
+        else:
+            return False
 
     @log
     def modifier_un_manga(self, manga) -> bool:
