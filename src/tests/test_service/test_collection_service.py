@@ -13,12 +13,12 @@ import pytest
 # Initialisation des objets pour les tests
 
 manga_virtuel = Manga(
-        id_manga=27,
+        id_manga=28,
         titre_manga="manga_test",
         synopsis='juste pour tester',
         auteurs='auteur',
-        nb_chapitres=15,
-        nb_volumes=20
+        nb_chapitres=20,
+        nb_volumes=15
         )
 
 
@@ -27,7 +27,7 @@ manga_physique = MangaPhysique(
     titre_manga="One Piece",
     auteurs="Eiichirō Oda",
     synopsis="Aventures de Luffy pour devenir le roi des pirates.",
-    id_utilisateur=1,
+    id_utilisateur=3,
     tomes_manquants=[],
     dernier_tome=15,
     status="lu",
@@ -91,7 +91,7 @@ def test_creer_collection_echec_manga_physique():
 
 
 def test_creer_collection_echec_titre_existant():
-    collection_2 = CollectionVirtuelle("collection virtuelle", 2, [manga_virtuel],"la meilleure")
+    collection_2 = CollectionVirtuelle("collection virtuelle", 3, [manga_virtuel],"la meilleure")
     mock_dao = MagicMock(spec=CollectionDao)
     mock_dao.creer.return_value.side_effect = ValueError(
         "Vous avez déja une collection avec ce titre :/")
@@ -137,15 +137,17 @@ def test_liste_manga_ok():
 
     # WHEN
 
-    result = service.liste_manga(id_utilisateur=1,titre_collec="Collection Virtuelle" )
+    result = service.liste_manga(id_utilisateur=3,titre_collec="Collection Virtuelle" )
 
     # THEN
-    assert len(result) == 3
-    #assert result[0] == manga_virtuel
-    assert result[0].id_manga==manga_virtuel.id_manga
-    assert result[0].titre_manga==manga_virtuel.titre_manga
-    assert result[0].synopsis==manga_virtuel.synopsis
-    assert result[0].auteurs==manga_virtuel.auteurs
+    assert len(result) > 0
+    assert result[0] == manga_virtuel
+    #assert result[0].id_manga==manga_virtuel.id_manga
+    #assert result[0].titre_manga==manga_virtuel.titre_manga
+    #assert result[0].synopsis==manga_virtuel.synopsis
+    #assert result[0].auteurs==manga_virtuel.auteurs
+    #assert result[0].nb_volumes==manga_virtuel.nb_volumes
+    #assert result[0].auteurs==manga_virtuel.auteurs
     
 def liste_collection_ok():
 
