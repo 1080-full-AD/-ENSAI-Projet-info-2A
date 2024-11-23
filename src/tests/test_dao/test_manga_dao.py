@@ -83,8 +83,8 @@ def test_creer_ok():
         "Le12",
         "Eiichirō Oda",
         "Manga génial qui raconte la vie de 12 personnes",
-        None,
-        None,
+        12,
+        123,
     )
 
     # WHEN
@@ -100,7 +100,7 @@ def test_creer_echec():
 
     # GIVEN
     manga = Manga(
-        id_manga=None,
+        id_manga=167,
         titre_manga="gd",
         synopsis="manga génial sur la vie de gg",
         auteurs="Urasawa, Naoki",
