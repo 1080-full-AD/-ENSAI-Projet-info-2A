@@ -182,9 +182,9 @@ class MangaDao(metaclass=Singleton):
                     "       auteurs,"
                     "       synopsis, "
                     "       nb_volumes,"
-                    "       nb_chapitres"
-                    "FROM projet.manga "
-                    f" WHERE id_manga = %(id_manga)s",
+                    "       nb_chapitres, "
+                    " FROM projet.manga "
+                    f" WHERE id_manga = '{id_manga}'",
                     {"id_manga": id_manga},
                 )
                 res_id_manga = cursor.fetchone()
