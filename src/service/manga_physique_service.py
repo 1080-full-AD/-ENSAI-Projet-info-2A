@@ -11,12 +11,19 @@ class MangaPhysiqueService(metaclass=Singleton):
     @log
     def creer_manga_physique(self, manga: MangaPhysique) -> bool:
         """Créer un manga physique dans la base de données"""
-        return MangaPhysiqueDao().creer(manga)
-
+        if MangaPhysiqueDao().creer(manga):
+            print("Création de la mangathèque réussie :)")
+            return True
+        else:
+            return False
     @log
     def supprimer_manga_physique(self, manga: MangaPhysique) -> bool:
         """Supprimer un manga de la base de données"""
-        return MangaPhysiqueDao().supprimer_manga_physique(manga)
+        if MangaPhysiqueDao().supprimer_manga_physique(manga):
+            print("Suppression de la mangathèque réussie :)")
+            return True
+        else:
+            return False
 
     @log
     def ajouter_tome(self, manga: MangaPhysique, new_tome: int) -> bool:

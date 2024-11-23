@@ -84,8 +84,3 @@ class MangaService(metaclass=Singleton):
     def rechercher_une_serie(self, manga) -> Manga:
         """Trouver une série de mangas à partir du nom de la saga"""
         return MangaDao().trouver_serie_par_titre(manga)
-
-
-manga = Manga(1, "aa","aaaa", "a", 1, 1)
-
-MangaService().creer_manga(manga=manga)

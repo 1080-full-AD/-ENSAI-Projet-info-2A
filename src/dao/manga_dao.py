@@ -55,7 +55,7 @@ class MangaDao(metaclass=Singleton):
             False sinon
         """
 
-        res = None
+        res = []
 
         try:
             with DBConnection().connection as connection:
@@ -64,7 +64,7 @@ class MangaDao(metaclass=Singleton):
                         "INSERT INTO projet.manga(id_manga, titre_manga, auteurs, synopsis, nb_volumes, nb_chapitres)"
                         "VALUES                                              "
                         f"('{manga.id_manga}', '{manga.titre_manga}', '{manga.auteurs}', '{manga.synopsis}',"
-                        f"{manga.nb_volumes}, {manga.nb_chapitres})"
+                        f"'{manga.nb_volumes}', '{manga.nb_chapitres}')"
                         "  RETURNING id_manga;                               ",
                         {
                             "id_manga": manga.id_manga,
@@ -78,17 +78,11 @@ class MangaDao(metaclass=Singleton):
                     res = cursor.fetchone()
         except Exception as e:
             logging.info(e)
+            raise
 
         created = False
-        print("res", res)
         if res:
-            manga.id_manga = (res["id_manga"],)
-            manga.titre_manga = (res["titre_manga"],)
-            manga.auteurs = (res["auteurs"],)
-            manga.synospsis = (res["synopsis"],)
-            manga.nb_volumes = (res["nb_volumes"],)
-            manga.nb_chapitres = res["nb_chapitres"]
-            created = True
+            manga.id_manga = res["id_manga"]
 
         return created
 
@@ -138,20 +132,20 @@ class MangaDao(metaclass=Singleton):
             False sinon
         """
 
-        res = None
+        res = []
 
         try:
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
                         f"UPDATE projet.manga                                "
-                        f"   SET id_manga      = (%(id_manga)s) ,        "
-                        f"       titre_manga         = (%(titre_manga)s) ,           "
-                        f"        auteurs       = (%(auteurs)s),           "
-                        f"       synopsis      = (%(synopsis)s) ,        "
-                        f"       nb_volumes     = (%(nb_volumes)s),"
-                        f"       nb_chapitres    = (%(nb_chapitres))"
-                        f" WHERE id_manga = (%(id_manga)s) ;             ",
+                        f"   SET id_manga      = {id_manga},        "
+                        f"       titre_manga         = {titre_manga} ,           "
+                        f"        auteurs       = {auteurs},           "
+                        f"       synopsis      = {synopsis},        "
+                        f"       nb_volumes     = {nb_volumes},"
+                        f"       nb_chapitres    = {nb_chapitres}"
+                        f" WHERE id_manga = {id_manga} ;             ",
                         {
                             "id_manga": manga.id_manga,
                             "titre_manga": manga.titre_manga,
@@ -164,16 +158,11 @@ class MangaDao(metaclass=Singleton):
                     res = cursor.rowcount
         except Exception as e:
             logging.info(e)
+            raise
 
         modif = False
         if res:
-            manga.id_manga = (res["id_manga"],)
-            manga.titre_manga = (res["titre_manga"],)
-            manga.auteurs = (res["auteurs"],)
-            manga.synospsis = (res["synopsis"],)
-            manga.nb_volumes = (res["nb_volumes"],)
-            manga.nb_chapitres = res["nb_chapitres"]
-            modif = True
+            manga.id_manga = res["id_manga"]
 
         return modif
         return res == 1

@@ -46,12 +46,12 @@ class MainMangathequeView(AbstractView):
                 )
 
             case "Supprimer une mangathèque":
-                from src.views.collection.supprimer_mangatheque_view import (
-                    SupprimerCollectionView,
+                from src.views.mangatheque.supprimer_mangatheque_view import (
+                    SupprimerMangathequeView,
                 )
 
-                return SupprimerCollectionView(
-                    "\n" + "=" * 50 + " Suppression de collections"
+                return SupprimerMangathequeView(
+                    "\n" + "=" * 50 + " Suppression de mangathèque"
                     " :) " + "=" * 50 + "\n"
                 )
 
