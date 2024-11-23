@@ -84,7 +84,7 @@ class CollectionDao(metaclass=Singleton):
                     )
                 res = cursor.rowcount
         except Exception as e:
-            logging.error("Error ajouter collection: %s", e)
+            logging.error("Error ajouter_manga: %s", e)
 
         return res == 1
 
@@ -119,7 +119,7 @@ class CollectionDao(metaclass=Singleton):
                     )
                 res = cursor.rowcount
         except Exception as e:
-            logging.error("Error delete manga: %s", e)
+            logging.error("Error supprimer_manga: %s", e)
 
         return res == 1
 
@@ -155,7 +155,7 @@ class CollectionDao(metaclass=Singleton):
 
                     res = cursor.rowcount
         except Exception as e:
-            logging.error("Error supprimer collection: %s", e)
+            logging.error("Error supprimer_collection: %s", e)
             raise
 
         return res > 0
@@ -195,7 +195,7 @@ class CollectionDao(metaclass=Singleton):
                     )
                     res = cursor.rowcount
         except Exception as e:
-            logging.error("Error modifier collection: %s", e)
+            logging.error("Error modifier : %s", e)
         return res == 1
 
     @log
@@ -230,7 +230,7 @@ class CollectionDao(metaclass=Singleton):
                     )
                     res = cursor.rowcount
         except Exception as e:
-            logging.error("Error modifier titre collection: %s", e)
+            logging.error("Error modifier_titre : %s", e)
         return res >= 1
 
     @log
@@ -262,7 +262,7 @@ class CollectionDao(metaclass=Singleton):
                     )
                     res = cursor.fetchall()
         except Exception as e:
-            logging.error("Error lister manga: %s", e)
+            logging.error("Error liste_manga: %s", e)
 
         liste_manga = []
         if res:
@@ -311,7 +311,7 @@ class CollectionDao(metaclass=Singleton):
                     )
                     res = cursor.fetchall()
         except Exception as e:
-            logging.error("Error lister manga: %s", e)
+            logging.error("Error titre_existant: %s", e)
 
         liste_titre_collec = []
         if res:
@@ -349,7 +349,7 @@ class CollectionDao(metaclass=Singleton):
                     )
                     res = cursor.fetchall()
         except Exception as e:
-            logging.error("Error lister manga: %s", e)
+            logging.error("Error liste_collection: %s", e)
 
         liste_collection = []
         if res:
@@ -403,7 +403,7 @@ class CollectionDao(metaclass=Singleton):
                     )
                     res = cursor.fetchone()
         except Exception as e:
-            logging.error("Error lister manga: %s", e)
+            logging.error("Error rechercher_collection : %s", e)
 
         if res:
             liste_mangas = self.liste_manga(

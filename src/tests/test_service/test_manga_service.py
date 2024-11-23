@@ -44,10 +44,10 @@ def test_creer_manga_ok():
     manga_service.MangaDao = mock_dao
 
     # WHEN
-    manga = manga_service.creer_manga(manga)
+    res = manga_service.creer_manga(manga)
 
     # THEN
-    assert manga is not None
+    assert res is not None
 
 
 def test_creer_manga_echec():

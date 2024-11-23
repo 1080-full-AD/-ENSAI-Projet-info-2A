@@ -104,12 +104,18 @@ class MangaPhysiqueService(metaclass=Singleton):
     def rechercher_manga_physique(self, id_utilisateur: int, id_manga: int):
         """rechercher un manga physique à partir de l'identifiant d'un utilisateur
         et de celui du manga"""
-        if (
-            MangaPhysiqueDao().rechercher_manga_physique(id_utilisateur, id_manga)
-            is None
-        ):
-            raise ValueError("aucun manga trouvé :/")
+        if not isinstance(id_utilisateur, int) or not isinstance(id_manga, int):
+            raise TypeError("les informations renseignés ne sont pas correctes")
         else:
-            return MangaPhysiqueDao().rechercher_manga_physique(
-                id_utilisateur, id_manga
-            )
+            if UtilisateurDao().trouver_par_id(id_utilisateur) is None:
+                raise ValueError("ce identifiant n'est associé à aucun utilisateur")
+            else:
+                if (
+                    MangaPhysiqueDao().rechercher_manga_physique(id_utilisateur, id_manga)
+                    is None
+                    ):
+                    raise ValueError("aucun manga trouvé :/")
+                else:
+                    return MangaPhysiqueDao().rechercher_manga_physique(
+                        id_utilisateur, id_manga
+                         )

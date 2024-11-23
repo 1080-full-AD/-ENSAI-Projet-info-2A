@@ -166,7 +166,7 @@ def test_liste_mangas_physiques_utilisateur_existant():
 
     # GIVEN
 
-    id_utilisateur = (3,)
+    id_utilisateur = 3
 
     manga_1 = MangaPhysique(
         id_manga=4,
