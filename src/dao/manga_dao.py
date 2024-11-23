@@ -138,14 +138,13 @@ class MangaDao(metaclass=Singleton):
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        f"UPDATE projet.manga                                "
-                        f"   SET id_manga      = {id_manga},        "
-                        f"       titre_manga         = {titre_manga} ,           "
-                        f"        auteurs       = {auteurs},           "
-                        f"       synopsis      = {synopsis},        "
-                        f"       nb_volumes     = {nb_volumes},"
-                        f"       nb_chapitres    = {nb_chapitres}"
-                        f" WHERE id_manga = {id_manga} ;             ",
+                        "UPDATE projet.manga     "
+                        "SET titre_manga = %(titre_manga)s,   "
+                        "        auteurs = %(auteurs)s,        "
+                        "       synopsis = %(synopsis)s,        "
+                        "       nb_volumes = %(nb_volumes)s,      "
+                        "       nb_chapitres = %(nb_chapitres)s    "
+                        "WHERE id_manga = %(id_manga)s            ",
                         {
                             "id_manga": manga.id_manga,
                             "titre_manga": manga.titre_manga,
