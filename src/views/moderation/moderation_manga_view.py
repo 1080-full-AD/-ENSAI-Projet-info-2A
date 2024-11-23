@@ -86,6 +86,61 @@ class ModerationMangaView(AbstractView):
                         return ModerationMangaView("\n" + "=" * 50 + " Modération de manga "
                                             + "=" * 50 + "\n")
 
+                match modif:
+                    case "Synopsis":
+                        new_syn = inquirer.text("Entrez le nouveau Synopsis").execute()
+                        manga.synopsis = new_syn
+                        mod = inquirer.confirm(message="Confirmer ?").execute()
+                        if mod is True:
+                            try:
+                                MangaService().modifier_un_manga(manga=manga)
+                            except Exception as e:
+                                print("\n", e)
+
+                        return ModerationMangaView("\n" + "=" * 50 + " Modération de manga "
+                                            + "=" * 50 + "\n")
+
+                match modif:
+                    case "Auteur(s)":
+                        new_aut = inquirer.text("Entrez le(s) nouveaux auteur(s)").execute()
+                        manga.aut = new_aut
+                        mod = inquirer.confirm(message="Confirmer ?").execute()
+                        if mod is True:
+                            try:
+                                MangaService().modifier_un_manga(manga=manga)
+                            except Exception as e:
+                                print("\n", e)
+
+                        return ModerationMangaView("\n" + "=" * 50 + " Modération de manga "
+                                            + "=" * 50 + "\n")
+
+                match modif:
+                    case "Nombre de chapitres":
+                        new_cha = inquirer.number("Entrez le nouveau nombre de chapitres").execute()
+                        manga.nb_chapitres = new_cha
+                        mod = inquirer.confirm(message="Confirmer ?").execute()
+                        if mod is True:
+                            try:
+                                MangaService().modifier_un_manga(manga=manga)
+                            except Exception as e:
+                                print("\n", e)
+
+                        return ModerationMangaView("\n" + "=" * 50 + " Modération de manga "
+                                            + "=" * 50 + "\n")
+
+                match modif:
+                    case "Nombre de volumes":
+                        new_vol = inquirer.number("Entrez le nouveau nombre de volumes").execute()
+                        manga.nb_volumes = new_vol
+                        mod = inquirer.confirm(message="Confirmer ?").execute()
+                        if mod is True:
+                            try:
+                                MangaService().modifier_un_manga(manga=manga)
+                            except Exception as e:
+                                print("\n", e)
+
+                        return ModerationMangaView("\n" + "=" * 50 + " Modération de manga "
+                                            + "=" * 50 + "\n")
 
             case "Consulter les mangathèques":
                 from src.views.collection.consulter_mangatheque_view import ConsulterMangathequeView
