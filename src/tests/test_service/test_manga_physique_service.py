@@ -9,17 +9,17 @@ import pytest
 # Initialisation des données de test
 
 manga_test = MangaPhysique(
-        id_manga=28,
-        id_utilisateur=3,
-        titre_manga="manga_test",
-        synopsis='juste pour tester',
-        auteurs='auteur',
-        tomes_manquants=[5, 6],
-        dernier_tome=10,
-        status="incomplet",
-        nb_chapitres=10,
-        nb_volumes=5,
-        )
+    id_manga=28,
+    id_utilisateur=3,
+    titre_manga="manga_test",
+    synopsis="juste pour tester",
+    auteurs="auteur",
+    tomes_manquants=[5, 6],
+    dernier_tome=10,
+    status="incomplet",
+    nb_chapitres=10,
+    nb_volumes=5,
+)
 
 
 def test_creer_manga_physique_ok():
@@ -41,7 +41,7 @@ def test_creer_manga_physique_ok():
 
 def test_creer_manga_physique_echec():
     """Création d'un mangaphysique dans la BDD échec:
-    id_manga inexistant dans la base """
+    id_manga inexistant dans la base"""
 
     # GIVEN
     manga = MangaPhysique(
@@ -71,7 +71,7 @@ def test_creer_manga_physique_echec():
 
 
 def test_lister_manga_physique_ok():
-    """ test pour vérifier  la méthode lister_manga_physique""" 
+    """test pour vérifier  la méthode lister_manga_physique"""
     # GIVEN
     id_utilisateur = 3
     mock_dao = MagicMock(spec=MangaPhysiqueDao)
@@ -90,31 +90,33 @@ def test_lister_manga_physique_ok():
 
 def test_lister_manga_physique_id_inexistant():
     """tester la methode lister_manga_physique pour
-     un utilisateur non présent dans la base de données """
+    un utilisateur non présent dans la base de données"""
     id_utilisateur = 100
     mock_dao = MagicMock(spec=MangaPhysiqueDao)
     mock_dao.liste_manga_physique.return_value.side_effect = ValueError(
-       "ce identifiant n'est associé à aucun utilisateur"
+        "ce identifiant n'est associé à aucun utilisateur"
     )
     service = MangaPhysiqueService()
     service.MangaPhysiqueDao = mock_dao
-    
+
     # WHEN\THEN
-    with pytest.raises(ValueError, match="ce identifiant n'est associé à aucun utilisateur"):
+    with pytest.raises(
+        ValueError, match="ce identifiant n'est associé à aucun utilisateur"
+    ):
         service.lister_manga_physique(id_utilisateur)
 
 
 def test_lister_manga_physique_pas_id():
     """tester la methode lister_manga_physique pour
-     un argument qui n'est pas un entier  """
+    un argument qui n'est pas un entier"""
     id_utilisateur = "a"
     mock_dao = MagicMock(spec=MangaPhysiqueDao)
     mock_dao.liste_manga_physique.return_value.side_effect = TypeError(
-      f"{id_utilisateur} n'est pas un identifiant"
+        f"{id_utilisateur} n'est pas un identifiant"
     )
     service = MangaPhysiqueService()
     service.MangaPhysiqueDao = mock_dao
-    
+
     # WHEN\THEN
     with pytest.raises(TypeError, match=f"{id_utilisateur} n'est pas un identifiant"):
         service.lister_manga_physique(id_utilisateur)
@@ -122,7 +124,7 @@ def test_lister_manga_physique_pas_id():
 
 def test_rechercher_manga_ok():
     """test la méthode test_recherche_manga
-    fonctionne correction """
+    fonctionne correction"""
 
     # GIVEN
     id_utilisateur = 3
@@ -144,62 +146,72 @@ def test_rechercher_manga_ok():
 
 def test_rechercher_manga_None():
     """test la méthode test_recherche_manga
-    pour un manga non posséder par l'utilisateur """
+    pour un manga non posséder par l'utilisateur"""
 
     # GIVEN
     id_utilisateur = 3
     id_manga = 100
     mock_dao = MagicMock(spec=MangaPhysiqueDao)
     mock_dao.rechercher_manga_physique.return_value.side_effect = ValueError(
-        "aucun manga trouvé :/")
-    
+        "aucun manga trouvé :/"
+    )
+
     service = MangaPhysiqueService()
     service.MangaPhysiqueDao = mock_dao
 
     # WHEN\THEN
     with pytest.raises(ValueError, match="aucun manga trouvé :/"):
         service.rechercher_manga_physique(
-                        id_utilisateur=id_utilisateur, id_manga=id_manga)
-    
+            id_utilisateur=id_utilisateur, id_manga=id_manga
+        )
+
 
 def test_rechercher_manga_utilisateur_inexistant():
     """test la méthode test_recherche_manga
-    pour un utilisateur inexistant """
+    pour un utilisateur inexistant"""
 
     # GIVEN
     id_utilisateur = 100
     id_manga = manga_test.id_manga
     mock_dao = MagicMock(spec=MangaPhysiqueDao)
     mock_dao.rechercher_manga_physique.return_value.side_effect = ValueError(
-     "ce identifiant n'est associé à aucun utilisateur")
-    
+        "ce identifiant n'est associé à aucun utilisateur"
+    )
+
     service = MangaPhysiqueService()
     service.MangaPhysiqueDao = mock_dao
 
     # WHEN\THEN
-    with pytest.raises(ValueError, match="ce identifiant n'est associé à aucun utilisateur"):
+    with pytest.raises(
+        ValueError, match="ce identifiant n'est associé à aucun utilisateur"
+    ):
         service.rechercher_manga_physique(
-                        id_utilisateur=id_utilisateur, id_manga=id_manga)
+            id_utilisateur=id_utilisateur, id_manga=id_manga
+        )
 
 
 def test_rechercher_manga_valeur_incorrecte():
     """test la méthode test_recherche_manga
-    pour des valeurs d'arguments pas correctes """
+    pour des valeurs d'arguments pas correctes"""
 
     # GIVEN
     id_utilisateur = 3
-    id_manga = "b"  
+    id_manga = "b"
     mock_dao = MagicMock(spec=MangaPhysiqueDao)
     mock_dao.rechercher_manga_physique.return_value.side_effect = TypeError(
-        "les informations renseignés ne sont pas correctes")
+        "les informations renseignés ne sont pas correctes"
+    )
 
     service = MangaPhysiqueService()
     service.MangaPhysiqueDao = mock_dao
 
     # WHEN\THEN
-    with pytest.raises(TypeError, match="les informations renseignés ne sont pas correctes"):
+    with pytest.raises(
+        TypeError, match="les informations renseignés ne sont pas correctes"
+    ):
         service.rechercher_manga_physique(
-                        id_utilisateur=id_utilisateur, id_manga=id_manga) 
+            id_utilisateur=id_utilisateur, id_manga=id_manga
+        )
 
 
 def test_ajouter_tome_manquant_ok():

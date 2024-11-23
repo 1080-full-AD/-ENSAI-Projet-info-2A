@@ -1,9 +1,5 @@
-import logging
-import dotenv
-
 from src.dao.avis_dao import AvisDao
 from src.dao.manga_dao import MangaDao
-from src.dao.utilisateur_dao import UtilisateurDao
 from src.business_objet.avis import Avis
 
 
@@ -25,11 +21,17 @@ class AvisService:
             True si l'avis a été créé avec succès, False sinon
         """
         if isinstance(id_manga, int) is False:
-            raise TypeError("L'identifiant du manga doit être un entier :/")
+            raise TypeError(
+                "L'identifiant du manga doit être un entier :/"
+                )
         if isinstance(id_utilisateur, int) is False:
-            raise TypeError("L'identifiant de l'utilisateur doit être un entier :/")
+            raise TypeError(
+                "L'identifiant de l'utilisateur doit être un entier :/"
+                )
         if isinstance(texte, str) is False:
-            raise TypeError("L'avis doit être une chaîne de caractère :/")
+            raise TypeError(
+                "L'avis doit être une chaîne de caractère :/"
+                )
 
         avisuser = AvisService().trouver_tous_par_id(id_utilisateur)
         for i in avisuser:
@@ -65,7 +67,10 @@ class AvisService:
             Liste des avis de l'utilisateur
         """
 
-        return AvisDao().trouver_tous_par_id(id_utilisateur, include_spoilers)
+        return AvisDao().trouver_tous_par_id(
+            id_utilisateur, 
+            include_spoilers
+            )
 
     def trouver_avis_par_manga(
         self, id_manga: int, include_spoilers=True
@@ -82,11 +87,21 @@ class AvisService:
             Liste des avis pour ce manga
         """
         if MangaDao().trouver_par_id(id_manga) is None:
-            raise ValueError("Auncun manga ne possède ce nom :/")
-        elif AvisDao().trouver_avis_par_manga(id_manga, include_spoilers) == []:
-            raise ValueError("Auncun avis à afficher pour ce manga :/")
+            raise ValueError(
+                "Auncun manga ne possède ce nom :/"
+                )
+        elif AvisDao().trouver_avis_par_manga(
+            id_manga, 
+            include_spoilers
+            ) == []:
+            raise ValueError(
+                "Auncun avis à afficher pour ce manga :/"
+                )
         else:
-            return AvisDao().trouver_avis_par_manga(id_manga, include_spoilers)
+            return AvisDao().trouver_avis_par_manga(
+                id_manga, 
+                include_spoilers
+                )
 
     def supprimer_avis(self, id_manga: int, id_utilisateur: int) -> bool:
         """Supprimer un avis
@@ -102,19 +117,29 @@ class AvisService:
             True si l'avis a été supprimé avec succès, False sinon
         """
         if isinstance(id_manga, int) is False:
-            raise TypeError("L'identifiant du manga doit être un entier :/")
+            raise TypeError(
+                "L'identifiant du manga doit être un entier :/"
+                )
         if isinstance(id_utilisateur, int) is False:
-            raise TypeError("L'identifiant de l'utilisateur doit être un entier :/")
+            raise TypeError(
+                "L'identifiant de l'utilisateur doit être un entier :/"
+                )
 
         avisuser = AvisService().trouver_tous_par_id(id_utilisateur)
         for i in avisuser:
             if i.id_manga == id_manga and i.texte is not None:
-                avis = Avis(id_manga=id_manga, id_utilisateur=id_utilisateur, texte="")
+                avis = Avis(
+                    id_manga=id_manga, 
+                    id_utilisateur=id_utilisateur, 
+                    texte=""
+                    )
                 print("Votre avis a bien été supprimé :)")
                 return AvisDao().supprimer_avis(avis)
 
             else:
-                raise ValueError("Vous n'avez pas donné d'avis sur ce manga :/")
+                raise ValueError(
+                    "Vous n'avez pas donné d'avis sur ce manga :/"
+                    )
         return False
 
     def supprimer_note(self, id_manga: int, id_utilisateur: int) -> bool:
@@ -131,19 +156,28 @@ class AvisService:
             True si l'avis a été supprimé avec succès, False sinon
         """
         if isinstance(id_manga, int) is False:
-            raise TypeError("L'identifiant du manga doit être un entier :/")
+            raise TypeError(
+                "L'identifiant du manga doit être un entier :/"
+                )
         if isinstance(id_utilisateur, int) is False:
-            raise TypeError("L'identifiant de l'utilisateur doit être un entier :/")
+            raise TypeError(
+                "L'identifiant de l'utilisateur doit être un entier :/"
+                )
 
         avisuser = AvisService().trouver_tous_par_id(id_utilisateur)
         for i in avisuser:
             if i.id_manga == id_manga and i.note is not None:
-                avis = Avis(id_manga=id_manga, id_utilisateur=id_utilisateur, texte="")
+                avis = Avis(
+                    id_manga=id_manga, 
+                    id_utilisateur=id_utilisateur, 
+                    texte="")
                 print("Votre note a bien été supprimée :)")
                 return AvisDao().supprimer_note(avis)
 
             else:
-                raise ValueError("Vous n'avez pas donné de note sur ce manga :/")
+                raise ValueError(
+                    "Vous n'avez pas donné de note sur ce manga :/"
+                    )
 
     def modifier(
         self, id_manga: int, id_utilisateur: int, newtexte: str, spoiler=False
@@ -162,16 +196,26 @@ class AvisService:
             True si la modification a été un succès, False sinon
         """
         if isinstance(id_manga, int) is False:
-            raise TypeError("L'identifiant du manga doit être un entier :/")
+            raise TypeError(
+                "L'identifiant du manga doit être un entier :/"
+                )
         if isinstance(id_utilisateur, int) is False:
-            raise TypeError("L'identifiant de l'utilisateur doit être un entier :/")
+            raise TypeError(
+                "L'identifiant de l'utilisateur doit être un entier :/"
+                )
         if isinstance(newtexte, str) is False:
-            raise TypeError("L'avis doit être une chaîne de caractère :/")
+            raise TypeError(
+                "L'avis doit être une chaîne de caractère :/"
+                )
 
         avisuser = AvisService().trouver_tous_par_id(id_utilisateur)
         for i in avisuser:
             if i.id_manga == id_manga and i.texte is not None:
-                avis = Avis(id_manga=id_manga, id_utilisateur=id_utilisateur, texte="")
+                avis = Avis(
+                    id_manga=id_manga, 
+                    id_utilisateur=id_utilisateur, 
+                    texte=""
+                    )
                 print("Votre avis a bien été modifié :)")
                 return AvisDao().modifier(avis, newtexte, spoiler)
 
@@ -183,7 +227,9 @@ class AvisService:
                     " une note :)"
                 )
 
-    def noter(self, id_manga: int, id_utilisateur: int, note: int) -> bool:
+    def noter(
+        self, id_manga: int, id_utilisateur: int, note: int
+        ) -> bool:
         """Noter un manga
 
         Parameters
@@ -198,11 +244,17 @@ class AvisService:
             True si la modification a été un succès, False sinon
         """
         if isinstance(id_manga, int) is False:
-            raise TypeError("L'identifiant du manga doit être un entier :/")
+            raise TypeError(
+                "L'identifiant du manga doit être un entier :/"
+                )
         if isinstance(id_utilisateur, int) is False:
-            raise TypeError("L'identifiant de l'utilisateur doit être un entier :/")
+            raise TypeError(
+                "L'identifiant de l'utilisateur doit être un entier :/"
+                )
         if isinstance(note, int) is False:
-            raise TypeError("La note doit êre un entier :/")
+            raise TypeError(
+                "La note doit êre un entier :/"
+                )
         if note < 0 or note > 5:
             raise ValueError(
                 "Même si vous avez beaucoup apprécié (ou détesté)"
@@ -218,11 +270,15 @@ class AvisService:
                     " sélectionnez le menu modifier :)"
                 )
 
-        avis = Avis(id_manga=id_manga, id_utilisateur=id_utilisateur, texte="")
+        avis = Avis(
+            id_manga=id_manga, id_utilisateur=id_utilisateur, texte=""
+            )
         print("Votre note a bien été ajoutée :)")
         return AvisDao().noter(avis, note)
 
-    def modifier_note(self, id_manga: int, id_utilisateur: int, newnote: int) -> bool:
+    def modifier_note(
+        self, id_manga: int, id_utilisateur: int, newnote: int
+        ) -> bool:
         """Modifier une note
 
         Parameters
@@ -237,16 +293,24 @@ class AvisService:
             True si la modification a été un succès, False sinon
         """
         if isinstance(id_manga, int) is False:
-            raise TypeError("L'identifiant du manga doit être un entier :/")
+            raise TypeError(
+                "L'identifiant du manga doit être un entier :/"
+                )
         if isinstance(id_utilisateur, int) is False:
-            raise TypeError("L'identifiant de l'utilisateur doit être un entier :/")
+            raise TypeError(
+                "L'identifiant de l'utilisateur doit être un entier :/"
+                )
         if isinstance(newnote, int) is False:
             raise TypeError("La note doit être un entier :/")
 
         avisuser = AvisService().trouver_tous_par_id(id_utilisateur)
         for i in avisuser:
             if i.id_manga == id_manga and i.note is not None:
-                avis = Avis(id_manga=id_manga, id_utilisateur=id_utilisateur, texte="")
+                avis = Avis(
+                    id_manga=id_manga, 
+                    id_utilisateur=id_utilisateur, 
+                    texte=""
+                    )
                 print("Votre note a bien été modifiée :)")
                 return AvisDao().modifier_note(avis, newnote)
 

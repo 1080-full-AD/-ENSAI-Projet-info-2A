@@ -275,7 +275,7 @@ class UtilisateurDao(metaclass=Singleton):
                         pseudo=res_id_utilisateur["pseudo"],
                         id_utilisateur=res_id_utilisateur["id_utilisateur"],
                         age=res_id_utilisateur["age"],
-                        is_admin=res_id_utilisateur["is_admin"]
+                        is_admin=res_id_utilisateur["is_admin"],
                     )
                     return res_id_utilisateur
                 else:

@@ -28,7 +28,9 @@ class AvisDao(metaclass=Singleton):
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        "INSERT INTO projet.avis(id_manga, id_utilisateur, texte, spoiler) VALUES (%s, %s, %s, %s) RETURNING id_manga, id_utilisateur, texte, spoiler;",
+                        "INSERT INTO projet.avis(id_manga, id_utilisateur, texte, spoiler)" 
+                        "VALUES (%s, %s, %s, %s) RETURNING id_manga, id_utilisateur, texte," 
+                        "spoiler;",
                         (avis.id_manga, avis.id_utilisateur, avis.texte, avis.spoiler),
                     )
                     res = cursor.fetchone()
@@ -90,7 +92,6 @@ class AvisDao(metaclass=Singleton):
         except Exception as e:
             logging.error(f"Erreur lors de la récupération des avis: {e}")
             return []
-            
 
     @log
     def trouver_avis_par_manga(
@@ -223,7 +224,7 @@ class AvisDao(metaclass=Singleton):
                             cursor.execute(
                                 "DELETE FROM projet.avis                  "
                                 f" WHERE id_manga={avis.id_manga}      "
-                                f" AND id_utilisateur={avis.id_utilisateur} ;     "
+                                f" AND id_utilisateur={avis.id_utilisateur} ;"
                             )
                             res = cursor.rowcount
                 except Exception as e:
