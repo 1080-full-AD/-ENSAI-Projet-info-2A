@@ -299,7 +299,9 @@ class CollectionDao(metaclass=Singleton):
                     id_manga=row["id_manga"],
                     auteurs=row["auteurs"],
                     titre_manga=row["titre_manga"],
-                    synopsis=row["synopsis"]
+                    synopsis=row["synopsis"],
+                    nb_volumes=row["nb_volumes"],
+                    nb_chapitres=row["nb_chapitres"]
                      ) 
 
                 liste_manga.append(manga)

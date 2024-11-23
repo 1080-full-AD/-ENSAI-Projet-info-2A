@@ -6,17 +6,26 @@ from src.business_objet.manga_physique import MangaPhysique
 
 import pytest
 
-
+# Initialisation des données de test
 
 manga_test = MangaPhysique(
-                id_manga=26,
-                id_utilisateur=1,
-                titre_manga="Naruto",
-                auteurs="Masashi Kishimoto",
-                synopsis="Histoire d'un ninja ambitieux.",
+                id_manga=13,
+                id_utilisateur=3,
+                titre_manga="One Piece",
+                synopsis="Gol D. Roger, a man referred to as the King of the Pirates,"
+                        "is set to be executed by the World Government. But just before his demise, he confirms the existence of a great treasure,"
+                        " One Piece, located somewhere within the vast ocean known as the Grand Line. Announcing that One Piece can be claimed by"
+                        "anyone worthy enough to reach it, the King of the Pirates is executed and the Great Age of Pirates begins."
+                        "Twenty-two years later, a young man by the name of Monkey D. Luffy is ready to embark on his own adventure"
+                        ", searching for One Piece and striving to become the new King of the Pirates. Armed with just a straw hat, a small boat,"
+                        "and an elastic body, he sets out on a fantastic journey to gather his own crew and a worthy ship that will take them across"
+                        "the Grand Line to claim the greatest status on the high seas.[Written by MAL Rewrite]",
+                auteurs="Oda, Eiichiro",
                 tomes_manquants=[5, 6],
                 dernier_tome=10,
-                status="incomplet"
+                status="incomplet",
+                nb_chapitres=10,
+                nb_volumes=5
                 )
 
 
@@ -37,19 +46,22 @@ def test_creer_manga_physique_ok():
     # THEN
     assert result is True
 
+
 def test_creer_manga_physique_echec():
     """Création d'un mangaphysique dans la BDD échec"""
 
     # GIVEN
     manga = MangaPhysique(
                 id_manga=999,
-                id_utilisateur=1,
+                id_utilisateur=3,
                 titre_manga="Naruto",
                 auteurs="Masashi Kishimoto",
                 synopsis="Histoire d'un ninja ambitieux.",
                 tomes_manquants=[5, 6],
                 dernier_tome=10,
-                status="incomplet"
+                status="incomplet",
+                nb_chapitres=10,
+                nb_volumes=5
                 )
 
     mock_dao = MagicMock(spec=MangaPhysiqueDao)
@@ -67,9 +79,9 @@ def test_creer_manga_physique_echec():
 
 def test_lister_manga_physique_ok():
     #GIVEN
-    id_utilisateur = 1
+    id_utilisateur = 3
     mock_dao = MagicMock(spec=MangaPhysiqueDao)
-    mock_dao.lister_manga_physique.return_value = True
+    mock_dao.liste_manga_physique.return_value = True
 
     service = MangaPhysiqueService()
     service.MangaPhysiqueDao = mock_dao
@@ -78,12 +90,12 @@ def test_lister_manga_physique_ok():
     result = service.lister_manga_physique(id_utilisateur)
 
      # THEN
-    assert resultat is not None
-    assert resultat[0].titre_manga == manga_test.titre_manga 
+    assert result is not None
+    assert result[0].titre_manga == manga_test.titre_manga 
 
 def test_rechercher_manga_ok():
     #GIVEN
-    id_utilisateur = 1
+    id_utilisateur = 3
     id_manga = manga_test.id_manga
     mock_dao = MagicMock(spec=MangaPhysiqueDao)
     mock_dao.rechercher_manga_physique.return_value = True
@@ -94,8 +106,8 @@ def test_rechercher_manga_ok():
     result = service.rechercher_manga_physique(id_utilisateur=id_utilisateur, id_manga=id_manga)
 
      # THEN
-    assert resultat is not None
-    assert resultat.titre_manga == manga_test.titre_manga 
+    assert result is not None
+    assert result.titre_manga == manga_test.titre_manga 
 
     
 

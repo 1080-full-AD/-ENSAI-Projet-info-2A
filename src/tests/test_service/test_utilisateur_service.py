@@ -215,7 +215,7 @@ def test_supprimer_utilisateur_echec():
 
 
 def test_trouver_par_pseudo_utilisateur_ok():
-    """Vérifier que la méthode qui liste tous les utilisateurs grâce à leur pseudo fonctionne"""
+    """Vérifier que la méthode qui liste les utilisateurs grâce à leur pseudo fonctionne"""
 
     # GIVEN
     utilisateur_service = UtilisateurService()
@@ -254,7 +254,7 @@ def test_trouver_par_pseudo_utilisateur_ok():
 
 
 def test_trouver_par_pseudo_utilisateur_echec():
-    """Vérifier que la méthode qui renvoie tous les utilisateurs renvoie bien
+    """Vérifier que la méthode qui renvoie les utilisateurs renvoie bien
     un échec"""
 
     # GIVEN
@@ -289,6 +289,42 @@ def test_trouver_par_pseudo_utilisateur_echec():
     mock_dao.lister_tous.return_value = utilisateurs_simules
     # WHEN
     res = utilisateur_service.trouver_par_pseudo_utilisateur(pseudo)
+
+    # THEN
+    assert res == None
+
+
+def test_trouver_par_id_utilisateur_ok():
+    """Vérifier que la méthode qui liste les utilisateurs grâce à leur identifiant fonctionne"""
+
+    # GIVEN
+    utilisateur_service = UtilisateurService()
+
+    id = 1
+    mock_dao = MagicMock(spec=UtilisateurDao)
+    utilisateur_service.UtilisateurDao = mock_dao
+
+    # WHEN
+    res = utilisateur_service.trouver_par_id_utilisateur(id)
+
+    # THEN
+    assert res.id_utilisateur == id
+
+
+def test_trouver_par_id_utilisateur_echec():
+    """Vérifier que la méthode qui renvoie les utilisateurs renvoie bien
+    un échec"""
+
+    # GIVEN
+    id = 999
+    mock_dao = MagicMock(spec=UtilisateurDao)
+    mock_dao.lister_tous.side_effect = Exception("Erreur de base de données")
+
+    utilisateur_service = UtilisateurService()
+    utilisateur_service.UtilisateurDao = mock_dao
+
+    # WHEN
+    res = utilisateur_service.trouver_par_id_utilisateur(id)
 
     # THEN
     assert res == None

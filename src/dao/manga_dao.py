@@ -64,7 +64,8 @@ class MangaDao(metaclass=Singleton):
                     cursor.execute(
                         "INSERT INTO manga(id_manga, titre_manga, auteurs, synopsis, nb_volumes, nb_chapitres)"
                         "VALUES                                              "
-                        f"('{manga.id_manga}', '{manga.titre_manga}', '{manga.auteurs}', '{manga.synopsis}', '{manga.nb_volumes}', '{manga.nb_chapitres}') "
+                        f"('{manga.id_manga}', '{manga.titre_manga}', '{manga.auteurs}', '{manga.synopsis}',"
+                        f"'{manga.nb_volumes}', '{manga.nb_chapitres}')"
                         "  RETURNING id_manga;                               ",
                         {
                             "id_manga": manga.id_manga,
@@ -182,9 +183,15 @@ class MangaDao(metaclass=Singleton):
                     "       auteurs,"
                     "       synopsis, "
                     "       nb_volumes,"
+<<<<<<< HEAD
                     "       nb_chapitres "
                     "FROM projet.manga "
                     f" WHERE id_manga = %(id_manga)s",
+=======
+                    "       nb_chapitres"
+                    " FROM projet.manga "
+                    f" WHERE id_manga = '{id_manga}'",
+>>>>>>> ba552ac20fcbee0afc59c1caba9def18fb2a5420
                     {"id_manga": id_manga},
                 )
                 res_id_manga = cursor.fetchone()

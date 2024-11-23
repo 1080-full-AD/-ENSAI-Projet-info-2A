@@ -49,5 +49,7 @@ class Manga:
                 and self.titre_manga == autre_manga.titre_manga
                 and self.auteurs == autre_manga.auteurs
                 and self.synopsis == autre_manga.synopsis
+                and self.nb_volumes == autre_manga.nb_volumes
+                and self.nb_chapitres == autre_manga.nb_chapitres
             )
         return False

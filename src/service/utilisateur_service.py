@@ -138,6 +138,17 @@ class UtilisateurService(metaclass=Singleton):
             return UtilisateurDao().trouver_par_pseudo(pseudo)
 
     @log
+    def trouver_par_id_utilisateur(self, id) -> Utilisateur:
+        """Trouver un utilisateur à partir de son identifiant"""
+        if isinstance(id, int) is False:
+            raise TypeError("L'identifiant doit être un entier :/")
+        if UtilisateurDao().trouver_par_id(id) is None:
+            print("Auncun utilisateur ne possède cet identifiant :/")
+            return None
+        else:
+            return UtilisateurDao().trouver_par_id(id)
+
+    @log
     def se_connecter(self, pseudo, mot_de_passe) -> Utilisateur:
         """Se connecter à partir de pseudo et mdp"""
         return UtilisateurDao().se_connecter(
