@@ -1,41 +1,39 @@
-# ENSAI-Projet-info-2A
 
-Code source pour le projet d'info du cours à l'ENSAI [Compléments d'informatique](https://ludo2ne.github.io/
-ENSAI-2A-Projet-info/).
+# ENSAI-Info-Project-2A
 
-Auteurs : Attig Chahine, Gibert Adrien, Kambou Hery Ruth, Madec Jeanne, Saleck Mohamed
+Source code for the computer science project in the **Compléments d'informatique** course at ENSAI [Link](https://ludo2ne.github.io/ENSAI-2A-Projet-info/).
 
-## Objectifs
+Authors: Attig Chahine, Gibert Adrien, Kambou Hery Ruth, Madec Jeanne, Saleck Mohamed
 
-Cette Application sert à intéragir avec des mangas issus d'une API open source
+## Objectives
 
-- Rechercher un manga par son titre ou son mangaka
-- Partager des avis sur ces mangas
-- Partager des collections de mangas
+This application interacts with mangas from an open-source API.
+
+- Search for a manga by its title or mangaka
+- Share opinions about these mangas
+- Share manga collections
 
 ## Installation
 
-Installez les packages requis avec les commandes bash suivantes:
+Install the required packages using the following bash commands:
 
 ```bash
-pip install -r requirements.txt     # installer tout les packages listés dans les fichier
-pip list                            # obtenir la liste des packages installé
+pip install -r requirements.txt     # Install all the packages listed in the file
+pip list                            # Get the list of installed packages
 ```
 
+- **inquirerPy**: Library for creating interactive text-based menus with questions and options for users.
+- **pytest**: Powerful Python testing framework.
+- **python-dotenv**: Library for loading environment variables from .env files.
+- **requests**: Designed to make HTTP requests more accessible to humans.
 
-- **inquirerPy** : Librairie permettant de créer des menus textuels interactifs avec des questions et des options pour les usagers.
-- **pytest** : Structure de tests python puissant.
-- **python-dotenv** : Librairie permettant de charger des variables d'environnement de fichiers .env.
-- **requests** : designé pour rendre les requetes HTTP plus accessible pour l'humain.
-
-
-## Tests Unitaires
+## Unit Tests
 
 ```bash
 python -m pytest -v
 ```
 
-## Lancer l'application
+## Running the Application
 
 ```bash
 python src/__main__.py
