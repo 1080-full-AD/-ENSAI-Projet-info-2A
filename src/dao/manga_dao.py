@@ -55,7 +55,7 @@ class MangaDao(metaclass=Singleton):
             False sinon
         """
 
-        res = None
+        res = []
 
         try:
             with DBConnection().connection as connection:
@@ -137,7 +137,7 @@ class MangaDao(metaclass=Singleton):
             False sinon
         """
 
-        res = None
+        res = []
 
         try:
             with DBConnection().connection as connection:
