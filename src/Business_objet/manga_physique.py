@@ -26,9 +26,11 @@ class MangaPhysique(Manga):
     """
 
     def __init__(self, id_manga, id_utilisateur, titre_manga, auteurs, 
-                 synopsis, tomes_manquants, dernier_tome, status):
+                 synopsis, tomes_manquants, dernier_tome, status,
+                 nb_volumes, nb_chapitres):
         "constructeur"         
-        super().__init__(id_manga, titre_manga, auteurs, synopsis)
+        super().__init__(id_manga, titre_manga, auteurs, synopsis,
+                         nb_volumes, nb_chapitres)
         self.id_utilisateur = id_utilisateur
         self.tomes_manquants = tomes_manquants
         self.dernier_tome = dernier_tome

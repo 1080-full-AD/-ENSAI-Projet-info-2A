@@ -2,7 +2,7 @@ from src.utils.singleton import Singleton
 from src.business_objet.manga_physique import MangaPhysique
 from src.dao.manga_physique_dao import MangaPhysiqueDao
 from src.utils.log_decorator import log
-from src.dao.manga_physique_dao import MangaPhysiqueDao
+from src.dao.utilisateur_dao import UtilisateurDao
 
 
 class MangaPhysiqueService(metaclass=Singleton):
@@ -99,13 +99,13 @@ class MangaPhysiqueService(metaclass=Singleton):
             raise TypeError(f"{id_utilisateur} n'est pas un identifiant")
         if UtilisateurDao().trouver_par_id(id_utilisateur) is None:
             raise ValueError("ce identifiant n'est associé à aucun utilisateur")
-        return MangaPhysiqueDao().liste_manga_physique()    
+        return MangaPhysiqueDao().liste_manga_physique(id_utilisateur)    
 
     @log
-    def rechercher_collection(self, id_utilisateur: int, id_manga: int):
+    def rechercher_manga_physique(self, id_utilisateur: int, id_manga: int):
         """rechercher un manga physique à partir de l'identifiant d'un utilisateur 
         et de celui du manga"""
-        if MangaPhysiqueDao().recherhcer_manga_physique(id_utilisateur, id_manga) is None:
+        if MangaPhysiqueDao().rechercher_manga_physique(id_utilisateur, id_manga) is None:
             raise ValueError("aucun manga trouvé :/")
         else:
-            return MangaPhysiqueDao().recherhcer_manga_physique(id_utilisateur, id_manga)
+            return MangaPhysiqueDao().rechercher_manga_physique(id_utilisateur, id_manga)
