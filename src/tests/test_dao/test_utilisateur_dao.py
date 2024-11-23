@@ -44,8 +44,10 @@ def test_creer_echec():
 
 
 def test_trouver_par_pseudo_existant():
-    """Méthode permettant de tester la méthode qui cherche un utilisateur par
-    pseudo. Ici, elle teste si la méthode fonctionne avec un pseudo existant
+    """Méthode permettant de tester
+    la méthode qui cherche un utilisateur par
+    pseudo. Ici, elle teste si
+    la méthode fonctionne avec un pseudo existant
     dans la base"""
     # GIVEN
     pseudo = "user1"
@@ -58,9 +60,12 @@ def test_trouver_par_pseudo_existant():
 
 
 def teste_trouver_par_pseudo_non_existant():
-    """Méthode permettant de tester la méthode qui cherche un utilisateur par
-    pseudo. Ici, elle teste si la méthode fonctionne avec un pseudo qui
-    n'existe pas dans la base. Elle doit renvoyer None si le pseudo
+    """Méthode permettant de tester
+    la méthode qui cherche un utilisateur par
+    pseudo. Ici, elle teste si
+    la méthode fonctionne avec un pseudo qui
+    n'existe pas dans la base.
+    Elle doit renvoyer None si le pseudo
     n'existe pas dans la base"""
     # GIVEN
     pseudo = "AbsentBDD"
@@ -93,7 +98,9 @@ def test_supprimer_echec():
     """Suppression d'un utilisateur non réussie"""
 
     # GIVEN
-    user = Utilisateur(pseudo="LoveMangaMax", age=23, id_utilisateur=33333)
+    user = Utilisateur(
+        pseudo="LoveMangaMax", age=23, id_utilisateur=33333
+        )
 
     # WHEN
     suppression = UtilisateurDao().supprimer(user)
@@ -106,7 +113,9 @@ def test_supprimer_ok():
     """Suppression d'un utilisateur réussie'"""
 
     # GIVEN
-    user = Utilisateur(pseudo="LoveMangaMax", age=23, id_utilisateur=1)
+    user = Utilisateur(
+        pseudo="LoveMangaMax", age=23, id_utilisateur=1
+        )
 
     # WHEN
     suppression = UtilisateurDao().supprimer(user)
@@ -150,21 +159,26 @@ def test_se_connecter_ok():
     mdp = "password1"
 
     # WHEN
-    UtilisateurDao().se_connecter(pseudo, securite.hash_password(mdp, pseudo))
+    UtilisateurDao().se_connecter(
+        pseudo, securite.hash_password(mdp, pseudo)
+        )
 
     # THEN
     assert True
 
 
 def test_se_connecter_echec():
-    """Connexion d'un utilisateur échouée (pseudo ou mdp incorrect)"""
+    """Connexion d'un utilisateur
+    échouée (pseudo ou mdp incorrect)"""
 
     # GIVEN
     pseudo = "tototata"
     mdp = "password2"
 
     # WHEN
-    user = UtilisateurDao().se_connecter(pseudo, securite.hash_password(mdp, pseudo))
+    user = UtilisateurDao().se_connecter(
+        pseudo, securite.hash_password(mdp, pseudo)
+        )
 
     # THEN
     assert not user

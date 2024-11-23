@@ -146,7 +146,9 @@ def test_supprimer_note_ko():
     """Suppression d'une note échouée (avis non existant)"""
 
     # GIVEN
-    avis = Avis(id_manga=9999, id_utilisateur=9999, texte="non existant", note=4)
+    avis = Avis(
+        id_manga=9999, id_utilisateur=9999, texte="non existant", note=4
+        )
 
     # WHEN
     suppression_ok = AvisDao().supprimer_note(avis)
@@ -160,7 +162,9 @@ def test_modifier_note_ok():
 
     # GIVEN
     newnote = 3
-    avis = Avis(id_manga=1, id_utilisateur=1, texte="Amazing manga!", note=4)
+    avis = Avis(
+        id_manga=1, id_utilisateur=1, texte="Amazing manga!", note=4
+        )
 
     # WHEN
     modification_ok = AvisDao().modifier_note(avis, newnote)
