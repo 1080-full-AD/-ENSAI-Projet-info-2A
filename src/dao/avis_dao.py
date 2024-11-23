@@ -36,7 +36,6 @@ class AvisDao(metaclass=Singleton):
             logging.error(f"Erreur lors de la création de l'avis: {e}")
             raise
 
-        print("res=",res)
         created = res is not None
         if created:
             avis.id_manga = res["id_manga"]
@@ -121,8 +120,7 @@ class AvisDao(metaclass=Singleton):
                         cursor.execute(
                             "SELECT * " 
                             "FROM projet.avis " 
-                            f"WHERE id_manga = {id_manga}"
-                            f" AND spoiler = True ;     ",
+                            f"WHERE id_manga = {id_manga} AND spoiler = False",
                             {"id_manga": id_manga},
                         )
                         avis_rows = cursor.fetchall()                        
@@ -259,7 +257,7 @@ class AvisDao(metaclass=Singleton):
                 with connection.cursor() as cursor:
                     cursor.execute(
                         "UPDATE projet.avis                                "
-                        f"   SET texte      = '{newtexte}' AND spoiler = {spoiler}        "
+                        f"   SET texte      = '{newtexte}',      spoiler = {spoiler}        "
                         f" WHERE id_manga = {avis.id_manga}             "
                         f" AND id_utilisateur = {avis.id_utilisateur};             "
                     )
@@ -339,7 +337,7 @@ class AvisDao(metaclass=Singleton):
                 with connection.cursor() as cursor:
                     cursor.execute(
                         "UPDATE projet.avis                                "
-                        f"   SET note      = '{newnote}'        "
+                        f"   SET note      = {newnote}        "
                         f" WHERE id_manga = {avis.id_manga}             "
                         f" AND id_utilisateur = {avis.id_utilisateur};             "
                     )

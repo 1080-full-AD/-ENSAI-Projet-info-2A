@@ -16,15 +16,6 @@ class ConsulterAvisView(AbstractView):
         view
             Retourne la vue choisie par l'utilisateur dans le terminal
         """
-        
-        # Demander si l'utilisateur veut voir les spoilers
-        afficher_spoilers = inquirer.select(
-            message="Voulez-vous afficher les spoilers ?",
-            choices=["Oui", "Non"],
-        ).execute()
-
-        # Convertir le choix en un booléen
-        afficher_spoilers = afficher_spoilers == "Oui"
 
         choix = inquirer.select(
             message="Faites votre choix : ",
@@ -38,6 +29,14 @@ class ConsulterAvisView(AbstractView):
 
         match choix:
             case "Consulter les avis d'un utilisateur":
+
+                afficher_spoilers = inquirer.select(
+                    message="Voulez-vous afficher les spoilers ?",
+                    choices=["Oui", "Non"],
+                ).execute()
+
+                afficher_spoilers = afficher_spoilers == "Oui"
+
                 pseudo = inquirer.text(
                     "Entrez le pseudo de l'utilisateur en question"
                 ).execute()
@@ -62,6 +61,13 @@ class ConsulterAvisView(AbstractView):
                                          " :) " + "=" * 50 + "\n")
 
             case "Consulter les avis sur un manga":
+
+                afficher_spoilers = inquirer.select(
+                    message="Voulez-vous afficher les spoilers ?",
+                    choices=["Oui", "Non"],
+                ).execute()
+
+                afficher_spoilers = afficher_spoilers == "Oui"
                 name = inquirer.text(
                     "Entrez le nom du manga en question"
                 ).execute()
@@ -75,12 +81,12 @@ class ConsulterAvisView(AbstractView):
                 id_manga = manga.id_manga
                 avis = AvisService().trouver_avis_par_manga(id_manga=id_manga, include_spoilers=afficher_spoilers)
 
-                # Filtrer les avis en fonction du choix de l'utilisateur sur les spoilers
+
                 for i in avis:
-                    if afficher_spoilers or not i.spoiler:  # Si l'utilisateur veut voir les spoilers ou l'avis n'est pas un spoiler
+                    if afficher_spoilers or not i.spoiler:
                         print(i.__str__())
                     else:
-                        print("Avis marqué comme spoiler, non affiché.")  # Message si l'avis est un spoiler
+                        print("Avis marqué comme spoiler, non affiché.")
 
                 return ConsulterAvisView("\n" + "=" * 50 + " Consultation d'avis"
                                          " :) " + "=" * 50 + "\n")
@@ -91,12 +97,9 @@ class ConsulterAvisView(AbstractView):
                 id_utilisateur = user.id_utilisateur
                 avis = AvisService().trouver_tous_par_id(id_utilisateur=id_utilisateur)
 
-                # Filtrer les avis en fonction du choix de l'utilisateur sur les spoilers
                 for i in avis:
-                    if afficher_spoilers or not i.spoiler:  # Si l'utilisateur veut voir les spoilers ou l'avis n'est pas un spoiler
-                        print(i.__str__())
-                    else:
-                        print("Avis marqué comme spoiler, non affiché.")  # Message si l'avis est un spoiler
+                    print(i.__str__())
+
 
                 return ConsulterAvisView("\n" + "=" * 50 + " Consultation d'avis"
                                          " :) " + "=" * 50 + "\n")
