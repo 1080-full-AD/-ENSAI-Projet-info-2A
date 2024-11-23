@@ -14,24 +14,24 @@ Liste_Manga = [
         id_manga=13,
         titre_manga="One Piece",
         auteurs="Eiichirō Oda",
-        synopsis="Gol D. Roger, a man referred" 
-        "to as the King of the Pirates," 
-        "is set to be executed by the World" 
+        synopsis="Gol D. Roger, a man referred"
+        "to as the King of the Pirates,"
+        "is set to be executed by the World"
         "Government. But just before his demise,"
-        " he confirms the existence of a" 
-        "great treasure, One Piece, located" 
-        "somewhere within the vast ocean known as the Grand Line." 
-        "Announcing that One Piece can be claimed by" 
+        " he confirms the existence of a"
+        "great treasure, One Piece, located"
+        "somewhere within the vast ocean known as the Grand Line."
+        "Announcing that One Piece can be claimed by"
         "anyone worthy enough to reach it,"
-        "the King of the Pirates is executed" 
-        "and the Great Age of Pirates begins.\n\nTwenty-two years later," 
-        "a young man by the name of Monkey D. Luffy" 
+        "the King of the Pirates is executed"
+        "and the Great Age of Pirates begins.\n\nTwenty-two years later,"
+        "a young man by the name of Monkey D. Luffy"
         "is ready to embark on his own adventure, searching for One "
-        "Piece and striving to become the new King" 
-        "of the Pirates. Armed with just a straw hat, a small" 
-        "boat, and an elastic body, he sets out on a fantastic" 
+        "Piece and striving to become the new King"
+        "of the Pirates. Armed with just a straw hat, a small"
+        "boat, and an elastic body, he sets out on a fantastic"
         "journey to gather his own crew and a worthy ship that"
-        " will take them across the Grand Line to claim the" 
+        " will take them across the Grand Line to claim the"
         "greatest status on the high seas.\n\n[Written by MAL Rewrite]",
         nb_volumes=None,
         nb_chapitres=None,
@@ -108,7 +108,7 @@ def test_recherche_manga_ok():
 
 
 def test_recherche_manga_echec():
-    """Tester si la recherche de manga 
+    """Tester si la recherche de manga
     à partir de son titre renvoie bien un échec"""
 
     # GIVEN
@@ -127,7 +127,7 @@ def test_recherche_manga_echec():
 
 
 def test_recherche_id_manga_ok():
-    """Tester si la recherche de 
+    """Tester si la recherche de
     manga à partir de son id fonctionne"""
 
     # GIVEN
@@ -146,7 +146,7 @@ def test_recherche_id_manga_ok():
 
 
 def test_recherche_id_manga_echec():
-    """Tester si la recherche de manga 
+    """Tester si la recherche de manga
     à partir de son id renvoie bien un échec"""
 
     # GIVEN
@@ -264,7 +264,7 @@ def test_modifier_manga_echec():
 
 
 def test_rechercher_un_auteur_ok():
-    """Tester si la recherche d'un manga 
+    """Tester si la recherche d'un manga
     par le nom de son auteur fonctionne"""
 
     # GIVEN
@@ -283,7 +283,7 @@ def test_rechercher_un_auteur_ok():
 
 
 def test_rechercher_un_auteur_echec():
-    """Tester si la recherches d'un manga 
+    """Tester si la recherches d'un manga
     grâce au nom de son auteur est un échec"""
 
     # GIVEN
@@ -304,7 +304,7 @@ def test_rechercher_un_auteur_echec():
 
 
 def test_rechercher_une_serie_ok():
-    """Tester si la recherche 
+    """Tester si la recherche
     de la saga d'un manga fonctionne"""
 
     # GIVEN
