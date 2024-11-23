@@ -82,7 +82,12 @@ class MangaDao(metaclass=Singleton):
 
         created = False
         if res:
-            manga.id_manga = res["id_manga"]
+            manga.id_manga = (res["id_manga"],)
+            manga.titre_manga = (res["titre_manga"],)
+            manga.auteurs = (res["auteurs"],)
+            manga.synospsis = (res["synopsis"],)
+            manga.nb_volumes = (res["nb_volumes"],)
+            manga.nb_chapitres = res["nb_chapitres"]
             created = True
 
         return created
@@ -160,6 +165,17 @@ class MangaDao(metaclass=Singleton):
         except Exception as e:
             logging.info(e)
 
+        modif = False
+        if res:
+            manga.id_manga = (res["id_manga"],)
+            manga.titre_manga = (res["titre_manga"],)
+            manga.auteurs = (res["auteurs"],)
+            manga.synospsis = (res["synopsis"],)
+            manga.nb_volumes = (res["nb_volumes"],)
+            manga.nb_chapitres = res["nb_chapitres"]
+            modif = True
+
+        return modif
         return res == 1
 
     def trouver_par_id(self, id_manga: str):
