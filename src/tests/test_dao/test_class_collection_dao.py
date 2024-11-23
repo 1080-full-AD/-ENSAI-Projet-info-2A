@@ -145,7 +145,6 @@ def test_modifier_titre_ok():
     modification = CollectionDao().modifier_titre(collection, new_titre)
 
     # THEN
-    logging.debug("Résultat de la modification : %s", modification)
     assert modification is True
 
 
