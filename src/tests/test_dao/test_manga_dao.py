@@ -79,12 +79,12 @@ def test_creer_ok():
 
     # GIVEN
     manga = Manga(
-        id_manga=128,
-        titre_manga="gg",
-        synopsis="manga génial sur la vie de gg",
-        auteurs="Urasawa, Naoki",
-        nb_volumes=4,
-        nb_chapitres=126,
+        9999,
+        "Le12",
+        "Eiichirō Oda",
+        "Manga génial qui raconte la vie de 12 personnes",
+        None,
+        None,
     )
 
     # WHEN
@@ -92,7 +92,7 @@ def test_creer_ok():
 
     # THEN
     assert created is not None
-    assert manga.id_manga == 128
+    assert manga.id_manga == 9999
 
 
 def test_creer_echec():
