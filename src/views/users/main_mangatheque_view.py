@@ -36,7 +36,7 @@ class MainMangathequeView(AbstractView):
                 )
 
             case "Modifier une mangathèque":
-                from src.views.collection.modification_mangatheque_view import (
+                from src.views.mangatheque.modification_mangatheque_view import (
                     ModificationMangathequeView,
                 )
 
@@ -56,12 +56,12 @@ class MainMangathequeView(AbstractView):
                 )
 
             case "Consulter les mangathèques":
-                from src.views.collection.consulter_mangatheque_view import (
+                from src.views.mangatheque.consulter_mangatheque_view import (
                     ConsulterMangathequeView,
                 )
 
                 return ConsulterMangathequeView(
-                    "\n" + "=" * 50 + " Consultation des collections"
+                    "\n" + "=" * 50 + " Consultation des mangathèques"
                     " :) " + "=" * 50 + "\n"
                 )
             case "Retour":

@@ -37,6 +37,7 @@ class CreateMangathequeView(AbstractView):
                     message="Entrez les tomes manquants séparés par des virgules (ex: 1, 3, 7):"
                 ).execute()
                 tomes_manquants = [x.strip() for x in tomes_manquants.split(",")]
+                tomes_manquants = [int(x) for x in tomes_manquants]
             else:
                 tomes_manquants = None
         except Exception as e:
@@ -60,6 +61,8 @@ class CreateMangathequeView(AbstractView):
                 titre_manga=manga.titre_manga,
                 auteurs=manga.auteurs,
                 synopsis=manga.synopsis,
+                nb_chapitres=manga.nb_chapitres,
+                nb_volumes=manga.nb_volumes,
                 tomes_manquants=tomes_manquants,
                 dernier_tome=dernier_tome,
                 status=status,

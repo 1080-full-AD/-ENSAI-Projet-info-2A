@@ -1,4 +1,5 @@
 from src.business_objet.manga import Manga
+from src.service.utilisateur_service import UtilisateurService
 
 
 class MangaPhysique(Manga):
@@ -46,3 +47,20 @@ class MangaPhysique(Manga):
         self.tomes_manquants = tomes_manquants
         self.dernier_tome = dernier_tome
         self.status = status
+
+    def __str__(self):
+        """Représentation graphique d'une mangathèque"""
+        utilisateur = UtilisateurService().trouver_par_id_utilisateur(
+            self.id_utilisateur
+        )
+        return (
+            f"Mangathèque personelle du manga {self.titre_manga} de {utilisateur.pseudo} :)\n"
+            f"Identifiant: {self.id_manga}\n"
+            f"Titre: {self.titre_manga}\n"
+            f"Auteur(s): {self.auteurs}\n"
+            f"Nombre de volumes: {self.nb_volumes}\n"
+            f"Nombre de chapitres: {self.nb_chapitres}\n"
+            f"Tomes manqants: {self.tomes_manquants}\n"
+            f"Dernier tome: {self.dernier_tome}\n"
+            f"Statut: {self.status}\n \n"
+        )

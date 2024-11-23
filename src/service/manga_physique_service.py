@@ -52,7 +52,7 @@ class MangaPhysiqueService(metaclass=Singleton):
             manga.dernier_tome = new_tome
             return MangaPhysiqueDao().modifier_manga_physique(manga)
         else:
-            raise ValueError("tome deja existant")
+            raise ValueError("Vous possédez déjà ce tome")
 
     @log
     def enlever_tome(self, manga: MangaPhysique, tome) -> bool:
@@ -91,7 +91,7 @@ class MangaPhysiqueService(metaclass=Singleton):
             manga.tomes_manquants.append(tome)
             return MangaPhysiqueDao().modifier_manga_physique(manga)
         else:
-            raise ValueError("vous ne disposez pas de ce tome")
+            raise ValueError("vous ne disposez pas de ce tome :/")
 
     @log
     def modifier_manga_physique(self, manga):
@@ -115,7 +115,7 @@ class MangaPhysiqueService(metaclass=Singleton):
             raise TypeError("les informations renseignés ne sont pas correctes")
         else:
             if UtilisateurDao().trouver_par_id(id_utilisateur) is None:
-                raise ValueError("ce identifiant n'est associé à aucun utilisateur")
+                raise ValueError("cet identifiant n'est associé à aucun utilisateur")
             else:
                 if (
                     MangaPhysiqueDao().rechercher_manga_physique(id_utilisateur, id_manga)

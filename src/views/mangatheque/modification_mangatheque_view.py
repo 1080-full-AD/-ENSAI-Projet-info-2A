@@ -47,7 +47,7 @@ class ModificationMangathequeView(AbstractView):
 
         match choix:
             case "Ajouter un tome":
-                new_tome = inquirer.number(message="Entrez le numéro du tome que vous voulez ajouter:").execute()
+                new_tome = int(inquirer.number(message="Entrez le numéro du tome que vous voulez ajouter:").execute())
                 try:
                     MangaPhysiqueService().ajouter_tome(manga=L, new_tome=new_tome)
 
@@ -59,7 +59,7 @@ class ModificationMangathequeView(AbstractView):
                 )
 
             case "Enlever un tome":
-                tome = inquirer.number(message="Entrez le numéro du tome que vous voulez supprimer :)").execute()
+                tome = int(inquirer.number(message="Entrez le numéro du tome que vous voulez supprimer :)").execute())
                 try:
                     MangaPhysiqueService().enlever_tome(manga=L, tome=tome)
 
