@@ -26,10 +26,11 @@ class SupprimerMangathequeView(AbstractView):
         id_utilisateur = user.id_utilisateur
 
         try:
-######################## IL FAUT LA METHODE POUR TROUUVER LES MANGATHEQUE################################ 
+            ######################## IL FAUT LA METHODE POUR TROUUVER LES MANGATHEQUE################################
             MangaPhysiqueService().supprimer_manga_physique(mangatheque)
         except Exception as e:
             print("\n", e)
 
-        return MainCollectionView("\n" + "=" * 50 + " Menu des collection"
-                                        " :) " + "=" * 50 + "\n")
+        return MainCollectionView(
+            "\n" + "=" * 50 + " Menu des collection" " :) " + "=" * 50 + "\n"
+        )

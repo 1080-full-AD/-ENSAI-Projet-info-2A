@@ -5,7 +5,6 @@ from src.business_objet.manga import Manga
 
 
 class TestManga(TestCase):
-
     def test_manga_ok(self):
         # GIVEN
         titre = "Monster"

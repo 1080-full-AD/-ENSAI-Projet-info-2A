@@ -27,28 +27,43 @@ class MainCollectionView(AbstractView):
 
         match choix:
             case "Créer une collection":
-                from src.views.collection.creer_collection_view import CreateCollectionView
+                from src.views.collection.creer_collection_view import (
+                    CreateCollectionView,
+                )
 
-                return CreateCollectionView("\n" + "=" * 50 + " Création de collection"
-                                         " :) " + "=" * 50 + "\n")
+                return CreateCollectionView(
+                    "\n" + "=" * 50 + " Création de collection" " :) " + "=" * 50 + "\n"
+                )
 
             case "Modifier une collection":
-                from src.views.collection.modification_collection_view import ModificationCollectionView
+                from src.views.collection.modification_collection_view import (
+                    ModificationCollectionView,
+                )
 
-                return ModificationCollectionView("\n" + "=" * 50 + " Modification de collection"
-                                         " :) " + "=" * 50 + "\n")
+                return ModificationCollectionView(
+                    "\n" + "=" * 50 + " Modification de collection"
+                    " :) " + "=" * 50 + "\n"
+                )
 
             case "Supprimer une collection":
-                from src.views.collection.supprimer_collection_view import SupprimerCollectionView
+                from src.views.collection.supprimer_collection_view import (
+                    SupprimerCollectionView,
+                )
 
-                return SupprimerCollectionView("\n" + "=" * 50 + " Suppression de collections"
-                                         " :) " + "=" * 50 + "\n")
+                return SupprimerCollectionView(
+                    "\n" + "=" * 50 + " Suppression de collections"
+                    " :) " + "=" * 50 + "\n"
+                )
 
             case "Consulter les collections":
-                from src.views.collection.consulter_collection_view import ConsulterCollectionView
+                from src.views.collection.consulter_collection_view import (
+                    ConsulterCollectionView,
+                )
 
-                return ConsulterCollectionView("\n" + "=" * 50 + " Consultation des collections"
-                                         " :) " + "=" * 50 + "\n")
+                return ConsulterCollectionView(
+                    "\n" + "=" * 50 + " Consultation des collections"
+                    " :) " + "=" * 50 + "\n"
+                )
             case "Retour":
                 from src.views.users.main_user_view import MainUserView
 

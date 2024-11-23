@@ -9,7 +9,6 @@ from src.business_objet.manga import Manga
 
 
 class MangaDao(metaclass=Singleton):
-
     def trouver_par_titre(self, titre_manga: str) -> Manga:
         """Trouver un manga par le nom exact du tome recherché
 
@@ -82,7 +81,12 @@ class MangaDao(metaclass=Singleton):
 
         created = False
         if res:
-            manga.id_manga = res["id_manga"]
+            manga.id_manga = (res["id_manga"],)
+            manga.titre_manga = (res["titre_manga"],)
+            manga.auteurs = (res["auteurs"],)
+            manga.synospsis = (res["synopsis"],)
+            manga.nb_volumes = (res["nb_volumes"],)
+            manga.nb_chapitres = res["nb_chapitres"]
             created = True
 
         return created
@@ -160,6 +164,17 @@ class MangaDao(metaclass=Singleton):
         except Exception as e:
             logging.info(e)
 
+        modif = False
+        if res:
+            manga.id_manga = (res["id_manga"],)
+            manga.titre_manga = (res["titre_manga"],)
+            manga.auteurs = (res["auteurs"],)
+            manga.synospsis = (res["synopsis"],)
+            manga.nb_volumes = (res["nb_volumes"],)
+            manga.nb_chapitres = res["nb_chapitres"]
+            modif = True
+
+        return modif
         return res == 1
 
     def trouver_par_id(self, id_manga: str):
@@ -183,15 +198,9 @@ class MangaDao(metaclass=Singleton):
                     "       auteurs,"
                     "       synopsis, "
                     "       nb_volumes,"
-<<<<<<< HEAD
                     "       nb_chapitres "
                     "FROM projet.manga "
                     f" WHERE id_manga = %(id_manga)s",
-=======
-                    "       nb_chapitres"
-                    " FROM projet.manga "
-                    f" WHERE id_manga = '{id_manga}'",
->>>>>>> ba552ac20fcbee0afc59c1caba9def18fb2a5420
                     {"id_manga": id_manga},
                 )
                 res_id_manga = cursor.fetchone()

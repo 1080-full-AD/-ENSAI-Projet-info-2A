@@ -23,45 +23,52 @@ class CreateMangathequeView(AbstractView):
             user = Session().getuser()
             id_utilisateur = user.id_utilisateur
 
-            titre = inquirer.text(
-                "Entrez le nom du manga :)"
-            ).execute()
+            titre = inquirer.text("Entrez le nom du manga :)").execute()
             manga = MangaService().rechercher_un_manga(titre)
         except Exception as e:
             print("\n", e)
-            return MainMangathequeView("\n" + "=" * 50 + " Menu des"
-                                        " Mangathèques :) " + "=" * 50 + "\n")
+            return MainMangathequeView(
+                "\n" + "=" * 50 + " Menu des" " Mangathèques :) " + "=" * 50 + "\n"
+            )
         missing = inquirer.confirm(message="Vous manque-t-il des tomes ? ").execute()
         try:
             if missing is True:
-                tomes_manquants = inquirer.text(message="Entrez les tomes manquants séparés par des virgules (ex: 1, 3, 7):").execute()
+                tomes_manquants = inquirer.text(
+                    message="Entrez les tomes manquants séparés par des virgules (ex: 1, 3, 7):"
+                ).execute()
                 tomes_manquants = [x.strip() for x in tomes_manquants.split(",")]
             else:
                 tomes_manquants = None
         except Exception as e:
             print("\n", e)
-            return MainMangathequeView("\n" + "=" * 50 + " Menu des"
-                                        " Mangathèques :) " + "=" * 50 + "\n")
+            return MainMangathequeView(
+                "\n" + "=" * 50 + " Menu des" " Mangathèques :) " + "=" * 50 + "\n"
+            )
         try:
             status = inquirer.select(
                 message="Le manga est-t-il toujours en cours ou terminé ? ",
-                choices=[
-                "En cours",
-                "Terminé"
-                ],
+                choices=["En cours", "Terminé"],
+            ).execute()
+            dernier_tome = int(
+                inquirer.number(
+                    message="Quel est le numéro du dernier tome que vous possédez ?"
                 ).execute()
-            dernier_tome = int(inquirer.number(message="Quel est le numéro du dernier tome que vous possédez ?").execute())
+            )
             mangatheque = MangaPhysique(
-                id_manga=manga.id_manga, id_utilisateur=id_utilisateur, titre_manga=manga.titre_manga,
-                auteurs=manga.auteurs, synopsis=manga.synopsis,
-                tomes_manquants=tomes_manquants, dernier_tome=dernier_tome, status=status
-                )
+                id_manga=manga.id_manga,
+                id_utilisateur=id_utilisateur,
+                titre_manga=manga.titre_manga,
+                auteurs=manga.auteurs,
+                synopsis=manga.synopsis,
+                tomes_manquants=tomes_manquants,
+                dernier_tome=dernier_tome,
+                status=status,
+            )
             MangaPhysiqueService().creer_manga_physique(manga=mangatheque)
 
         except Exception as e:
             print("\n", e)
 
-        return MainMangathequeView("\n" + "=" * 50 + " Menu des"
-                                    " Mangathèques :) " + "=" * 50 + "\n")
-
-
+        return MainMangathequeView(
+            "\n" + "=" * 50 + " Menu des" " Mangathèques :) " + "=" * 50 + "\n"
+        )

@@ -48,6 +48,7 @@ class MangaService(metaclass=Singleton):
         else:
             print("echec")
             return False
+
     @log
     def supprimer_un_manga(self, manga) -> bool:
         MangaService().rechercher_un_id_manga(id_manga=manga.id_manga)
@@ -61,7 +62,11 @@ class MangaService(metaclass=Singleton):
     @log
     def modifier_un_manga(self, manga) -> bool:
         """Modifier un manga de la base de données"""
-        return MangaDao().modifier(manga)
+        if MangaDao().modifier(manga):
+            print("Modification effectuée")
+            return True
+        else:
+            return False
 
     @log
     def rechercher_un_auteur(self, auteurs) -> Manga:

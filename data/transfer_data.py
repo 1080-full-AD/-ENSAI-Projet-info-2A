@@ -9,34 +9,34 @@ from src.dao.db_connection import DBConnection
 
 from src.business_objet.manga import Manga
 
-with open('data/data.json', 'r') as f:
+with open("data/data.json", "r") as f:
     data = json.load(f)
 
 erreurs = 0
 
 for i in range(5):
     k = 25
-    if (i >= 2903):
+    if i >= 2903:
         k = 13
     for j in range(k):
         try:
             titre = data[i]["data"][j]["titles"][0]["title"].replace("'", '"')
-            titre = titre.encode('utf-8', errors='ignore').decode('utf-8')
+            titre = titre.encode("utf-8", errors="ignore").decode("utf-8")
 
             synopsis = data[i]["data"][j]["synopsis"].replace("'", '"')
-            synopsis = synopsis.encode('utf-8', errors='ignore').decode('utf-8')
-            
+            synopsis = synopsis.encode("utf-8", errors="ignore").decode("utf-8")
+
             auteurs = ""
             for l in range(len(data[i]["data"][j]["authors"])):
                 auteurs += data[i]["data"][j]["authors"][l]["name"]
-                if (l != (len(data[i]["data"][j]["authors"]) - 1)):
+                if l != (len(data[i]["data"][j]["authors"]) - 1):
                     auteurs += ", "
-            
+
             nb_volumes = data[i]["data"][j]["volumes"]
             nb_chapitres = data[i]["data"][j]["chapters"]
-            if (nb_volumes == None):
+            if nb_volumes == None:
                 nb_volumes = "NULL"
-            if (nb_chapitres == None):
+            if nb_chapitres == None:
                 nb_chapitres = "NULL"
 
             res = None
@@ -53,7 +53,7 @@ for i in range(5):
                             "auteurs": auteurs,
                             "synopsis": synopsis,
                             "nb_volumes": nb_volumes,
-                            "nb_chapitres": nb_chapitres
+                            "nb_chapitres": nb_chapitres,
                         },
                     )
                     res = cursor.fetchone()

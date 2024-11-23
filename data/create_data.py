@@ -5,13 +5,13 @@ import time
 data = []
 erreurs = 0
 for i in range(1, 6):
-    r = requests.get('https://api.jikan.moe/v4/manga', {"page": i})
+    r = requests.get("https://api.jikan.moe/v4/manga", {"page": i})
     r.status_code
     r = r.json()
     data.append(r)
     print(i)
     time.sleep(1)
-    if 'status' in r:
+    if "status" in r:
         print("erreur")
         erreurs += 1
         time.sleep(1)

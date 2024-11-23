@@ -382,9 +382,7 @@ def test_se_connecter_ok():
     utilisateur_service.UtilisateurDao = mock_dao
 
     # WHEN
-    utilisateur = utilisateur_service.se_connecter(
-        "user2", mot_de_passe="password2"
-    )
+    utilisateur = utilisateur_service.se_connecter("user2", mot_de_passe="password2")
 
     # THEN
     assert utilisateur.pseudo == "user2"
@@ -449,15 +447,15 @@ def test_se_deconnecter_echec():
     assert utilisateur is None
 
 
-@patch("builtins.input", side_effect=["short", "short","Password1"])
+@patch("builtins.input", side_effect=["short", "short", "Password1"])
 @patch("builtins.print")
 def test_create_password_ok(mock_print, mock_input):
     """Vérifier que la méthode create_password fonctionne correctement"""
-    
+
     # GIVEN
-    user = Utilisateur("chahine",22,"Password1")
+    user = Utilisateur("chahine", 22, "Password1")
     utilisateur_service = UtilisateurService()
-    
+
     # WHEN
     utilisateur_service.create_password(user.mot_de_passe)
 
@@ -495,7 +493,7 @@ def test_is_valid_mdp_echec():
     """Vérifier que la méthode is_valid_mdp renvoie bien une erreur"""
 
     # GIVEN
-    mdp = ["short","nomajuscule1","NOMINUSCULE1","Nochiffre"]
+    mdp = ["short", "nomajuscule1", "NOMINUSCULE1", "Nochiffre"]
 
     utilisateur_service = UtilisateurService()
 

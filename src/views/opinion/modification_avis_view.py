@@ -19,18 +19,16 @@ class ModificationAvisView(AbstractView):
         """
 
         titre_manga = inquirer.text(
-            "Entrez le nom du manga pour lequel vous voulez"
-            " modifier votre avis :)"
+            "Entrez le nom du manga pour lequel vous voulez" " modifier votre avis :)"
         ).execute()
 
         try:
-            manga = MangaService().rechercher_un_manga(
-                titre_manga=titre_manga
-            )
+            manga = MangaService().rechercher_un_manga(titre_manga=titre_manga)
         except Exception as e:
             print("\n", e, "\n")
-            return MainOpinionView("\n" + "=" * 50 + " Menu des avis"
-                                   " :) " + "=" * 50 + "\n")
+            return MainOpinionView(
+                "\n" + "=" * 50 + " Menu des avis" " :) " + "=" * 50 + "\n"
+            )
 
         id_manga = manga.id_manga
         user = Session().getuser()
@@ -52,41 +50,47 @@ class ModificationAvisView(AbstractView):
                 ).execute()
 
                 spoiler = inquirer.select(
-                    message="Cet avis contient-il un spoiler ?",
-                    choices=["Oui", "Non"]
+                    message="Cet avis contient-il un spoiler ?", choices=["Oui", "Non"]
                 ).execute()
 
                 # Convertir la réponse en un booléen
                 spoiler = spoiler == "Oui"
 
                 try:
-                    AvisService().modifier(id_manga=id_manga,
-                                        id_utilisateur=id_utilisateur,
-                                        newtexte=texte,
-                                        spoiler=spoiler)  # Passer l'argument spoiler
+                    AvisService().modifier(
+                        id_manga=id_manga,
+                        id_utilisateur=id_utilisateur,
+                        newtexte=texte,
+                        spoiler=spoiler,
+                    )  # Passer l'argument spoiler
                 except Exception as e:
                     print("\n", e, "\n")
 
-                return MainOpinionView("\n" + "=" * 50 + " Menu des avis"
-                                       " :) " + "=" * 50 + "\n")
+                return MainOpinionView(
+                    "\n" + "=" * 50 + " Menu des avis" " :) " + "=" * 50 + "\n"
+                )
 
             case "Modifier la note":
-                note = int(inquirer.number(
-                    f"Donnez votre nouvelle note à {manga.titre_manga} :)"
-                    " (entre 0 et 5)",
-                    min_allowed=0,
-                    max_allowed=5
-                ).execute())
+                note = int(
+                    inquirer.number(
+                        f"Donnez votre nouvelle note à {manga.titre_manga} :)"
+                        " (entre 0 et 5)",
+                        min_allowed=0,
+                        max_allowed=5,
+                    ).execute()
+                )
                 try:
-                    AvisService().modifier_note(id_manga=id_manga,
-                                                id_utilisateur=id_utilisateur,
-                                                newnote=note)
+                    AvisService().modifier_note(
+                        id_manga=id_manga, id_utilisateur=id_utilisateur, newnote=note
+                    )
                 except Exception as e:
                     print("\n", e, "\n")
 
-                return MainOpinionView("\n" + "=" * 50 + " Menu des avis"
-                                       " :) " + "=" * 50 + "\n")
+                return MainOpinionView(
+                    "\n" + "=" * 50 + " Menu des avis" " :) " + "=" * 50 + "\n"
+                )
 
             case "Retour":
-                return MainOpinionView("\n" + "=" * 50 + " Menu des avis"
-                                       " :) " + "=" * 50 + "\n")
+                return MainOpinionView(
+                    "\n" + "=" * 50 + " Menu des avis" " :) " + "=" * 50 + "\n"
+                )

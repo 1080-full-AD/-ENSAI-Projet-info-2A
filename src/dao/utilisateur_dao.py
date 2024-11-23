@@ -40,7 +40,7 @@ class UtilisateurDao(metaclass=Singleton):
                             "pseudo": utilisateur.pseudo,
                             "mot_de_passe": utilisateur.mot_de_passe,
                             "age": utilisateur.age,
-                            "is_admin": utilisateur.is_admin
+                            "is_admin": utilisateur.is_admin,
                         },
                     )
                     res = cursor.fetchone()
@@ -242,7 +242,7 @@ class UtilisateurDao(metaclass=Singleton):
                 mot_de_passe=res["mot_de_passe"],
                 age=res["age"],
                 id_utilisateur=res["id_utilisateur"],
-                is_admin=res["is_admin"]
+                is_admin=res["is_admin"],
             )
         return utilisateur
 

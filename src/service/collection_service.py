@@ -17,7 +17,6 @@ class CollectionVirtuelleService:
         liste_manga: list[Manga],
         description: str,
     ) -> CollectionVirtuelle:
-
         "création d'une collection virtuelle a partir de ses attributs"
 
         if not all(isinstance(i, Manga) for i in liste_manga):
@@ -83,10 +82,8 @@ class CollectionVirtuelleService:
             modifiee = CollectionDao().modifier_titre(
                 collection=collection, new_titre=new_titre
             )
-            collection.titre=new_titre
+            collection.titre = new_titre
             return collection if modifiee else None
-
-            
 
     @log
     def supprimer(self, collection) -> bool:

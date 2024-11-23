@@ -13,7 +13,7 @@ class ResetDatabase(metaclass=Singleton):
         init_db = open("data/init_db.sql", encoding="utf-8")
         init_db_as_string = init_db.read()
 
-        pop_db = open("data/pop_db.sql", encoding="utf-8", errors='ignore')
+        pop_db = open("data/pop_db.sql", encoding="utf-8", errors="ignore")
         pop_db_as_string = pop_db.read()
 
         try:

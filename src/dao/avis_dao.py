@@ -63,26 +63,26 @@ class AvisDao(metaclass=Singleton):
                 with connection.cursor() as cursor:
                     if include_spoilers:
                         cursor.execute(
-                            "SELECT * " 
-                            "FROM projet.avis " 
+                            "SELECT * "
+                            "FROM projet.avis "
                             f"WHERE id_utilisateur = {id}",
                             {"id": id},
                         )
                         avis_rows = cursor.fetchall()
                     else:
                         cursor.execute(
-                            "SELECT * " 
-                            "FROM projet.avis " 
+                            "SELECT * "
+                            "FROM projet.avis "
                             f"WHERE id_utilisateur = {id} AND spoiler = False",
                             {"id": id},
                         )
-                        avis_rows = cursor.fetchall()                        
+                        avis_rows = cursor.fetchall()
                 for row in avis_rows:
                     avis = Avis(
                         id_manga=row["id_manga"],
                         id_utilisateur=row["id_utilisateur"],
                         texte=row["texte"],
-                        note=row["note"]
+                        note=row["note"],
                     )
                     res_avis.append(avis)
             return res_avis
@@ -91,9 +91,10 @@ class AvisDao(metaclass=Singleton):
             logging.error(f"Erreur lors de la récupération des avis: {e}")
             return []
 
-
     @log
-    def trouver_avis_par_manga(self, id_manga: int, include_spoilers=True) -> list[Avis]:
+    def trouver_avis_par_manga(
+        self, id_manga: int, include_spoilers=True
+    ) -> list[Avis]:
         """Trouver les avis pour un manga
 
         Parameters
@@ -110,26 +111,26 @@ class AvisDao(metaclass=Singleton):
                 with connection.cursor() as cursor:
                     if include_spoilers:
                         cursor.execute(
-                            "SELECT * " 
-                            "FROM projet.avis " 
+                            "SELECT * "
+                            "FROM projet.avis "
                             f"WHERE id_manga = {id_manga}",
                             {"id_manga": id_manga},
                         )
                         avis_rows = cursor.fetchall()
                     else:
                         cursor.execute(
-                            "SELECT * " 
-                            "FROM projet.avis " 
+                            "SELECT * "
+                            "FROM projet.avis "
                             f"WHERE id_manga = {id_manga} AND spoiler = False",
                             {"id_manga": id_manga},
                         )
-                        avis_rows = cursor.fetchall()                        
+                        avis_rows = cursor.fetchall()
                 for row in avis_rows:
                     avis = Avis(
                         id_manga=row["id_manga"],
                         id_utilisateur=row["id_utilisateur"],
                         texte=row["texte"],
-                        note=row["note"]
+                        note=row["note"],
                     )
                     res_avis.append(avis)
             return res_avis
@@ -154,7 +155,11 @@ class AvisDao(metaclass=Singleton):
         """
         L = AvisDao().trouver_tous_par_id(avis.id_utilisateur)
         for avis_exist in L:
-            if (avis_exist.id_utilisateur == avis.id_utilisateur) and (avis_exist.id_manga == avis.id_manga) and (avis_exist.note is None):
+            if (
+                (avis_exist.id_utilisateur == avis.id_utilisateur)
+                and (avis_exist.id_manga == avis.id_manga)
+                and (avis_exist.note is None)
+            ):
                 try:
                     with DBConnection().connection as connection:
                         with connection.cursor() as cursor:
@@ -169,7 +174,11 @@ class AvisDao(metaclass=Singleton):
                     logging.info(e)
                     raise
                 return res > 0
-            elif (avis_exist.id_utilisateur == avis.id_utilisateur) and (avis_exist.id_manga == avis.id_manga) and (avis_exist.note is not None):
+            elif (
+                (avis_exist.id_utilisateur == avis.id_utilisateur)
+                and (avis_exist.id_manga == avis.id_manga)
+                and (avis_exist.note is not None)
+            ):
                 try:
                     with DBConnection().connection as connection:
                         with connection.cursor() as cursor:
@@ -201,7 +210,11 @@ class AvisDao(metaclass=Singleton):
         """
         L = AvisDao().trouver_tous_par_id(avis.id_utilisateur)
         for avis_exist in L:
-            if (avis_exist.id_utilisateur == avis.id_utilisateur) and (avis_exist.id_manga == avis.id_manga) and (avis_exist.texte is None):
+            if (
+                (avis_exist.id_utilisateur == avis.id_utilisateur)
+                and (avis_exist.id_manga == avis.id_manga)
+                and (avis_exist.texte is None)
+            ):
                 try:
                     with DBConnection().connection as connection:
                         with connection.cursor() as cursor:
@@ -216,7 +229,11 @@ class AvisDao(metaclass=Singleton):
                     logging.info(e)
                     raise
                 return res > 0
-            elif (avis_exist.id_utilisateur == avis.id_utilisateur) and (avis_exist.id_manga == avis.id_manga) and (avis_exist.texte is not None):
+            elif (
+                (avis_exist.id_utilisateur == avis.id_utilisateur)
+                and (avis_exist.id_manga == avis.id_manga)
+                and (avis_exist.texte is not None)
+            ):
                 try:
                     with DBConnection().connection as connection:
                         with connection.cursor() as cursor:
@@ -228,7 +245,6 @@ class AvisDao(metaclass=Singleton):
                             )
                             res = cursor.rowcount
                             return res == 1
-            
 
                 except Exception as e:
                     logging.info(e)
@@ -284,9 +300,17 @@ class AvisDao(metaclass=Singleton):
         """
         L = AvisDao().trouver_tous_par_id(avis.id_utilisateur)
         for avis_exist in L:
-            if (avis_exist.id_utilisateur == avis.id_utilisateur) and (avis_exist.id_manga == avis.id_manga) and (avis_exist.note is not None):
+            if (
+                (avis_exist.id_utilisateur == avis.id_utilisateur)
+                and (avis_exist.id_manga == avis.id_manga)
+                and (avis_exist.note is not None)
+            ):
                 raise ValueError("Une note existe déjà pour ce manga :/")
-            elif (avis_exist.id_utilisateur == avis.id_utilisateur) and (avis_exist.id_manga == avis.id_manga) and (avis_exist.note is None):
+            elif (
+                (avis_exist.id_utilisateur == avis.id_utilisateur)
+                and (avis_exist.id_manga == avis.id_manga)
+                and (avis_exist.note is None)
+            ):
                 try:
                     with DBConnection().connection as connection:
                         with connection.cursor() as cursor:
@@ -346,4 +370,3 @@ class AvisDao(metaclass=Singleton):
         except Exception as e:
             logging.info(e)
         return res == 1
-

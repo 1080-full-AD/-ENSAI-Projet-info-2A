@@ -15,7 +15,9 @@ class Utilisateur:
 
     """
 
-    def __init__(self, pseudo, age, mot_de_passe=None, id_utilisateur=None, is_admin=False):
+    def __init__(
+        self, pseudo, age, mot_de_passe=None, id_utilisateur=None, is_admin=False
+    ):
         """Constructeur"""
         self.id_utilisateur = id_utilisateur
         self.pseudo = pseudo

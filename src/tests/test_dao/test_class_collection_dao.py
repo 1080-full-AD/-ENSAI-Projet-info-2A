@@ -11,26 +11,27 @@ from src.business_objet.utilisateur import Utilisateur
 # données de test
 
 manga = Manga(
-        id_manga=13,
-        titre_manga="One Piece",
-        synopsis="Gol D. Roger, a man referred to as the King of the Pirates,"
-        "is set to be executed by the World Government. But just before his demise, he confirms the existence of a great treasure,"
-        " One Piece, located somewhere within the vast ocean known as the Grand Line. Announcing that One Piece can be claimed by"
-        "anyone worthy enough to reach it, the King of the Pirates is executed and the Great Age of Pirates begins."
-        "Twenty-two years later, a young man by the name of Monkey D. Luffy is ready to embark on his own adventure"
-        ", searching for One Piece and striving to become the new King of the Pirates. Armed with just a straw hat, a small boat,"
-        "and an elastic body, he sets out on a fantastic journey to gather his own crew and a worthy ship that will take them across"
-        "the Grand Line to claim the greatest status on the high seas.[Written by MAL Rewrite]",
-        auteurs="Oda, Eiichiro",
-        nb_volumes=15,
-        nb_chapitres=10,
-      )
+    id_manga=13,
+    titre_manga="One Piece",
+    synopsis="Gol D. Roger, a man referred to as the King of the Pirates,"
+    "is set to be executed by the World Government. But just before his demise, he confirms the existence of a great treasure,"
+    " One Piece, located somewhere within the vast ocean known as the Grand Line. Announcing that One Piece can be claimed by"
+    "anyone worthy enough to reach it, the King of the Pirates is executed and the Great Age of Pirates begins."
+    "Twenty-two years later, a young man by the name of Monkey D. Luffy is ready to embark on his own adventure"
+    ", searching for One Piece and striving to become the new King of the Pirates. Armed with just a straw hat, a small boat,"
+    "and an elastic body, he sets out on a fantastic journey to gather his own crew and a worthy ship that will take them across"
+    "the Grand Line to claim the greatest status on the high seas.[Written by MAL Rewrite]",
+    auteurs="Oda, Eiichiro",
+    nb_volumes=15,
+    nb_chapitres=10,
+)
+
 
 @pytest.fixture(scope="session", autouse=True)
 def setup_test_environment():
     """Initialisation des données de test"""
     with patch.dict(os.environ, {"SCHEMA": "projet_test_dao"}):
-       # ResetDatabase().lancer()
+        # ResetDatabase().lancer()
         yield
 
 
@@ -70,38 +71,40 @@ def test_ajouter_manga_virtuel_ok():
 
 
 def test_rechercher_collection_ok():
-    #GIVEN
+    # GIVEN
     id_utilisateur = 3
     titre_collec = "Ma Collection"
 
-    #WHEN
+    # WHEN
     resultat = CollectionDao().recherhcer_collection(
-               id_utilisateur=id_utilisateur, titre_collec=titre_collec)
+        id_utilisateur=id_utilisateur, titre_collec=titre_collec
+    )
 
-    #THEN
+    # THEN
     assert resultat is not None
     assert resultat.titre == "Ma Collection"
     assert resultat.liste_manga[0].id_manga == 13
 
 
 def test_rechercher_collection_echec():
-    #GIVEN
+    # GIVEN
     id_utilisateur = 4
     titre_collec = "Ma Collection"
 
-    #WHEN
+    # WHEN
     resultat = CollectionDao().recherhcer_collection(
-               id_utilisateur=id_utilisateur, titre_collec=titre_collec)
+        id_utilisateur=id_utilisateur, titre_collec=titre_collec
+    )
 
-    #THEN
+    # THEN
     assert resultat is None
-    
+
 
 def test_supprimer_manga_virtuel_ok():
     """Suppression d'un manga dans une collection virtuelle réussie"""
     # GIVEN
     collection = CollectionVirtuelle("Ma Collection", 3, [manga], "Collection de test")
-    
+
     # WHEN
     suppression = CollectionDao().supprimer_manga(collection, manga)
 
@@ -113,7 +116,9 @@ def test_supprimer_manga_virtuel_ko():
     """Échec de suppression d'un manga non existant dans une collection virtuelle"""
     # GIVEN
     collection = CollectionVirtuelle("Ma Collection", 2, [], "Collection de test")
-    manga = Manga("999", "Manga Inexistant", "Auteur Inconnu", "Synopsis Inconnu" ,15 ,20)
+    manga = Manga(
+        "999", "Manga Inexistant", "Auteur Inconnu", "Synopsis Inconnu", 15, 20
+    )
 
     # WHEN
     suppression = CollectionDao().supprimer_manga(collection, manga)
@@ -132,7 +137,7 @@ def test_modifier_description_collection_ok():
     modification = CollectionDao().modifier(collection)
 
     # THEN
-    assert modification is True 
+    assert modification is True
 
 
 def test_modifier_titre_ok():
@@ -154,7 +159,7 @@ def test_modifier_collection_ko():
     collection = CollectionVirtuelle("Ma Collection", 999, [], "Description de test")
 
     # WHEN
-    
+
     modification = CollectionDao().modifier(collection)
 
     # THEN
@@ -163,41 +168,45 @@ def test_modifier_collection_ko():
 
 def test_liste_manga_virtuel():
     """Vérifie que la liste des mangas d'une collection virtuelle est correcte."""
-    
+
     # GIVEN: Création d'une collection virtuelle et ajout de mangas
-    collection = CollectionVirtuelle(titre="Nouvelle collec", id_utilisateur=3, liste_manga=[manga], description="Une collection test")
-    
+    collection = CollectionVirtuelle(
+        titre="Nouvelle collec",
+        id_utilisateur=3,
+        liste_manga=[manga],
+        description="Une collection test",
+    )
+
     manga2 = Manga(
-        id_manga=1, 
-        titre_manga="Monster", 
-        auteurs="Urasawa, Naoki", 
+        id_manga=1,
+        titre_manga="Monster",
+        auteurs="Urasawa, Naoki",
         synopsis="Guts, a former mercenary now known as the Black Swordsman, is out for revenge. After"
         " a tumultuous childhood, he finally finds someone he respects and believes he can trust, only to "
         "have everything fall apart when this person takes away everything important to Guts for the purpose "
         "of fulfilling his own desires. Now marked for death, Guts becomes condemned to a fate in which he is "
-        "relentlessly pursued by demonic beings." 
+        "relentlessly pursued by demonic beings."
         "Setting out on a dreadful quest riddled with misfortune, Guts, armed with a massive sword and monstrous strength, "
         "will let nothing stop him, not even death itself, until he is finally able to take the head of the one who stripped him�and "
         "his loved one�of their humanity."
-
         "[Written by MAL Rewrite]"
-
         "Included one-shot:"
         "Volume 14: Berserk: The Prototype"
         "And so when he is assigned to Team 7�along with his new teammates Sasuke Uchiha and Sakura Haruno, under the "
         "mentorship of veteran ninja Kakashi Hatake�Naruto is forced to work together with other people for the first time "
         "in his life. Through undergoing vigorous training and taking on challenging missions, Naruto must learn what it means"
         " to work in a team and carve his own route toward becoming a full-fledged ninja recognized by his village."
-
         "[Written by MAL Rewrite])",
         nb_chapitres=15,
-        nb_volumes=20
-        )
+        nb_volumes=20,
+    )
 
     CollectionDao().ajouter_manga(collection, manga2)
-    
+
     # WHEN: Appel de la méthode liste_manga_virtuelle
-    liste_manga = CollectionDao().liste_manga(id_utilisateur=3 ,titre_collec="Nouvelle collec")
+    liste_manga = CollectionDao().liste_manga(
+        id_utilisateur=3, titre_collec="Nouvelle collec"
+    )
 
     # THEN: Vérification que la liste des mangas est correcte
     assert len(liste_manga) == 2
@@ -206,21 +215,26 @@ def test_liste_manga_virtuel():
 
 
 def test_liste_collection_ok():
-    #given
+    # given
     id_utilisateur = 3
 
-    #WHEN
+    # WHEN
     result = CollectionDao().liste_collection(id_utilisateur)
 
-    #THEN 
-    assert len(result)>0
+    # THEN
+    assert len(result) > 0
 
 
 def test_supprimer_collection_virtuelle_ok():
     """Suppression réussie d'une collection virtuelle"""
     # GIVEN
-    collection = CollectionVirtuelle(titre="Nouvelle collec", id_utilisateur=3, liste_manga=[manga], description="Une collection test")
-    
+    collection = CollectionVirtuelle(
+        titre="Nouvelle collec",
+        id_utilisateur=3,
+        liste_manga=[manga],
+        description="Une collection test",
+    )
+
     # WHEN
     suppression = CollectionDao().supprimer_collection(collection)
 
@@ -228,12 +242,12 @@ def test_supprimer_collection_virtuelle_ok():
     assert suppression
 
 
-
-
 def test_supprimer_collection_virtuelle_ko():
     """Échec de suppression d'une collection virtuelle non existante"""
     # GIVEN
-    collection = CollectionVirtuelle("Collection Inexistante", 1, [], "Description de test")
+    collection = CollectionVirtuelle(
+        "Collection Inexistante", 1, [], "Description de test"
+    )
 
     # WHEN
     suppression = CollectionDao().supprimer_collection(collection)
@@ -241,36 +255,34 @@ def test_supprimer_collection_virtuelle_ko():
     # THEN
     assert not suppression
 
-    
+
 def test_titre_existant_True():
-    """test pour vérifier que la methode titre_existant retourne True 
-    lorsque le titre est déja enregistrer dans la base de données pour 
-    utilisateur """
-        # GIVEN
+    """test pour vérifier que la methode titre_existant retourne True
+    lorsque le titre est déja enregistrer dans la base de données pour
+    utilisateur"""
+    # GIVEN
     collection_1 = CollectionVirtuelle("Collection 1", 3, [], "Description de test")
     id_utilisateur = 3
     titre = "Collection 1"
-        # WHEN
+    # WHEN
     CollectionDao().creer(collection_1)
     result = CollectionDao().titre_existant(id_utilisateur=id_utilisateur, titre=titre)
-        # THEN
+    # THEN
     assert result == True
 
 
 def test_titre_existant_false():
-    """test pour vérifier que la méthode titre_existant retourne false lorsque le titre 
-    n'est pas enregister dans la base de données pour un utilisateur """
+    """test pour vérifier que la méthode titre_existant retourne false lorsque le titre
+    n'est pas enregister dans la base de données pour un utilisateur"""
     # GIVEN
     id_utilisateur = 2
     titre = "Collection merveilleuse"
     # WHEN
     result = CollectionDao().titre_existant(id_utilisateur=id_utilisateur, titre=titre)
-    
-    #THEN
-    assert result == False 
 
+    # THEN
+    assert result == False
 
-   
 
 if __name__ == "__main__":
     pytest.main([__file__])

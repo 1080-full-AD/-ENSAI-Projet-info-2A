@@ -6,7 +6,6 @@ from src.dao.collection_dao import CollectionDao
 from src.business_objet.collection_virtuelle import CollectionVirtuelle
 from src.business_objet.manga import Manga
 from src.business_objet.manga_physique import MangaPhysique
-from src.business_objet.utilisateur import Utilisateur
 import pytest
 
 
@@ -142,12 +141,7 @@ def test_liste_manga_ok():
     # THEN
     assert len(result) > 0
     assert result[0] == manga_virtuel
-    #assert result[0].id_manga==manga_virtuel.id_manga
-    #assert result[0].titre_manga==manga_virtuel.titre_manga
-    #assert result[0].synopsis==manga_virtuel.synopsis
-    #assert result[0].auteurs==manga_virtuel.auteurs
-    #assert result[0].nb_volumes==manga_virtuel.nb_volumes
-    #assert result[0].auteurs==manga_virtuel.auteurs
+    
     
 def liste_collection_ok():
 
@@ -172,13 +166,8 @@ def test_modifier_description_ok():
     """Tester la modification réussie d'une collection"""
 
     # GIVEN
-    """collection_test = CollectionVirtuelle(
-    titre="Collection Virtuelle",
-    id_utilisateur=1,
-    liste_manga=[manga_virtuel],
-    description="Ma première collection virtuelle."
-)"""
-    new_description="ma new description"
+
+    new_description = "ma new description"
     mock_dao = MagicMock(spec=CollectionDao)
     mock_dao.modifier.return_value = True
 
