@@ -1,30 +1,21 @@
 import os
 import pytest
-import logging
 from unittest.mock import patch
 from src.utils.reset_database import ResetDatabase
 from src.business_objet.collection_virtuelle import CollectionVirtuelle
 from src.business_objet.manga import Manga
 from src.dao.collection_dao import CollectionDao
-from src.business_objet.utilisateur import Utilisateur
 
 # données de test
 
 manga = Manga(
-    id_manga=13,
-    titre_manga="One Piece",
-    synopsis="Gol D. Roger, a man referred to as the King of the Pirates,"
-    "is set to be executed by the World Government. But just before his demise, he confirms the existence of a great treasure,"
-    " One Piece, located somewhere within the vast ocean known as the Grand Line. Announcing that One Piece can be claimed by"
-    "anyone worthy enough to reach it, the King of the Pirates is executed and the Great Age of Pirates begins."
-    "Twenty-two years later, a young man by the name of Monkey D. Luffy is ready to embark on his own adventure"
-    ", searching for One Piece and striving to become the new King of the Pirates. Armed with just a straw hat, a small boat,"
-    "and an elastic body, he sets out on a fantastic journey to gather his own crew and a worthy ship that will take them across"
-    "the Grand Line to claim the greatest status on the high seas.[Written by MAL Rewrite]",
-    auteurs="Oda, Eiichiro",
-    nb_volumes=15,
-    nb_chapitres=10,
-)
+        id_manga=28,
+        titre_manga="manga_test",
+        synopsis='juste pour tester',
+        auteurs='auteur',
+        nb_chapitres=20,
+        nb_volumes=15
+    )
 
 
 @pytest.fixture(scope="session", autouse=True)
@@ -70,6 +61,54 @@ def test_ajouter_manga_virtuel_ok():
     assert ajout
 
 
+def test_liste_manga_virtuel():
+    """Vérifie que la liste des mangas d'une collection virtuelle est correcte."""
+
+    # GIVEN: Création d'une collection virtuelle et ajout de mangas
+    collection = CollectionVirtuelle(
+        titre="Ma Collection",
+        id_utilisateur=3,
+        liste_manga=[manga],
+        description="Une collection test",
+    )
+
+    manga2 = Manga(
+        id_manga=1,
+        titre_manga="Monster",
+        auteurs="Urasawa, Naoki",
+        synopsis="Guts, a former mercenary now known as the Black Swordsman, is out for revenge. After"
+        " a tumultuous childhood, he finally finds someone he respects and believes he can trust, only to "
+        "have everything fall apart when this person takes away everything important to Guts for the purpose "
+        "of fulfilling his own desires. Now marked for death, Guts becomes condemned to a fate in which he is "
+        "relentlessly pursued by demonic beings."
+        "Setting out on a dreadful quest riddled with misfortune, Guts, armed with a massive sword and monstrous strength, "
+        "will let nothing stop him, not even death itself, until he is finally able to take the head of the one who stripped him�and "
+        "his loved one�of their humanity."
+        "[Written by MAL Rewrite]"
+        "Included one-shot:"
+        "Volume 14: Berserk: The Prototype"
+        "And so when he is assigned to Team 7�along with his new teammates Sasuke Uchiha and Sakura Haruno, under the "
+        "mentorship of veteran ninja Kakashi Hatake�Naruto is forced to work together with other people for the first time "
+        "in his life. Through undergoing vigorous training and taking on challenging missions, Naruto must learn what it means"
+        " to work in a team and carve his own route toward becoming a full-fledged ninja recognized by his village."
+        "[Written by MAL Rewrite])",
+        nb_chapitres=15,
+        nb_volumes=20,
+    )
+
+    CollectionDao().ajouter_manga(collection, manga2)
+
+    # WHEN: Appel de la méthode liste_manga_virtuelle
+    liste_manga = CollectionDao().liste_manga(
+        id_utilisateur=3, titre_collec="Ma Collection"
+    )
+    
+    # THEN: Vérification que la liste des mangas est correcte
+    assert len(liste_manga) == 2
+    assert any(m.titre_manga == "manga_test" for m in liste_manga)
+    assert any(m.titre_manga == "Monster" for m in liste_manga)
+
+
 def test_rechercher_collection_ok():
     # GIVEN
     id_utilisateur = 3
@@ -83,7 +122,7 @@ def test_rechercher_collection_ok():
     # THEN
     assert resultat is not None
     assert resultat.titre == "Ma Collection"
-    assert resultat.liste_manga[0].id_manga == 13
+    assert resultat.liste_manga[0].id_manga == 28
 
 
 def test_rechercher_collection_echec():
@@ -164,54 +203,6 @@ def test_modifier_collection_ko():
 
     # THEN
     assert not modification
-
-
-def test_liste_manga_virtuel():
-    """Vérifie que la liste des mangas d'une collection virtuelle est correcte."""
-
-    # GIVEN: Création d'une collection virtuelle et ajout de mangas
-    collection = CollectionVirtuelle(
-        titre="Nouvelle collec",
-        id_utilisateur=3,
-        liste_manga=[manga],
-        description="Une collection test",
-    )
-
-    manga2 = Manga(
-        id_manga=1,
-        titre_manga="Monster",
-        auteurs="Urasawa, Naoki",
-        synopsis="Guts, a former mercenary now known as the Black Swordsman, is out for revenge. After"
-        " a tumultuous childhood, he finally finds someone he respects and believes he can trust, only to "
-        "have everything fall apart when this person takes away everything important to Guts for the purpose "
-        "of fulfilling his own desires. Now marked for death, Guts becomes condemned to a fate in which he is "
-        "relentlessly pursued by demonic beings."
-        "Setting out on a dreadful quest riddled with misfortune, Guts, armed with a massive sword and monstrous strength, "
-        "will let nothing stop him, not even death itself, until he is finally able to take the head of the one who stripped him�and "
-        "his loved one�of their humanity."
-        "[Written by MAL Rewrite]"
-        "Included one-shot:"
-        "Volume 14: Berserk: The Prototype"
-        "And so when he is assigned to Team 7�along with his new teammates Sasuke Uchiha and Sakura Haruno, under the "
-        "mentorship of veteran ninja Kakashi Hatake�Naruto is forced to work together with other people for the first time "
-        "in his life. Through undergoing vigorous training and taking on challenging missions, Naruto must learn what it means"
-        " to work in a team and carve his own route toward becoming a full-fledged ninja recognized by his village."
-        "[Written by MAL Rewrite])",
-        nb_chapitres=15,
-        nb_volumes=20,
-    )
-
-    CollectionDao().ajouter_manga(collection, manga2)
-
-    # WHEN: Appel de la méthode liste_manga_virtuelle
-    liste_manga = CollectionDao().liste_manga(
-        id_utilisateur=3, titre_collec="Nouvelle collec"
-    )
-
-    # THEN: Vérification que la liste des mangas est correcte
-    assert len(liste_manga) == 2
-    assert any(m.titre_manga == "One Piece" for m in liste_manga)
-    assert any(m.titre_manga == "Monster" for m in liste_manga)
 
 
 def test_liste_collection_ok():

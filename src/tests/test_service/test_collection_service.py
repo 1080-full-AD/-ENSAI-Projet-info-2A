@@ -65,13 +65,14 @@ def test_creer_collection_ok():
     # THEN
     assert result is not None
     
-    
 
 def test_creer_collection_echec_manga_physique():
     """Tester la création échoue si un manga physique est présent"""
 
     # GIVEN
-    collection_1 = CollectionVirtuelle("collection virtuelle", 2, [manga_physique],"la meilleure")
+    collection_1 = CollectionVirtuelle("collection virtuelle", 
+                                       2, [manga_physique], "la meilleure")
+
     mock_dao = MagicMock(spec=CollectionDao)
     mock_dao.creer.return_value.side_effect = TypeError(
         "les collection virtuelles ne peuvent contenir des mangas physique")
@@ -82,11 +83,11 @@ def test_creer_collection_echec_manga_physique():
     # WHEN / THEN
     with pytest.raises(TypeError, match="les collection virtuelles ne peuvent contenir des mangas physique"):
         service.creer(
-        id_utilisateur=collection_1.id_utilisateur,
-        titre=collection_1.titre,
-        liste_manga=collection_1.liste_manga,
-        description=collection_1.description
-        )
+            id_utilisateur=collection_1.id_utilisateur,
+            titre=collection_1.titre,
+            liste_manga=collection_1.liste_manga,
+            description=collection_1.description
+            )
 
 
 def test_creer_collection_echec_titre_existant():
@@ -97,18 +98,18 @@ def test_creer_collection_echec_titre_existant():
     service = CollectionVirtuelleService()
     service.CollectionDao = mock_dao
 
-
     # WHEN / THEN
     with pytest.raises(ValueError, match="Vous avez déja une collection avec ce titre :/"):
         service.creer(
-                    id_utilisateur = collection_2.id_utilisateur,
-                    titre = collection_2.titre,
-                    liste_manga = collection_2.liste_manga,
-                    description = collection_2.description
+                    id_utilisateur=collection_2.id_utilisateur,
+                    titre=collection_2.titre,
+                    liste_manga=collection_2.liste_manga,
+                    description=collection_2.description
                     )
-    
+
+
 def test_recherche_collection():
-    #GIVEN
+    # GIVEN
     id_utilisateur = 3
     titre_collec = "Collection Virtuelle"
     mock_dao = MagicMock()
@@ -116,10 +117,10 @@ def test_recherche_collection():
     service = CollectionVirtuelleService()
     service.CollectionDao = mock_dao
 
-      # WHEN
+    # WHEN
     result = service.rechercher_collection(id_utilisateur=id_utilisateur, titre_collec=titre_collec)
 
-      #THEN
+    # THEN
     assert result is not None
     assert result.titre == collection.titre
 
@@ -141,8 +142,8 @@ def test_liste_manga_ok():
     # THEN
     assert len(result) > 0
     assert result[0] == manga_virtuel
-    
-    
+
+
 def liste_collection_ok():
 
     # GIVEN
@@ -160,8 +161,7 @@ def liste_collection_ok():
     # THEN
     assert len(result) == 1
     
-
-    
+  
 def test_modifier_description_ok():
     """Tester la modification réussie d'une collection"""
 
@@ -175,12 +175,14 @@ def test_modifier_description_ok():
     service.CollectionDao = mock_dao
 
     # WHEN
-    result = service.modifier_description(collection=collection ,new_description=new_description)
+    result = service.modifier_description(collection=collection, 
+                                          new_description=new_description)
 
     # THEN
     assert result is not None
     assert result.description == collection.description
     
+
 def test_modifier_titre_ok():
     new_titre = "ma new collection"
     mock_dao = MagicMock(spec=CollectionDao)
@@ -192,7 +194,6 @@ def test_modifier_titre_ok():
     result = service.modifier_titre(collection=collection, new_titre=new_titre)
 
     # THEN
-    #assert result is True
     assert result.titre == new_titre
 
 
@@ -227,6 +228,7 @@ def test_supprimer_manga_echec():
     # WHEN / THEN
     with pytest.raises(ValueError):
         service.supprimer_manga(collection, manga_virtuel)
+
 
 def test_ajouter_manga_ok():
     """Tester l'ajout d'un manga virtuel valide à une collection"""
@@ -272,9 +274,6 @@ def test_supprimer_collection_ok():
     # THEN
     assert result is True
    
-
-
-
 
 if __name__ == "__main__":
     pytest.main([__file__])
