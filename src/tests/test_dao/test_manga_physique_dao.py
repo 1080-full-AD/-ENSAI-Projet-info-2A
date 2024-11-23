@@ -10,7 +10,7 @@ import os
 def setup_test_environment():
     """Initialisation des données de test"""
     with patch.dict(os.environ, {"SCHEMA": "projet_test_dao"}):
-        #ResetDatabase().lancer()
+        # ResetDatabase().lancer()
         yield
 
 
@@ -28,7 +28,7 @@ def test_creer_manga_physique_ok():
         dernier_tome=5,
         status="en cours",
         nb_chapitres=10,
-        nb_volumes=5
+        nb_volumes=5,
     )
 
     # WHEN
@@ -52,7 +52,7 @@ def test_creer_manga_physique_echec():
         dernier_tome=0,
         status="inconnu",
         nb_chapitres=10,
-        nb_volumes=5
+        nb_volumes=5,
     )
 
     # WHEN
@@ -101,7 +101,7 @@ def test_supprimer_manga_physique_echec():
         dernier_tome=0,
         status="inconnu",
         nb_chapitres=10,
-        nb_volumes=5
+        nb_volumes=5,
     )
 
     # WHEN
@@ -125,7 +125,7 @@ def test_modifier_manga_physique_ok():
         dernier_tome=10,
         status="en cours",
         nb_chapitres=10,
-        nb_volumes=5
+        nb_volumes=5,
     )
     manga.titre_manga = "Titre Modifié"
 
@@ -151,7 +151,7 @@ def test_modifier_manga_physique_echec():
         dernier_tome=0,
         status="inconnu",
         nb_chapitres=10,
-        nb_volumes=5
+        nb_volumes=5,
     )
 
     # WHEN
@@ -165,9 +165,9 @@ def test_liste_mangas_physiques_utilisateur_existant():
     """Lister tous les mangas physiques d'un utilisateur existant"""
 
     # GIVEN
-    
-    id_utilisateur = 3,
-                    
+
+    id_utilisateur = (3,)
+
     manga_1 = MangaPhysique(
         id_manga=4,
         id_utilisateur=3,
@@ -178,7 +178,8 @@ def test_liste_mangas_physiques_utilisateur_existant():
         dernier_tome=0,
         status="inconnu",
         nb_chapitres=10,
-        nb_volumes=5)
+        nb_volumes=5,
+    )
 
     manga_2 = MangaPhysique(
         id_manga=27,
@@ -190,7 +191,8 @@ def test_liste_mangas_physiques_utilisateur_existant():
         dernier_tome=0,
         status="inconnu",
         nb_chapitres=10,
-        nb_volumes=5)
+        nb_volumes=5,
+    )
 
     # WHEN
     MangaPhysiqueDao().creer(manga_1)
@@ -229,12 +231,14 @@ def test_rechercher_manga_physique_ok():
         dernier_tome=0,
         status="inconnu",
         nb_chapitres=10,
-        nb_volumes=5)
+        nb_volumes=5,
+    )
 
     # WHEN
     MangaPhysiqueDao().creer(manga_1)
     liste_mangas = MangaPhysiqueDao().rechercher_manga_physique(
-                    id_utilisateur=id_utilisateur, id_manga=id_manga)
+        id_utilisateur=id_utilisateur, id_manga=id_manga
+    )
 
     # THEN
     assert liste_mangas is not None

@@ -69,7 +69,7 @@ class UtilisateurService(metaclass=Singleton):
             age=age,
             mot_de_passe=hash_password(mot_de_passe, pseudo),
             id_utilisateur=id_utilisateur,
-            is_admin=is_admin
+            is_admin=is_admin,
         )
         if UtilisateurDao().creer(nouvel_utilisateur):
             return nouvel_utilisateur

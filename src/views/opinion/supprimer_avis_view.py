@@ -19,17 +19,15 @@ class SupprimerAvisView(AbstractView):
         """
 
         titre_manga = inquirer.text(
-            "Entrez le nom du manga pour lequel vous voulez"
-            " supprimer votre avis :)"
+            "Entrez le nom du manga pour lequel vous voulez" " supprimer votre avis :)"
         ).execute()
         try:
-            manga = MangaService().rechercher_un_manga(
-                titre_manga=titre_manga
-                )
+            manga = MangaService().rechercher_un_manga(titre_manga=titre_manga)
         except Exception as e:
             print("\n", e)
-            return MainOpinionView("\n" + "=" * 50 + " Menu des avis"
-                                       " :) " + "=" * 50 + "\n")
+            return MainOpinionView(
+                "\n" + "=" * 50 + " Menu des avis" " :) " + "=" * 50 + "\n"
+            )
 
         id_manga = manga.id_manga
 
@@ -47,26 +45,30 @@ class SupprimerAvisView(AbstractView):
 
         match choix:
             case "Supprimer l'avis":
-
                 try:
-                    AvisService().supprimer_avis(id_manga=id_manga, id_utilisateur=id_utilisateur)
+                    AvisService().supprimer_avis(
+                        id_manga=id_manga, id_utilisateur=id_utilisateur
+                    )
                 except Exception as e:
                     print("\n", e)
 
-                return MainOpinionView("\n" + "=" * 50 + " Menu des avis"
-                " :) " + "=" * 50 + "\n")
+                return MainOpinionView(
+                    "\n" + "=" * 50 + " Menu des avis" " :) " + "=" * 50 + "\n"
+                )
 
             case "Supprimer la note":
-
                 try:
-                    AvisService().supprimer_note(id_manga=id_manga, id_utilisateur=id_utilisateur)
+                    AvisService().supprimer_note(
+                        id_manga=id_manga, id_utilisateur=id_utilisateur
+                    )
                 except Exception as e:
                     print("\n", e)
 
-                return MainOpinionView("\n" + "=" * 50 + " Menu des avis"
-                                       " :) " + "=" * 50 + "\n")
+                return MainOpinionView(
+                    "\n" + "=" * 50 + " Menu des avis" " :) " + "=" * 50 + "\n"
+                )
 
             case "Retour":
-
-                return MainOpinionView("\n" + "=" * 50 + " Menu des avis"
-                                       " :) " + "=" * 50 + "\n")
+                return MainOpinionView(
+                    "\n" + "=" * 50 + " Menu des avis" " :) " + "=" * 50 + "\n"
+                )

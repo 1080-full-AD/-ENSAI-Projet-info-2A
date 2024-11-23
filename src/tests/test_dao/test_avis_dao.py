@@ -74,6 +74,7 @@ def test_trouver_par_id_non_existant():
     assert isinstance(avis, list)
     assert len(avis) == 0
 
+
 def test_trouver_avis_par_manga_existant():
     """Recherche les avis par id d'un manga existant"""
 
@@ -100,6 +101,7 @@ def test_trouver_avis_par_manga_non_existant():
     # THEN
     assert isinstance(avis, list)
     assert len(avis) == 0
+
 
 def test_supprimer_avis_ok():
     """Suppression d'un avis réussie"""
@@ -131,7 +133,7 @@ def test_supprimer_note_ok():
     """Suppression d'une note réussie"""
 
     # GIVEN
-    avis = Avis(id_manga=1, id_utilisateur=1, texte="test", note= 4)
+    avis = Avis(id_manga=1, id_utilisateur=1, texte="test", note=4)
 
     # WHEN
     suppression_ok = AvisDao().supprimer_note(avis)
@@ -144,7 +146,7 @@ def test_supprimer_note_ko():
     """Suppression d'une note échouée (avis non existant)"""
 
     # GIVEN
-    avis = Avis(id_manga=9999, id_utilisateur=9999, texte="non existant", note = 4)
+    avis = Avis(id_manga=9999, id_utilisateur=9999, texte="non existant", note=4)
 
     # WHEN
     suppression_ok = AvisDao().supprimer_note(avis)
@@ -158,7 +160,7 @@ def test_modifier_note_ok():
 
     # GIVEN
     newnote = 3
-    avis = Avis(id_manga=1, id_utilisateur=1, texte="Amazing manga!", note = 4)
+    avis = Avis(id_manga=1, id_utilisateur=1, texte="Amazing manga!", note=4)
 
     # WHEN
     modification_ok = AvisDao().modifier_note(avis, newnote)
@@ -172,7 +174,7 @@ def test_modifier_note_ko():
 
     # GIVEN
     newnote = 4
-    avis = Avis(id_manga=99999, id_utilisateur=999999, texte="test", note = 3)
+    avis = Avis(id_manga=99999, id_utilisateur=999999, texte="test", note=3)
 
     # WHEN
     modification_ok = AvisDao().modifier_note(avis, newnote)

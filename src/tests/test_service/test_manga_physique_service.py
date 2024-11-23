@@ -9,36 +9,35 @@ import pytest
 # Initialisation des données de test
 
 manga_test = MangaPhysique(
-                id_manga=13,
-                id_utilisateur=3,
-                titre_manga="One Piece",
-                synopsis="Gol D. Roger, a man referred to as the King of the Pirates,"
-                        "is set to be executed by the World Government. But just before his demise, he confirms the existence of a great treasure,"
-                        " One Piece, located somewhere within the vast ocean known as the Grand Line. Announcing that One Piece can be claimed by"
-                        "anyone worthy enough to reach it, the King of the Pirates is executed and the Great Age of Pirates begins."
-                        "Twenty-two years later, a young man by the name of Monkey D. Luffy is ready to embark on his own adventure"
-                        ", searching for One Piece and striving to become the new King of the Pirates. Armed with just a straw hat, a small boat,"
-                        "and an elastic body, he sets out on a fantastic journey to gather his own crew and a worthy ship that will take them across"
-                        "the Grand Line to claim the greatest status on the high seas.[Written by MAL Rewrite]",
-                auteurs="Oda, Eiichiro",
-                tomes_manquants=[5, 6],
-                dernier_tome=10,
-                status="incomplet",
-                nb_chapitres=10,
-                nb_volumes=5
-                )
+    id_manga=13,
+    id_utilisateur=3,
+    titre_manga="One Piece",
+    synopsis="Gol D. Roger, a man referred to as the King of the Pirates,"
+    "is set to be executed by the World Government. But just before his demise, he confirms the existence of a great treasure,"
+    " One Piece, located somewhere within the vast ocean known as the Grand Line. Announcing that One Piece can be claimed by"
+    "anyone worthy enough to reach it, the King of the Pirates is executed and the Great Age of Pirates begins."
+    "Twenty-two years later, a young man by the name of Monkey D. Luffy is ready to embark on his own adventure"
+    ", searching for One Piece and striving to become the new King of the Pirates. Armed with just a straw hat, a small boat,"
+    "and an elastic body, he sets out on a fantastic journey to gather his own crew and a worthy ship that will take them across"
+    "the Grand Line to claim the greatest status on the high seas.[Written by MAL Rewrite]",
+    auteurs="Oda, Eiichiro",
+    tomes_manquants=[5, 6],
+    dernier_tome=10,
+    status="incomplet",
+    nb_chapitres=10,
+    nb_volumes=5,
+)
 
 
 def test_creer_manga_physique_ok():
     """Test pour vérifier la création d'un manga physique réussie"""
-    #GIVEN
-        
+    # GIVEN
+
     mock_dao = MagicMock(spec=MangaPhysiqueDao)
     mock_dao.creer.return_value = True
 
     service = MangaPhysiqueService()
     service.MangaPhysiqueDao = mock_dao
-
 
     # WHEN
     result = service.creer_manga_physique(manga_test)
@@ -52,17 +51,17 @@ def test_creer_manga_physique_echec():
 
     # GIVEN
     manga = MangaPhysique(
-                id_manga=999,
-                id_utilisateur=3,
-                titre_manga="Naruto",
-                auteurs="Masashi Kishimoto",
-                synopsis="Histoire d'un ninja ambitieux.",
-                tomes_manquants=[5, 6],
-                dernier_tome=10,
-                status="incomplet",
-                nb_chapitres=10,
-                nb_volumes=5
-                )
+        id_manga=999,
+        id_utilisateur=3,
+        titre_manga="Naruto",
+        auteurs="Masashi Kishimoto",
+        synopsis="Histoire d'un ninja ambitieux.",
+        tomes_manquants=[5, 6],
+        dernier_tome=10,
+        status="incomplet",
+        nb_chapitres=10,
+        nb_volumes=5,
+    )
 
     mock_dao = MagicMock(spec=MangaPhysiqueDao)
     mock_dao.creer.return_value = False
@@ -70,15 +69,15 @@ def test_creer_manga_physique_echec():
     service = MangaPhysiqueService()
     service.MangaPhysiqueDao = mock_dao
 
-    
     # WHEN
     manga = service.creer_manga_physique(manga)
 
     # THEN
     assert manga is False
 
+
 def test_lister_manga_physique_ok():
-    #GIVEN
+    # GIVEN
     id_utilisateur = 3
     mock_dao = MagicMock(spec=MangaPhysiqueDao)
     mock_dao.liste_manga_physique.return_value = True
@@ -86,15 +85,16 @@ def test_lister_manga_physique_ok():
     service = MangaPhysiqueService()
     service.MangaPhysiqueDao = mock_dao
 
-     # WHEN
+    # WHEN
     result = service.lister_manga_physique(id_utilisateur)
 
-     # THEN
+    # THEN
     assert result is not None
-    assert result[0].titre_manga == manga_test.titre_manga 
+    assert result[0].titre_manga == manga_test.titre_manga
+
 
 def test_rechercher_manga_ok():
-    #GIVEN
+    # GIVEN
     id_utilisateur = 3
     id_manga = manga_test.id_manga
     mock_dao = MagicMock(spec=MangaPhysiqueDao)
@@ -102,14 +102,15 @@ def test_rechercher_manga_ok():
 
     service = MangaPhysiqueService()
     service.MangaPhysiqueDao = mock_dao
-     # WHEN
-    result = service.rechercher_manga_physique(id_utilisateur=id_utilisateur, id_manga=id_manga)
+    # WHEN
+    result = service.rechercher_manga_physique(
+        id_utilisateur=id_utilisateur, id_manga=id_manga
+    )
 
-     # THEN
+    # THEN
     assert result is not None
-    assert result.titre_manga == manga_test.titre_manga 
+    assert result.titre_manga == manga_test.titre_manga
 
-    
 
 def test_ajouter_tome_manquant_ok():
     """Test pour vérifier l'ajout d'un tome manquant"""
@@ -120,7 +121,6 @@ def test_ajouter_tome_manquant_ok():
 
     service = MangaPhysiqueService()
     service.MangaPhysiqueDao = mock_dao
-        
 
     # WHEN
     result = service.ajouter_tome(manga_test, new_tome)
@@ -130,8 +130,8 @@ def test_ajouter_tome_manquant_ok():
 
 
 def test_ajouter_nouveau_tome_ok():
-    """Test pour vérifier l'ajout d'un nouveau tome supérieur 
-        supérieur au dernier tome"""
+    """Test pour vérifier l'ajout d'un nouveau tome supérieur
+    supérieur au dernier tome"""
     # GIVEN
     new_tome = 15
     mock_dao = MagicMock(spec=MangaPhysiqueDao)
@@ -139,8 +139,8 @@ def test_ajouter_nouveau_tome_ok():
 
     service = MangaPhysiqueService()
     service.MangaPhysiqueDao = mock_dao
-        
-     # WHEN
+
+    # WHEN
     result = service.ajouter_tome(manga_test, new_tome)
 
     # THEN
@@ -150,22 +150,22 @@ def test_ajouter_nouveau_tome_ok():
 
 
 def test_ajouter_tome_existant_echec():
-    """Test pour vérifier l'ajout d'un tome qui ne fait pas 
-    partie des tomes manquants mais qui est inférieur au 
+    """Test pour vérifier l'ajout d'un tome qui ne fait pas
+    partie des tomes manquants mais qui est inférieur au
     denier tome echoue"""
     # GIVEN
     new_tome = 2
     mock_dao = MagicMock(spec=MangaPhysiqueDao)
     mock_dao.modifier_manga_physique.return_value.side_effect = ValueError(
-        "tome deja existant")
-    
+        "tome deja existant"
+    )
+
     service = MangaPhysiqueService()
     service.MangaPhysiqueDao = mock_dao
-        
-     # WHEN and THEN
+
+    # WHEN and THEN
     with pytest.raises(ValueError, match="tome deja existant"):
         service.ajouter_tome(manga_test, new_tome)
-
 
 
 def test_ajouter_non_tome_echec():
@@ -175,20 +175,21 @@ def test_ajouter_non_tome_echec():
     new_tome = "a"
     mock_dao = MagicMock(spec=MangaPhysiqueDao)
     mock_dao.modifier_manga_physique.return_value.side_effect = TypeError(
-        "Le tome ajouté doit être un entier")
+        "Le tome ajouté doit être un entier"
+    )
 
     service = MangaPhysiqueService()
     service.MangaPhysiqueDao = mock_dao
-        
-     # WHEN and THEN
+
+    # WHEN and THEN
     with pytest.raises(TypeError, match="Le tome ajouté doit être un entier"):
         service.ajouter_tome(manga_test, new_tome)
 
 
 def test_enlever_dernier_tome_ok():
-    """Test pour vérifier la suppression  du dernier tome """
+    """Test pour vérifier la suppression  du dernier tome"""
     # GIVEN
-    
+
     tome_a_supprimer = 15
     mock_dao = MagicMock(spec=MangaPhysiqueDao)
     mock_dao.modifier_manga_physique.return_value = True
@@ -200,19 +201,15 @@ def test_enlever_dernier_tome_ok():
     result = service.enlever_tome(manga_test, tome_a_supprimer)
 
     # THEN
-    assert result is True 
+    assert result is True
     assert manga_test.dernier_tome == 10
 
 
-
-
-
-
 def test_enlever_tome_pas_dernier_ok():
-    """Test pour vérifier la suppression d'un tome existant  
-    inférieur au dernier tome """
+    """Test pour vérifier la suppression d'un tome existant
+    inférieur au dernier tome"""
     # GIVEN
-    
+
     tome_a_supprimer = 8
     mock_dao = MagicMock(spec=MangaPhysiqueDao)
     mock_dao.modifier_manga_physique.return_value = True
@@ -224,37 +221,39 @@ def test_enlever_tome_pas_dernier_ok():
     result = service.enlever_tome(manga_test, tome_a_supprimer)
 
     # THEN
-    assert result is True 
+    assert result is True
     assert 8 in manga_test.tomes_manquants
 
 
 def test_enlever_tome_non_posséder_echec():
-    """Test pour vérifier la suppression d'un tome qui n'est pas 
-    posséder l'utilisateur echoue  """
+    """Test pour vérifier la suppression d'un tome qui n'est pas
+    posséder l'utilisateur echoue"""
     # GIVEN
-    
+
     tome_a_supprimer = 76
     mock_dao = MagicMock(spec=MangaPhysiqueDao)
     mock_dao.modifier_manga_physique.return_value.side_effect = ValueError(
-        "vous ne disposez pas de ce tome")
+        "vous ne disposez pas de ce tome"
+    )
 
     service = MangaPhysiqueService()
     service.MangaPhysiqueDao = mock_dao
 
-     # WHEN and THEN
+    # WHEN and THEN
     with pytest.raises(ValueError, match="vous ne disposez pas de ce tome"):
         service.enlever_tome(manga_test, tome_a_supprimer)
 
 
 def test_enlever_tome_pas_tome_echec():
-    """Test pour vérifier la methode enlever_tome appliqué 
-    à autre chose qu'un entier echoue """
+    """Test pour vérifier la methode enlever_tome appliqué
+    à autre chose qu'un entier echoue"""
     # GIVEN
-    
+
     tome_a_supprimer = "a"
     mock_dao = MagicMock(spec=MangaPhysiqueDao)
     mock_dao.modifier_manga_physique.return_value.side_effect = TypeError(
-        "a,doit être un entier")
+        "a,doit être un entier"
+    )
 
     service = MangaPhysiqueService()
     service.MangaPhysiqueDao = mock_dao
@@ -264,12 +263,11 @@ def test_enlever_tome_pas_tome_echec():
         service.enlever_tome(manga_test, tome_a_supprimer)
 
 
-
 def test_modifier_manga_physique_ok():
     """Test pour vérifier la modification d'un manga physique"""
     # GIVEN
     logging.info("Test : test_modifier_tome_ok")
-        
+
     new_status = "complet"
     mock_dao = MagicMock(spec=MangaPhysiqueDao)
     mock_dao.modifier_manga_physique.return_value = True
@@ -285,10 +283,11 @@ def test_modifier_manga_physique_ok():
     logging.info(f"Résultat : {result}")
     assert result is True
 
-def test_supprimer_manga_physique_ok() :
+
+def test_supprimer_manga_physique_ok():
     """Test pour vérifier la suppression réussie d'un manga physique"""
     # GIVEN
-        
+
     mock_dao = MagicMock(spec=MangaPhysiqueDao)
     mock_dao.supprimer_manga_physique.return_value = True
 
@@ -300,8 +299,6 @@ def test_supprimer_manga_physique_ok() :
 
     # THEN
     assert result is True
-
-
 
 
 if __name__ == "__main__":

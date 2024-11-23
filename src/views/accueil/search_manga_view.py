@@ -10,7 +10,6 @@ class MangaSearchView(AbstractView):
     """Vue de recherche de mangas"""
 
     def choisir_menu(self):
-
         choix = inquirer.select(
             message="Quel est votre critère de recherche ?",
             choices=[
@@ -31,37 +30,42 @@ class MangaSearchView(AbstractView):
 
                 return MainUserView("Retour au menu princial :)")
             case "Identifiant":
-                id = int(inquirer.number(message="Entrez l'identifiant "
-                                                 "du manga :) ",
-                                         validate=EmptyInputValidator()
-                                         ).execute())
+                id = int(
+                    inquirer.number(
+                        message="Entrez l'identifiant " "du manga :) ",
+                        validate=EmptyInputValidator(),
+                    ).execute()
+                )
 
                 try:
                     manga = MangaService().rechercher_un_id_manga(id)
                     print(manga.__str__())
-                    return MangaSearchView("\n" + "=" * 50 + " Recherche"
-                                           " de mangas " + "=" * 50 + "\n")
+                    return MangaSearchView(
+                        "\n" + "=" * 50 + " Recherche" " de mangas " + "=" * 50 + "\n"
+                    )
                 except Exception as e:
                     return MangaSearchView(e)
             case "Nom":
-                name = inquirer.text(message="Entrez le nom "
-                                             "du manga :) ").execute()
+                name = inquirer.text(message="Entrez le nom " "du manga :) ").execute()
                 try:
                     manga = MangaService().rechercher_un_manga(name)
                     print(manga.__str__())
-                    return MangaSearchView("\n" + "=" * 50 + " Recherche"
-                                           " de mangas " + "=" * 50 + "\n")
+                    return MangaSearchView(
+                        "\n" + "=" * 50 + " Recherche" " de mangas " + "=" * 50 + "\n"
+                    )
                 except Exception as e:
                     return MangaSearchView(e)
 
             case "Mangaka":
-                author = inquirer.text(message="Entrez le nom"
-                                               " de l'auteur :) ").execute()
+                author = inquirer.text(
+                    message="Entrez le nom" " de l'auteur :) "
+                ).execute()
                 try:
                     manga = MangaService().rechercher_un_auteur(author)
                     for i in manga:
                         print(i.__str__())
-                    return MangaSearchView("\n" + "=" * 50 + " Recherche"
-                                           " de mangas " + "=" * 50 + "\n")
+                    return MangaSearchView(
+                        "\n" + "=" * 50 + " Recherche" " de mangas " + "=" * 50 + "\n"
+                    )
                 except Exception as e:
                     return MangaSearchView(e)

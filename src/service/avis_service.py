@@ -6,8 +6,9 @@ from src.business_objet.avis import Avis
 
 
 class AvisService:
-
-    def creer(self, id_manga: int, id_utilisateur: int, texte: str, spoiler=False) -> bool:
+    def creer(
+        self, id_manga: int, id_utilisateur: int, texte: str, spoiler=False
+    ) -> bool:
         """Création d'un avis
 
         Parameters
@@ -31,16 +32,25 @@ class AvisService:
         avisuser = AvisService().trouver_tous_par_id(id_utilisateur)
         for i in avisuser:
             if i.id_manga == id_manga and i.texte is not None:
-                raise ValueError("Vous avez déjà donné un avis sur ce manga."
-                                " Si vous souhaitez le modifier,"
-                                " sélectionnez le menu modifier :)")
+                raise ValueError(
+                    "Vous avez déjà donné un avis sur ce manga."
+                    " Si vous souhaitez le modifier,"
+                    " sélectionnez le menu modifier :)"
+                )
 
-        avis = Avis(id_manga=id_manga, id_utilisateur=id_utilisateur, texte=texte, spoiler=spoiler)
-        res=AvisDao().creer(avis)
+        avis = Avis(
+            id_manga=id_manga,
+            id_utilisateur=id_utilisateur,
+            texte=texte,
+            spoiler=spoiler,
+        )
+        res = AvisDao().creer(avis)
         print("Votre avis a bien été créé :)")
         return res
 
-    def trouver_tous_par_id(self, id_utilisateur: int, include_spoilers=True) -> list[Avis]:
+    def trouver_tous_par_id(
+        self, id_utilisateur: int, include_spoilers=True
+    ) -> list[Avis]:
         """Trouver les avis d'un utilisateur
 
         Parameters
@@ -54,7 +64,9 @@ class AvisService:
         """
         return AvisDao().trouver_tous_par_id(id_utilisateur, include_spoilers)
 
-    def trouver_avis_par_manga(self, id_manga: int, include_spoilers=True) -> list[Avis]:
+    def trouver_avis_par_manga(
+        self, id_manga: int, include_spoilers=True
+    ) -> list[Avis]:
         """Trouver les avis pour un manga
 
         Parameters
@@ -89,7 +101,6 @@ class AvisService:
         avisuser = AvisService().trouver_tous_par_id(id_utilisateur)
         for i in avisuser:
             if i.id_manga == id_manga and i.texte is not None:
-
                 avis = Avis(id_manga=id_manga, id_utilisateur=id_utilisateur, texte="")
                 print("Votre avis a bien été supprimé :)")
                 return AvisDao().supprimer_avis(avis)
@@ -119,7 +130,6 @@ class AvisService:
         avisuser = AvisService().trouver_tous_par_id(id_utilisateur)
         for i in avisuser:
             if i.id_manga == id_manga and i.note is not None:
-
                 avis = Avis(id_manga=id_manga, id_utilisateur=id_utilisateur, texte="")
                 print("Votre note a bien été supprimée :)")
                 return AvisDao().supprimer_note(avis)
@@ -127,7 +137,9 @@ class AvisService:
             else:
                 raise ValueError("Vous n'avez pas donné de note sur ce manga :/")
 
-    def modifier(self, id_manga: int, id_utilisateur: int, newtexte: str, spoiler=False) -> bool:
+    def modifier(
+        self, id_manga: int, id_utilisateur: int, newtexte: str, spoiler=False
+    ) -> bool:
         """Modifier un avis
 
         Parameters
@@ -151,16 +163,17 @@ class AvisService:
         avisuser = AvisService().trouver_tous_par_id(id_utilisateur)
         for i in avisuser:
             if i.id_manga == id_manga and i.texte is not None:
-
                 avis = Avis(id_manga=id_manga, id_utilisateur=id_utilisateur, texte="")
                 print("Votre avis a bien été modifié :)")
                 return AvisDao().modifier(avis, newtexte, spoiler)
 
             else:
-                raise ValueError("Vous n'avez pas donné d'avis sur ce manga."
-                                 " Si vous souhaitez en créer un,"
-                                 " sélectionnez le menu Rédiger un avis/donner"
-                                 " une note :)")
+                raise ValueError(
+                    "Vous n'avez pas donné d'avis sur ce manga."
+                    " Si vous souhaitez en créer un,"
+                    " sélectionnez le menu Rédiger un avis/donner"
+                    " une note :)"
+                )
 
     def noter(self, id_manga: int, id_utilisateur: int, note: int) -> bool:
         """Noter un manga
@@ -183,15 +196,19 @@ class AvisService:
         if isinstance(note, int) is False:
             raise TypeError("La note doit êre un entier :/")
         if note < 0 or note > 5:
-            raise ValueError("Même si vous avez beaucoup apprécié (ou détesté)"
-                             " ce manga, la note doit être comprise entre 0 et 5 :)")
+            raise ValueError(
+                "Même si vous avez beaucoup apprécié (ou détesté)"
+                " ce manga, la note doit être comprise entre 0 et 5 :)"
+            )
 
         avisuser = AvisService().trouver_tous_par_id(id_utilisateur)
         for i in avisuser:
             if i.id_manga == id_manga and i.note is not None:
-                raise ValueError("Vous avez déjà donné noté ce manga."
-                                 " Si vous souhaitez la modifier,"
-                                 " sélectionnez le menu modifier :)")
+                raise ValueError(
+                    "Vous avez déjà donné noté ce manga."
+                    " Si vous souhaitez la modifier,"
+                    " sélectionnez le menu modifier :)"
+                )
 
         avis = Avis(id_manga=id_manga, id_utilisateur=id_utilisateur, texte="")
         print("Votre note a bien été ajoutée :)")
@@ -221,15 +238,14 @@ class AvisService:
         avisuser = AvisService().trouver_tous_par_id(id_utilisateur)
         for i in avisuser:
             if i.id_manga == id_manga and i.note is not None:
-
                 avis = Avis(id_manga=id_manga, id_utilisateur=id_utilisateur, texte="")
                 print("Votre note a bien été modifiée :)")
                 return AvisDao().modifier_note(avis, newnote)
 
             else:
-                raise ValueError("Vous n'avez pas donné de note à ce manga."
-                                 " Si vous souhaitez en donner une,"
-                                 " sélectionnez le menu Rédiger un avis/donner"
-                                 " une note :)")
-
-
+                raise ValueError(
+                    "Vous n'avez pas donné de note à ce manga."
+                    " Si vous souhaitez en donner une,"
+                    " sélectionnez le menu Rédiger un avis/donner"
+                    " une note :)"
+                )

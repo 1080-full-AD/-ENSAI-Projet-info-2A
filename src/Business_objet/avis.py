@@ -1,6 +1,7 @@
 from src.service.utilisateur_service import UtilisateurService
 from src.service.manga_service import MangaService
 
+
 class Avis:
     """Classe représentant un avis
 
@@ -15,7 +16,8 @@ class Avis:
     spoiler: bool
         si l'avis contient un spoiler ou pas
     """
-    def __init__(self, id_manga, id_utilisateur, texte=None, note=None, spoiler =False):
+
+    def __init__(self, id_manga, id_utilisateur, texte=None, note=None, spoiler=False):
         """Constructeur"""
         self.id_manga = id_manga
         self.id_utilisateur = id_utilisateur
@@ -24,9 +26,10 @@ class Avis:
         self.spoiler = spoiler
 
     def __str__(self):
-
         try:
-            utilisateur = UtilisateurService().trouver_par_id_utilisateur(self.id_utilisateur)
+            utilisateur = UtilisateurService().trouver_par_id_utilisateur(
+                self.id_utilisateur
+            )
             pseudo_utilisateur = utilisateur.pseudo
         except Exception as e:
             pseudo_utilisateur = "Utilisateur inconnu"
@@ -38,7 +41,7 @@ class Avis:
         except Exception as e:
             nom_manga = "Manga inconnu"
             print(f"Erreur lors de la récupération du nom du manga : {e}")
-        
+
         return (
             f"Avis de l'utilisateur {pseudo_utilisateur}"
             f" sur le manga {nom_manga}:"

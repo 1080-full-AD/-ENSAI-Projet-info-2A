@@ -27,28 +27,43 @@ class MainMangathequeView(AbstractView):
 
         match choix:
             case "Créer une mangathèque":
-                from src.views.mangatheque.creer_mangatheque_view import CreateMangathequeView
+                from src.views.mangatheque.creer_mangatheque_view import (
+                    CreateMangathequeView,
+                )
 
-                return CreateMangathequeView("\n" + "=" * 50 + " Création de collection"
-                                         " :) " + "=" * 50 + "\n")
+                return CreateMangathequeView(
+                    "\n" + "=" * 50 + " Création de collection" " :) " + "=" * 50 + "\n"
+                )
 
             case "Modifier une mangathèque":
-                from src.views.collection.modification_mangatheque_view import ModificationMangathequeView
+                from src.views.collection.modification_mangatheque_view import (
+                    ModificationMangathequeView,
+                )
 
-                return ModificationMangathequeView("\n" + "=" * 50 + " Modification de collection"
-                                         " :) " + "=" * 50 + "\n")
+                return ModificationMangathequeView(
+                    "\n" + "=" * 50 + " Modification de collection"
+                    " :) " + "=" * 50 + "\n"
+                )
 
             case "Supprimer une mangathèque":
-                from src.views.collection.supprimer_mangatheque_view import SupprimerCollectionView
+                from src.views.collection.supprimer_mangatheque_view import (
+                    SupprimerCollectionView,
+                )
 
-                return SupprimerCollectionView("\n" + "=" * 50 + " Suppression de collections"
-                                         " :) " + "=" * 50 + "\n")
+                return SupprimerCollectionView(
+                    "\n" + "=" * 50 + " Suppression de collections"
+                    " :) " + "=" * 50 + "\n"
+                )
 
             case "Consulter les mangathèques":
-                from src.views.collection.consulter_mangatheque_view import ConsulterMangathequeView
+                from src.views.collection.consulter_mangatheque_view import (
+                    ConsulterMangathequeView,
+                )
 
-                return ConsulterMangathequeView("\n" + "=" * 50 + " Consultation des collections"
-                                         " :) " + "=" * 50 + "\n")
+                return ConsulterMangathequeView(
+                    "\n" + "=" * 50 + " Consultation des collections"
+                    " :) " + "=" * 50 + "\n"
+                )
             case "Retour":
                 from src.views.users.main_user_view import MainUserView
 

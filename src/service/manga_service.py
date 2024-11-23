@@ -48,6 +48,7 @@ class MangaService(metaclass=Singleton):
         else:
             print("echec")
             return False
+
     @log
     def supprimer_un_manga(self, manga) -> bool:
         MangaService().rechercher_un_id_manga(id_manga=manga.id_manga)

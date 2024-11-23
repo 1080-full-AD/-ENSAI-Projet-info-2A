@@ -34,18 +34,20 @@ class MainView(AbstractView):
             case "Se connecter":
                 from src.views.accueil.connexion_view import ConnexionView
 
-                return ConnexionView("\n" + "=" * 50 + " Connexion "
-                                     "à l'application " + "=" * 50 + "\n")
+                return ConnexionView(
+                    "\n" + "=" * 50 + " Connexion " "à l'application " + "=" * 50 + "\n"
+                )
 
             case "Créer un compte":
-                from src.views.accueil.create_account_view \
-                     import RegistrationView
+                from src.views.accueil.create_account_view import RegistrationView
 
-                return RegistrationView("\n" + "=" * 50 + " Création"
-                                        " de compte " + "=" * 50 + "\n")
+                return RegistrationView(
+                    "\n" + "=" * 50 + " Création" " de compte " + "=" * 50 + "\n"
+                )
 
             case "Rechercher des mangas":
                 from src.views.accueil.search_manga_view import MangaSearchView
 
-                return MangaSearchView("\n" + "=" * 50 + " Recherche"
-                                       " de mangas " + "=" * 50 + "\n")
+                return MangaSearchView(
+                    "\n" + "=" * 50 + " Recherche" " de mangas " + "=" * 50 + "\n"
+                )

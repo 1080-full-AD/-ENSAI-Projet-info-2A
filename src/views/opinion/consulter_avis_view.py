@@ -29,7 +29,6 @@ class ConsulterAvisView(AbstractView):
 
         match choix:
             case "Consulter les avis d'un utilisateur":
-
                 afficher_spoilers = inquirer.select(
                     message="Voulez-vous afficher les spoilers ?",
                     choices=["Oui", "Non"],
@@ -41,46 +40,20 @@ class ConsulterAvisView(AbstractView):
                     "Entrez le pseudo de l'utilisateur en question"
                 ).execute()
                 try:
-                    user = UtilisateurService().trouver_par_pseudo_utilisateur(pseudo=pseudo)
+                    user = UtilisateurService().trouver_par_pseudo_utilisateur(
+                        pseudo=pseudo
+                    )
                     id_utilisateur = user.id_utilisateur
                 except Exception as e:
                     print("\n", e)
-                    return ConsulterAvisView("\n" + "=" * 50 + " Consultation d'avis"
-                                             " :) " + "=" * 50 + "\n")
+                    return ConsulterAvisView(
+                        "\n" + "=" * 50 + " Consultation d'avis"
+                        " :) " + "=" * 50 + "\n"
+                    )
 
-                avis = AvisService().trouver_tous_par_id(id_utilisateur=id_utilisateur, include_spoilers=afficher_spoilers)
-
-
-                for i in avis:
-                    if afficher_spoilers or not i.spoiler: 
-                        print(i.__str__())
-                    else:
-                        print("Avis marqué comme spoiler, non affiché.")
-
-                return ConsulterAvisView("\n" + "=" * 50 + " Consultation d'avis"
-                                         " :) " + "=" * 50 + "\n")
-
-            case "Consulter les avis sur un manga":
-
-                afficher_spoilers = inquirer.select(
-                    message="Voulez-vous afficher les spoilers ?",
-                    choices=["Oui", "Non"],
-                ).execute()
-
-                afficher_spoilers = afficher_spoilers == "Oui"
-                name = inquirer.text(
-                    "Entrez le nom du manga en question"
-                ).execute()
-                try:
-                    manga = MangaService().rechercher_un_manga(titre_manga=name)
-                except Exception as e:
-                    print("\n", e)
-                    return ConsulterAvisView("\n" + "=" * 50 + " Consultation d'avis"
-                                             " :) " + "=" * 50 + "\n")
-
-                id_manga = manga.id_manga
-                avis = AvisService().trouver_avis_par_manga(id_manga=id_manga, include_spoilers=afficher_spoilers)
-
+                avis = AvisService().trouver_tous_par_id(
+                    id_utilisateur=id_utilisateur, include_spoilers=afficher_spoilers
+                )
 
                 for i in avis:
                     if afficher_spoilers or not i.spoiler:
@@ -88,11 +61,45 @@ class ConsulterAvisView(AbstractView):
                     else:
                         print("Avis marqué comme spoiler, non affiché.")
 
-                return ConsulterAvisView("\n" + "=" * 50 + " Consultation d'avis"
-                                         " :) " + "=" * 50 + "\n")
+                return ConsulterAvisView(
+                    "\n" + "=" * 50 + " Consultation d'avis" " :) " + "=" * 50 + "\n"
+                )
+
+            case "Consulter les avis sur un manga":
+                afficher_spoilers = inquirer.select(
+                    message="Voulez-vous afficher les spoilers ?",
+                    choices=["Oui", "Non"],
+                ).execute()
+
+                afficher_spoilers = afficher_spoilers == "Oui"
+                name = inquirer.text("Entrez le nom du manga en question").execute()
+                try:
+                    manga = MangaService().rechercher_un_manga(titre_manga=name)
+                except Exception as e:
+                    print("\n", e)
+                    return ConsulterAvisView(
+                        "\n" + "=" * 50 + " Consultation d'avis"
+                        " :) " + "=" * 50 + "\n"
+                    )
+
+                id_manga = manga.id_manga
+                avis = AvisService().trouver_avis_par_manga(
+                    id_manga=id_manga, include_spoilers=afficher_spoilers
+                )
+
+                for i in avis:
+                    if afficher_spoilers or not i.spoiler:
+                        print(i.__str__())
+                    else:
+                        print("Avis marqué comme spoiler, non affiché.")
+
+                return ConsulterAvisView(
+                    "\n" + "=" * 50 + " Consultation d'avis" " :) " + "=" * 50 + "\n"
+                )
 
             case "Consulter vos avis":
                 from src.views.session import Session
+
                 user = Session().getuser()
                 id_utilisateur = user.id_utilisateur
                 avis = AvisService().trouver_tous_par_id(id_utilisateur=id_utilisateur)
@@ -100,10 +107,11 @@ class ConsulterAvisView(AbstractView):
                 for i in avis:
                     print(i.__str__())
 
-
-                return ConsulterAvisView("\n" + "=" * 50 + " Consultation d'avis"
-                                         " :) " + "=" * 50 + "\n")
+                return ConsulterAvisView(
+                    "\n" + "=" * 50 + " Consultation d'avis" " :) " + "=" * 50 + "\n"
+                )
 
             case "Retour":
                 from src.views.users.main_user_view import MainUserView
+
                 return MainUserView("Retour au menu utilisateur")

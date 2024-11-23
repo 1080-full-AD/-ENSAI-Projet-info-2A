@@ -9,7 +9,6 @@ from src.business_objet.manga import Manga
 
 
 class MangaDao(metaclass=Singleton):
-
     def trouver_par_titre(self, titre_manga: str) -> Manga:
         """Trouver un manga par le nom exact du tome recherché
 
