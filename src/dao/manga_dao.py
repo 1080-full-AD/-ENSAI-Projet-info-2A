@@ -61,9 +61,13 @@ class MangaDao(metaclass=Singleton):
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        "INSERT INTO projet.manga(id_manga, titre_manga, auteurs, synopsis, nb_volumes, nb_chapitres)"
+                        "INSERT INTO projet.manga(id_manga,"
+                        " titre_manga, auteurs, synopsis,"
+                        " nb_volumes, nb_chapitres)"
                         "VALUES                                              "
-                        f"('{manga.id_manga}', '{manga.titre_manga}', '{manga.auteurs}', '{manga.synopsis}',"
+                        f"('{manga.id_manga}', "
+                        f"'{manga.titre_manga}', "
+                        f"'{manga.auteurs}', '{manga.synopsis}',"
                         f"'{manga.nb_volumes}', '{manga.nb_chapitres}')"
                         "  RETURNING id_manga;                               ",
                         {
@@ -106,8 +110,8 @@ class MangaDao(metaclass=Singleton):
                 with connection.cursor() as cursor:
                     # Supprimer un manga de la base de données
                     cursor.execute(
-                        f"DELETE FROM projet.manga                  "
-                        f" WHERE id_manga= (%(id_manga)s)     ",
+                        "DELETE FROM projet.manga                  "
+                        " WHERE id_manga= (%(id_manga)s)     ",
                         {"id_manga": manga.id_manga},
                     )
                     res = cursor.rowcount
@@ -181,14 +185,14 @@ class MangaDao(metaclass=Singleton):
         with DBConnection().connection as connection:
             with connection.cursor() as cursor:
                 cursor.execute(
-                    f"SELECT titre_manga,"
+                    "SELECT titre_manga,"
                     "       id_manga,"
                     "       auteurs,"
                     "       synopsis, "
                     "       nb_volumes,"
                     "       nb_chapitres "
                     "FROM projet.manga "
-                    f" WHERE id_manga = %(id_manga)s",
+                    " WHERE id_manga = %(id_manga)s",
                     {"id_manga": id_manga},
                 )
                 res_id_manga = cursor.fetchone()

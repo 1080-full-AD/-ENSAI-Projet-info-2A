@@ -29,11 +29,11 @@ class MangaPhysiqueDao(metaclass=Singleton):
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        f" INSERT INTO projet.mangatheque (id_manga,"
-                        f" id_utilisateur,num_dernier,num_manquants,status) "
-                        f" VALUES (%(id_manga)s, %(id_utilisateur)s ,"
-                        f" %(num_dernier)s,"
-                        f" %(num_manquants)s,%(status)s) RETURNING id_manga ;",
+                        " INSERT INTO projet.mangatheque (id_manga,"
+                        " id_utilisateur,num_dernier,num_manquants,status) "
+                        " VALUES (%(id_manga)s, %(id_utilisateur)s ,"
+                        " %(num_dernier)s,"
+                        " %(num_manquants)s,%(status)s) RETURNING id_manga ;",
                         {
                             "id_manga": manga.id_manga,
                             "id_utilisateur": manga.id_utilisateur,
@@ -72,9 +72,9 @@ class MangaPhysiqueDao(metaclass=Singleton):
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        f" DELETE FROM projet.mangatheque"
-                        f" WHERE id_utilisateur=%(id_utilisateur)s  "
-                        f" AND id_manga=%(id_manga)s",
+                        " DELETE FROM projet.mangatheque"
+                        " WHERE id_utilisateur=%(id_utilisateur)s  "
+                        " AND id_manga=%(id_manga)s",
                         {
                             "id_utilisateur": manga.id_utilisateur,
                             "id_manga": manga.id_manga,
@@ -106,14 +106,14 @@ class MangaPhysiqueDao(metaclass=Singleton):
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        f"UPDATE projet.mangatheque   SET   "
-                        f"  id_utilisateur = %(id_utilisateur)s ,      "
-                        f"  id_manga = %(id_manga)s ,  "
-                        f"  num_dernier = %(num_dernier)s   ,         "
-                        f"  num_manquants=%(num_manquants)s ,          "
-                        f"  status=%(status)s  "
-                        f"  WHERE id_manga=%(id_manga)s "
-                        f"  AND id_utilisateur=%(id_utilisateur)s",
+                        "UPDATE projet.mangatheque   SET   "
+                        "  id_utilisateur = %(id_utilisateur)s ,      "
+                        "  id_manga = %(id_manga)s ,  "
+                        "  num_dernier = %(num_dernier)s   ,         "
+                        "  num_manquants=%(num_manquants)s ,          "
+                        "  status=%(status)s  "
+                        "  WHERE id_manga=%(id_manga)s "
+                        "  AND id_utilisateur=%(id_utilisateur)s",
                         {
                             "id_manga": manga.id_manga,
                             "id_utilisateur": manga.id_utilisateur,
@@ -151,10 +151,10 @@ class MangaPhysiqueDao(metaclass=Singleton):
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        f"  select *     "
-                        f"  from projet.mangatheque mt     "
-                        f"  JOIN projet.manga m USING(id_manga)"
-                        f"  WHERE mt.id_utilisateur=%(id_utilisateur)s",
+                        "  select *     "
+                        "  from projet.mangatheque mt     "
+                        "  JOIN projet.manga m USING(id_manga)"
+                        "  WHERE mt.id_utilisateur=%(id_utilisateur)s",
                         {
                             "id_utilisateur": id_utilisateur,
                         },
@@ -184,7 +184,8 @@ class MangaPhysiqueDao(metaclass=Singleton):
         return liste_manga
 
     @log
-    def rechercher_manga_physique(self, id_utilisateur: int, id_manga: int) -> list:
+    def rechercher_manga_physique(self,
+                                  id_utilisateur: int, id_manga: int) -> list:
         """rechercher un manga physique
         Parameters
         ----------
@@ -204,12 +205,13 @@ class MangaPhysiqueDao(metaclass=Singleton):
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        f"  select *     "
-                        f"  from projet.mangatheque mt     "
-                        f"  JOIN projet.manga m USING(id_manga)"
-                        f"  WHERE mt.id_utilisateur=%(id_utilisateur)s"
-                        f"  AND id_manga =%(id_manga)s",
-                        {"id_utilisateur": id_utilisateur, "id_manga": id_manga},
+                        "  select *     "
+                        "  from projet.mangatheque mt     "
+                        "  JOIN projet.manga m USING(id_manga)"
+                        "  WHERE mt.id_utilisateur=%(id_utilisateur)s"
+                        "  AND id_manga =%(id_manga)s",
+                        {"id_utilisateur": id_utilisateur,
+                         "id_manga": id_manga},
                     )
                     res = cursor.fetchone()
         except Exception as e:

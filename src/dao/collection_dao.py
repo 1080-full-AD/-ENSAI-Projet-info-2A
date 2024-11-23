@@ -30,11 +30,11 @@ class CollectionDao(metaclass=Singleton):
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        f"INSERT INTO projet.collection (Titre_collec,"
-                        f" id_utilisateur,description) "
-                        f" VALUES (%(titre)s, %(id_utilisateur)s "
-                        f" ,%(description)s)"
-                        f" RETURNING Titre_collec;",
+                        "INSERT INTO projet.collection (Titre_collec,"
+                        " id_utilisateur,description) "
+                        " VALUES (%(titre)s, %(id_utilisateur)s "
+                        " ,%(description)s)"
+                        " RETURNING Titre_collec;",
                         {
                             "titre": collection.titre,
                             "id_utilisateur": collection.id_utilisateur,
@@ -54,7 +54,8 @@ class CollectionDao(metaclass=Singleton):
         return created
 
     @log
-    def ajouter_manga(self, collection: CollectionVirtuelle, manga: Manga) -> bool:
+    def ajouter_manga(self,
+                      collection: CollectionVirtuelle, manga: Manga) -> bool:
         """ajouter un manga  a une collection physique
 
         Parameters
@@ -72,10 +73,10 @@ class CollectionDao(metaclass=Singleton):
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        f" INSERT INTO projet.collection_manga(id_utilisateur,"
-                        f" id_manga, titre_collec)  "
-                        f" VALUES(%(id_utilisateur)s,%(id_manga)s,"
-                        f" %(titre_collec)s)",
+                        " INSERT INTO projet.collection_manga(id_utilisateur,"
+                        " id_manga, titre_collec)  "
+                        " VALUES(%(id_utilisateur)s,%(id_manga)s,"
+                        " %(titre_collec)s)",
                         {
                             "id_utilisateur": collection.id_utilisateur,
                             "id_manga": manga.id_manga,
@@ -89,7 +90,8 @@ class CollectionDao(metaclass=Singleton):
         return res == 1
 
     @log
-    def supprimer_manga(self, collection: CollectionVirtuelle, manga: Manga) -> bool:
+    def supprimer_manga(self,
+                        collection: CollectionVirtuelle, manga: Manga) -> bool:
         """supprimer un manga d'une collection virtuelle
         Parameters
         ----------
@@ -107,10 +109,10 @@ class CollectionDao(metaclass=Singleton):
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        f" DELETE FROM projet.collection_manga"
-                        f" WHERE id_manga=%(id_manga)s "
-                        f" AND id_utilisateur=%(id_utilisateur)s  "
-                        f" AND titre_collec=%(titre)s",
+                        " DELETE FROM projet.collection_manga"
+                        " WHERE id_manga=%(id_manga)s "
+                        " AND id_utilisateur=%(id_utilisateur)s  "
+                        " AND titre_collec=%(titre)s",
                         {
                             "id_utilisateur": collection.id_utilisateur,
                             "id_manga": manga.id_manga,
@@ -141,12 +143,12 @@ class CollectionDao(metaclass=Singleton):
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        f"DELETE FROM projet.collection_manga   "
-                        f" WHERE titre_Collec = %(titre)s"
-                        f" AND id_utilisateur = %(id_utilisateur)s;"
-                        f" DELETE FROM projet.collection  "
-                        f" WHERE titre_Collec = %(titre)s "
-                        f" AND id_utilisateur = %(id_utilisateur)s;",
+                        "DELETE FROM projet.collection_manga   "
+                        " WHERE titre_Collec = %(titre)s"
+                        " AND id_utilisateur = %(id_utilisateur)s;"
+                        " DELETE FROM projet.collection  "
+                        " WHERE titre_Collec = %(titre)s "
+                        " AND id_utilisateur = %(id_utilisateur)s;",
                         {
                             "titre": collection.titre,
                             "id_utilisateur": collection.id_utilisateur,
@@ -182,11 +184,11 @@ class CollectionDao(metaclass=Singleton):
                 with connection.cursor() as cursor:
                     cursor.execute(
                         "UPDATE projet.collection  SET   "
-                        f"  titre_collec = %(titre)s  ,    "
-                        f"  id_utilisateur = %(id_utilisateur)s , "
-                        f"  description = %(description)s        "
-                        f"  WHERE titre_collec=%(titre)s "
-                        f"  AND id_utilisateur = %(id_utilisateur)s",
+                        "  titre_collec = %(titre)s  ,    "
+                        "  id_utilisateur = %(id_utilisateur)s , "
+                        "  description = %(description)s        "
+                        "  WHERE titre_collec=%(titre)s "
+                        "  AND id_utilisateur = %(id_utilisateur)s",
                         {
                             "titre": collection.titre,
                             "description": collection.description,
@@ -199,7 +201,9 @@ class CollectionDao(metaclass=Singleton):
         return res == 1
 
     @log
-    def modifier_titre(self, collection: CollectionVirtuelle, new_titre: str) -> bool:
+    def modifier_titre(self,
+                       collection: CollectionVirtuelle,
+                       new_titre: str) -> bool:
         """Modification du titre d'une collection dans la base de données
 
         Parameters
@@ -218,10 +222,10 @@ class CollectionDao(metaclass=Singleton):
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        f"   UPDATE projet.collection  SET   "
-                        f"  titre_collec = %(new_titre)s      "
-                        f"  WHERE titre_collec=%(titre)s "
-                        f"  AND id_utilisateur = %(id_utilisateur)s ;",
+                        "   UPDATE projet.collection  SET   "
+                        "  titre_collec = %(new_titre)s      "
+                        "  WHERE titre_collec=%(titre)s "
+                        "  AND id_utilisateur = %(id_utilisateur)s ;",
                         {
                             "new_titre": new_titre,
                             "titre": collection.titre,
@@ -253,12 +257,13 @@ class CollectionDao(metaclass=Singleton):
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        f"select *     "
-                        f" FROM projet.collection_manga cm     "
-                        f" JOIN projet.manga m USING(id_manga)"
-                        f" WHERE cm.id_utilisateur = %(id_utilisateur)s"
-                        f" AND cm.titre_collec = %(titre)s",
-                        {"id_utilisateur": id_utilisateur, "titre": titre_collec},
+                        "select *     "
+                        " FROM projet.collection_manga cm     "
+                        " JOIN projet.manga m USING(id_manga)"
+                        " WHERE cm.id_utilisateur = %(id_utilisateur)s"
+                        " AND cm.titre_collec = %(titre)s",
+                        {"id_utilisateur": id_utilisateur,
+                         "titre": titre_collec},
                     )
                     res = cursor.fetchall()
         except Exception as e:
@@ -304,9 +309,9 @@ class CollectionDao(metaclass=Singleton):
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        f"  SELECT titre_collec    "
-                        f"  FROM projet.collection     "
-                        f"  WHERE id_utilisateur=%(id_utilisateur)s",
+                        "  SELECT titre_collec    "
+                        "  FROM projet.collection     "
+                        "  WHERE id_utilisateur=%(id_utilisateur)s",
                         {"id_utilisateur": id_utilisateur},
                     )
                     res = cursor.fetchall()
@@ -342,9 +347,9 @@ class CollectionDao(metaclass=Singleton):
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        f"  SELECT *    "
-                        f"  FROM projet.collection     "
-                        f"  WHERE id_utilisateur=%(id_utilisateur)s",
+                        "  SELECT *    "
+                        "  FROM projet.collection     "
+                        "  WHERE id_utilisateur=%(id_utilisateur)s",
                         {"id_utilisateur": id_utilisateur},
                     )
                     res = cursor.fetchall()
@@ -372,7 +377,8 @@ class CollectionDao(metaclass=Singleton):
     def recherhcer_collection(
         self, id_utilisateur: int, titre_collec: str
     ) -> CollectionVirtuelle:
-        """Retourne la collecttion virtuelle qui correspond au l'identifiant de l'utilisateur et au titre renseigné
+        """Retourne la collecttion virtuelle qui correspond à
+        l'identifiant de l'utilisateur et au titre renseigné
 
          Parameters
          ----------
@@ -392,10 +398,10 @@ class CollectionDao(metaclass=Singleton):
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        f"  SELECT *    "
-                        f"  FROM projet.collection     "
-                        f"  WHERE id_utilisateur=%(id_utilisateur)s"
-                        f"  AND titre_collec=%(titre_collec)s",
+                        "  SELECT *    "
+                        "  FROM projet.collection     "
+                        "  WHERE id_utilisateur=%(id_utilisateur)s"
+                        "  AND titre_collec=%(titre_collec)s",
                         {
                             "id_utilisateur": id_utilisateur,
                             "titre_collec": titre_collec,
@@ -407,7 +413,8 @@ class CollectionDao(metaclass=Singleton):
 
         if res:
             liste_mangas = self.liste_manga(
-                id_utilisateur=res["id_utilisateur"], titre_collec=res["titre_collec"]
+                id_utilisateur=res["id_utilisateur"],
+                titre_collec=res["titre_collec"]
             )
             collection = CollectionVirtuelle(
                 titre=res["titre_collec"],

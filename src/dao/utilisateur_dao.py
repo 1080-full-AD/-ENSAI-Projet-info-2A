@@ -34,8 +34,11 @@ class UtilisateurDao(metaclass=Singleton):
                     cursor.execute(
                         "INSERT INTO projet.utilisateur(pseudo, mot_de_passe,"
                         "age, is_admin) VALUES                            "
-                        f"('{utilisateur.pseudo}', '{utilisateur.mot_de_passe}', {utilisateur.age}, {utilisateur.is_admin})"
-                        "  RETURNING id_utilisateur;                         ",
+                        f"('{utilisateur.pseudo}', "
+                        f"'{utilisateur.mot_de_passe}', "
+                        f"{utilisateur.age}, "
+                        f"{utilisateur.is_admin}) "
+                        "RETURNING id_utilisateur;",
                         {
                             "pseudo": utilisateur.pseudo,
                             "mot_de_passe": utilisateur.mot_de_passe,
@@ -154,11 +157,11 @@ class UtilisateurDao(metaclass=Singleton):
                 with connection.cursor() as cursor:
                     cursor.execute(
                         "UPDATE utilisateur                                 "
-                        f"   SET pseudo      = %(pseudo)s,                   "
-                        f"       mot_de_passe = %(mot_de_passe)s,                      "
-                        f"       age         = %(age)s,                      "
-                        f"       collections = %(collections)s               "
-                        f" WHERE id_utilisateur = %(id_utilisateur)s;                  ",
+                        "   SET pseudo      = %(pseudo)s,                   "
+                        "       mot_de_passe = %(mot_de_passe)s,            "
+                        "       age         = %(age)s,                      "
+                        "       collections = %(collections)s               "
+                        " WHERE id_utilisateur = %(id_utilisateur)s;        ",
                         {
                             "pseudo": utilisateur.pseudo,
                             "mot_de_passe": utilisateur.mot_de_passe,
@@ -193,7 +196,8 @@ class UtilisateurDao(metaclass=Singleton):
                     # Supprimer le compte d'un utilisateur
                     cursor.execute(
                         "DELETE FROM projet.utilisateur                  "
-                        f" WHERE id_utilisateur = '{utilisateur.id_utilisateur}'",
+                        " WHERE id_utilisateur = "
+                        f"'{utilisateur.id_utilisateur}'",
                         {"id_utilisateur": utilisateur.id_utilisateur},
                     )
                     res = cursor.rowcount
@@ -224,10 +228,10 @@ class UtilisateurDao(metaclass=Singleton):
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        "SELECT *                           "
-                        "  FROM projet.utilisateur                      "
-                        f" WHERE pseudo = '{pseudo}'         "
-                        f"   AND mot_de_passe = '{mot_de_passe}';              ",
+                        "SELECT *                                            "
+                        "  FROM projet.utilisateur                           "
+                        f" WHERE pseudo = '{pseudo}'                         "
+                        f"   AND mot_de_passe = '{mot_de_passe}';            ",
                         {"pseudo": pseudo, "mot_de_passe": mot_de_passe},
                     )
                     res = cursor.fetchone()
