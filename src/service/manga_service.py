@@ -46,7 +46,7 @@ class MangaService(metaclass=Singleton):
             print("Manga ajouté à la base")
             return True
         else:
-            print("echec")
+            print("echec de l'ajout")
             return False
 
     @log
@@ -66,6 +66,7 @@ class MangaService(metaclass=Singleton):
             print("Modification effectuée")
             return True
         else:
+            print("echec de la modification")
             return False
 
     @log
@@ -83,3 +84,8 @@ class MangaService(metaclass=Singleton):
     def rechercher_une_serie(self, manga) -> Manga:
         """Trouver une série de mangas à partir du nom de la saga"""
         return MangaDao().trouver_serie_par_titre(manga)
+
+
+manga = Manga(1, "aa","aaaa", "a", 1, 1)
+
+MangaService().creer_manga(manga=manga)

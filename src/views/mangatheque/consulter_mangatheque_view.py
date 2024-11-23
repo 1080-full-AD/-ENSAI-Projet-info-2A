@@ -22,14 +22,14 @@ class ConsulterCollectionView(AbstractView):
         choix = inquirer.select(
             message="Faites votre choix : ",
             choices=[
-                "Consulter vos collections",
-                "Consulter les collections d'un utilisateur",
+                "Consulter vos mangathèques",
+                "Consulter les mangathèquesd'un utilisateur",
                 "Retour",
             ],
         ).execute()
 
         match choix:
-            case "Consulter vos collections":
+            case "Consulter vos mangathèques":
                 user = Session().getuser()
                 id_utilisateur = user.id_utilisateur
 

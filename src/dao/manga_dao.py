@@ -64,7 +64,7 @@ class MangaDao(metaclass=Singleton):
                         "INSERT INTO manga(id_manga, titre_manga, auteurs, synopsis, nb_volumes, nb_chapitres)"
                         "VALUES                                              "
                         f"('{manga.id_manga}', '{manga.titre_manga}', '{manga.auteurs}', '{manga.synopsis}',"
-                        f"'{manga.nb_volumes}', '{manga.nb_chapitres}')"
+                        f"{manga.nb_volumes}, {manga.nb_chapitres})"
                         "  RETURNING id_manga;                               ",
                         {
                             "id_manga": manga.id_manga,
@@ -80,6 +80,7 @@ class MangaDao(metaclass=Singleton):
             logging.info(e)
 
         created = False
+        print("res", res)
         if res:
             manga.id_manga = (res["id_manga"],)
             manga.titre_manga = (res["titre_manga"],)

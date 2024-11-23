@@ -40,10 +40,9 @@ class ModerationMangaView(AbstractView):
                 nb_chapitres = int(
                     inquirer.number(message="Entrez le nombre de chapitres").execute()
                 )
-                id_manga = 99
                 synopsis = inquirer.text(message="Entrez le synopsis").execute()
                 manga = Manga(
-                    id_manga=id_manga,
+                    id_manga=1,
                     titre_manga=titre_manga,
                     auteurs=auteurs,
                     synopsis=synopsis,
