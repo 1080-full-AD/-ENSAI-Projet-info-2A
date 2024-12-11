@@ -28,6 +28,9 @@ class ModerationMangaView(AbstractView):
 
         match choix:
             case "Ajouter un manga":
+                id_manga = inquirer.number(
+                    message="Entrez l'identifiant du manga"
+                ).execute()
                 titre_manga = inquirer.text(
                     message="Entrez le titre du manga"
                 ).execute()
@@ -45,7 +48,7 @@ class ModerationMangaView(AbstractView):
                 synopsis = inquirer.text(
                     message="Entrez le synopsis").execute()
                 manga = Manga(
-                    id_manga=1,
+                    id_manga=id_manga,
                     titre_manga=titre_manga,
                     auteurs=auteurs,
                     synopsis=synopsis,
