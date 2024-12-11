@@ -6,7 +6,7 @@ from src.dao.utilisateur_dao import UtilisateurDao
 
 
 class MangaPhysiqueService(metaclass=Singleton):
-    """Classe permettant d'avoir 
+    """Classe permettant d'avoir
     des informations à propos des Mangas"""
 
     @log
@@ -131,10 +131,11 @@ class MangaPhysiqueService(metaclass=Singleton):
     def rechercher_manga_physique(
         self, id_utilisateur: int, id_manga: int
     ):
-        """rechercher un manga physique 
+        """rechercher un manga physique
         à partir de l'identifiant d'un utilisateur
         et de celui du manga"""
-        if not isinstance(id_utilisateur, int) or not isinstance(id_manga, int):
+        if not isinstance(id_utilisateur, int) or not isinstance(
+                                                                id_manga, int):
             raise TypeError(
                 "les informations renseignés ne sont pas correctes"
                 )

@@ -21,14 +21,14 @@ class CollectionVirtuelleService:
 
         if not all(isinstance(i, Manga) for i in liste_manga):
             raise TypeError(
-                "Les collections virtuelles ne" 
+                "Les collections virtuelles ne"
                 "conteniennent que des mangas virtuelles :/"
             )
 
         for i in liste_manga:
             if isinstance(i, MangaPhysique):
                 raise TypeError(
-                    "les collection virtuelles" 
+                    "les collection virtuelles"
                     "ne peuvent contenir des mangas physique"
                 )
 
@@ -73,7 +73,7 @@ class CollectionVirtuelleService:
     ) -> CollectionVirtuelle:
         "modifier la description d'une collection"
         collection.description = new_description
-        if CollectionDao().modifier(collection) == True:
+        if CollectionDao().modifier(collection) is True:
             return collection
         else:
             return None
@@ -83,10 +83,10 @@ class CollectionVirtuelleService:
         "modifier le titre d'une collection dans la base de données"
         if (
             CollectionDao().titre_existant(
-                titre=new_titre, 
+                titre=new_titre,
                 id_utilisateur=collection.id_utilisateur
             )
-            == True
+            is True
         ):
             raise ValueError(
                 "Vous avez déja une collection avec ce titre :/"
@@ -121,21 +121,21 @@ class CollectionVirtuelleService:
                 )
         if isinstance(new_manga, MangaPhysique):
             raise ValueError(
-                "les collections virtuelle" 
+                "les collections virtuelle"
                 "ne contiennent que des mangas virtuelles"
             )
         if new_manga in CollectionDao().liste_manga(
-            id_utilisateur=collection.id_utilisateur, 
+            id_utilisateur=collection.id_utilisateur,
             titre_collec=collection.titre
         ):
             raise ValueError(
                 f"Ce manga appartient déja à {collection.titre} :/"
                 )
         if new_manga in CollectionDao().liste_manga(
-            id_utilisateur=collection.id_utilisateur, 
+            id_utilisateur=collection.id_utilisateur,
             titre_collec=collection.titre
         ):
-            raise ValueErrror(
+            raise ValueError(
                 "ce manga appartient déja à cette collection"
                 )
         print(f"{new_manga} a été ajouté à {collection.titre} :)")
@@ -147,12 +147,14 @@ class CollectionVirtuelleService:
     def supprimer_manga(self, collection, manga):
         if manga not in CollectionDao().liste_manga(
             collection.id_utilisateur, collection.titre
-    ):
+        ):
             raise ValueError(
-                f"{manga.titre_manga} ne fait pas partit de {collection.titre} :/"
+                f"{manga.titre_manga} ne fait pas"
+                f" partit de {collection.titre} :/"
             )
         else:
-            print(f"{manga} a été supprimé de {collection.titre} avec succès :)")
+            print(f"{manga} a été supprimé"
+                  f" de {collection.titre} avec succès :)")
             return CollectionDao().supprimer_manga(
                 manga=manga, collection=collection
                 )
@@ -174,12 +176,12 @@ class CollectionVirtuelleService:
     def rechercher_collection(
         self, id_utilisateur: int, titre_collec: str
     ):
-        """rechercher une collection 
+        """rechercher une collection
         à partir de l'identifiant d'un utilisateur
         et du titre de la collection"""
         if CollectionDao().recherhcer_collection(
             id_utilisateur, titre_collec
-            ) is None:
+             ) is None:
             raise ValueError(
                 "Vous ne possédez pas de collection avec ce nom :/"
                 )

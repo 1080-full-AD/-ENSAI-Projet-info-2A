@@ -8,7 +8,7 @@ import re
 
 
 class UtilisateurService(metaclass=Singleton):
-    """ "Classe exposant 
+    """ "Classe exposant
     les méthodes liées à l'utilisateur"""
 
     @log
@@ -24,7 +24,7 @@ class UtilisateurService(metaclass=Singleton):
         Returns
         ----------
             bool
-                True si le pseudo est 
+                True si le pseudo est
                 déjà utilisé par un utilisateur
                 False sinon
         """
@@ -33,7 +33,8 @@ class UtilisateurService(metaclass=Singleton):
 
     @log
     def creer_utilisateur(
-        self, pseudo, age, mot_de_passe=None, id_utilisateur=None, is_admin=False
+        self, pseudo, age, mot_de_passe=None,
+        id_utilisateur=None, is_admin=False
     ) -> Utilisateur:
         """Création d'un utilisateur à partir de ses attributs
 
@@ -152,7 +153,7 @@ class UtilisateurService(metaclass=Singleton):
     @log
     def trouver_par_pseudo_utilisateur(
         self, pseudo
-        ) -> Utilisateur:
+         ) -> Utilisateur:
         """Trouver un utilisateur à partir de son pseudo"""
         if isinstance(pseudo, str) is False:
             raise TypeError(
@@ -166,7 +167,7 @@ class UtilisateurService(metaclass=Singleton):
 
     @log
     def trouver_par_id_utilisateur(self, id) -> Utilisateur:
-        """Trouver un utilisateur 
+        """Trouver un utilisateur
         à partir de son identifiant"""
         if isinstance(id, int) is False:
             raise TypeError(
@@ -195,15 +196,15 @@ class UtilisateurService(metaclass=Singleton):
         return None
 
     def create_password(self, mot_de_passe):
-        """Demande à l'utilisateur 
+        """Demande à l'utilisateur
         de créer un mot de passe"""
         mot_de_passe = input("Veuillez créer un mot de passe :")
         if self.is_valid_mdp(mot_de_passe):
             self.mot_de_passe = mot_de_passe
             print("Mot de passe créé avec succès !")
         else:
-            print("Le mot de passe" 
-            "ne respecte pas les critères suivants:")
+            print("Le mot de passe"
+                  "ne respecte pas les critères suivants:")
             print("-Au moins 8 caractères")
             print("-Au moins une lettrre minuscule")
             print("-Au moins une lettre majuscule")
@@ -212,7 +213,7 @@ class UtilisateurService(metaclass=Singleton):
             self.create_password(mot_de_passe)
 
     def is_valid_mdp(self, mot_de_passe) -> bool:
-        """Méthode permettant de vérifier 
+        """Méthode permettant de vérifier
         si le mot de passe créé est valide"""
         if (len(mot_de_passe)) < 8:
             return False

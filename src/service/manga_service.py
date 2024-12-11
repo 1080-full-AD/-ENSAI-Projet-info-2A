@@ -5,16 +5,16 @@ from src.utils.log_decorator import log
 
 
 class MangaService(metaclass=Singleton):
-    """Classe permettant d'avoir 
+    """Classe permettant d'avoir
     des informations à propos des Mangas"""
 
     @log
     def rechercher_un_manga(self, titre_manga) -> Manga:
         """Trouver un manga à partir de son titre
 
-        Retourne TypeError, si le manga demandé 
+        Retourne TypeError, si le manga demandé
         n'est pas une chaîne de caractère
-        Retourne ValueError, si le manga recherché 
+        Retourne ValueError, si le manga recherché
         n'est pas trouvé
 
         """
@@ -34,9 +34,9 @@ class MangaService(metaclass=Singleton):
     def rechercher_un_id_manga(self, id_manga) -> Manga:
         """Trouver un manga à partir de son id
 
-        Retourne TypeError 
+        Retourne TypeError
         si l'identifiant saisi n'est pas un entier
-        Retourne ValueError 
+        Retourne ValueError
         si le manga recherché n'est pas trouvé
 
         """

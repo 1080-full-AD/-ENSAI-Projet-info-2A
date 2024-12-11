@@ -68,7 +68,7 @@ class AvisService:
         """
 
         return AvisDao().trouver_tous_par_id(
-            id_utilisateur, 
+            id_utilisateur,
             include_spoilers
             )
 
@@ -91,15 +91,15 @@ class AvisService:
                 "Auncun manga ne possède ce nom :/"
                 )
         elif AvisDao().trouver_avis_par_manga(
-            id_manga, 
+            id_manga,
             include_spoilers
-            ) == []:
+             ) == []:
             raise ValueError(
                 "Auncun avis à afficher pour ce manga :/"
                 )
         else:
             return AvisDao().trouver_avis_par_manga(
-                id_manga, 
+                id_manga,
                 include_spoilers
                 )
 
@@ -129,8 +129,8 @@ class AvisService:
         for i in avisuser:
             if i.id_manga == id_manga and i.texte is not None:
                 avis = Avis(
-                    id_manga=id_manga, 
-                    id_utilisateur=id_utilisateur, 
+                    id_manga=id_manga,
+                    id_utilisateur=id_utilisateur,
                     texte=""
                     )
                 print("Votre avis a bien été supprimé :)")
@@ -170,8 +170,8 @@ class AvisService:
         for i in avisuser:
             if i.id_manga == id_manga and i.note is not None:
                 avis = Avis(
-                    id_manga=id_manga, 
-                    id_utilisateur=id_utilisateur, 
+                    id_manga=id_manga,
+                    id_utilisateur=id_utilisateur,
                     texte="")
                 print("Votre note a bien été supprimée :)")
                 return AvisDao().supprimer_note(avis)
@@ -214,8 +214,8 @@ class AvisService:
         for i in avisuser:
             if i.id_manga == id_manga and i.texte is not None:
                 avis = Avis(
-                    id_manga=id_manga, 
-                    id_utilisateur=id_utilisateur, 
+                    id_manga=id_manga,
+                    id_utilisateur=id_utilisateur,
                     texte=""
                     )
                 print("Votre avis a bien été modifié :)")
@@ -309,8 +309,8 @@ class AvisService:
         for i in avisuser:
             if i.id_manga == id_manga and i.note is not None:
                 avis = Avis(
-                    id_manga=id_manga, 
-                    id_utilisateur=id_utilisateur, 
+                    id_manga=id_manga,
+                    id_utilisateur=id_utilisateur,
                     texte=""
                     )
                 print("Votre note a bien été modifiée :)")
