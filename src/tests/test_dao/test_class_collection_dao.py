@@ -4,11 +4,12 @@ from unittest.mock import patch
 from src.business_objet.collection_virtuelle import CollectionVirtuelle
 from src.business_objet.manga import Manga
 from src.dao.collection_dao import CollectionDao
+from src.dao.manga_dao import MangaDao
 
 # données de test
 
 manga = Manga(
-    id_manga=28,
+    id_manga=28000,
     titre_manga="manga_test",
     synopsis="juste pour tester",
     auteurs="auteur",
@@ -58,6 +59,7 @@ def test_ajouter_manga_virtuel_ok():
         "Ma Collection", 3, [], "Collection de test"
         )
     # WHEN
+    MangaDao().creer_manga(manga)
     ajout = CollectionDao().ajouter_manga(collection, manga)
 
     # THEN
@@ -137,7 +139,7 @@ def test_rechercher_collection_ok():
     # THEN
     assert resultat is not None
     assert resultat.titre == "Ma Collection"
-    assert resultat.liste_manga[0].id_manga == 28
+    assert manga in resultat.liste_manga
 
 
 def test_rechercher_collection_echec():
@@ -164,6 +166,7 @@ def test_supprimer_manga_virtuel_ok():
 
     # WHEN
     suppression = CollectionDao().supprimer_manga(collection, manga)
+    MangaDao().supprimer_manga(manga)
 
     # THEN
     assert suppression

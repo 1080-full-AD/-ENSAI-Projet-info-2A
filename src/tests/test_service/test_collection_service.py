@@ -4,13 +4,14 @@ from src.dao.collection_dao import CollectionDao
 from src.business_objet.collection_virtuelle import CollectionVirtuelle
 from src.business_objet.manga import Manga
 from src.business_objet.manga_physique import MangaPhysique
+from src.dao.manga_dao import MangaDao
 import pytest
 
 
 # Initialisation des objets pour les tests
 
 manga_virtuel = Manga(
-    id_manga=28,
+    id_manga=28000,
     titre_manga="manga_test",
     synopsis="juste pour tester",
     auteurs="auteur",
@@ -51,6 +52,7 @@ def test_creer_collection_ok():
     mock_dao.ajouter_collection_virtuelle.return_value = True
 
     service = CollectionVirtuelleService()
+    MangaDao().creer_manga(manga_virtuel)
     service.CollectionDao = mock_dao
 
     # WHEN
@@ -285,6 +287,7 @@ def test_supprimer_collection_ok():
 
     # WHEN
     result = service.supprimer(collection)
+    MangaDao().supprimer_manga(manga_virtuel)
 
     # THEN
     assert result is True

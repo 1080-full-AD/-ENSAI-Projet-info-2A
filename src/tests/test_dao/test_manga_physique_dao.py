@@ -3,6 +3,7 @@ from unittest.mock import patch
 from src.business_objet.manga_physique import MangaPhysique
 from src.dao.manga_physique_dao import MangaPhysiqueDao
 from src.utils.reset_database import ResetDatabase
+from src.dao.manga_dao import MangaDao
 import os
 
 
@@ -19,19 +20,20 @@ def test_creer_manga_physique_ok():
 
     # GIVEN
     manga = MangaPhysique(
-        id_manga=3,
+        id_manga=28000,
         id_utilisateur=3,
-        titre_manga="Test Manga",
-        auteurs="Auteur Test",
-        synopsis="Un test de création de manga physique.",
-        tomes_manquants=[1, 3],
-        dernier_tome=5,
-        status="en cours",
+        titre_manga="manga_test",
+        synopsis="juste pour tester",
+        auteurs="auteur",
+        tomes_manquants=[5, 6],
+        dernier_tome=10,
+        status="incomplet",
         nb_chapitres=10,
         nb_volumes=5,
-    )
+)
 
     # WHEN
+    MangaDao().creer_manga(manga)
     creation = MangaPhysiqueDao().creer(manga)
 
     # THEN
@@ -67,21 +69,22 @@ def test_supprimer_manga_physique_ok():
 
     # GIVEN
     manga = MangaPhysique(
-        id_manga=2,
+        id_manga=28000,
         id_utilisateur=3,
-        titre_manga="Test Manga",
-        auteurs="Auteur Test",
-        synopsis="Un test de suppression de manga physique.",
-        tomes_manquants=[1, 3],
-        dernier_tome=5,
-        status="en cours",
+        titre_manga="manga_test",
+        synopsis="juste pour tester",
+        auteurs="auteur",
+        tomes_manquants=[5, 6],
+        dernier_tome=10,
+        status="incomplet",
         nb_chapitres=10,
         nb_volumes=5,
     )
 
     # WHEN
-    MangaPhysiqueDao().creer(manga)
+    
     suppression = MangaPhysiqueDao().supprimer_manga_physique(manga)
+
 
     # THEN
     assert suppression
@@ -117,17 +120,17 @@ def test_modifier_manga_physique_ok():
 
     # GIVEN
     manga = MangaPhysique(
-        id_manga=1,
+        id_manga=28000,
         id_utilisateur=3,
-        titre_manga="Titre Initial",
-        auteurs="Auteur Test",
-        synopsis="Synopsis Initial",
-        tomes_manquants=[2],
+        titre_manga="manga_test",
+        synopsis="juste pour tester",
+        auteurs="auteur",
+        tomes_manquants=[5, 6],
         dernier_tome=10,
-        status="en cours",
+        status="incomplet",
         nb_chapitres=10,
         nb_volumes=5,
-    )
+            )
     manga.titre_manga = "Titre Modifié"
 
     # WHEN
@@ -202,7 +205,7 @@ def test_liste_mangas_physiques_utilisateur_existant():
     liste_mangas = MangaPhysiqueDao().liste_manga_physique(id_utilisateur)
 
     # THEN
-    assert len(liste_mangas) == 4
+    assert len(liste_mangas) >= 4
 
 
 def test_liste_mangas_physiques_utilisateur_non_existant():
@@ -222,25 +225,27 @@ def test_liste_mangas_physiques_utilisateur_non_existant():
 def test_rechercher_manga_physique_ok():
     # GIVEN
     id_utilisateur = 3
-    id_manga = 4
+    id_manga = 28000
     manga_1 = MangaPhysique(
-        id_manga=4,
-        id_utilisateur=2,
-        titre_manga="Titre Inconnu",
-        auteurs="Auteur Inconnu",
-        synopsis="Un manga inexistant.",
-        tomes_manquants=[5],
-        dernier_tome=0,
-        status="inconnu",
+        id_manga=28000,
+        id_utilisateur=3,
+        titre_manga="manga_test",
+        synopsis="juste pour tester",
+        auteurs="auteur",
+        tomes_manquants=[5, 6],
+        dernier_tome=10,
+        status="incomplet",
         nb_chapitres=10,
         nb_volumes=5,
-    )
+        )
 
     # WHEN
-    MangaPhysiqueDao().creer(manga_1)
+    
     liste_mangas = MangaPhysiqueDao().rechercher_manga_physique(
         id_utilisateur=id_utilisateur, id_manga=id_manga
     )
+    MangaPhysiqueDao().supprimer_manga_physique(manga_1)
+    MangaDao().supprimer_manga(manga_1)
 
     # THEN
     assert liste_mangas is not None

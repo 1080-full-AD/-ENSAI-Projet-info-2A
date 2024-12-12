@@ -3,13 +3,13 @@ from unittest.mock import MagicMock
 from src.service.manga_physique_service import MangaPhysiqueService
 from src.dao.manga_physique_dao import MangaPhysiqueDao
 from src.business_objet.manga_physique import MangaPhysique
-
+from src.dao.manga_dao import MangaDao
 import pytest
 
 # Initialisation des données de test
 
 manga_test = MangaPhysique(
-    id_manga=28,
+    id_manga=28000,
     id_utilisateur=3,
     titre_manga="manga_test",
     synopsis="juste pour tester",
@@ -20,6 +20,8 @@ manga_test = MangaPhysique(
     nb_chapitres=10,
     nb_volumes=5,
 )
+
+
 
 
 def test_creer_manga_physique_ok():
@@ -33,6 +35,7 @@ def test_creer_manga_physique_ok():
     service.MangaPhysiqueDao = mock_dao
 
     # WHEN
+    MangaDao().creer_manga(manga_test)
     result = service.creer_manga_physique(manga_test)
 
     # THEN
@@ -183,7 +186,7 @@ def test_rechercher_manga_utilisateur_inexistant():
 
     # WHEN\THEN
     with pytest.raises(
-        ValueError, match="ce identifiant n'est associé à aucun utilisateur"
+        ValueError, match="cet identifiant n'est associé à aucun utilisateur"
     ):
         service.rechercher_manga_physique(
             id_utilisateur=id_utilisateur, id_manga=id_manga
@@ -259,14 +262,14 @@ def test_ajouter_tome_existant_echec():
     new_tome = 2
     mock_dao = MagicMock(spec=MangaPhysiqueDao)
     mock_dao.modifier_manga_physique.return_value.side_effect = ValueError(
-        "tome deja existant"
+        "Vous possédez déjà ce tome"
     )
 
     service = MangaPhysiqueService()
     service.MangaPhysiqueDao = mock_dao
 
     # WHEN and THEN
-    with pytest.raises(ValueError, match="tome deja existant"):
+    with pytest.raises(ValueError, match="Vous possédez déjà ce tome"):
         service.ajouter_tome(manga_test, new_tome)
 
 
@@ -398,9 +401,11 @@ def test_supprimer_manga_physique_ok():
 
     # WHEN
     result = service.supprimer_manga_physique(manga_test)
-
+    MangaDao().supprimer_manga(manga_test)
     # THEN
     assert result is True
+
+
 
 
 if __name__ == "__main__":
